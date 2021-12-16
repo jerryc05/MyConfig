@@ -1,0 +1,72 @@
+# ===== INSTALL =====
+# `npm i -g pyright`
+# `pip install -U black pylint isort`
+# ===== HOW TO USE =====
+# ```
+# isort .;black .;
+# pyright
+# find . -name "*.py"|xargs pylint
+# ```
+
+
+# static analysis
+[tool.pyright]
+typeCheckingMode = 'strict'
+useLibraryCodeForTypes = true
+
+reportImportCycles = 'information'
+reportMissingTypeStubs = 'none'
+reportUnknownArgumentType = 'warning'
+reportUnknownMemberType = 'warning'
+reportUnknownParameterType = 'warning'
+reportUnknownVariableType = 'warning'
+reportUnnecessaryCast = 'information'
+reportUntypedClassDecorator = 'information'
+reportUntypedFunctionDecorator = 'information'
+reportUnusedFunction = 'none'
+reportUnusedImport = 'warning'
+
+
+# linting
+[tool.pylint.format]
+max-line-length = 95 # Also remember to change this in [black]
+
+[tool.pylint.message_control]
+disable = [
+  'bad-continuation',           # C0330, suggested by [black]
+  'bad-whitespace',             # C0326, suggested by [black]
+  'invalid-name',               # Requires snake case of at least 3 characters
+  'missing-class-docstring',
+  'missing-function-docstring',
+  'missing-module-docstring',
+  'too-few-public-methods',
+  'too-many-ancestors',
+  'too-many-arguments',
+  'too-many-boolean-expressions',
+  'too-many-branches',
+  'too-many-instance-attributes',
+  'too-many-locals',
+  'too-many-public-methods',
+  'too-many-return-statements',
+  'too-many-statements',
+  'too-many-lines',
+  'too-many-nested-blocks',
+]
+
+jobs = 4
+
+
+# code formatter
+[tool.black]
+experimental-string-processing = true
+skip-string-normalization = true
+
+line-length = 95 # Also remember to change this in [pylint]
+
+workers = 4
+fast = true
+
+
+# import sorting
+[tool.isort]
+profile = "black"
