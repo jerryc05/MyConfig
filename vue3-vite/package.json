@@ -1,0 +1,25 @@
+{
+  "name": "my-template",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "serve": "vite preview",
+    "d": "npm run dev",
+    "b": "npm run build"
+  },
+  "dependencies": {
+    "vue": "next"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@vitejs/plugin-vue": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vue-tsc": "latest",
+    "sass": "latest"
+  },
+  "engines": {
+    "node": "latest"
+  }
+}
