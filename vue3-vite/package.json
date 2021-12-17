@@ -20,6 +20,6 @@
     "sass": "latest"
   },
   "engines": {
-    "node": "latest"
+    "node": ">=14"
   }
 }
