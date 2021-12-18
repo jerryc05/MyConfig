@@ -14,8 +14,6 @@ Use at your **OWN** risk.
         - [Summary](#summary)
 0. [Git](#git)
     - [Config](#git-config)
-0. [SSH](#ssh)
-    - [Config](#ssh-config)
 
 ## Terminal
 
@@ -135,43 +133,4 @@ git config --global alias.adog 'log --all --decorate --oneline --graph'
 
 #pacman -S kdiff3 || apt install kdiff3 || brew install --cask kdiff3
 #git config --global merge.tool kdiff3
-```
-
-
-## SSH
-
-### SSH Config
-
-```
-Host *
-  ServerAliveInterval 180
-  IdentityFile ~/.ssh/id_ed25519
-  Compression yes
-  AddKeysToAgent yes
-
-# Note: `ControlMaster` currently does not work under Windows!
-Host *
-  ControlMaster auto
-  # ControlPath ~/.ssh/sock/%r@%h:%p
-  ControlPath /tmp/.ssh-%C
-  ControlPersist 6h
-
-# Note: `UseKeychain` only works for MacOS!
-Host *
-  UseKeychain yes
-
-
-
-#Host __HOST_ALIAS__
-#  HostName      __IP_ADDR_OR_URL__
-#  User          __USERNAME__
-#  # Default: ~/.ssh/id_*
-#  IdentityFile  __ID_FILE_1__
-#  IdentityFile  __ID_FILE_2__
-#  IdentityFile  __ID_FILE_N__
-#  # Default: 22
-#  Port          __PORT_NUM__
-
-
-
 ```
