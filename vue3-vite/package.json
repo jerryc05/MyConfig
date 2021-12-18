@@ -9,7 +9,8 @@
     "b": "npm run build"
   },
   "dependencies": {
-    "vue": "next"
+    "vue": "next",
+    "pinia": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",

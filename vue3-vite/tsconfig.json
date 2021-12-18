@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
