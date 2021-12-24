@@ -123,7 +123,7 @@ git config --get-regexp 'rerere.*'
 #git config --global tag.gpgsign            true
 #git config --global tag.forceSignAnnotated true
 #git config --global gpg.program "/path/to/gpg_executable"
-#git config --global user.signingkey 9F8090CE9DFDF37C0AFE6EE89F882968BF9B782E
+#git config --global user.signingkey KEY_ID_HERE
 
 git config --global init.defaultBranch          main
 git config --global push.recursesubmodules      check
