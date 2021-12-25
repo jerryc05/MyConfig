@@ -24,7 +24,6 @@ reportUnnecessaryCast = 'information'
 reportUntypedClassDecorator = 'information'
 reportUntypedFunctionDecorator = 'information'
 reportUnusedFunction = 'none'
-reportUnusedImport = 'warning'
 
 
 # linting
@@ -51,6 +50,7 @@ disable = [
   'too-many-statements',
   'too-many-lines',
   'too-many-nested-blocks',
+  'unused-import'
 ]
 
 jobs = 4
