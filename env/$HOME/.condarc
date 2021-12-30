@@ -1,8 +1,9 @@
 channels:
   - nvidia
-  - pytorch-nightly
   - pytorch
+  - pytorch-nightly
   - conda-forge
+  - bioconda
   - defaults
 channel_priority: disabled
 show_channel_urls: true
