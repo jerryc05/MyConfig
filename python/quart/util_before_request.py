@@ -7,3 +7,4 @@ def upgrade_http() -> 'Response|None':
         url = request.url.replace('http://', 'https://', 1)
         code = HTTPStatus.MOVED_PERMANENTLY
         return redirect(location=url, code=code)
+    return None
