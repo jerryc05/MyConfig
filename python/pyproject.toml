@@ -23,6 +23,7 @@ reportUnnecessaryCast = 'information'
 reportUntypedClassDecorator = 'information'
 reportUntypedFunctionDecorator = 'information'
 reportUnusedFunction = 'none'
+reportPrivateUsage = 'warning'
 
 
 # linting
