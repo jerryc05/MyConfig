@@ -7,3 +7,4 @@ channels:
   - defaults
 channel_priority: disabled
 show_channel_urls: true
+auto_activate_base: true
