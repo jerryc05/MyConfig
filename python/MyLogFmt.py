@@ -1,4 +1,5 @@
 import logging
+from os.path import basename
 
 from colorama import Fore, Style, init
 
@@ -30,7 +31,7 @@ class MyLogFmt(logging.Formatter):
 
 def example():
     logging.basicConfig(level=logging.DEBUG)
-    for x in logging.getLogger().handlers:
+    for x in logging.getLogger(basename(__file__)).handlers:
         x.setFormatter(MyLogFmt())
     logging.debug('123')
     logging.info('123')
