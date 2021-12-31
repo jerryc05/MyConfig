@@ -7,8 +7,8 @@ init()
 
 class MyLogFmt(logging.Formatter):
     FMT_STR = (
-        "[%(asctime)s] [%(process)d] [%(levelname)8s] [%(processName)s"
-        " %(filename)s:%(lineno)d] %(message)s"
+        "[%(asctime)s] [%(levelname)8s] [%(process)d %(processName)s %(filename)s:%(lineno)d]"
+        " %(message)s"
     )
     DATE_FMT = '%m-%d-%YT%H:%M:%S%z'
     DFT_FMT = f'{Style.RESET_ALL}{FMT_STR}'
@@ -21,11 +21,6 @@ class MyLogFmt(logging.Formatter):
     }
 
     def format(self, record: 'logging.LogRecord'):
-        # record.asctime = self.formatTime(record, __class__.DEFAULT_DATE_FMT)
-        # print(self._style._fmt)
-        # print(self.usesTime())
-        # formatter = __class__.FORMATS.get(record.levelno, __class__.DEFAULT_FMTTER)
-        # return formatter.format(record)
         self.__init__(
             fmt=__class__.FORMATS.get(record.levelno, __class__.DFT_FMT),
             datefmt=__class__.DATE_FMT,
@@ -33,10 +28,12 @@ class MyLogFmt(logging.Formatter):
         return super().format(record)
 
 
-logging.basicConfig(level=logging.DEBUG)
-logging.getLogger().handlers[0].setFormatter(MyLogFmt())
-logging.debug('123')
-logging.info('123')
-logging.warning('123')
-logging.error('123')
-logging.critical('123')
+def example():
+    logging.basicConfig(level=logging.DEBUG)
+    for x in logging.getLogger().handlers:
+        x.setFormatter(MyLogFmt())
+    logging.debug('123')
+    logging.info('123')
+    logging.warning('123')
+    logging.error('123')
+    logging.critical('123')
