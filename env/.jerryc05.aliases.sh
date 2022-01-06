@@ -54,8 +54,8 @@ command -v tar >/dev/null && xtar() {
 }
 
 # Hnady rsync command
-# alias xrsync="rsync -ahLPvvz --delete-after --no-whole-file --info=progress2 --include='**.gitignore' --exclude='.git' --filter=':- .gitignore' "
-alias xrsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --delete-after --no-whole-file --info=progress2 --files-from=- "
+# alias xrsync="rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include='**.gitignore' --exclude='.git' --filter=':- .gitignore' "
+alias xrsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --files-from=- "
 #                    ||||| |
 #                    ||||| `----> compress file data during the transfer
 #                    ||||`------> increase verbosity
