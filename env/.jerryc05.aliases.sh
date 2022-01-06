@@ -1,3 +1,5 @@
+
+
 # Color! More color! But not all on MacOS!
 [ "$(uname -s)" = "Linux" ] && alias dir='dir --color=auto'
 [ "$(uname -s)" = "Linux" ] && alias vdir='vdir --color=auto'
@@ -5,17 +7,16 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
-# More on `ls`
+# More on [ls]
 [ "$(uname -s)" = "Linux" ] && ls_color='--color=auto' || ls_color='-G'
 alias ls="ls $ls_color"
 alias l ="ls $ls_color -F"
 alias ll="ls $ls_color -alF"
 
 alias cp="cp -i --sparse=auto --reflink=auto"
-#            |  |             |
-#            |  |             `----> Copy On Write
-#            |  `------------------> Sparse Files
-#            `---------------------> Prevent unintended file overwrite
+#             |   |             └-> Copy On Write
+#             |   └---------------> Sparse Files
+#             └-------------------> Prevent unintended file overwrite
 
 # Show 256 colors
 alias show-256-colors='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done'
@@ -56,10 +57,11 @@ command -v tar >/dev/null && xtar() {
 # Hnady rsync command
 # alias xrsync="rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include='**.gitignore' --exclude='.git' --filter=':- .gitignore' "
 alias xrsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --files-from=- "
-#                    ||||| |
-#                    ||||| `----> compress file data during the transfer
-#                    ||||`------> increase verbosity
-#                    |||`-------> keep partially transferred files + show progress during transfer
-#                    ||`--------> transform symlink into referent file/dir
-#                    |`---------> output numbers in a human-readable format
-#                    `----------> archive mode; equals -rlptgoD (no -H,-A,-X) \
+#                                                    ||||| └-> compress file data during the transfer
+#                                                    ||||└---> increase verbosity
+#                                                    |||└----> keep partially transferred files + show progress during transfer
+#                                                    ||└-----> transform symlink into referent file/dir
+#                                                    |└------> output numbers in a human-readable format
+#                                                    └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
+alias drsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include-from=- --exclude=* --delete-excluded "
+#                                                                                                                                                      └-> delete any "untracked" files
