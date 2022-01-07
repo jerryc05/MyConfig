@@ -1,7 +1,7 @@
 channels:
   - nvidia
   - pytorch
-  - pytorch-nightly
+  - pyg  # Graph Neural Network Library for PyTorch
   - conda-forge
   - bioconda
   - defaults
