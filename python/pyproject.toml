@@ -34,6 +34,7 @@ max-line-length = 95 # Also remember to change this in [black]
 disable = [
   'bad-continuation',           # C0330, suggested by [black]
   'bad-whitespace',             # C0326, suggested by [black]
+  'import-outside-toplevel',
   'invalid-name',               # Requires snake case of at least 3 characters
   'missing-class-docstring',
   'missing-function-docstring',
