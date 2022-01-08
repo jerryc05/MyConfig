@@ -1,8 +1,8 @@
 channels:
+  - conda-forge
   - nvidia
   - pytorch
   - pyg  # Graph Neural Network Library for PyTorch
-  - conda-forge
   - bioconda
   - defaults
 channel_priority: disabled
