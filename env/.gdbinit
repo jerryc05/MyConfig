@@ -11,3 +11,12 @@ set print object on
 # Print C++ names in their source form rather than their mangled form, even in assembler code
 # printouts such as instruction disassemblies. The default is off.
 set print asm-demangle on
+
+# Ignore a signal, e.g. SIGUSR1
+#handle SIGUSR1 nostop noprint
+
+# Set the executable to run, e.g. ./a.out
+#file ./a.out
+
+# Set the arguments to pass to the executable, e.g. ./a.out arg1 arg2
+#run arg1 arg2
