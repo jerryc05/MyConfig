@@ -10,7 +10,7 @@ alias egrep='egrep --color=auto'
 # More on [ls]
 [ "$(uname -s)" = "Linux" ] && ls_color='--color=auto' || ls_color='-G'
 alias ls="ls $ls_color"
-alias l ="ls $ls_color -F"
+alias  l="ls $ls_color -F"
 alias ll="ls $ls_color -alF"
 
 alias cp="cp -i --sparse=auto --reflink=auto"
