@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "esModuleInterop": false,
+    "lib": ["ESNext", "DOM"],
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny":true,
     "noImplicitOverride": true,
