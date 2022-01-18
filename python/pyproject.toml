@@ -1,5 +1,5 @@
 # ===== INSTALL =====
-# `npm i -g pyright`
+# `npm i -g pyright`  # or search for Pylance VSCode extension
 # `pip install -U black pylint isort`
 # ===== HOW TO USE =====
 # ```
@@ -39,6 +39,7 @@ disable = [
   'missing-class-docstring',
   'missing-function-docstring',
   'missing-module-docstring',
+  'no-member',
   'too-few-public-methods',
   'too-many-ancestors',
   'too-many-arguments',
