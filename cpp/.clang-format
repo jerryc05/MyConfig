@@ -1,0 +1,76 @@
+# clang-format -i -Wno-error=unknown -style=file [...]
+#               └ Modify files in-place
+
+BasedOnStyle: Chromium
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Left  # clang-format 13
+AlignConsecutiveAssignments: AcrossComments
+AlignConsecutiveBitFields: AcrossComments
+AlignConsecutiveDeclarations: AcrossComments
+AlignConsecutiveMacros: AcrossComments
+AlignEscapedNewlines: Left
+AlignOperands: Align  # clang-format 12
+AlignTrailingComments: true
+AllowAllArgumentsOnNextLine: true
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakAfterReturnType: AllDefinitions
+BinPackArguments: true
+BinPackParameters: false
+BitFieldColonSpacing: After
+BreakBeforeBinaryOperators: None
+BreakBeforeBraces: Attach
+BreakBeforeConceptDeclarations: true
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: AfterColon
+BreakStringLiterals: true
+ColumnLimit: 100
+DeriveLineEnding: true
+EmptyLineBeforeAccessModifier: Always
+FixNamespaceComments: true
+IncludeBlocks: Regroup
+IndentAccessModifiers: true  # clang-format 13
+IndentCaseBlocks: false
+IndentCaseLabels: true
+IndentExternBlock: Indent  # clang-format 12
+IndentGotoLabels: true
+IndentPPDirectives: AfterHash
+IndentRequires: true  # clang-format 13
+IndentWidth: 2
+LambdaBodyIndentation: OuterScope  # clang-format 13
+MaxEmptyLinesToKeep: 10
+NamespaceIndentation: All
+PackConstructorInitializers: NextLine  # clang-format 14
+PointerAlignment: Left
+QualifierAlignment: Left  # clang-format 14
+ReferenceAlignment: Left  # clang-format 14
+RemoveBracesLLVM: true  # clang-format 14
+SeparateDefinitionBlocks: true  # clang-format 14
+SortUsingDeclarations: true
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAroundPointerQualifiers: Before  # clang-format 12
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false  # clang-format 12
+SpaceBeforeCpp11BracedList: true
+SpaceBeforeCtorInitializerColon: false
+SpaceBeforeInheritanceColon: false
+SpaceBeforeRangeBasedForLoopColon: false
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInAngles: false  # clang-format 14 has new options, for compatibility use `false`
+SpacesInCStyleCastParentheses: false
+SpacesInConditionalStatement: false
+SpacesInContainerLiterals: false
+SpacesInLineCommentPrefix:  # clang-format 14
+  Minimum: 1  # clang-format 14
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+Standard: Latest
+UseCRLF: false
