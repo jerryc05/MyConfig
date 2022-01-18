@@ -12,4 +12,19 @@ export default defineConfig({
   },
   // base: ''  # Default: '/'
   //       └-> Removes leading slash from the path
+  css: {
+    postcss: {
+      plugins: [{
+        // Remove @charset warnings
+        postcssPlugin: 'internal:charset-removal',
+        AtRule: {
+          charset: (atRule) => {
+            if (atRule.name === 'charset') {
+              atRule.remove()
+            }
+          }
+        }
+      }]
+    }
+  }
 })
