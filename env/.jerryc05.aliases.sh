@@ -65,3 +65,10 @@ alias xrsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete
 #                                                    └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
 alias drsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include-from=- --exclude=* --delete-excluded "
 #                                                                                                                                                      └-> delete any "untracked" files
+
+# VSCode, if only insiders is installed, alias to it
+if ! command -v code >/dev/null; then
+  if command -v code-insiders >/dev/null; then
+    alias code=code-insiders
+  fi
+fi
