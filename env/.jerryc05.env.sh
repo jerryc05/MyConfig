@@ -25,18 +25,20 @@ for USER in "$USER_DIRS"; do
 done
 
 # SSH Agent
-ssh-add -l >/dev/null 2>&1
-if [ $? -eq 2 ]; then
-  export DOT_SSH="$HOME/.ssh"
-  mkdir -p $DOT_SSH
-
-  export SSH_AUTH_SOCK=$(cat $DOT_SSH/.SSH_AUTH_SOCK 2>/dev/null)
-  export SSH_AGENT_PID=$(cat $DOT_SSH/.SSH_AGENT_PID 2>/dev/null)
-
+if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; then
   ssh-add -l >/dev/null 2>&1
   if [ $? -eq 2 ]; then
-    eval `ssh-agent`
-    echo $SSH_AUTH_SOCK >$DOT_SSH/.SSH_AUTH_SOCK
-    echo $SSH_AGENT_PID >$DOT_SSH/.SSH_AGENT_PID
+    export DOT_SSH="$HOME/.ssh"
+    mkdir -p $DOT_SSH
+
+    export SSH_AUTH_SOCK=$(cat $DOT_SSH/.SSH_AUTH_SOCK 2>/dev/null)
+    export SSH_AGENT_PID=$(cat $DOT_SSH/.SSH_AGENT_PID 2>/dev/null)
+
+    ssh-add -l >/dev/null 2>&1
+    if [ $? -eq 2 ]; then
+      eval `ssh-agent`
+      echo $SSH_AUTH_SOCK >$DOT_SSH/.SSH_AUTH_SOCK
+      echo $SSH_AGENT_PID >$DOT_SSH/.SSH_AGENT_PID
+    fi
   fi
 fi

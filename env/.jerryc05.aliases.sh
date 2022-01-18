@@ -67,8 +67,4 @@ alias drsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete
 #                                                                                                                                                      └-> delete any "untracked" files
 
 # VSCode, if only insiders is installed, alias to it
-if ! command -v code >/dev/null; then
-  if command -v code-insiders >/dev/null; then
-    alias code=code-insiders
-  fi
-fi
+! command -v code >/dev/null && command -v code-insiders >/dev/null && alias code=code-insiders
