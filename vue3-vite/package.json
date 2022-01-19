@@ -16,7 +16,7 @@
   "devDependencies": {
     "@types/node": "latest",
     "@vitejs/plugin-vue": "latest",
-    "vite": "latest",
+    "vite": "beta",
     "vue-tsc": "latest",
     "sass": "latest"
   },
