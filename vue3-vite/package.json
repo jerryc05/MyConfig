@@ -16,9 +16,10 @@
   "devDependencies": {
     "@types/node": "latest",
     "@vitejs/plugin-vue": "latest",
+    "sass": "latest",
+    "typescript": "next",
     "vite": "beta",
-    "vue-tsc": "latest",
-    "sass": "latest"
+    "vue-tsc": "latest"
   },
   "engines": {
     "node": ">=14"
