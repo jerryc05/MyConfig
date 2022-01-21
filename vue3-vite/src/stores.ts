@@ -14,7 +14,7 @@ export const useX = defineStore('x', {
 /*
 Usage:
 ```
-import { useX } from HERE
+import { useX } from @/stores
 
 const x_ = useX()
 x_.x == 'example'
