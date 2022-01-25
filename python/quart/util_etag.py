@@ -5,13 +5,17 @@ from typing import Any, Callable, Coroutine
 from quart import Request, Response, jsonify, send_file
 
 
-async def etag_file(req: Request, fp: Path) -> Response:
+def etag_of_path(p: Path) -> str:
+    raise NotImplementedError()
+
+
+async def etag_file(req: Request, p: Path) -> Response:
     async def res_fn():
-        res = await send_file(str(fp), add_etags=False)
+        res = await send_file(str(p), add_etags=False)
         res.headers.remove('Cache-Control')
         return res
 
-    etag_unquoted = f'{fp.stat().st_mtime}{fp.stat().st_size}'
+    etag_unquoted = etag_of_path(p)
     return await etag_response(req, res_fn, etag_unquoted)
 
 

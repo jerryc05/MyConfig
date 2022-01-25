@@ -1,10 +1,15 @@
-from quart import Response, redirect, request
 from http import HTTPStatus
+from urllib.parse import urlparse
+
+from quart import Response, redirect, request
 
 
-def upgrade_http() -> 'Response|None':
+def upgrade_http(port: 'int|None' = None) -> 'Response|None':
     if not request.is_secure:
-        url = request.url.replace('http://', 'https://', 1)
+        url = urlparse(request.url)
+        url = url._replace(scheme='https')
+        if port is not None:
+            url = url._replace(netloc=f'{url.hostname}:{port}')
         code = HTTPStatus.MOVED_PERMANENTLY
-        return redirect(location=url, code=code)
+        return redirect(location=url.geturl(), code=code)
     return None
