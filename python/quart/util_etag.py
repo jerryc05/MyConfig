@@ -5,7 +5,8 @@ from typing import Any, Callable, Coroutine
 from quart import Request, Response, jsonify, send_file
 
 
-def etag_of_path(p: Path) -> str:
+def etag_of_path(p: Path) -> str:\
+    # zlib.adler32()
     raise NotImplementedError()
 
 
