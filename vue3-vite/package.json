@@ -9,9 +9,9 @@
     "b": "npm run build"
   },
   "dependencies": {
-    "vue": "next",
-    "pinia": "latest"
-    // "throttle-debounce-ts": "latest"
+    "pinia": "latest",
+    // "throttle-debounce-ts": "latest",
+    "vue": "next"
   },
   "devDependencies": {
     "@types/node": "latest",
@@ -19,6 +19,7 @@
     "sass": "latest",
     "typescript": "next",
     "vite": "beta",
+    // "vite-plugin-html": "^2.1.2",
     "vue-tsc": "latest"
   },
   "engines": {
