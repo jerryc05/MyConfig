@@ -1,4 +1,5 @@
 import mimetypes
+from base64 import b85encode
 from dataclasses import dataclass
 from http import HTTPStatus
 from os import stat_result
@@ -37,7 +38,9 @@ async def etag_of_path(p: Path) -> EtagContent:
 
     async with async_open(p, 'rb') as f:
         content = await f.read()
-        res = EtagContent(str(adler32(content)), content)
+        int_chksum = adler32(content)
+        str_chksum = b85encode(int_chksum.to_bytes(4, 'big')).decode()
+        res = EtagContent(str_chksum, content)
         cache[key] = EtagCache(
             p.stat(),
             res.etag_unquoted,
