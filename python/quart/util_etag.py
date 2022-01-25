@@ -14,6 +14,7 @@ async def etag_file(req: Request, p: Path) -> Response:
     async def res_fn():
         res = await send_file(str(p), add_etags=False)
         res.headers.remove('Cache-Control')
+        # Expires will be deleted in `after_request.remove_headers`
         return res
 
     etag_unquoted = etag_of_path(p)
