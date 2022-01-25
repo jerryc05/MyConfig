@@ -1,23 +1,50 @@
+import mimetypes
+from dataclasses import dataclass
 from http import HTTPStatus
+from os import stat_result
 from pathlib import Path
-from typing import Any, Callable, Coroutine
+from typing import Any, Callable, Coroutine, cast
+from zlib import adler32
 
-from quart import Request, Response, jsonify, send_file
+from aiofiles import open as async_open
+from quart import Request, Response, jsonify
+
+from util_logging import logging
 
 
-def etag_of_path(p: Path) -> str:\
-    # zlib.adler32()
-    raise NotImplementedError()
+@dataclass
+class EtagContent:
+    etag_unquoted: str
+    content: bytes
+
+
+async def etag_of_path(p: Path) -> EtagContent:
+    cache = cast(
+        dict[str, tuple[stat_result, EtagContent]], getattr(etag_of_path, 'cache', {})
+    )
+    key = str(p.resolve())
+    res = cache.get(key)
+
+    if res is not None and res[0] == p.stat():
+        return res[1]
+
+    async with async_open(p, 'rb') as f:
+        content = await f.read()
+        res = EtagContent(str(adler32(content)), content)
+        cache[key] = (p.stat(), res)
+        return res
 
 
 async def etag_file(req: Request, p: Path) -> Response:
+    etag = await etag_of_path(p)
+
     async def res_fn():
-        res = await send_file(str(p), add_etags=False)
+        res = Response(etag.content, mimetype=mimetypes.guess_type(p.name)[0])
         res.headers.remove('Cache-Control')
         # Expires will be deleted in `after_request.remove_headers`
         return res
 
-    etag_unquoted = etag_of_path(p)
+    etag_unquoted = etag.etag_unquoted
     return await etag_response(req, res_fn, etag_unquoted)
 
 
@@ -35,6 +62,7 @@ async def etag_response(
     if req.if_none_match.contains_raw(etag_unquoted):
         resp = Response(response=b'', status=HTTPStatus.NOT_MODIFIED)
         resp.headers.clear()
+        logging.info(f'Request [{req.url}] cache hit by [etag]!')
     else:
         resp = await res_fn()
         resp.set_etag(etag_unquoted)
