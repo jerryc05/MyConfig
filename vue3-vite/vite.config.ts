@@ -1,8 +1,10 @@
-import path = require("path")
+import { open, readdir, readFile, stat } from 'fs/promises'
+import * as path from 'path'
+import { brotliCompress } from 'zlib'
 
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-// import { minifyHtml, injectHtml } from 'vite-plugin-html'
+import { defineConfig, normalizePath, Plugin } from 'vite'
+// import { injectHtml, minifyHtml } from 'vite-plugin-html'
 
 
 
@@ -12,8 +14,23 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue(),
-    MyPostProcessorOnBuild(p => { }),
-    // minifyHtml(), injectHtml({ data: { injectHead: '' } })
+    // minifyHtml(), injectHtml({ data: { injectHead: '' } }),
+    MyPostProcessorOnBuild(async p => {
+      if (/\.(\w?js|css|\w?html)$/.test(p)) {
+        const newFileName = `${p}.br`
+        const origSz = await stat(p).then(s => s.size)
+        if (origSz <= 1024) return
+        await open(newFileName, 'wx').then(async f => {
+          const orig = await readFile(p)
+          const compressed: Buffer = await new Promise((res, rej) =>
+            brotliCompress(orig, (e, d) => e != null ? rej(e) : res(d))
+          )
+          f.write(compressed)
+        })
+        const newSz = await stat(newFileName).then(s => s.size)
+        console.log(`${p}\n\t${origSz} bytes\n\t${newSz} bytes\n\t-${(origSz - newSz) / origSz * 100}%`)
+      }
+    })
   ],
   build: {
     reportCompressedSize: false  // improve speed
@@ -46,9 +63,7 @@ export default defineConfig({
 
 
 
-import { readdir, stat } from 'fs/promises'
-import { Plugin, normalizePath } from 'vite'
-function MyPostProcessorOnBuild(fn: (p:string) => Promise<void> | void): Plugin {
+function MyPostProcessorOnBuild(fn: (p: string) => Promise<void> | void): Plugin {
   let outRoot: string
   async function iterDir(dir: string) {
     await readdir(dir).then(xs => xs.forEach(async x => {
