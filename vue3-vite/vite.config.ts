@@ -15,6 +15,9 @@ export default defineConfig({
     MyPostProcessorOnBuild(p => { }),
     // minifyHtml(), injectHtml({ data: { injectHead: '' } })
   ],
+  build: {
+    reportCompressedSize: false  // improve speed
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
