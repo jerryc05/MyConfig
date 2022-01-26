@@ -2,11 +2,14 @@ import path = require("path")
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { minifyHtml } from 'vite-plugin-html'
+// import { minifyHtml, injectHtml } from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), minifyHtml()],
+  plugins: [
+    vue(),
+    // minifyHtml(), injectHtml({ data: { injectHead: '' } })
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
