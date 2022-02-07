@@ -1,12 +1,11 @@
 {
-  "name": "my-template",
-  "version": "0.0.0",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview",
     "d": "npm run dev",
-    "b": "npm run build"
+    "b": "npm run build",
+    "s": "npm run serve"
   },
   "dependencies": {
     // "pinia": "latest",
