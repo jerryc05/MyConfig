@@ -11,7 +11,7 @@
   "dependencies": {
     // "pinia": "latest",
     // "throttle-debounce-ts": "latest",
-    "vue": "next"
+    "vue": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
