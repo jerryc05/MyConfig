@@ -36,7 +36,7 @@ if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; t
 
     ssh-add -l >/dev/null 2>&1
     if [ $? -eq 2 ]; then
-      eval `ssh-agent`
+      eval `ssh-agent` >/dev/null
       echo $SSH_AUTH_SOCK >$DOT_SSH/.SSH_AUTH_SOCK
       echo $SSH_AGENT_PID >$DOT_SSH/.SSH_AGENT_PID
     fi
