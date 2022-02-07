@@ -18,7 +18,7 @@
     // "sass": "latest",
     "typescript": "next",
     "vite": "beta",
-    // "vite-plugin-html": "latest",
+    "vite-plugin-html": "latest",
     "vue-tsc": "latest"
   },
   "engines": {
