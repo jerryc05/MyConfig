@@ -1,0 +1,25 @@
+# clang-tidy -Xclang -analyzer-config -Xclang aggressive-binary-operation-simplification=true,c++-shared_ptr-inlining=true,unroll-loops=true,widen-loops=true
+
+Checks: >-
+  *,
+  -android-*,
+  -altera-*,
+  -clang-analyzer-alpha.fuchsia.*,
+  -clang-analyzer-alpha.llvm.*,
+  -clang-analyzer-alpha.nondeterminism.PointerIteration,
+  -clang-analyzer-alpha.webkit.*,
+  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-vararg,
+  -cppcoreguidelines-init-variables,
+  -darwin-*,
+  -fuchsia-*,
+  -hicpp-vararg,
+  -google-readability-todo,
+  -google-runtime-references,
+  -llvm-*,
+  -llvmlibc-*,
+  -modernize-use-trailing-return-type,
+  -objc-*,
+  -readability-function-cognitive-complexity,
+  -readability-isolate-declaration,
+  -zircon-*"
