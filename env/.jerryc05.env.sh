@@ -17,9 +17,7 @@ USER_DIRS=$'/root/\n'
 for D in "/c/Users/" "/mnt/c/Users/" "/home/"; do
   USER_DIRS="$USER_DIRS`find $D -maxdepth 1 -type d 2>/dev/null`"
 done
-echo $USER_DIRS
 for USR in $USER_DIRS; do
-echo $USR
   EXT="$USR/.vscode-insiders/extensions/"
   [ -d $EXT ] || continue
   for TOOLS in `find $EXT -maxdepth 1 -type d -name "ms-vscode.cpptools-*"`; do
