@@ -14,14 +14,18 @@ fi
 
 # VSCode's LLVM tools
 USER_DIRS=$'/root/\n'
-for d in "/c/Users/" "/mnt/c/Users/" "/home/"; do
-  USER_DIRS="$USER_DIRS`find $d -maxdepth 1 -type d 2>/dev/null`"
+for D in "/c/Users/" "/mnt/c/Users/" "/home/"; do
+  USER_DIRS="$USER_DIRS`find $D -maxdepth 1 -type d 2>/dev/null`"
 done
-for USER in "$USER_DIRS"; do
-  EXT="$USER/.vscode-insiders/extensions/"
+echo $USER_DIRS
+for USR in $USER_DIRS; do
+echo $USR
+  EXT="$USR/.vscode-insiders/extensions/"
   [ -d $EXT ] || continue
-  DIR="`find $EXT -maxdepth 1 -type d -name "ms-vscode.cpptools-*"`/LLVM/bin"
-  [ -d $DIR ] && export PATH="$PATH:$DIR"
+  for TOOLS in `find $EXT -maxdepth 1 -type d -name "ms-vscode.cpptools-*"`; do
+    DIR="$TOOLS/LLVM/bin"
+    [ -d $DIR ] && export PATH="$PATH:$DIR"
+  done
 done
 
 # SSH Agent
