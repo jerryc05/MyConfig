@@ -35,6 +35,7 @@ if __name__ == '__main__':
             ctx = super().create_ssl_context()
             if ctx is not None:
                 ctx.minimum_version = TLSVersion.TLSv1_3
+            return ctx
 
         def _set_quic_addresses(self, sockets: 'list[socket.socket]') -> None:
             super()._set_quic_addresses(sockets)
