@@ -1,19 +1,25 @@
+#!/usr/bin/env python3
+
+import socket
 from importlib.util import find_spec
 from multiprocessing import cpu_count
+from os import getenv
 from pathlib import Path
-import socket
+from ssl import SSLContext, TLSVersion
+from typing import Iterable
 
-from util_logging import logging
 from hypercorn.config import Config
 from hypercorn.run import run
 
+from util_logging import logging
+
 if __name__ == '__main__':
-    DEBUG = True
-    DOMAIN = 'mols.ml'
-    INSECURE_BINDS = None
-    BINDS = ['0.0.0.0:80']
+    DEBUG = bool(int(getenv('DEBUG', 1)))
+    DOMAIN = ''  # TODO
+    INSECURE_BINDS = ['0.0.0.0:80']
+    BINDS = ['0.0.0.0:443']
     QUIC_BINDS = BINDS
-    EXTERNAL_QUIC_PORTS = [5002]
+    EXTERNAL_QUIC_PORTS: 'Iterable[int]|None' = None
     APP = 'app'
 
     CERT_DIR = Path.home() / '.acme.sh' / f'{DOMAIN}_ecc'
@@ -25,6 +31,11 @@ if __name__ == '__main__':
     assert CERT_KEY.is_file()
 
     class MyConfig(Config):
+        def create_ssl_context(self) -> 'SSLContext|None':
+            ctx = super().create_ssl_context()
+            if ctx is not None:
+                ctx.minimum_version = TLSVersion.TLSv1_3
+
         def _set_quic_addresses(self, sockets: 'list[socket.socket]') -> None:
             super()._set_quic_addresses(sockets)
             if EXTERNAL_QUIC_PORTS:
@@ -48,10 +59,10 @@ if __name__ == '__main__':
         logging.warning('uvloop not found, using default worker class!')
         logging.warning('')
 
-    if not DEBUG:
+    config.debug = DEBUG
+
+    if not config.debug:
         workers = cpu_count()
-        if workers > 10:
-            workers = workers // 2
     else:
         workers = 1
         config.use_reloader = True

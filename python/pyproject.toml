@@ -40,6 +40,7 @@ disable = [
   'missing-function-docstring',
   'missing-module-docstring',
   'no-member',
+  'not-an-iterable',            # False positive
   'too-few-public-methods',
   'too-many-ancestors',
   'too-many-arguments',
