@@ -1,0 +1,7 @@
+Defaults logfile="/var/log/sudo.log"
+
+Defaults  use_pty  # configure sudo to run other commands only from a psuedo-pty to prevent
+                   # background forking a sudo'd process
+
+# Defaults  requiretty  # enable sudo to be invoked from a real tty but not through methods
+#                       # such as cron or cgi-bin scripts
