@@ -32,7 +32,7 @@ Port 2222  # Port 22
 # Authentication:
 
 #LoginGraceTime 2m
-#PermitRootLogin prohibit-password
+PermitRootLogin prohibit-password
 #StrictModes yes
 #MaxAuthTries 6
 #MaxSessions 10
@@ -41,7 +41,8 @@ Port 2222  # Port 22
 
 # The default is to check both .ssh/authorized_keys and .ssh/authorized_keys2
 # but this is overridden so installations will only check .ssh/authorized_keys
-AuthorizedKeysFile	.ssh/authorized_keys
+AuthorizedKeysFile /etc/ssh/auth-keys_%u  # AuthorizedKeysFile .ssh/authorized_keys
+#                  └ Safer since only writable by root
 
 #AuthorizedPrincipalsFile none
 
@@ -121,6 +122,8 @@ Subsystem sftp /usr/lib/openssh/sftp-server  # Or /usr/libexec/sftp-server, OS-d
 
 # Allow client to pass locale environment variables
 AcceptEnv LANG LC_*
+
+Ciphers aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,chacha20-poly1305@openssh.com
 
 
 
