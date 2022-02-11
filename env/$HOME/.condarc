@@ -7,3 +7,6 @@ channels:
   - defaults
 show_channel_urls: true
 auto_activate_base: true
+
+# Disable this to speed up resolving package version
+#channel_priority: disabled
