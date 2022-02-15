@@ -1,16 +1,11 @@
 # Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
 #                         All rights reserved.
 
-cmake_minimum_required(VERSION 3.17)
-
-
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
     message(STATUS "USING COMPILER [GNU GCC]")
     message(STATUS "")
 
 
-    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/static-analyzer.cmake)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/latest-std.cmake)
 
     #[[
 
@@ -266,8 +261,6 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
     message(STATUS "")
 
 
-    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/static-analyzer.cmake)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/latest-std.cmake)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -fcoroutines-ts \

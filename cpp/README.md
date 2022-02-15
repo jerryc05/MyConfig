@@ -170,11 +170,6 @@ In case you really need to install it manually:
         - Might **SIGNIFICANTLY** slow down compilation time,
         - Might not work for *too complicated* projects.
 
-- `__USE_LATEST_CPP_STD__`: Compile with the latest `C++` std available.
-    - `Default: ON`.
-    - Pros: Compile with the latest std automatically.
-    - Cons: *Refer to incompatibilities between `C++` standards online.*
-
 - `__REL_USE_HACKED_MATH__`: Compile with aggressive/hacky/dirty math optimizations in **RELEASE** mode.
     - `Default: ON`.
     - Pros: Might speed up arithmetic calculation.
