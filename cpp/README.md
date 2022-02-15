@@ -32,7 +32,7 @@ Use at your **OWN** risk.
     - If you have already cloned before, update it using `sh ./update.sh`
     - To clone, run: `git clone --depth=1 --single-branch --branch cpp https://github.com/jerryc05/MyTemplate`
 
-0. Copy *everything* in this `cmake-args` folder (including the folder itself) to your project root accordingly.
+0. Copy *everything* in this `.cmake_config` folder (including the folder itself) to your project root accordingly.
 
 0. Copy *everything* from `CMakeLists.txt` file between the line:
 
@@ -136,7 +136,7 @@ Use at your **OWN** risk.
             -- USING COMPILER [LLVM Clang]
             --
             -- 	[STATIC ANALYZER]
-            CMake Error at cmake-args/static-analyzer.cmake:* (message):
+            CMake Error at .cmake_config/static-analyzer.cmake:* (message):
                 [STATIC ANALYZER] clang-tidy NOT FOUND!
             ```
             - You might want to resolve this issue if you want to use this powerful tool.
