@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019-2020 Ziyan "Jerry" Chen (@jerryc05).
+ * Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
  *                         All rights reserved.
  */
 
