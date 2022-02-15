@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Misc.h"
 
+
 int main(int argc, char *argv[]) {
   // init starter
   {
@@ -18,7 +19,7 @@ int main(int argc, char *argv[]) {
     std::signal(SIGTERM, stackTraceSigHandler<>);
 
     // Do not sync with C-style stdio
-#ifndef DEBUG_MODE
+#ifdef NDEBUG
     std::ios::sync_with_stdio(false);
     std::cin.tie(nullptr);
     std::cout.tie(nullptr);

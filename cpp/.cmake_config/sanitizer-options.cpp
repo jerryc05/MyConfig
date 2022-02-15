@@ -32,7 +32,7 @@ extern "C" const char *__asan_default_options() {  // NOLINT
          ":unmap_shadow_on_exit=1"
          ":windows_hook_rtl_allocators=1";
 
-  // [BUG] "detect_invalid_pointer_pairs=2"conflicts with "detect_stack_use_after_return=1" when the stack size is too big (will be fixed soon)
+  // [BUG] "detect_invalid_pointer_pairs=2" conflicts with "detect_stack_use_after_return=1" when the stack size is too big (will be fixed soon)
   // [MSG] "check_initialization_order=1" is not supported on MacOS
   // [DEL] "handle_ioctl=1" is Linux only?
   // [DEL] "print_module_map=1" prints too much text

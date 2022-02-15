@@ -1,82 +1,16 @@
 # Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
 #                         All rights reserved.
 
-# Highly customized CMake scripts that enables most warnings and optimizations available.
+cmake_minimum_required(VERSION 3.17)
 
-cmake_minimum_required(VERSION 3.7)
-
-if (NOT __DEBUG_DEF_NAME__)
-    set(__DEBUG_DEF_NAME__ DEBUG_MODE)
-endif ()
-message(STATUS "\t[DEBUG DEFINITION] - [${__DEBUG_DEF_NAME__}]")
-message(STATUS "")
-
-#[[
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]
-
-# Using ccache if possible
-message(CHECK_START "[CCACHE] ...")
-
-unset(__CCACHE__ CACHE)
-find_program(__CCACHE__ ccache)
-
-if (__CCACHE__)
-    set(CMAKE_CXX_COMPILER_LAUNCHER ${CMAKE_CXX_COMPILER_LAUNCHER} ${__CCACHE__})
-
-    # print info
-    execute_process(COMMAND ${__CCACHE__} --version
-            OUTPUT_VARIABLE __CCACHE_INFO__)
-    string(REGEX MATCH "[^\r\n]+"
-            __CCACHE_INFO__ ${__CCACHE_INFO__})
-    message(CHECK_PASS "OK: ${__CCACHE_INFO__}")
-
-else ()
-    message(CHECK_FAIL "NOT FOUND!")
-endif ()
-message(STATUS "")
-
-#[[
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
     message(STATUS "USING COMPILER [GNU GCC]")
     message(STATUS "")
 
 
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/static-analyzer.cmake)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/latest-std.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/static-analyzer.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/latest-std.cmake)
 
     #[[
 
@@ -180,7 +114,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
         message(STATUS "CMAKE IN DEBUG MODE")
         message(STATUS "")
 
-        add_compile_definitions(${__DEBUG_DEF_NAME__})
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
 -O0 -g3 \
 \
@@ -195,11 +128,11 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 -rdynamic \
 ")
 
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/asan.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/lsan-standalone.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/msan.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/tsan.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/ubsan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/asan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/lsan-standalone.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/msan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/tsan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/ubsan.cmake)
 
         # todo cfi sanitizer, safe-stack
 
@@ -302,7 +235,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 
     ]]
 
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/add-sanitizer-options.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/add-sanitizer-options.cmake)
 
     message(STATUS "CXX_FLAGS: [${CMAKE_CXX_FLAGS}]")
     message(STATUS "CXX_FLAGS_DEBUG: [${CMAKE_CXX_FLAGS_DEBUG}]")
@@ -333,8 +266,8 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
     message(STATUS "")
 
 
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/static-analyzer.cmake)
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/latest-std.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/static-analyzer.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/latest-std.cmake)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
 -fcoroutines-ts \
@@ -527,7 +460,6 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
         message(STATUS "CMAKE IN DEBUG MODE")
         message(STATUS "")
 
-        add_compile_definitions(${__DEBUG_DEF_NAME__})
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
 -O0 -g3 \
 \
@@ -544,11 +476,11 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
 -rdynamic \
 ")
 
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/asan.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/lsan-standalone.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/msan.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/tsan.cmake)
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/ubsan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/asan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/lsan-standalone.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/msan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/tsan.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/ubsan.cmake)
 
         #[[
 
@@ -698,7 +630,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
 
     ]]
 
-    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/add-sanitizer-options.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/add-sanitizer-options.cmake)
 
     message(STATUS "CXX_FLAGS: [${CMAKE_CXX_FLAGS}]")
     message(STATUS "CXX_FLAGS_DEBUG: [${CMAKE_CXX_FLAGS_DEBUG}]")

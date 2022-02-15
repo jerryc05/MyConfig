@@ -7,7 +7,7 @@ if (__USE_LATEST_CPP_STD__)
         execute_process(COMMAND ${CMAKE_CXX_COMPILER} -v --help
                 OUTPUT_VARIABLE __LATEST_CPP_STD__
                 ERROR_QUIET)
-        string(REGEX MATCHALL "-std=gnu\\+\\+[^9 ]+"
+        string(REGEX MATCHALL "-std=gnu\\+\\+[0-8][0-9] "
                 __LATEST_CPP_STD__ ${__LATEST_CPP_STD__})
         list(GET __LATEST_CPP_STD__ -1 __LATEST_CPP_STD__)
 

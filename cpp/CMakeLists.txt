@@ -1,12 +1,17 @@
 # Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
 #                         All rights reserved.
 
-cmake_minimum_required(VERSION 3.7)
+# https://cmake.org/cmake/help/git-master/command/message.html#reporting-checks
+cmake_minimum_required(VERSION 3.17)
+
 project(MyTemplate)
-message("")
+message(STATUS)
 
 
-# ===== BEGIN OF CMAKE ARGS TEMPLATE =====
+message(STATUS "==================== BEGIN OF CMAKE CONFIG ====================")
+
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/ccache.cmake)
 
 #set(__USE_ANALYZER__                    ON)
 set(__USE_LATEST_CPP_STD__              ON)
@@ -22,10 +27,7 @@ set(__DBG_SANITIZE_ADDR__               ON)
 set(__DBG_SANITIZE_UB__                 ON)
 
 
-#set(__DEBUG_DEF_NAME__                  _DEBUG_BUILD)
-
-
-include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/!main.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/!main.cmake)
 
 
 # Compatibility with Windows systems
@@ -35,9 +37,10 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/!main.cmake)
 #find_package(benchmark REQUIRED)
 #link_libraries(benchmark::benchmark)
 
-# ===== END OF CMAKE ARGS TEMPLATE =====
+
+message(STATUS "==================== END OF CMAKE CONFIG ====================")
 # ===== ADD YOUR TARGETS BELOW THIS LINE =====
 
 
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp)

@@ -1,4 +1,4 @@
-fuc# Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
+# Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
 #                         All rights reserved.
 
 message(CHECK_START "\t[STATIC ANALYZER]")
@@ -30,7 +30,7 @@ if (__USE_ANALYZER__)
 
         if (__CLANG_TIDY__)
             # must be executed before add_executable()
-            include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/check-targets.cmake)
+            include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/check-targets.cmake)
 
             set(__CLANG_TIDY_ARGS__
                     --allow-enabling-analyzer-alpha-checkers

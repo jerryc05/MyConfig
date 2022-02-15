@@ -3,15 +3,15 @@
 
 if (__INCLUDE_SANITIZER_OPTIONS__)
 
-    if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/sanitizer-options.cpp)
+    if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/sanitizer-options.cpp)
 
         set(__SANITIZER_OPT_LIB_NAME__ __sanopts_ignore_this__)
 
         # must be executed before add_executable()
-        include(${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/check-targets.cmake)
+        include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/check-targets.cmake)
 
         add_library(${__SANITIZER_OPT_LIB_NAME__} OBJECT
-                ${CMAKE_CURRENT_SOURCE_DIR}/cmake-args/sanitizer-options.cpp)
+                ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/sanitizer-options.cpp)
 
         # only effective before add_executable()
         link_libraries(${__SANITIZER_OPT_LIB_NAME__})

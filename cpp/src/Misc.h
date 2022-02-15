@@ -5,14 +5,6 @@
 
 #pragma once
 
-#if !defined(DEBUG_MODE) && !defined(NDEBUG)
-#   define NDEBUG
-#endif
-#ifdef NDEBUG
-#   undef DEBUG_MODE
-#endif
-
-
 
 // Annotations
 #if (__GNUC__ >= 6) || (__clang_major__ >= 6)
@@ -38,7 +30,7 @@
 #define SCT   static_cast
 #define SAT   static_assert
 
-#ifdef DEBUG_MODE
+#ifndef NDEBUG
 #   define ASSERT_3(cond, msg, os) \
       do {  if (!(cond)) { \
               (os) << __FILE__ << ':' << __LINE__ << '\t' \
@@ -305,7 +297,7 @@ stackTraceSigHandler(int sig) {
             << "Error: Signal [" << strsignal(sig) << " (" << sig << ")]"
             << " =====\033[0;31m\n";
 
-#ifdef DEBUG_MODE
+#ifndef NDEBUG
   Arr<void *, NUM_TRACES> btArr;
   auto                    traceSize = backtrace(btArr.data(), btArr.size());
 
