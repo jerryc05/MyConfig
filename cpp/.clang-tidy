@@ -9,6 +9,7 @@ Checks: >-
   -clang-analyzer-alpha.nondeterminism.PointerIteration,
   -clang-analyzer-alpha.webkit.*,
   -cppcoreguidelines-pro-bounds-pointer-arithmetic,
+  -cppcoreguidelines-pro-type-reinterpret-cast,
   -cppcoreguidelines-pro-type-vararg,
   -cppcoreguidelines-init-variables,
   -darwin-*,
@@ -18,8 +19,9 @@ Checks: >-
   -google-runtime-references,
   -llvm-*,
   -llvmlibc-*,
+  -misc-non-private-member-variables-in-classes,
   -modernize-use-trailing-return-type,
   -objc-*,
   -readability-function-cognitive-complexity,
   -readability-isolate-declaration,
-  -zircon-*"
+  -zircon-*
