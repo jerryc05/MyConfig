@@ -13,15 +13,16 @@ if [ "$(uname -s)" = "Darwin" ] && [ -d "$(brew --prefix llvm)" ]; then
 fi
 
 # VSCode's LLVM tools
-USR_DIRS="$HOME/ /root/ "
+USR_DIRS=''
 for D in "/c/Users/" "/mnt/c/Users/" "/home/"; do
   USR_DIRS="$USR_DIRS`find "$D" -maxdepth 1 -type d 2>/dev/null`"
 done
-for USR in $USR_DIRS; do
-  EXT="$USR/.vscode-insiders/extensions/"
-  [ -d "$EXT" ] || continue
-  for TOOLS in `find "$EXT" -maxdepth 1 -type d -name "ms-vscode.cpptools-*"`; do
-    DIR="$TOOLS/LLVM/bin"
+for USR in "$HOME" $USR_DIRS; do
+  [ -d "$USR" ] || continue
+  for VSC_DIR in '' '-insiders' '-server' '-server-insiders'; do
+    EXT="$USR/.vscode$VSC_DIR/extensions/"
+    [ -d "$EXT" ] || continue
+    DIR="`find "$EXT" -maxdepth 1 -type d -name "ms-vscode.cpptools-*"`/LLVM/bin"
     [ -d "$DIR" ] && export PATH="$PATH:$DIR"
   done
 done

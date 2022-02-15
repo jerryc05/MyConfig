@@ -63,7 +63,7 @@ alias xrsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete
 #                                                    ||└-----> transform symlink into referent file/dir
 #                                                    |└------> output numbers in a human-readable format
 #                                                    └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
-alias drsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include-from=- --exclude=* --delete-excluded "
+alias drsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include-from=- --exclude='*' --delete-excluded "
 #                                                                                                                                                      └-> delete any "untracked" files
 
 # VSCode, if only insiders is installed, alias to it
