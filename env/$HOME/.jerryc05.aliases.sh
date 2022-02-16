@@ -54,17 +54,17 @@ command -v tar >/dev/null && xtar() {
         tar xvf $*
 }
 
-# Hnady rsync command
-# alias xrsync="rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include='**.gitignore' --exclude='.git' --filter=':- .gitignore' "
-alias xrsync="{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --files-from=- "
-#                                                    ||||| └-> compress file data during the transfer
-#                                                    ||||└---> increase verbosity
-#                                                    |||└----> keep partially transferred files + show progress during transfer
-#                                                    ||└-----> transform symlink into referent file/dir
-#                                                    |└------> output numbers in a human-readable format
-#                                                    └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
-alias drsync='{ git ls-files||find . -print;}|rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 --include-from=- --exclude="*" --delete-excluded '
-#                                                                                                                                                        └-> delete any "untracked" files
+# Handy rsync command
+xrsync(){rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 $*}
+#               ||||| └-> compress file data during the transfer
+#               ||||└---> increase verbosity
+#               |||└----> keep partially transferred files + show progress during transfer
+#               ||└-----> transform symlink into referent file/dir
+#               |└------> output numbers in a human-readable format
+#               └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
+frsync(){{ git ls-files||find . -print;}|xrsync --files-from=- $*}
+drsync(){{ git ls-files||find . -print;}|xrsync --include-from=- --exclude='*' --delete-excluded $*}
+#                                                                                └-> delete any "untracked" files
 
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || command -v code-insiders >/dev/null && alias code=code-insiders
