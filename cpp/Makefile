@@ -5,9 +5,7 @@ CXX_FLAGS         = -g -Wall \
 CXX_FLAGS_RELEASE = -Ofast -flto
 
 # Run in parallel
-NPROCS = $(shell fgrep -c 'processor' /proc/cpuinfo || sysctl hw.ncpu | fgrep -o '[0-9]\+')
-#                |                                     └ Mac
-#                └ Linux
+NPROCS = $(shell nproc)
 MAKEFLAGS += -j$(NPROCS)
 
 # Source and object files

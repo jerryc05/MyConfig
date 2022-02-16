@@ -2,6 +2,13 @@
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "cmake.buildDirectory": "${workspaceFolder}/cmake-build-${buildType}",
   "cmake.configureOnOpen": true,
+  "C_Cpp.codeAnalysis.clangTidy.args": [
+    "--allow-enabling-analyzer-alpha-checkers",
+    "--extra-arg=-Xclang",
+    "--extra-arg=-analyzer-config",
+    "--extra-arg=-Xclang",
+    "--extra-arg=aggressive-binary-operation-simplification=true"
+  ],
   "files.associations": {
     "array": "cpp",
     "atomic": "cpp",

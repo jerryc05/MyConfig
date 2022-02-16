@@ -25,3 +25,5 @@ Checks: >-
   -readability-function-cognitive-complexity,
   -readability-isolate-declaration,
   -zircon-*
+
+UseColor: true
