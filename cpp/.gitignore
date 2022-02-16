@@ -83,8 +83,11 @@ cmake-build-*/
 # Mac OS
 .DS_Store
 
-# auto-generated compile commands
+# Auto-generated compile commands
 compile_commands.json
 
 # Anything begins with two underscores shall not be synced on purpose
 __*
+
+# Ignore any logs
+*.log
