@@ -2,7 +2,7 @@
 #                         All rights reserved.
 
 message(CHECK_START "\t[UNDEF. BHVR. SANITIZER]")
-if (__DBG_SANITIZE_UB__)
+if(__DBG_SANITIZE_UB__)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
 -fsanitize=undefined \
 \
@@ -34,14 +34,14 @@ if (__DBG_SANITIZE_UB__)
 
     ]]
 
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
 -fsanitize=bounds-strict \
 -fsanitize=object-size \
 ")
         # "-O0" has no effect for object-size sanitizer [clang]
 
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
 -fsanitize=array-bounds \
 -fsanitize=function \
@@ -52,10 +52,10 @@ if (__DBG_SANITIZE_UB__)
 -fsanitize=nullability \
 -fsanitize=unsigned-integer-overflow \
 ")
-    endif ()
+    endif()
 
     message(CHECK_PASS "ON")
-else ()
+else()
     message(CHECK_FAIL "OFF")
-endif ()
+endif()
 message(STATUS "")

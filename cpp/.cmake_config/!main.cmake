@@ -1,7 +1,7 @@
 # Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
 #                         All rights reserved.
 
-if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
     message(STATUS "USING COMPILER [GNU GCC]")
     message(STATUS "")
 
@@ -105,7 +105,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 
     ]]
 
-    if (CMAKE_BUILD_TYPE MATCHES "Debug")
+    if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Debug")
         message(STATUS "CMAKE IN DEBUG MODE")
         message(STATUS "")
 
@@ -151,7 +151,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
         ]]
 
 
-    elseif (CMAKE_BUILD_TYPE MATCHES "Release")
+    elseif(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Release")
         message(STATUS "CMAKE IN RELEASE MODE")
         message(STATUS "")
 
@@ -196,19 +196,9 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 
         ]]
 
-        message(CHECK_START "\t[HACKED MATH]")
-        if (__REL_USE_HACKED_MATH__)
-            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} \
--ffast-math \
-")
-            message(CHECK_PASS "ON")
-        else ()
-            message(CHECK_FAIL "OFF")
-        endif ()
-        message(STATUS "")
 
 
-    endif ()
+    endif()
     message(STATUS "")
 
     #[[
@@ -256,7 +246,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 
     ]]
 
-elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
     message(STATUS "USING COMPILER [LLVM Clang]")
     message(STATUS "")
 
@@ -449,7 +439,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
 
     ]]
 
-    if (CMAKE_BUILD_TYPE MATCHES "Debug")
+    if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Debug")
         message(STATUS "CMAKE IN DEBUG MODE")
         message(STATUS "")
 
@@ -481,16 +471,16 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
         ]]
 
         message(CHECK_START "\t[C.F.I. SANITIZER]") # todo
-        if (__DBG_SANITIZE_CFI__)
+        if(__DBG_SANITIZE_CFI__)
             set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
 -fsanitize-cfi-cross-dso \
 ")
             # "-fsanitize-cfi-icall-generalize-pointers" is not compatible
             # with "-fsanitize-cfi-cross-dso"
             message(CHECK_PASS "ON")
-        else ()
+        else()
             message(CHECK_FAIL "OFF")
-        endif ()
+        endif()
         message(STATUS "")
 
         # todo -fsanitize=safe-stack
@@ -515,7 +505,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
         ]]
 
 
-    elseif (CMAKE_BUILD_TYPE MATCHES "Release")
+    elseif(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Release")
         message(STATUS "CMAKE IN RELEASE MODE")
         message(STATUS "")
 
@@ -580,20 +570,6 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
 
         ]]
 
-        message(CHECK_START "\t[HACKED MATH]")
-        if (__REL_USE_HACKED_MATH__)
-            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} \
--ffast-math \
--ffp-model=fast \
--funsafe-math-optimizations \
-")
-            message(CHECK_PASS "ON")
-        else ()
-            set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} \
--fno-fast-math \
-")
-            message(CHECK_FAIL "OFF")
-        endif ()
         message(STATUS "")
 
         #[[
@@ -601,7 +577,7 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
 
         ]]
 
-    endif ()
+    endif()
     message(STATUS "")
 
     #[[
@@ -649,6 +625,6 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 1
 
     ]]
 
-else ()
+else()
     message(WARNING "Flags currently not tuned for compiler: [${CMAKE_CXX_COMPILER_ID}]")
-endif ()
+endif()

@@ -7,7 +7,7 @@ message(CHECK_START "[ninja-build]")
 
 find_program(__NINJA__ ninja)
 
-if (__NINJA__)
+if(__NINJA__)
     set(CMAKE_GENERATOR "Ninja")
 
     execute_process(COMMAND ${__NINJA__} --version
@@ -16,7 +16,7 @@ if (__NINJA__)
             __CCACHE_VER__ ${__CCACHE_VER__})
     message(CHECK_PASS "OK: ninja version ${__CCACHE_VER__}")
 
-else ()
+else()
     message(CHECK_FAIL "ERR: Not found!")
-endif ()
+endif()
 message(STATUS)

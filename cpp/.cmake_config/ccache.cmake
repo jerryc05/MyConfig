@@ -7,7 +7,7 @@ message(CHECK_START "[ccache]")
 
 find_program(__CCACHE__ ccache)
 
-if (__CCACHE__)
+if(__CCACHE__)
     set(CMAKE_C_COMPILER_LAUNCHER   ${CMAKE_C_COMPILER_LAUNCHER}   ${__CCACHE__})
     set(CMAKE_CXX_COMPILER_LAUNCHER ${CMAKE_CXX_COMPILER_LAUNCHER} ${__CCACHE__})
 
@@ -17,8 +17,7 @@ if (__CCACHE__)
             __CCACHE_VER__ ${__CCACHE_VER__})
     message(CHECK_PASS "OK: ${__CCACHE_VER__}")
 
-else ()
+else()
     message(CHECK_FAIL "ERR: Not found!")
-endif ()
-message(STATUS)
+endif()
 message(STATUS)

@@ -1,63 +1,63 @@
 # Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
 #                         All rights reserved.
 
-message(CHECK_START "\t[STATIC ANALYZER]")
-if (__USE_ANALYZER__)
+message(CHECK_START "[STATIC ANALYZER]")
 
-    if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
---param=analyzer-bb-explosion-factor=20 \
---param=analyzer-max-recursion-depth=10 \
--fanalyzer \
--Wanalyzer-too-complex \
-")
 
-    elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        unset(__CLANG_TIDY__ CACHE)
-        find_program(__CLANG_TIDY__ clang-tidy)
+find_program(__CLANG_TIDY__ clang-tidy)
 
-        if (NOT __CLANG_TIDY__)
-            file(READ_SYMLINK ${CMAKE_CXX_COMPILER} __ABS_COMPILER_PATH__)
-            if (NOT IS_ABSOLUTE "${__ABS_COMPILER_PATH__}")
-                get_filename_component(__COMPILER_DIR__ ${CMAKE_CXX_COMPILER} DIRECTORY)
-                set(__ABS_COMPILER_PATH__ "${__COMPILER_DIR__}/${__ABS_COMPILER_PATH__}")
-            endif ()
-            get_filename_component(__ABS_COMPILER_DIR__ ${__ABS_COMPILER_PATH__} DIRECTORY)
+if(NOT __CLANG_TIDY__)
+    file(READ_SYMLINK ${CMAKE_CXX_COMPILER} __ABS_COMPILER_PATH__)
+    if(NOT IS_ABSOLUTE "${__ABS_COMPILER_PATH__}")
+        get_filename_component(__COMPILER_DIR__ ${CMAKE_CXX_COMPILER} DIRECTORY)
+        set(__ABS_COMPILER_PATH__ "${__COMPILER_DIR__}/${__ABS_COMPILER_PATH__}")
+    endif()
+    get_filename_component(__ABS_COMPILER_DIR__ ${__ABS_COMPILER_PATH__} DIRECTORY)
+    find_program(__CLANG_TIDY__ clang-tidy
+                 PATHS ${__ABS_COMPILER_DIR__})
+endif()
 
-            find_program(__CLANG_TIDY__ clang-tidy
-                    PATHS ${__ABS_COMPILER_DIR__})
-        endif ()
+if(__CLANG_TIDY__)
+    set(__CLANG_TIDY_ARGS__
+        --config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
+        --allow-enabling-analyzer-alpha-checkers
+        --extra-arg=-Xclang
+        --extra-arg=-analyzer-config
+        --extra-arg=-Xclang
+        --extra-arg=aggressive-binary-operation-simplification=true
+        # ,c++-shared_ptr-inlining=true,unroll-loops=true,widen-loops=true
+        )
 
-        if (__CLANG_TIDY__)
-            # must be executed before add_executable()
-            include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/check-targets.cmake)
+    # only effective before add_executable()
+    set(CMAKE_CXX_CLANG_TIDY ${__CLANG_TIDY__} ${__CLANG_TIDY_ARGS__})
+    message(CHECK_PASS "OK: [clang-tidy] @ ${__CLANG_TIDY__}")
 
-            set(__CLANG_TIDY_ARGS__
-                    --allow-enabling-analyzer-alpha-checkers
-                    --checks=*,-android-*,-altera-*,-clang-analyzer-alpha.fuchsia.*,-clang-analyzer-alpha.llvm.*,-clang-analyzer-alpha.nondeterminism.PointerIteration,-clang-analyzer-alpha.webkit.*,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-pro-type-vararg,-cppcoreguidelines-init-variables,-darwin-*,-fuchsia-*,-hicpp-vararg,-google-readability-todo,-google-runtime-references,-llvm-*,-llvmlibc-*,-modernize-use-trailing-return-type,-objc-*,-readability-function-cognitive-complexity,-readability-isolate-declaration,-zircon-*
-                    --format-style=google
-                    --use-color
+else()
+    message(WARNING "[clang-tidy] Not found!")
+endif()
 
-                    --extra-arg=-Xclang
-                    --extra-arg=-analyzer-config
-                    --extra-arg=-Xclang
-                    --extra-arg=aggressive-binary-operation-simplification=true,c++-shared_ptr-inlining=true,unroll-loops=true,widen-loops=true
-                    )
 
-            # only effective before add_executable()
-            set(CMAKE_CXX_CLANG_TIDY ${__CLANG_TIDY__} ${__CLANG_TIDY_ARGS__})
+include(${__CFG__}/try-add-flag.cmake)
 
-        else ()
-            message(SEND_ERROR "\t[STATIC ANALYZER] clang-tidy NOT FOUND!")
-        endif ()
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    # https://gcc.gnu.org/onlinedocs/gcc/Static-Analyzer-Options.html#Static-Analyzer-Options
+    try_add_flag(CMAKE_CXX_FLAGS
+                 -fanalyzer
+                 -fanalyzer-transitivity
+                 --param=analyzer-bb-explosion-factor=32
+                 --param=analyzer-max-recursion-depth=64)
 
-    else ()
-        message(SEND_ERROR "\t[STATIC ANALYZER] SWITCH UNIMPLEMENTED FOR THIS COMPILER CURRENTLY!")
-    endif ()
+    if(NOT __CLANG_TIDY__)
+        message(CHECK_PASS "OK: Using GCC analyzer!")
+    else()
+        message(STATUS "[STATIC ANALYZER] - OK: Also uses GCC analyzer!")
+    endif()
 
-    message(CHECK_PASS "ON")
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    # Just use clang-tidy
+    if(NOT __CLANG_TIDY__)
+        message(CHECK_FAIL "ERR: Clang uses clang-tidy, but not found!")
+    endif()
 
-else ()
-    message(CHECK_FAIL "OFF")
-endif ()
-message(STATUS " ")
+endif()
+message(STATUS)

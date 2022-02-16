@@ -6,29 +6,38 @@ cmake_minimum_required(VERSION 3.17)
 
 project(MyTemplate)
 
-set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}")
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-
 # Uncomment to use specific standard
-#set(CMAKE_CXX_STANDARD 11)
+#set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
-message(STATUS "==================== BEGIN OF CMAKE CONFIG ====================")
+message(STATUS "==================== BEGIN OF CMAKE PRE CONFIG ====================")
 
 set(__CFG__ ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config)
+
+# Clang-tidy must be set before targets
+include(${__CFG__}/static-analyzer.cmake)
+
+message(STATUS "==================== END   OF CMAKE PRE CONFIG ====================")
+message(STATUS)
+# ===== ADD YOUR TARGETS BELOW THIS LINE =====
+
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+
+
+# ===== ADD YOUR TARGETS ABOVE THIS LINE =====
+
+message(STATUS "==================== BEGIN OF CMAKE POST CONFIG ====================")
+
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}")
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 include(${__CFG__}/compiler-info.cmake)
 include(${__CFG__}/latest-std.cmake)
 include(${__CFG__}/ccache.cmake)
+include(${__CFG__}/symlink-compile-commands.cmake)
+include(${__CFG__}/use-unsafe-math-in-release.cmake)
 
-include(${__CFG__}/static-analyzer.cmake)
-include(${__CFG__}/compile-commands.cmake)
-
-
-
-#set(__USE_ANALYZER__                    ON)
-set(__REL_USE_HACKED_MATH__             ON)
 
 
 # At most one of the following three can be used at the same time
@@ -40,7 +49,9 @@ set(__DBG_SANITIZE_ADDR__               ON)
 set(__DBG_SANITIZE_UB__                 ON)
 
 
-include(${__CFG__}/!main.cmake)
+# include(${__CFG__}/!main.cmake)
+include(${__CFG__}/format-files.cmake)
+include(${__CFG__}/report.cmake)
 
 
 # Compatibility with Windows systems
@@ -52,9 +63,4 @@ endif()
 #find_package(benchmark REQUIRED)
 #link_libraries(benchmark::benchmark)
 
-message(STATUS "==================== END   OF CMAKE CONFIG ====================")
-
-# ===== ADD YOUR TARGETS BELOW THIS LINE =====
-
-
-add_executable(${PROJECT_NAME} src/main.cpp)
+message(STATUS "==================== END   OF CMAKE POST CONFIG ====================")
