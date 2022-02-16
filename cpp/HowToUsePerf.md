@@ -68,7 +68,7 @@ _You know what to do!_
 
 ```shell
 # [perf record] goes here ...
-perf script | c++filt | gprof2dot -n 5 -e 3 -f perf | dot -Tsvg -o perf.svg
+perf script | c++filt | gprof2dot -n 5 -e 3 --show-samples -f perf | dot -Tsvg -o perf.svg
 #                                  |    └ Edge threshold
 #                                  └ Node threshold
 ```
