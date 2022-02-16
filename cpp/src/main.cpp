@@ -4,10 +4,11 @@
  */
 
 #include <iostream>
-#include "Misc.h"
+#include "misc.h"
 
 
-int main(int argc, char *argv[]) {
+int
+main(int argc, char* argv[]) {
   // init starter
   {
     // handle signals

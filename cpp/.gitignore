@@ -86,6 +86,9 @@ cmake-build-*/
 # Auto-generated compile commands
 compile_commands.json
 
+# Binary output
+/bin/*
+
 # Anything begins with two underscores shall not be synced on purpose
 __*
 

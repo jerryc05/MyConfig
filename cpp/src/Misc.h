@@ -130,7 +130,6 @@ using Fn = std::function<T>;
 #endif
 
 
-// f:off
 using Byte  MAYBE_UNUSED = std::byte;
 using F32   MAYBE_UNUSED = float;
 using F64   MAYBE_UNUSED = double;
@@ -154,7 +153,6 @@ using U64   MAYBE_UNUSED = std::uint64_t;
 using U64F  MAYBE_UNUSED = std::uint_fast64_t;
 using UMax  MAYBE_UNUSED = std::uintmax_t;
 using Usize MAYBE_UNUSED = std::size_t;
-// f:on
 
 
 template<typename T, Usize S>
@@ -227,16 +225,15 @@ skipCurrentLine(
 }
 
 template<typename T>
-MAYBE_UNUSED F_INLINE Arr<Byte, sizeof(T)>
+MAYBE_UNUSED inline Arr<Byte, sizeof(T)>
 allocUninit() {
-  Arr<Byte, sizeof(T)> arr;
-  return arr;
+  return Arr<Byte, sizeof(T)>();
 }
 
 template<typename T, typename... Args>
-MAYBE_UNUSED F_INLINE T *
+MAYBE_UNUSED inline T *
 initInPlace(void *RESTRICT addr, Args &&... args) {
-  return new(addr) T(args ...);
+  return new(addr) T(std::forward<Args>(args) ...);
 }
 
 MAYBE_UNUSED void
@@ -306,7 +303,7 @@ stackTraceSigHandler(int sig) {
 #endif
 
   std::cerr << "\033[0m";
-  std::exit(128 + sig);
+  std::_Exit(128 + sig);
 }
 
 
