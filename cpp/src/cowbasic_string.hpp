@@ -2,7 +2,7 @@
  * A simple Copy On Write (COW) string implementation.
  *
  * Copyright Â© 2014 Manu Sanchez. @Manu343726 on GitHub, Stack Overflow, etc.
- * 
+ *
  * manu343726.github.io
  *
  * This program is free software. It comes without any warranty, to
@@ -16,9 +16,9 @@
  * Just for the sake of learning, here is an article showing how real C++
  * works on this topic: http://www.drdobbs.com/generic-a-policy-based-basicstring-imple/184403784
  * The implementation provided here is only a simple proof of concept of a COW string. There is no
- * allocator nor storage policy, only a COW string using raw new/deletes (Or even no ones, since current 
+ * allocator nor storage policy, only a COW string using raw new/deletes (Or even no ones, since current
  * C++ encourages avoiding such, in favor of automatic storage duration and RAII-based memory resources).
- * 
+ *
  * Besides the Modern-C++-uses-no-new/delete-at-all debate, the point of this implementation is to show that
  * simple string implementations (Counter + dynamic char buffer) are never used in the real world since
  * they permorm very poorly (Many undesired and unneccesary allocations), and many approaches (optimizations) were
@@ -38,19 +38,19 @@
  * behaves like a string, but is a thing that uses data not of its own, but from others (hello_world in the example) instead.
  * This kind of thing is very common in the programming world, from simple views like this to lazy computational pipelines. The point is: Don't create
  * new data, use the original storing some kind of transformation. When the view is accessed, apply the transform. This lazy evaluation is much more efficient
- * than using more memory in general (Is not a matter of memory space but memory access. See a good keynote on this topic here: https://www.youtube.com/watch?v=3-ieS3SGFzo). 
- * Modern computers are memory bounded, not CPU bounded. 
+ * than using more memory in general (Is not a matter of memory space but memory access. See a good keynote on this topic here: https://www.youtube.com/watch?v=3-ieS3SGFzo).
+ * Modern computers are memory bounded, not CPU bounded.
  *
- * The example above is completely real (I'm not good at writting examples, so I usually use real cases ;) ), see the std::string_view Technical Specification for 
+ * The example above is completely real (I'm not good at writting examples, so I usually use real cases ;) ), see the std::string_view Technical Specification for
  * C++17 here: http://en.cppreference.com/w/cpp/header/experimental/string_view
  *
  * Ok, we can avoid copies when viewing strings in a non-mutable way, which is much more cool and efficient than creating a new string. So, how this situation looks
  * like under the hood?:
  *
  * Here at the stack frame of our function              somewhere in the free store
- *                                             
- * hello_world                                 
- * +-------------------------------+            
+ *
+ * hello_world
+ * +-------------------------------+
  * | char* _buff ------------------|-----------...--------> "hello world!"
  * | std::size_t _size , _capacity |                        ^
  * +-------------------------------+                        |
@@ -66,19 +66,19 @@
  *     hello[0] = j; //What happens here?
  *     hello[4] = y;
  *
- * We don't want hello_world containning "jello world!" isn't? Then we should stop referencing the hello_world buffer and create our own for hello. In other words, 
+ * We don't want hello_world containning "jello world!" isn't? Then we should stop referencing the hello_world buffer and create our own for hello. In other words,
  * we should Copy when we Write. Welcome to COW!
  *
  * Here at the stack frame of our function              somewhere in the free store
- *                                             
- * hello_world                                 
- * +-------------------------------+            
+ *
+ * hello_world
+ * +-------------------------------+
  * | char* _buff ------------------|-----------...--------> "hello world!"
- * | std::size_t _size , _capacity |                        
- * +-------------------------------+                        
- *                                                          
- * hello                                                    
- * +-------------------------------+                        
+ * | std::size_t _size , _capacity |
+ * +-------------------------------+
+ *
+ * hello
+ * +-------------------------------+
  * | char* _now_i_have_my_own_buff-|-----------...--------> "jelly"
  * | std::size_t _begin , _end     |
  * +-------------------------------+
@@ -89,7 +89,7 @@
 /*
 * THE IMPLEMENTATION
 * ==================
-* 
+*
 * I'm a big fan of The Rule Of Zero, it encourages safe resource management and simplifies C++ classes a lot.
 * Since the purpose of this code is only illustrative, and real-world performance is not one of the goals here,
 * I will use a std::vector<char> as buffer and a std::shared_ptr to do ref counting on that buffer. That could be
@@ -97,9 +97,9 @@
 * than the alternative of reinventing the wheel managing the array and its allocation/reallocation. The point of this example
 * is to learn COW, not memory management. Refer to edalib's Vector for that.
 *
-* The approach taken in the real-world, commonly the struct-hack to avoid double memory allocation, requires depth understanding 
-* of the C++ runtime and language, memory alignment, etc; things far away from the skills and objectives of EDA. So using Standard Library 
-* features seems reasonable to keep the example clear. Also following the Rule Of Zero is A Good Thing always, except in some rare cases 
+* The approach taken in the real-world, commonly the struct-hack to avoid double memory allocation, requires depth understanding
+* of the C++ runtime and language, memory alignment, etc; things far away from the skills and objectives of EDA. So using Standard Library
+* features seems reasonable to keep the example clear. Also following the Rule Of Zero is A Good Thing always, except in some rare cases
 * where it could lead into unexpected performance hits, like this case. Let's be clear, forget performance.
 *
 * IF(YOU ARE A C++ GURU) GOTO CODE BELLOW
@@ -107,13 +107,13 @@
 * But what is The Rule Of Zero?
 * First you should understand the semantics of C++ objects: C++ uses value semantics by default, in contrast with languages like Java where
 * the default is to do reference semantics: In Java what you manipulate is a reference to the object instead of the object itself, so copying
-* your variable becomes moving around the reference letting the object untouched. The same for assignment, swapping (Try to write a swap function in 
+* your variable becomes moving around the reference letting the object untouched. The same for assignment, swapping (Try to write a swap function in
 * Java ;) ), etc.
-* In C++ your variable IS the object. If your variable is local to a function, the object is local to that function and lives in the stack frame of 
-* that function. No garbage collection is needed, since you are working with the object directly and that object has a clear lifetime, its scope. 
+* In C++ your variable IS the object. If your variable is local to a function, the object is local to that function and lives in the stack frame of
+* that function. No garbage collection is needed, since you are working with the object directly and that object has a clear lifetime, its scope.
 *
 * C++ objects are designed to manipulate/represent/own a resource, where a resource could be a file, a dynamic array, a socket connection, a mutex, etc.
-* The object manages that resource, which is exactly the inverse of what Java does: Java gives you the pointer to the resource, and that pointer is managed 
+* The object manages that resource, which is exactly the inverse of what Java does: Java gives you the pointer to the resource, and that pointer is managed
 * by the GC. C++ gives you an object, which manages a resource, and that object has a clear and deterministic lifetime. In C++ a resource is not leaked because
 * its bounded to an object with a lifetime and that object performs actions automatically when its lifetime starts and ends: That are constructors and destructors.
 * A constructor initializes the resource managed by the object, and the destructor releases it. In that way, its impossible to leave open a file in C++, for example.
@@ -122,7 +122,7 @@
 *
 * All that cool and safe machinery comes at a cost: Its hard to deep understand and implement C++ object semantics correctly. We should move around the managed resources between
 * objects when they (the objects) are copied, assigned, moved, etc. In Java the variable-pointer is copied around while the object still remains in the same location. In C++
-* the objects are fixed at their location and are the resources managed by that objects which fly away along your program. 
+* the objects are fixed at their location and are the resources managed by that objects which fly away along your program.
 * The C++ approach may appear inefficient compared to the Java "only copy pointers" approach, but all that memory indirection in Java (Remember the modern memory bounded systems we have),
 * and the GC overhead becomes the sources of a poor performance in general. But that's another debate.
 *
@@ -146,7 +146,7 @@
 *
 *
 * Finally note that COW strings are not supported since C++11, because the Standard specifies that only mutable operations should invalidate iterators
-* and pointers (Those are invalidated since a detach similar to what this example does is performed). But calls to data() (The function which returns 
+* and pointers (Those are invalidated since a detach similar to what this example does is performed). But calls to data() (The function which returns
 * a pointer to the underlying storage) do detaching too, since the underlying storage is provided to the user and we don't want to modify multiple
 * strings touching only a buffer provided by a unique data() call. This behavior is invalid in the current Standard, so COW implementations are disallowed.
 * Note that means that GCC is a non-standard compliant compiler, since libstdc++ implements std::basic_string using COW: https://gcc.gnu.org/onlinedocs/gcc-4.6.2/libstdc++/api/a00770_source.html
@@ -165,12 +165,12 @@
  * Check my website above for contact.
  */
 
-template<typename CHAR , bool debug = false>
+template<class CHAR , bool debug = false>
 struct cowbasic_string
 {
 public:
     //Default ctor
-    cowbasic_string() : 
+    cowbasic_string() :
         _shared_buff{ std::make_shared<storage>() }, //Zero length buffer by default.
         _begin{0},
         _end{0}
@@ -187,7 +187,7 @@ public:
     }
 
     //A constructor to generate views of (sub)strings:
-    cowbasic_string( const cowbasic_string& other , std::size_t begin , std::size_t end ) : //Note the user is responsible of passing the right indices (Indices from the buffer perspective not the string one) using the 
+    cowbasic_string( const cowbasic_string& other , std::size_t begin , std::size_t end ) : //Note the user is responsible of passing the right indices (Indices from the buffer perspective not the string one) using the
         cowbasic_string{ other } //Call copy ctor                                             required offset() calls on their parent string.
     {
         _begin = begin;
@@ -274,7 +274,7 @@ public:
     {
         for( std::size_t i = 0 ; i < str.size() ; ++i )
             os << str[i];
-        
+
         return os << '\0';
     }
 private:
@@ -312,9 +312,9 @@ int main()
     debug_cowstring hello_world{"hello world"};
     auto hello = hello_world.substr(0,4);
     auto world = hello_world.substr(6,10);
-       
-    std::cout << hello_world << std::endl 
-              << hello << std::endl 
+
+    std::cout << hello_world << std::endl
+              << hello << std::endl
               << world << std::endl; //Ok Freire, one point for C: printf() formatting...
 
     std::cout << "hello_world start address: " << hello_world.start_addr() << std::endl
@@ -325,9 +325,9 @@ int main()
     hello[0] = 'j';
     hello[4] = 'y';
 
-    std::cout << hello_world << std::endl 
-              << hello << std::endl 
-              << world << std::endl; 
+    std::cout << hello_world << std::endl
+              << hello << std::endl
+              << world << std::endl;
 
     std::cout << "hello_world start address: " << hello_world.start_addr() << std::endl
               << "hello start address:       " << hello.start_addr()       << std::endl

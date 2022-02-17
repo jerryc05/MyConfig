@@ -5,21 +5,11 @@
 
 #include <iostream>
 
-#include "misc.h"
-
 
 int
 main(int argc, char* argv[]) {
   // init starter
   {
-    // handle signals
-    std::signal(SIGABRT, stackTraceSigHandler<>);
-    std::signal(SIGFPE, stackTraceSigHandler<>);
-    std::signal(SIGILL, stackTraceSigHandler<>);
-    std::signal(SIGINT, stackTraceSigHandler<>);
-    std::signal(SIGSEGV, stackTraceSigHandler<>);
-    std::signal(SIGTERM, stackTraceSigHandler<>);
-
     // Do not sync with C-style stdio
 #ifdef NDEBUG
     std::ios::sync_with_stdio(false);
