@@ -9,13 +9,12 @@ g++ <other_compile_flags> \
 # Run program with `perf record`
 
 ```shell
-perf record -g --call-graph dwarf -F 499 ./out_program [--args ...] > /tmp/out
-#           ^~ ^~~~~~~~~~~~~~~~~~ ^~~~~~                              ^~~~~~~~
-#           |  |                  |                                   |
-#           |  |                  |                                   Might be useful
-#           |  |                  Sampling rate, don't be multiples of 100
-#           |  [dwarf] produces most detail, but may produce huge output file
-#           Enables call-graph recording
+perf record -a -g -F 199 -e cycles --call-graph dwarf ./out_program [args...]
+#           |  |  |      |         └ [dwarf] produces most detail, but may produce huge output file
+#           |  |  |      └  Only sample CPU cycle event
+#           |  |  └  Sampling[F] requency, don't be multiples of 100
+#           |  └ Enables call - graph recording for kernel & user space
+#           └ Collect from all cpu
 ```
 
 # Show report
@@ -68,7 +67,12 @@ _You know what to do!_
 
 ```shell
 # [perf record] goes here ...
-perf script | c++filt | gprof2dot -n 5 -e 3 --show-samples -f perf | dot -Tsvg -o perf.svg
-#                                  |    └ Edge threshold
-#                                  └ Node threshold
+
+#                             ┌ Node threshold
+#                             |   ┌ Edge threshold
+perf script|c++filt|gprof2dot -n3 -e3 \
+--color-nodes-by-selftime --skew 0.1 \
+--node-label="total-time" --node-label ="self-time" \
+--node-label="total-time-percentage" --node-label="self-time-percentage" \
+--show-samples -f perf|dot -Tsvg -o perf.svg
 ```

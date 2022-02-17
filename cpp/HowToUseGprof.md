@@ -66,6 +66,11 @@ dot dot_analysis.txt -Tpng -o gprof.png
 # One liner for graphviz*
 
 ```shell
-# compilation and execution goes here ...
-gprof ./out_program | gprof2dot | dot -Tsvg -o gprof.svg
+#                             ┌ Node threshold
+#                             |   ┌ Edge threshold
+gprof ./out_program|gprof2dot -n3 -e3 \
+--color-nodes-by-selftime --skew 0.1 \
+--node-label="total-time" --node-label="self-time" \
+--node-label="total-time-percentage" --node-label="self-time-percentage" \
+--show-samples -f perf|dot -Tsvg -o gprof.svg
 ```
