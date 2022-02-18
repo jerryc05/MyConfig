@@ -631,3 +631,6 @@ endif()
 
 # todo: search cmake openmp first
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fopenmp")
+
+find_package(OpenMP)
+link_libraries(OpenMP::OpenMP_CXX)
