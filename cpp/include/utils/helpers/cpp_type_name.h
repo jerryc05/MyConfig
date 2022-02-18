@@ -14,7 +14,7 @@
 
 template <class T>
 auto
-cpp_type_name(String& output) {
+cpp_type_name(std::string& output) {
   CAT& name = typeid(T).name();
 
   output.reserve(output.size() + 64);
@@ -49,6 +49,6 @@ cpp_type_name(String& output) {
 template <class T>
 auto
 cpp_type_name() {
-  String s;
+  std::string s;
   return cpp_type_name<T>(s);
 }
