@@ -628,3 +628,6 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
 else()
     message(WARNING "Flags currently not tuned for compiler: [${CMAKE_CXX_COMPILER_ID}]")
 endif()
+
+# todo: search cmake openmp first
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fopenmp")
