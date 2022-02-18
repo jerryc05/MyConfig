@@ -634,3 +634,10 @@ set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fopenmp")
 
 find_package(OpenMP)
 link_libraries(OpenMP::OpenMP_CXX)
+
+
+
+
+
+find_package(Threads)
+link_libraries(Threads::Threads)
