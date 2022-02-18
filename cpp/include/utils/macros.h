@@ -39,7 +39,6 @@ example_pretty_function() {
 
 // ============================================================================
 #include <exception>
-#include <iostream>
 
 #ifndef NDEBUG
 #  define ASSERT_3(cond, msg, os)                                                  \
@@ -75,5 +74,6 @@ auto
 example_assert() {
   ASSERT(true);
   ASSERT(true, "This must be true!");
-  ASSERT(true, "This must be true; if not, print to std::cerr!", std::cerr);
+  // #include <iostream>
+  // ASSERT(true, "This must be true; if not, print to std::cerr!", std::cerr);
 }
