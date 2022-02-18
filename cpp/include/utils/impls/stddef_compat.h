@@ -5,6 +5,13 @@
 
 #pragma once
 
+#include <cstddef>
+
+
 namespace std {
+#if not __cpp_lib_byte
   enum class byte : unsigned char {};
-}
+#endif
+}  // namespace std
+
+// using Byte = std::byte;

@@ -9,14 +9,9 @@
 #include "macros.h"
 
 
-#if not __cpp_lib_byte
-#  include <cstddef>
-#  if not __cpp_lib_byte
-#    include "impls/byte.h"
-#    define __cpp_lib_byte 1
-#  endif
-#endif
-// using Byte = std::byte;
+// ============================================================================
+#include "impls/stddef_compat.h"
+#include "impls/type_traits_compat.h"
 
 
 // ============================================================================
