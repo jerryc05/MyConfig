@@ -5,38 +5,56 @@
 
 #pragma once
 
+#include <array>
+#include <stdexcept>
+
+#include "../helpers/cpp_type_name.h"
 #include "../types.h"
 
+
 namespace jerryc05 {
-  template <class T,
-            std::enable_if_t<std::is_trivial_v<T> && std::is_standard_layout_v<T>, bool> = true>
-  struct NoInit {
-      NoInit() {};
-      ~NoInit() = default;
-
-      NoInit(const NoInit&) {
-
-      };
-      NoInit& operator=(const NoInit&) = delete;
-
-      NoInit(NoInit&&) = delete;
-      NoInit& operator=(NoInit&&) = delete;
-
-      T val;
-  };
-
-
   template <class T>
   struct NoInitRecursive {
-      NoInit()  = delete;
-      ~NoInit() = delete;
+      NoInitRecursive() {};
+      ~NoInitRecursive() {
+#ifndef NDEBUG
+        if (!is_constructed)
+          throw std::runtime_error("Internal [" + jerryc05::cpp_type_name<T, false>() +
+                                   "] must be initialized before destruction!");
+#endif
+        reinterpret_cast<T*>(&val)->~T();
+      };
 
-      NoInit(const NoInit&) = delete;
-      NoInit& operator=(const NoInit&) = delete;
+      NoInitRecursive(const NoInitRecursive&) = delete;
+      NoInitRecursive& operator=(const NoInitRecursive&) = delete;
 
-      NoInit(NoInit&&) = delete;
-      NoInit& operator=(NoInit&&) = delete;
+      NoInitRecursive(NoInitRecursive&&) = delete;
+      NoInitRecursive& operator=(NoInitRecursive&&) = delete;
 
-      T val;
+      template <class... Ts>
+      void
+      init(Ts&&... args) {
+        new (&val) T(std::forward<Ts>(args)...);
+        assume_init();
+      }
+      // template <class... Ts>
+      // void
+      // init(Ts&... args) {
+      //   new (&val) T(std::forward<Ts>(args)...);
+      //   assume_init();
+      // }
+
+      void
+      assume_init() {
+#ifndef NDEBUG
+        is_constructed = true;
+#endif
+      }
+
+      std::byte val[sizeof(T)];
+
+#ifndef NDEBUG
+      bool is_constructed = false;
+#endif
   };
 };  // namespace jerryc05

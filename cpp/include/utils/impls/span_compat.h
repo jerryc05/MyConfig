@@ -10,13 +10,17 @@
 
 #include "../attributes.h"
 
-// namespace std {
-//   CONSTEXPR std::size_t dynamic_extent = std::numeric_limits<std::size_t>::max();
+#if __cplusplus >= __cpp_2020
+#  include <span>
 
-//   template <class T, std::size_t Extent = std::dynamic_extent>
-//   class span {};
-// }  // namespace std
+#else
+namespace std {
+  CONSTEXPR std::size_t dynamic_extent = std::numeric_limits<std::size_t>::max();
 
+  //   template <class T, std::size_t Extent = std::dynamic_extent>
+  //   class span {};
+}  // namespace std
+#endif
 
 
 // namespace Jerryc05 {
@@ -137,3 +141,7 @@
 //   Span(T (&)[N]) -> Span<T, N>;
 
 // }  // namespace Jerryc05
+
+
+
+// #define Span std::span

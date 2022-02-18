@@ -10,6 +10,7 @@
 
 
 // ============================================================================
+#include "impls/span_compat.h"
 #include "impls/stddef_compat.h"
 #include "impls/type_traits_compat.h"
 
@@ -94,10 +95,4 @@
 
 
 // ============================================================================
-#if __cplusplus >= __cpp_2020
-#  include <span>
-#else
-#  include "impls/span.h"
-#endif
-
-// #define Span std::span
+#include "impls/no_init.h"

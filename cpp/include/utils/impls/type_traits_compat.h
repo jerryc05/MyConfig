@@ -8,6 +8,14 @@
 #include <type_traits>
 
 namespace std {
+#if not __cpp_lib_type_trait_variable_templates
+  template <typename T>
+  constexpr bool is_const_v = is_const<T>::value;
+
+  template <typename T>
+  constexpr bool is_volatile_v = is_volatile<T>::value;
+#endif
+
 #if __cplusplus < __cpp_2011 or __cplusplus > __cpp_2020
   template <typename T>
   struct is_pod
