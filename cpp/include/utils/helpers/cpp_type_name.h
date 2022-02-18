@@ -15,7 +15,7 @@
 template <class T>
 auto
 cpp_type_name(std::string& output) {
-  CAT& name = typeid(T).name();
+  const auto& name = typeid(T).name();
 
   output.reserve(output.size() + 64);
   if (std::is_const_v<std::remove_reference_t<T>>) {

@@ -14,14 +14,14 @@
 
 
 // ============================================================================
-#define CAT const auto
+// #define CAT const auto
 
-#define CCT const_cast
-#define DCT dynamic_cast
-#define RCT reinterpret_cast
-#define SCT static_cast
+// #define CCT const_cast
+// #define DCT dynamic_cast
+// #define RCT reinterpret_cast
+// #define SCT static_cast
 
-#define SAT static_assert
+// #define SAT static_assert
 
 
 // ============================================================================
@@ -46,7 +46,7 @@ example_pretty_function() {
     do {                                                                           \
       if (!(cond)) {                                                               \
         (os) << __FILE__ ":" STRINGIFY(__LINE__) ": Assertion failed [" #cond "]"; \
-        CAT& _msg = SCT<const char*>(msg);                                         \
+        const auto& _msg = SCT<const char*>(msg);                                         \
         if (_msg != nullptr && *_msg != 0) {                                       \
           (os) << ": " << (_msg);                                                  \
         }                                                                          \
