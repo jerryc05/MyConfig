@@ -28,7 +28,7 @@
 // using I64   = std::int64_t;
 // using I64F  = std::int_fast64_t;
 // using IMax  = std::intmax_t;
-using Isize = std::ptrdiff_t;
+// using Isize = std::ptrdiff_t;
 
 // using U8    = std::uint8_t;
 // using U8F   = std::uint_fast8_t;
@@ -39,7 +39,7 @@ using Isize = std::ptrdiff_t;
 // using U64   = std::uint64_t;
 // using U64F  = std::uint_fast64_t;
 // using UMax  = std::uintmax_t;
-using Usize = std::size_t;
+// using Usize = std::size_t;
 
 
 // ============================================================================
