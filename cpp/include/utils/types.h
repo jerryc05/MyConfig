@@ -9,12 +9,10 @@
 #include "macros.h"
 
 
-#ifndef __cpp_lib_byte
+#if not __cpp_lib_byte
 #  include <cstddef>
-#  ifndef __cpp_lib_byte
-namespace std {
-  enum class byte : unsigned char {};
-}
+#  if not __cpp_lib_byte
+#    include "impls/byte.h"
 #    define __cpp_lib_byte 1
 #  endif
 #endif

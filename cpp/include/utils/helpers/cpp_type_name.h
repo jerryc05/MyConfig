@@ -7,7 +7,7 @@
 
 #include "../types.h"
 
-#if defined(__GNUC__) || defined(__clang__)
+#if __GNUC__ || __clang__
 #  include <cxxabi.h>
 #endif
 
@@ -25,7 +25,7 @@ cpp_type_name(std::string& output) {
     output += "volatie ";
   }
 
-#if defined(__GNUC__) || defined(__clang__)
+#if __GNUC__ || __clang__
   int   status;
   auto* demangled = abi::__cxa_demangle(name, nullptr, nullptr, &status);
   if (status == 0) {
@@ -50,5 +50,6 @@ template <class T>
 auto
 cpp_type_name() {
   std::string s;
-  return cpp_type_name<T>(s);
+  cpp_type_name<T>(s);
+  return s;
 }

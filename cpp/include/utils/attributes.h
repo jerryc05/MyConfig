@@ -12,7 +12,7 @@
 
 // ============================================================================
 #define CONSTEXPR _GLIBCXX_CONSTEXPR
-#define RESTRICT __restrict
+#define RESTRICT  __restrict
 
 #define NODISCARD _GLIBCXX_NODISCARD
 #define NOEXCEPT  _GLIBCXX_NOEXCEPT
