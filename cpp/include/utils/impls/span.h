@@ -17,11 +17,6 @@
 //   class span {};
 // }  // namespace std
 
-#include "../constants.h"
-
-#define __cplusplus __cpp_2020
-#include <span>
-
 
 
 // namespace Jerryc05 {
