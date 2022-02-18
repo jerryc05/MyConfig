@@ -34,9 +34,24 @@
 #  define NOINLINE     __attribute__((noinline))
 
 #  include <bits/char_traits.h>
-#  define ALWAYS_INLINE _GLIBCXX_ALWAYS_INLINE __attribute__((always_inline))
+#  define F_INLINE __attribute__((always_inline)) _GLIBCXX_ALWAYS_INLINE
 
 #else
 #  define F_INLINE __forceinline
 #  define NOINLINE __declspec(noinline)
+#endif
+
+
+// ============================================================================
+#include <memory>
+
+#ifndef __cpp_lib_assume_aligned
+#  define __cpp_lib_assume_aligned
+namespace std {
+  template <size_t N, class T>
+  NODISCARD F_INLINE CONSTEXPR T*
+  assume_aligned(T* ptr) NOEXCEPT {
+    return reinterpret_cast<T*>(__builtin_assume_aligned(ptr, N));
+  }
+}  // namespace std
 #endif
