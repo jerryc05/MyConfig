@@ -20,12 +20,10 @@ namespace jerryc05 {
 
     if (WITH_MODIFIER) {
       output.reserve(output.size() + 64);
-      if (std::is_const_v<std::remove_reference_t<T>>) {
+      if (std::is_const_v<std::remove_reference_t<T>>)
         output += "const ";
-      }
-      if (std::is_volatile_v<std::remove_reference_t<T>>) {
+      if (std::is_volatile_v<std::remove_reference_t<T>>)
         output += "volatie ";
-      }
     }
 
 #if __GNUC__ || __clang__
@@ -40,15 +38,13 @@ namespace jerryc05 {
 #endif
 
     if (WITH_MODIFIER) {
-      if (std::is_lvalue_reference_v<T>) {
+      if (std::is_lvalue_reference_v<T>)
         output += '&';
-      } else if (std::is_rvalue_reference_v<T>) {
+      else if (std::is_rvalue_reference_v<T>)
         output += "&&";
-      }
     }
     return output;
   }
-
 
   template <class T, bool WITH_MODIFIER = true>
   auto

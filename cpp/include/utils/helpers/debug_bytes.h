@@ -25,7 +25,8 @@
 //   const auto     printCharMargin = [sizeToPrint]() {
 //     OS << '|' << std::setfill('-')
 //        << std::setw(
-//                   static_cast<jerryc05::FnTypes<decltype(std::setw)>::ArgT<0>>(hexWidth * sizeToPrint))
+//                   static_cast<jerryc05::FnTypes<decltype(std::setw)>::ArgT<0>>(hexWidth *
+//                   sizeToPrint))
 //        << "|\n";
 //     OS.copyfmt(std::ios(nullptr));
 //   };

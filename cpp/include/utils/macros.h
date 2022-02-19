@@ -36,7 +36,6 @@ example_pretty_function() {
   const char* func = __PRETTY_FUNCTION__;
 }
 
-
 // ============================================================================
 #include <exception>
 
@@ -46,9 +45,8 @@ example_pretty_function() {
       if (!(cond)) {                                                               \
         (os) << __FILE__ ":" STRINGIFY(__LINE__) ": Assertion failed [" #cond "]"; \
         const auto& _msg = static_cast<const char*>(msg);                          \
-        if (_msg != nullptr && *_msg != 0) {                                       \
+        if (_msg != nullptr && *_msg != 0)                                         \
           (os) << ": " << (_msg);                                                  \
-        }                                                                          \
         (os) << std::endl;                                                         \
         std::terminate();                                                          \
       }                                                                            \
@@ -69,8 +67,8 @@ example_pretty_function() {
            ASSERT_0(__VA_ARGS__))
 
 
- // Example:
- //
- // ASSERT(true);
- // ASSERT(true, "This must be true!");
- // ASSERT(true, "This must be true; if not, print to std::cerr!", std::cerr);
+// Example:
+//
+// ASSERT(true);
+// ASSERT(true, "This must be true!");
+// ASSERT(true, "This must be true; if not, print to std::cerr!", std::cerr);

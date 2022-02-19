@@ -11,11 +11,11 @@
 #include "../helpers/cpp_type_name.h"
 #include "../types.h"
 
-
 namespace jerryc05 {
   template <class T>
   struct NoInitRecursive {
       NoInitRecursive() {};
+
       ~NoInitRecursive() {
 #ifndef NDEBUG
         if (!is_constructed)
@@ -25,10 +25,10 @@ namespace jerryc05 {
         reinterpret_cast<T*>(&val)->~T();
       };
 
-      NoInitRecursive(const NoInitRecursive&) = delete;
+      NoInitRecursive(const NoInitRecursive&)            = delete;
       NoInitRecursive& operator=(const NoInitRecursive&) = delete;
 
-      NoInitRecursive(NoInitRecursive&&) = delete;
+      NoInitRecursive(NoInitRecursive&&)            = delete;
       NoInitRecursive& operator=(NoInitRecursive&&) = delete;
 
       template <class... Ts>
@@ -37,6 +37,7 @@ namespace jerryc05 {
         new (&val) T(std::forward<Ts>(args)...);
         assume_init();
       }
+
       // template <class... Ts>
       // void
       // init(Ts&... args) {

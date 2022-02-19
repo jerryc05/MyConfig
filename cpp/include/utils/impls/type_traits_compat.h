@@ -9,7 +9,6 @@
 
 #include "../attributes.h"
 
-
 namespace std {
 #if not __cpp_lib_type_trait_variable_templates
   template <class T>
@@ -28,7 +27,6 @@ namespace std {
   ConstExpr bool is_volatile_v = is_volatile<T>::value;
 #endif
 }  // namespace std
-
 
 namespace jerryc05 {
   // c.r. https://stackoverflow.com/a/43526780/8207670
