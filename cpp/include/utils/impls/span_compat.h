@@ -12,8 +12,9 @@
 
 #if __cplusplus >= __cpp_2020
 #  include <span>
+#endif
 
-#else
+#if not __cpp_lib_span
 namespace std {
   ConstExpr std::size_t dynamic_extent = std::numeric_limits<std::size_t>::max();
 
