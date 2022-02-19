@@ -12,7 +12,7 @@ if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Release")
     message(CHECK_PASS "OK")
 
 else()
-    message(CHECK_FAIL "SKIP: Not enabled for [${CMAKE_BUILD_TYPE}]; use [Release] build instead!")
+    message(CHECK_FAIL "SKIP: Not enabled for [${CMAKE_BUILD_TYPE}]; use [Release]-like build instead!")
 
 endif()
 message(STATUS)

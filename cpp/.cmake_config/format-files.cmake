@@ -8,11 +8,10 @@ find_program(__FMT__ clang-format)
 
 if(__FMT__)
     get_directory_property(__TARGETS__ BUILDSYSTEM_TARGETS)
-
     foreach(__TARGET__ IN LISTS __TARGETS__)
-        get_target_property(__SRCS__ ${__TARGET__} SOURCES)
+        get_target_property(__SRCS__ "${__TARGET__}" SOURCES)
         list(TRANSFORM __SRCS__ PREPEND "${CMAKE_CURRENT_SOURCE_DIR}/")
-        add_custom_command(TARGET ${__TARGET__}
+        add_custom_command(TARGET "${__TARGET__}"
                            PRE_BUILD
                            COMMAND ${__FMT__} "-Wno-error=unknown" "-i" ${__SRCS__}
                            VERBATIM)

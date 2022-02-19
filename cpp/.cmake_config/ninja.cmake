@@ -10,11 +10,13 @@ find_program(__NINJA__ ninja)
 if(__NINJA__)
     set(CMAKE_GENERATOR "Ninja")
 
-    execute_process(COMMAND ${__NINJA__} --version
-            OUTPUT_VARIABLE __CCACHE_VER__)
-    string(REGEX MATCH "[^\r\n]+"
-            __CCACHE_VER__ ${__CCACHE_VER__})
-    message(CHECK_PASS "OK: ninja version ${__CCACHE_VER__}")
+    # execute_process(COMMAND ${__NINJA__} --version
+    #         OUTPUT_VARIABLE __CCACHE_VER__)
+    # string(REGEX MATCH "[^\r\n]+"
+    #         __CCACHE_VER__ ${__CCACHE_VER__})
+    # message(CHECK_PASS "OK: ninja version ${__CCACHE_VER__}")
+
+    message(CHECK_PASS "OK: [ninja] @ ${__NINJA__}")
 
 else()
     message(CHECK_FAIL "ERR: Not found!")

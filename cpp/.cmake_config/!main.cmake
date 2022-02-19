@@ -41,6 +41,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 -Winvalid-offsetof \
 -Winvalid-pch \
 -Wliteral-suffix \
+-Wlogical-op \
 -Wmismatched-tags \
 -Wmissing-format-attribute \
 -Wmissing-include-dirs \
@@ -151,7 +152,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
         ]]
 
 
-    elseif(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Release")
+    elseif(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
         message(STATUS "CMAKE IN RELEASE MODE")
         message(STATUS "")
 
@@ -328,6 +329,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
 -Wimport-preprocessor-directive-pedantic \
 -Winvalid-or-nonexistent-directory \
 -Wkeyword-macro \
+-Wlifetime \
 -Wloop-analysis \
 -Wmain \
 -Wmax-tokens \
@@ -505,7 +507,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
         ]]
 
 
-    elseif(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Release")
+    elseif(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
         message(STATUS "CMAKE IN RELEASE MODE")
         message(STATUS "")
 
