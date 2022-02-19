@@ -14,7 +14,9 @@ Checks: >-
   -cppcoreguidelines-init-variables,
   -darwin-*,
   -fuchsia-*,
+  -hicpp-braces-around-statements,
   -hicpp-vararg,
+  -google-readability-braces-around-statements,
   -google-readability-todo,
   -google-runtime-references,
   -llvm-*,
@@ -22,8 +24,9 @@ Checks: >-
   -misc-non-private-member-variables-in-classes,
   -modernize-use-trailing-return-type,
   -objc-*,
+  -readability-braces-around-statements,
   -readability-function-cognitive-complexity,
   -readability-isolate-declaration,
-  -zircon-*
+  -zircon-*,
 
 UseColor: true
