@@ -15,7 +15,7 @@
 
 #else
 namespace std {
-  CONSTEXPR std::size_t dynamic_extent = std::numeric_limits<std::size_t>::max();
+  ConstExpr std::size_t dynamic_extent = std::numeric_limits<std::size_t>::max();
 
   //   template <class T, std::size_t Extent = std::dynamic_extent>
   //   class span {};
@@ -28,38 +28,38 @@ namespace std {
 
 // public:
 //   template <class U>
-//   NODISCARD constexpr F_INLINE const T& operator[](U i) const NOEXCEPT {
+//   NoDiscard ConstExpr ForceInline const T& operator[](U i) const NoExcept {
 //     ASSERT(i < N, String<>("\033[1;91mIndex [") + std::to_string(i) + "]" + " out of bound [" +
 //                       std::to_string(N) + "]!\033[0;31m");
 //     return mPtr[i];
 //   }
 
 //   template <class U>
-//   NODISCARD constexpr inline T& operator[](U i) NOEXCEPT {
+//   NoDiscard ConstExpr inline T& operator[](U i) NoExcept {
 //     return CCT<T&>(CCT<const decltype(*this)>(*this)[i]);
 //   }
 
-//    NODISCARD constexpr F_INLINE Usize len() const NOEXCEPT { return N; }
+//    NoDiscard ConstExpr ForceInline Usize len() const NoExcept { return N; }
 
-//    NODISCARD constexpr F_INLINE Usize size() const NOEXCEPT { return len(); }
+//    NoDiscard ConstExpr ForceInline Usize size() const NoExcept { return len(); }
 
-//    NODISCARD constexpr F_INLINE bool isEmpty() const NOEXCEPT { return len() == 0; }
+//    NoDiscard ConstExpr ForceInline bool isEmpty() const NoExcept { return len() == 0; }
 
-//    NODISCARD constexpr F_INLINE bool empty() const NOEXCEPT { return isEmpty(); }
+//    NoDiscard ConstExpr ForceInline bool empty() const NoExcept { return isEmpty(); }
 
-//   NODISCARD constexpr F_INLINE const T* cbegin() const NOEXCEPT { return mPtr; }
+//   NoDiscard ConstExpr ForceInline const T* cbegin() const NoExcept { return mPtr; }
 
-//   NODISCARD constexpr inline T* begin() NOEXCEPT { return CCT<T*>(this->cbegin()); }
+//   NoDiscard ConstExpr inline T* begin() NoExcept { return CCT<T*>(this->cbegin()); }
 
-//   NODISCARD constexpr F_INLINE const T* cend() const NOEXCEPT { return cbegin() + len(); }
+//   NoDiscard ConstExpr ForceInline const T* cend() const NoExcept { return cbegin() + len(); }
 
-//   NODISCARD constexpr inline T* end() NOEXCEPT { return CCT<T*>(this->cend()); }
+//   NoDiscard ConstExpr inline T* end() NoExcept { return CCT<T*>(this->cend()); }
 
 //   template <class IterT>
 //   class RIter {
 //       IterT* mRPtr;
 
-//       constexpr explicit RIter(IterT* rPtr) NOEXCEPT: mRPtr {rPtr} {}
+//       ConstExpr explicit RIter(IterT* rPtr) NoExcept: mRPtr {rPtr} {}
 
 //       friend class Span;
 
@@ -70,32 +70,32 @@ namespace std {
 //         return *this;
 //       }
 
-//       NODISCARD
+//       NoDiscard
 //       IterT&
 //       operator*() {
 //         return *mRPtr;
 //       }
 
-//       NODISCARD
+//       NoDiscard
 //       IterT*
 //       operator->() {
 //         return mRPtr;
 //       }
 //   };
 
-//    NODISCARD constexpr F_INLINE RIter<const T> crbegin() const NOEXCEPT {
+//    NoDiscard ConstExpr ForceInline RIter<const T> crbegin() const NoExcept {
 //     return RIter<const T> {cend() - 1};
 //   }
 
-//    NODISCARD constexpr inline RIter<T> rbegin() NOEXCEPT {
+//    NoDiscard ConstExpr inline RIter<T> rbegin() NoExcept {
 //     return RIter<T> {end() - 1};
 //   }
 
-//    NODISCARD constexpr F_INLINE RIter<const T> crend() const NOEXCEPT {
+//    NoDiscard ConstExpr ForceInline RIter<const T> crend() const NoExcept {
 //     return RIter<const T> {cbegin() - 1};
 //   }
 
-//    NODISCARD constexpr inline RIter<T> rend() NOEXCEPT {
+//    NoDiscard ConstExpr inline RIter<T> rend() NoExcept {
 //     return RIter<T> {begin() - 1};
 //   }
 
@@ -104,13 +104,13 @@ namespace std {
 //   class Span {
 //       T* mPtr;
 
-//       Span() NOEXCEPT = default;
+//       Span() NoExcept = default;
 
 //     public:
-//        constexpr explicit Span(T (&arr)[N]) NOEXCEPT: mPtr {arr} {}
+//        ConstExpr explicit Span(T (&arr)[N]) NoExcept: mPtr {arr} {}
 
 //       template <Usize SIZE, class U>
-//       friend constexpr Span<U, SIZE> fromPtr(U* ptr) NOEXCEPT;
+//       friend ConstExpr Span<U, SIZE> fromPtr(U* ptr) NoExcept;
 
 //       SpanImpl
 //   };
@@ -121,14 +121,14 @@ namespace std {
 //       const Usize N;
 
 //     public:
-//        constexpr Span(T* ptr, decltype(N) len) NOEXCEPT: mPtr {ptr}, N {len} {}
+//        ConstExpr Span(T* ptr, decltype(N) len) NoExcept: mPtr {ptr}, N {len} {}
 
 //       SpanImpl
 //   };
 
 //   template <Usize SIZE, class T>
-//   NODISCARD constexpr Span<T, SIZE>
-//   fromPtr(T* ptr) NOEXCEPT {
+//   NoDiscard ConstExpr Span<T, SIZE>
+//   fromPtr(T* ptr) NoExcept {
 //     Span<T, SIZE> span;
 //     span.mPtr = ptr;
 //     return span;

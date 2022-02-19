@@ -15,7 +15,7 @@
 
 //     void do_deallocate(void* ptr, Usize size, Usize alignment) override;
 
-//     NODISCARD bool do_is_equal(const std::pmr::memory_resource& other) const NOEXCEPT override;
+//     NoDiscard bool do_is_equal(const std::pmr::memory_resource& other) const NoExcept override;
 // };
 
 // void*
@@ -32,8 +32,8 @@
 //   return std::pmr::new_delete_resource()->deallocate(ptr, size, alignment);
 // }
 
-// NODISCARD bool
-// MyNewDelResExample::do_is_equal(const std::pmr::memory_resource& other) const NOEXCEPT {
+// NoDiscard bool
+// MyNewDelResExample::do_is_equal(const std::pmr::memory_resource& other) const NoExcept {
 //   return std::pmr::new_delete_resource()->is_equal(other);
 // }
 

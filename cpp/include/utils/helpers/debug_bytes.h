@@ -13,17 +13,19 @@
 #include "../types.h"
 
 
-template <Usize MAX_SIZE                                        = 128,
-          class CharT                                           = char,
-          std::basic_ostream<CharT, std::char_traits<CharT>> OS = std::cout>
+template <std::size_t MAX_SIZE = 128,
+          class CharT          = char,
+          std::basic_ostream<CharT, std::char_traits<CharT>> OS>
 void
-debugBytes(void* ptr, Usize size) {
-  auto charTPtr = RCT<CharT*>(ptr);
+debugBytes(void* ptr, std::size_t size) {
+  auto charTPtr = reinterpret_cast<CharT*>(ptr);
 
-  CONSTEXPR auto hexWidth        = 2 * sizeof(CharT);
+  ConstExpr auto hexWidth        = 2 * sizeof(CharT);
   const auto     sizeToPrint     = std::min(size, MAX_SIZE);
   const auto     printCharMargin = [sizeToPrint]() {
-    OS << '|' << std::setfill('-') << std::setw(SCT<I32>(hexWidth * sizeToPrint)) << ""
+    OS << '|' << std::setfill('-')
+       << std::setw(
+                  static_cast<jerryc05::FnTypes<decltype(std::setw)>::ArgT<0>>(hexWidth * sizeToPrint))
        << "|\n";
     OS.copyfmt(std::ios(nullptr));
   };
@@ -31,9 +33,9 @@ debugBytes(void* ptr, Usize size) {
   OS << "\033[1;94m";
   printCharMargin();
 
-  for (U8 j = 0; j < 2; ++j) {
+  for (auto j = 0; j < 2; ++j) {
     OS << "\033[1;94m|\033[0m";
-    for (Usize i = 0; i < sizeToPrint; ++i) {
+    for (std::remove_const_t<decltype(sizeToPrint)> i = 0; i < sizeToPrint; ++i) {
       if (j == 0) {
         OS << std::setw(hexWidth) << charTPtr[i];
       } else {
