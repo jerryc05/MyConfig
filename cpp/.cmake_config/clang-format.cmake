@@ -18,7 +18,8 @@ if(__FMT__)
     endforeach()
 
     list(LENGTH __SRCS__ __LEN__)
-    message(CHECK_PASS "OK: Formatted ${__LEN__} files!")
+    message(CHECK_PASS "OK: [clang-format] @ ${__FMT__}!")
+    message(STATUS "[clang-format] - Formatted ${__LEN__} files!")
 
 else()
     message(CHECK_FAIL "ERR: Not found!")

@@ -6,16 +6,19 @@ message(CHECK_START "[clang-tidy]")
 
 find_program(__CLANG_TIDY__ clang-tidy)
 
-if(NOT __CLANG_TIDY__)
-    file(READ_SYMLINK ${CMAKE_CXX_COMPILER} __ABS_COMPILER_PATH__)
-    if(NOT IS_ABSOLUTE "${__ABS_COMPILER_PATH__}")
-        get_filename_component(__COMPILER_DIR__ ${CMAKE_CXX_COMPILER} DIRECTORY)
-        set(__ABS_COMPILER_PATH__ "${__COMPILER_DIR__}/${__ABS_COMPILER_PATH__}")
+foreach(__COMPILER__ ${CMAKE_C_COMPILER} ${CMAKE_CXX_COMPILER})
+    if(__CLANG_TIDY__)
+        break()
     endif()
-    get_filename_component(__ABS_COMPILER_DIR__ ${__ABS_COMPILER_PATH__} DIRECTORY)
-    find_program(__CLANG_TIDY__ clang-tidy
-                 PATHS ${__ABS_COMPILER_DIR__})
-endif()
+        file(READ_SYMLINK ${CMAKE_CXX_COMPILER} __ABS_COMPILER_PATH__)
+        if(NOT IS_ABSOLUTE "${__ABS_COMPILER_PATH__}")
+            get_filename_component(__COMPILER_DIR__ ${CMAKE_CXX_COMPILER} DIRECTORY)
+            set(__ABS_COMPILER_PATH__ "${__COMPILER_DIR__}/${__ABS_COMPILER_PATH__}")
+        endif()
+        get_filename_component(__ABS_COMPILER_DIR__ ${__ABS_COMPILER_PATH__} DIRECTORY)
+        find_program(__CLANG_TIDY__ clang-tidy
+                    PATHS ${__ABS_COMPILER_DIR__})
+endforeach()
 
 if(__CLANG_TIDY__)
     set(__CLANG_TIDY_ARGS__
