@@ -9,7 +9,7 @@ if(__INCLUDE_SANITIZER_OPTIONS__)
 
 
         add_library(${__SANITIZER_OPT_LIB_NAME__} OBJECT
-                ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/sanitizer-options.cpp)
+                ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/sanitizers/sanitizer-options.cpp)
 
         # only effective before add_executable()
         # todo use target...

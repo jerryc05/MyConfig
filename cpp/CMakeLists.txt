@@ -39,7 +39,6 @@ include(${__CFG__}/compiler-info.cmake)
 include(${__CFG__}/latest-std.cmake)
 include(${__CFG__}/ccache.cmake)
 
-include(${__CFG__}/compiler-static-analysis.cmake)
 include(${__CFG__}/use-unsafe-math-on-release.cmake)
 
 

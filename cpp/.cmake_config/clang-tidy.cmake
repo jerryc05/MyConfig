@@ -22,7 +22,7 @@ endforeach()
 
 if(__CLANG_TIDY__)
     set(__CLANG_TIDY_ARGS__
-        --config-file=${CMAKE_SOURCE_DIR}/.clang-tidy
+        "--config-file=${CMAKE_SOURCE_DIR}/.clang-tidy"
         --allow-enabling-analyzer-alpha-checkers
         --extra-arg=-Xclang
         --extra-arg=-analyzer-config

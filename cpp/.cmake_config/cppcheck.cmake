@@ -13,7 +13,7 @@ if(__CPPCHECK__)
     set(__CPPCHECK_ARGS__
         -j${NPROCS}
         --force
-        --enable=all
+        --enable=warning,style,performance,portability,information,missingInclude,missingInclude
         --inconclusive
         --max-ctu-depth=32
         )
