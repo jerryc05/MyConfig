@@ -69,11 +69,8 @@ example_pretty_function() {
            ASSERT_0(__VA_ARGS__))
 
 
-template <class T = void>
-auto
-example_assert() {
-  ASSERT(true);
-  ASSERT(true, "This must be true!");
-  // #include <iostream>
-  // ASSERT(true, "This must be true; if not, print to std::cerr!", std::cerr);
-}
+ // Example:
+ //
+ // ASSERT(true);
+ // ASSERT(true, "This must be true!");
+ // ASSERT(true, "This must be true; if not, print to std::cerr!", std::cerr);
