@@ -22,24 +22,33 @@
 #if __cplusplus >= __cpp_2017
 #  define MaybeUnused [[maybe_unused]]
 #else
-#  define MaybeUnused
+#  define MaybeUnused __attribute__((unused))
 #endif
 
 
 // ============================================================================
 #ifndef _MSC_VER
 /// Function return value depends solely on the function's arguments.
-#  define ConstFn  __attribute__((const)) _GLIBCXX_CONST
+#  define ConstFn          __attribute__((const)) _GLIBCXX_CONST
 /// [const] attribute + allow access global variables.
-#  define PureFn   __attribute__((pure)) _GLIBCXX_PURE
-#  define NoInline __attribute__((noinline))
+#  define PureFn           __attribute__((pure)) _GLIBCXX_PURE
+#  define ReturnsNonNullFn __attribute__((returns_nonnull))
+
+#  define NoInlineFn     __attribute__((noinline))
+#  define NonNullFn      __attribute__((nonnull))
+#  define NonNullFn(...) __attribute__((nonnull, __VA_ARGS__))
+
+#  define AssumeAlignedFn(align)         __attribute__((assume_aligned(align)))
+#  define AssumeAlignedFn(align, offset) __attribute__((assume_aligned((align), (offset))))
+
+// use C++11 alignas(...) keyword for variables
 
 #  include <bits/char_traits.h>
 #  define ForceInline __attribute__((always_inline)) _GLIBCXX_ALWAYS_INLINE
 
 #else
 #  define ForceInline __forceinline
-#  define NoInline    __declspec(noinline)
+#  define NoInlineFn  __declspec(noinline)
 #endif
 
 
@@ -48,11 +57,12 @@
 
 #ifndef __cpp_lib_assume_aligned
 #  define __cpp_lib_assume_aligned
+
 namespace std {
-  template <size_t N, class T>
+  template <size_t ALIGN, size_t OFFSET, class T>
   NoDiscard ForceInline ConstExpr T*
-  assume_aligned(T* ptr) NoExcept {
-    return reinterpret_cast<T*>(__builtin_assume_aligned(ptr, N));
+  assume_aligned(T* ptr) NoExcept AssumeAlignedFn(ALIGN, OFFSET) {
+    return reinterpret_cast<T*>(__builtin_assume_aligned(ptr, ALIGN));
   }
 }  // namespace std
 #endif
