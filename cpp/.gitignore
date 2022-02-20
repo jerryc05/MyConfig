@@ -83,8 +83,9 @@ dkms.conf
 # Auto-generated compile commands
 compile_commands.json
 
-# CMake
-cmake-build-*/
+# Build files
+/build
+cmake-build*/
 
 # [gprof] output
 gmon.out
