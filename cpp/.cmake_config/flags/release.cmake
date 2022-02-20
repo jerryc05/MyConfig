@@ -1,0 +1,6 @@
+-fconstexpr-cache-depth=99
+-fconstexpr-depth=999
+-fconstexpr-loop-limit=999999
+-fconstexpr-ops-limit=99999999
+-fimplicit-constexpr
+-fstrict-enums

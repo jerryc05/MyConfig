@@ -19,10 +19,11 @@ set(x "\
 -Wcast-function-type \
 -Wcast-qual \
 -Wcatch-value=3 \
--Wcomma-subscript \
 -Wconversion \
 -Wctad-maybe-unsupported \
 -Wctor-dtor-privacy \
+-Wdelete-non-virtual-dtor \
+-Wdeprecated-copy-dtor \
 -Wdisabled-optimization \
 -Wdouble-promotion \
 -Wduplicated-branches \
@@ -30,8 +31,12 @@ set(x "\
 -Weffc++ \
 -Wenum-compare \
 -Wenum-conversion \
+-Werror=comma-subscript \
+-Werror=missing-parameter-type \
+-Werror=old-style-cast \
 -Werror=pessimizing-move \
 -Werror=redundant-move \
+-Werror=register \
 -Werror=return-type \
 -Wextra-semi \
 -Wfloat-equal \
@@ -57,7 +62,6 @@ set(x "\
 -Wmissing-field-initializers \
 -Wmissing-format-attribute \
 -Wmissing-include-dirs \
--Wmissing-parameter-type \
 -Wmissing-prototypes \
 -Wmultichar \
 -Wnested-externs \
@@ -67,7 +71,6 @@ set(x "\
 -Wnoexcept-type \
 -Wnon-virtual-dtor \
 -Wnull-dereference \
--Wold-style-cast \
 -Wold-style-declaration \
 -Wold-style-definition \
 -Wopenacc-parallelism \
@@ -81,14 +84,12 @@ set(x "\
 -Wpointer-sign \
 -Wredundant-decls \
 -Wredundant-tags \
--Wregister \
 -Wreorder \
 -Wscalar-storage-order \
 -Wshadow \
 -Wshift-overflow=2 \
 -Wsign-conversion \
 -Wsign-promo \
-# -Wstrict-aliasing=n  # uses default value is ok
 -Wstrict-null-sentinel \
 -Wstrict-overflow=4 \
 -Wstrict-prototypes \
@@ -108,6 +109,7 @@ set(x "\
 -Wtrampolines \
 -Wundef \
 -Wunknown-pragmas \
+-Wunsafe-loop-optimizations \
 -Wunsuffixed-float-constants \
 -Wunused-macros \
 -Wuse-after-free=3 \
@@ -118,3 +120,7 @@ set(x "\
 -Wzero-as-null-pointer-constant \
 
 ")
+
+
+
+# -Wstrict-aliasing=n  # uses default value is ok

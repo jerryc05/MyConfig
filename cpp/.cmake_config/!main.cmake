@@ -174,7 +174,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 -flto \
 -fmodulo-sched -fmodulo-sched-allow-regmoves \
 -fno-exceptions \
--fno-rtti \
 -fsched-pressure \
 -fsched-spec-load -fsched-spec-load-dangerous \
 -fsched-stalled-insns=0 -fsched-stalled-insns-dep \
@@ -254,14 +253,11 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
 
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
--fcoroutines-ts \
 -fdouble-square-bracket-attributes \
 -fexperimental-new-pass-manager \
 -fenable-matrix \
 -fforce-enable-int128 \
--fmodules-ts \
 -frelaxed-template-template-args \
--fsized-deallocation \
 -fzvector \
 \
 -fcolor-diagnostics \
@@ -525,7 +521,6 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
 -fmerge-all-constants \
 -fno-cxx-exceptions \
 -fno-exceptions \
--fno-rtti \
 -foptimize-sibling-calls \
 -fslp-vectorize -ftree-slp-vectorize \
 -fstrict-enums \
