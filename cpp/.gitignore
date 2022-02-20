@@ -86,6 +86,7 @@ compile_commands.json
 # Build files
 /build
 cmake-build*/
+CMakeFiles/
 
 # [gprof] output
 gmon.out
