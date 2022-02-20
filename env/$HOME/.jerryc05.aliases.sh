@@ -35,15 +35,6 @@ command -v delta >/dev/null && xdelta() {
   out__=$(delta --width $(tput cols) -ns $*) && echo $out__ && [ -z $out__ ]
 }
 
-# Fix button functionality for zsh
-command -v bindkey >/dev/null && {
-  bindkey "^[[H"    beginning-of-line;
-  bindkey "^[[F"    end-of-line;
-  bindkey "^[[3~"   delete-char;
-  bindkey "^[[1;5C" forward-word;
-  bindkey "^[[1;5D" backward-word;
-}
-
 # Show hidden files in iFinder
 [ "$(uname -s)" = "Darwin" ] && defaults write com.apple.finder AppleShowAllFiles YES
 

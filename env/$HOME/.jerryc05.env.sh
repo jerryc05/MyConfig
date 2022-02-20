@@ -45,3 +45,18 @@ if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; t
     fi
   fi
 fi
+
+# Zsh tweaks
+if [ ! -z "$ZSH_VERSION" ]; then
+  # Make zsh's asterisk work like bash's
+  setopt nonomatch
+
+  # Fix button functionality for zsh
+  command -v bindkey >/dev/null && {
+    bindkey "^[[H"    beginning-of-line;
+    bindkey "^[[F"    end-of-line;
+    bindkey "^[[3~"   delete-char;
+    bindkey "^[[1;5C" forward-word;
+    bindkey "^[[1;5D" backward-word;
+  }
+fi
