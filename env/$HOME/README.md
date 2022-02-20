@@ -129,6 +129,9 @@ git config --global init.defaultBranch          main
 git config --global push.recursesubmodules      check
 git config --global core.usebuiltinfsmonitor    true
 
+git config --global pull.rebase true
+git config --global rebase.autoStash true
+
 git config --global alias.adog 'log --all --decorate --oneline --graph'
 
 #pacman -S kdiff3 || apt install kdiff3 || brew install --cask kdiff3
