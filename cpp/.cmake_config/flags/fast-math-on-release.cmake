@@ -8,7 +8,11 @@ message(CHECK_START "[UNSAFE MATH]")
 include(${__CFG__}/try-add-flag.cmake)
 
 if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Release")
-    try_add_flag(CMAKE_CXX_FLAGS_RELEASE -ffast-math -ffp-model=fast -funsafe-math-optimizations)
+    try_add_flag(CMAKE_CXX_FLAGS_RELEASE
+                 -ffast-math
+
+                 -ffp-model=fast
+                 )
     message(CHECK_PASS "OK")
 
 else()

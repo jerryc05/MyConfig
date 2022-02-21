@@ -13,8 +13,7 @@ set(CMAKE_CXX_STANDARD 20)
 message(STATUS "==================== BEGIN OF CMAKE PRE CONFIG ====================")
 
 set(__CFG__ ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config)
-
-# Clang-tidy must be set before targets
+include(${__CFG__}/default-vars.cmake)
 include(${__CFG__}/clang-tidy.cmake)
 include(${__CFG__}/cppcheck.cmake)
 include(${__CFG__}/enable-ipo-on-release.cmake)
@@ -39,7 +38,7 @@ include(${__CFG__}/compiler-info.cmake)
 include(${__CFG__}/latest-std.cmake)
 include(${__CFG__}/ccache.cmake)
 
-include(${__CFG__}/use-unsafe-math-on-release.cmake)
+include(${__CFG__}/flags/fast-math-on-release.cmake)
 
 
 

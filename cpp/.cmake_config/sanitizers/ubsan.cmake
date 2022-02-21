@@ -6,9 +6,11 @@ if(__DBG_SANITIZE_UB__)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
 -fsanitize=undefined \
 \
+-fsanitize-undefined-trap-on-error \
 -fsanitize=alignment \
 -fsanitize=bool \
 -fsanitize=bounds \
+-fsanitize=bounds-strict \
 -fsanitize=builtin \
 -fsanitize=enum \
 -fsanitize=float-cast-overflow \
@@ -16,16 +18,18 @@ if(__DBG_SANITIZE_UB__)
 -fsanitize=integer-divide-by-zero \
 -fsanitize=nonnull-attribute \
 -fsanitize=null \
+-fsanitize=object-size \
 -fsanitize=pointer-overflow \
 -fsanitize=return \
 -fsanitize=returns-nonnull-attribute \
--fsanitize=shift -fsanitize=shift-base -fsanitize=shift-exponent \
+-fsanitize=shift \
+-fsanitize=shift-base \
+-fsanitize=shift-exponent \
 -fsanitize=signed-integer-overflow \
 -fsanitize=unreachable \
 -fsanitize=vla-bound \
 -fsanitize=vptr \
 ")
-    # "-fsanitize-undefined-trap-on-error" enable this only when libubsan is unavailable
 
     set(__INCLUDE_SANITIZER_OPTIONS__ ON)
 
@@ -36,8 +40,6 @@ if(__DBG_SANITIZE_UB__)
 
     if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
--fsanitize=bounds-strict \
--fsanitize=object-size \
 ")
         # "-O0" has no effect for object-size sanitizer [clang]
 

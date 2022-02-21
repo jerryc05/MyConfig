@@ -90,8 +90,9 @@ set(x "\
 -Wshift-overflow=2 \
 -Wsign-conversion \
 -Wsign-promo \
+-Wstrict-aliasing=1 \
 -Wstrict-null-sentinel \
--Wstrict-overflow=4 \
+-Wstrict-overflow=5 \
 -Wstrict-prototypes \
 -Wstring-compare \
 -Wstringop-overflow=4 \

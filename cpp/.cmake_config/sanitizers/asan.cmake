@@ -14,6 +14,14 @@ if(__DBG_SANITIZE_ADDR__)
 \
 -g3 \
 ")
+
+# todo define _GLIBCXX_SANITIZE_VECTOR macro
+
+
+
+
+
+
     # any optimization level will fail leak check
 
     set(__INCLUDE_SANITIZER_OPTIONS__ ON)
@@ -39,5 +47,4 @@ else()
 endif()
 message(STATUS "")
 
-# [MSG] "-fsanitize-undefined-trap-on-error" enable this only when libubsan is available
 # [DEL] "-fsanitize-coverage=trace-pc" needs kernel support
