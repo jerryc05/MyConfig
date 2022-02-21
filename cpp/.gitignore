@@ -90,6 +90,7 @@ CMakeFiles/
 
 # [gprof] output
 gmon.out
+*.gcda
 
 # Binary output
 /bin/*
