@@ -8,14 +8,15 @@ string(REGEX MATCH "CMAKE_C[^_]*"
 
 if(NOT "${__LANG__}" STREQUAL "")
     execute_process(COMMAND ${${__LANG__}_COMPILER} "-fsyntax-only" "${__CFG__}/empty.h" ${ARGN}
-                    RESULT_VARIABLE __EXIT_CODE__)
+                    RESULT_VARIABLE __EXIT_CODE__
+                    ERROR_QUIET)
 
     if(__EXIT_CODE__ EQUAL "0")
         list(JOIN ARGN " " __FLAGS__)
         set(${__DEST__} "${${__DEST__}} ${__FLAGS__}"
             PARENT_SCOPE )
     else()
-        message(STATUS "WARN: Arg not supported: [${ARGN}]!")
+        message(STATUS "WARN: Ignoring flag: [${ARGN}]!")
     endif()
 
 else()

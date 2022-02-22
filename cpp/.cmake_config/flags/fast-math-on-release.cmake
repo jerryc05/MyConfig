@@ -7,7 +7,7 @@ message(CHECK_START "[UNSAFE MATH]")
 
 include(${__CFG__}/try-add-flag.cmake)
 
-if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Release")
+if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
     try_add_flag(CMAKE_CXX_FLAGS_RELEASE
                  -ffast-math
 

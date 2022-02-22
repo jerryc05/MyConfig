@@ -7,121 +7,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 
 
 
-    #[[
-
-
-    ]]
-
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} \
--fdiagnostics-color=always \
--Wall \
--Wextra \
-\
--Walloc-zero -Walloca \
--Wcast-align \
--Wcast-qual \
--Wconversion \
--Wdisabled-optimization \
--Wdouble-promotion \
--Wduplicated-branches \
--Wduplicated-cond \
--Weffc++ \
--Werror=pessimizing-move \
--Werror=redundant-move \
--Werror=return-type \
--Wextra-semi \
--Wfloat-equal \
--Wformat=2 \
--Wformat-nonliteral \
--Wformat-security \
--Wformat-signedness \
--Wformat-y2k \
--Winit-list-lifetime \
--Winline \
--Winvalid-offsetof \
--Winvalid-pch \
--Wliteral-suffix \
--Wlogical-op \
--Wmismatched-tags \
--Wmissing-format-attribute \
--Wmissing-include-dirs \
--Wmultichar \
--Wnoexcept \
--Wnoexcept-type \
--Wnon-virtual-dtor \
--Wnull-dereference \
--Wold-style-cast \
--Woverloaded-virtual \
--Wpacked \
--Wpedantic \
--Wpointer-arith \
--Wredundant-decls \
--Wredundant-tags \
--Wregister \
--Wreorder \
--Wscalar-storage-order \
--Wshadow \
--Wshift-overflow=2 \
--Wsign-conversion \
--Wsign-promo \
--Wstrict-null-sentinel \
--Wsuggest-attribute=cold \
--Wsuggest-attribute=const \
--Wsuggest-attribute=format \
--Wsuggest-attribute=malloc \
--Wsuggest-attribute=noreturn \
--Wsuggest-attribute=pure \
--Wsuggest-final-methods \
--Wsuggest-final-types \
--Wsuggest-override \
--Wswitch-default \
--Wswitch-enum \
--Wundef \
--Wunknown-pragmas \
--Wunused-macros \
--Wuseless-cast \
--Wvector-operation-performance \
--Wzero-as-null-pointer-constant \
-")
-    # [DEL] "-Wmissing-declarations" is not useful in practice
-    # [DEL] "Wpadded" is not useful in practice (much too verbose)
-    message(STATUS "")
-
-    #[[
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ]]
-
-    if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Debug")
-        message(STATUS "CMAKE IN DEBUG MODE")
-        message(STATUS "")
-
-        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
--O0 -g3 \
-\
--D_FORTIFY_SOURCE=2 \
--D_GLIBCXX_DEBUG \
--fstack-protector-all \
--ftrapv \
-")
-# needed by backtrace
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
--rdynamic \
-")
 
         include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/asan.cmake)
         include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/lsan-standalone.cmake)
@@ -158,34 +43,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
         include(ProcessorCount)
         ProcessorCount(__N_CORES__)
 
-        set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} \
--Ofast -march=native \
-\
--fdata-sections \
--fdelete-dead-exceptions \
--ffinite-loops \
--ffunction-sections \
--fgcse-las -fgcse-sm \
--fipa-pta -fira-loop-pressure \
--fisolate-erroneous-paths-attribute \
--floop-nest-optimize \
--floop-parallelize-all \
--flto \
--fmodulo-sched -fmodulo-sched-allow-regmoves \
--fno-exceptions \
--fsched-pressure \
--fsched-spec-load -fsched-spec-load-dangerous \
--fsched-stalled-insns=0 -fsched-stalled-insns-dep \
--fsched2-use-superblocks \
--fschedule-insns \
--fsel-sched-pipelining -fsel-sched-pipelining-outer-loops \
--fselective-scheduling -fselective-scheduling2 \
--fsplit-wide-types-early \
--fstrict-enums \
--ftree-lrs -ftree-parallelize-loops=${__N_CORES__} -ftree-vectorize \
--funroll-loops \
--fvariable-expansion-in-unroller \
-")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
 -s \
 ")
@@ -440,19 +297,6 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
         message(STATUS "CMAKE IN DEBUG MODE")
         message(STATUS "")
 
-        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
--O0 -g3 \
-\
--D_FORTIFY_SOURCE=2 \
--D_GLIBCXX_DEBUG \
--fcxx-exceptions \
--fstack-clash-protection \
--fstack-protector-all \
--ftrapv \
-")
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
--rdynamic \
-")
 
         include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/asan.cmake)
         include(${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config/lsan-standalone.cmake)

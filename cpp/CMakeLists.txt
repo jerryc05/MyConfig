@@ -40,6 +40,10 @@ include(${__CFG__}/ccache.cmake)
 
 include(${__CFG__}/flags/fast-math-on-release.cmake)
 
+include(${__CFG__}/flags/warnings.cmake)
+include(${__CFG__}/flags/debug.cmake)
+include(${__CFG__}/flags/release.cmake)
+
 
 
 # At most one of the following three can be used at the same time

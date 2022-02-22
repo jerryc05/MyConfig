@@ -1,87 +1,53 @@
+# Copyright (c) 2019-2022 Ziyan "Jerry" Chen (@jerryc05).
+#                         All rights reserved.
 
-        include(ProcessorCount)
-        ProcessorCount(__NPROCS__)
-
-
-
--Ofast -march=native
+include(${__CFG__}/try-add-flag.cmake)
 
 
--fconstexpr-cache-depth=99
--fconstexpr-depth=999
--fconstexpr-loop-limit=999999
--fconstexpr-ops-limit=99999999
--ffat-lto-objects
+include(ProcessorCount)
+ProcessorCount(__NPROCS__)
+
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -Ofast)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -march=native)
+
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fconstexpr-cache-depth=99)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fconstexpr-depth=999)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fconstexpr-loop-limit=999999)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fconstexpr-ops-limit=99999999)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fdelete-dead-exceptions)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -ffat-lto-objects)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fgcse-las)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fgcse-sm)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fimplicit-constexpr)
+#                                    -finline-limit=n  # Let compiler decide!
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fipa-pta)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fira-loop-pressure)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fisolate-erroneous-paths-attribute)
+
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fivopts)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -floop-nest-optimize)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -floop-parallelize-all)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fmerge-all-constants)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fmodulo-sched)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fmodulo-sched-allow-regmoves)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -freg-struct-return)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fsched-pressure)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fsched-spec-load)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fsched-spec-load-dangerous)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fsimd-cost-model=unlimited)
+#                                    -fsplit-wide-types-early  # Let compiler decide!
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fstrict-enums)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fstrict-overflow)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -ftree-parallelize-loops=${__NPROCS__})
+#                                    -ftree-vectorize  # Enabled at -O2+
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -ftrivial-auto-var-init=uninitialized)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -funroll-loops)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fvariable-expansion-in-unroller --param max-variable-expansions-in-unroller=8)
+try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fvect-cost-model=unlimited)
 
 
--fimplicit-constexpr
--fivopts
-
--floop-parallelize-all \
--fmerge-all-constants
--fmodulo-sched
--fmodulo-sched-allow-regmoves
-
--freg-struct-return
-
--fsched-spec-load
--fsched-spec-load-dangerous
-
-
--fsimd-cost-model=unlimited
--fstrict-enums
--fstrict-overflow
-
--ftree-parallelize-loops=${__NPROCS__}
-
--ftrivial-auto-var-init=uninitialized
--fvect-cost-model=unlimited
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--fdata-sections \
--fdelete-dead-exceptions \
--ffinite-loops \
--ffunction-sections \
--fgcse-las -fgcse-sm \
--fipa-pta -fira-loop-pressure \
--fisolate-erroneous-paths-attribute \
--floop-nest-optimize \
--flto \
--fmodulo-sched -fmodulo-sched-allow-regmoves \
--fno-exceptions \
--fsched-pressure \
--fsched-spec-load -fsched-spec-load-dangerous \
--fsched-stalled-insns=0 -fsched-stalled-insns-dep \
--fsched2-use-superblocks \
--fschedule-insns \
--fsel-sched-pipelining -fsel-sched-pipelining-outer-loops \
--fselective-scheduling -fselective-scheduling2 \
--fsplit-wide-types-early \
--ftree-lrs  -ftree-vectorize \
--funroll-loops \
--fvariable-expansion-in-unroller \
-
-
-# -finline-limit=n  # Let compiler decide!
-# -fsplit-wide-types-early  # Let compiler decide!
+if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
+-s \
+")
+endif()
