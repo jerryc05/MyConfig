@@ -39,6 +39,7 @@ include(${__CFG__}/latest-std.cmake)
 include(${__CFG__}/ccache.cmake)
 
 include(${__CFG__}/flags/fast-math-on-release.cmake)
+include(${__CFG__}/flags/strip-symbols-on-release.cmake)
 
 include(${__CFG__}/flags/warnings.cmake)
 include(${__CFG__}/flags/debug.cmake)

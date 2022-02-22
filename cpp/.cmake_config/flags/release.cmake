@@ -44,10 +44,3 @@ try_add_flag(CMAKE_CXX_FLAGS_RELEASE -ftrivial-auto-var-init=uninitialized)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -funroll-loops)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fvariable-expansion-in-unroller --param max-variable-expansions-in-unroller=8)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fvect-cost-model=unlimited)
-
-
-if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} \
--s \
-")
-endif()
