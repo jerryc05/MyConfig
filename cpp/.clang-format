@@ -18,7 +18,6 @@ AllowShortEnumsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: All
 AllowShortLambdasOnASingleLine: All
 AllowShortLoopsOnASingleLine: true
-AlwaysBreakAfterReturnType: AllDefinitions
 BinPackArguments: true
 BinPackParameters: false
 BitFieldColonSpacing: After
