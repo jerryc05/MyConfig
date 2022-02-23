@@ -33,7 +33,7 @@ DeriveLineEnding: true
 EmptyLineBeforeAccessModifier: Always
 FixNamespaceComments: true
 IncludeBlocks: Regroup
-IndentAccessModifiers: true  # clang-format 13
+# IndentAccessModifiers: false  # clang-format 13  # [true] results in structs indenting two levels
 IndentCaseBlocks: false
 IndentCaseLabels: true
 IndentExternBlock: Indent  # clang-format 12
