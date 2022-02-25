@@ -39,7 +39,11 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Edit `/etc/pacman.d/mirrorlist`, uncomment all mirrors you want to enable. E.g.:
     ```
-    sed s/#S/S/ /etc/pacman.d/mirrorlist -i
+    mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist.bak \
+      >>/etc/pacman.d/mirrorlist
+    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist.bak \
+      >>/etc/pacman.d/mirrorlist
     ```
 
 0.  ```
@@ -47,12 +51,22 @@ See https://github.com/yuk7/ArchWSL
     pacman -S archlinux-keyring 
     gpgconf --kill all
     ```
+    
+0.  Rank mirrors by `pacman -S pacman-contrib` ([Wiki](https://wiki.archlinux.org/title/Mirrors#List_by_speed)), then 
+    ```
+    rankmirrors -n 9 /etc/pacman.d/mirrorlist >/tmp/mirror
+    mv /tmp/mirror /etc/pacman.d/mirrorlist
+    ```
 
-0.  Edit `/etc/pacman.conf`, uncomment the line `Color` under `# Misc options` and save
+0.  Edit `/etc/pacman.conf`, uncomment the line `Color` under `# Misc options` and save. E.g.:
+    ```
+    sed s/^#Color/Color/ /etc/pacman.conf -i
+    ```
 
-0.  Locale:
-    1.  `pacman -S sed`
-    2.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`
+0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
+    ```
+    sed s/^#en_US.UTF-8/en_US.UTF-8/ /etc/locale.gen -i
+    ```
 
 0.  Set password for `root` user: `passwd`
 
