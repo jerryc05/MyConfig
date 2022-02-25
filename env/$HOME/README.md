@@ -132,8 +132,7 @@ git config --global core.usebuiltinfsmonitor    true
 git config --global pull.rebase true
 git config --global rebase.autoStash true
 
-git config --global alias.adog 'log --all --decorate --oneline --graph'
+git config --global gpg.format ssh
 
-#pacman -S kdiff3 || apt install kdiff3 || brew install --cask kdiff3
-#git config --global merge.tool kdiff3
+git config --global alias.adog 'log --all --decorate --oneline --graph'
 ```
