@@ -37,7 +37,10 @@ See https://github.com/yuk7/ArchWSL
     pacman-key --populate
     ```
 
-0.  Edit `/etc/pacman.d/mirrorlist`, uncomment all mirrors you want to enable
+0.  Edit `/etc/pacman.d/mirrorlist`, uncomment all mirrors you want to enable. E.g.:
+    ```
+    sed s/#S/S/ /etc/pacman.d/mirrorlist -i
+    ```
 
 0.  ```
     pacman -Syyu
