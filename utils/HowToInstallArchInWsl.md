@@ -74,16 +74,17 @@ See https://github.com/yuk7/ArchWSL
     1.  `pacman -S sudo`
     2.  Edit `/etc/sudoers`, uncomment the following lines and save:
         ```
-        # %wheel ALL=(ALL) ALL
+        # %sudo ALL=(ALL) ALL
         ```
+        or:
         ```
         # Defaults targetpw  # Ask for the password of the target user
         # ALL ALL=(ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
         ```
 
 0.  Add new user:
-    1.  Add:  
-        1.  admin user: `useradd -m -G wheel <username>`
+    1.  Add:
+        1.  admin user: `groupadd sudo && useradd -m <username> -G sudo`
         2.  normal user: `useradd -m <username>`
     
     2.  Set password: `passwd <username>`
@@ -97,7 +98,7 @@ See https://github.com/yuk7/ArchWSL
             1.  Get `uid` of user:
                 ```
                 $ id -u <username>
-                uid=1000(username) ...
+                <uid>
                 ```
                 In this case, `uid` is `1000`
             2.  `LxRunOffline`:
@@ -109,5 +110,6 @@ See https://github.com/yuk7/ArchWSL
     ```
     cd /tmp
     curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin
+    sudo pacman -S binutils
     makepkg -si
     ```
