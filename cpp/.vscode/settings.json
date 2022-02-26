@@ -64,6 +64,7 @@
     "typeinfo": "cpp",
     "variant": "cpp",
     "queue": "cpp",
-    "span": "cpp"
+    "span": "cpp",
+    "list": "cpp"
   },
 }

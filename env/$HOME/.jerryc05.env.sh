@@ -46,6 +46,10 @@ if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; t
   fi
 fi
 
+# XDG Variables
+test ${XDG_CONFIG_HOME:="$HOME/.config"}
+test ${XDG_DATA_HOME:="$HOME/.local/share"}
+
 # Zsh tweaks
 if [ ! -z "$ZSH_VERSION" ]; then
   # Fix button functionality for zsh
