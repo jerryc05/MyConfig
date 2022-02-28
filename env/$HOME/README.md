@@ -122,8 +122,12 @@ git config --get-regexp 'rerere.*'
 #git config --global commit.gpgsign         true
 #git config --global tag.gpgsign            true
 #git config --global tag.forceSignAnnotated true
+# If sign using ssh
+#git config --global gpg.format ssh
+#git config --global gpg.ssh.defaultKeyCommand 'ssh-add -L'
+# If sign using pgp
 #git config --global gpg.program "/path/to/gpg_executable"
-#git config --global user.signingkey KEY_ID_HERE
+#git config --global user.signingkey GPG_KEY_ID_OR_SSH_PUBKEY_HERE
 
 git config --global init.defaultBranch          main
 git config --global push.recursesubmodules      check
@@ -131,8 +135,8 @@ git config --global core.usebuiltinfsmonitor    true
 
 git config --global pull.rebase true
 git config --global rebase.autoStash true
+git config --global help.autoCorrect prompt
 
-git config --global gpg.format ssh
 
 git config --global alias.adog 'log --all --decorate --oneline --graph'
 ```
