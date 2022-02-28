@@ -15,7 +15,6 @@
 #define RestrictPtr __restrict
 
 #define NoDiscard _GLIBCXX_NODISCARD
-#define NoExcept  _GLIBCXX_NOEXCEPT
 #define NoReturn  _GLIBCXX_NORETURN
 #define NoThrow   _GLIBCXX_NOTHROW
 
@@ -34,12 +33,9 @@
 #  define PureFn           __attribute__((pure)) _GLIBCXX_PURE
 #  define ReturnsNonNullFn __attribute__((returns_nonnull))
 
-#  define NoInlineFn     __attribute__((noinline))
-#  define NonNullFn      __attribute__((nonnull))
-#  define NonNullFn(...) __attribute__((nonnull, __VA_ARGS__))
-
-#  define AssumeAlignedFn(align)         __attribute__((assume_aligned(align)))
-#  define AssumeAlignedFn(align, offset) __attribute__((assume_aligned((align), (offset))))
+#  define NoInlineFn                     __attribute__((noinline))
+//#  define NonNullFn                      __attribute__((nonnull))
+#  define NonNullFn(...)                 __attribute__((nonnull, __VA_ARGS__))
 
 // use C++11 alignas(...) keyword for variables
 
@@ -61,7 +57,8 @@
 namespace std {
   template <size_t ALIGN, size_t OFFSET, class T>
   NoDiscard ForceInline ConstExpr T*
-  assume_aligned(T* ptr) NoExcept AssumeAlignedFn(ALIGN, OFFSET) {
+  __attribute__((assume_aligned(ALIGN, OFFSET))) 
+  assume_aligned(T* ptr) noexcept {
     return reinterpret_cast<T*>(__builtin_assume_aligned(ptr, ALIGN));
   }
 }  // namespace std
