@@ -100,3 +100,6 @@ __*
 
 # Ignore any logs
 *.log
+
+# Ignore backups
+*.bak
