@@ -2,6 +2,7 @@
 #               └ Modify files in-place
 
 BasedOnStyle: Chromium
+
 AlignAfterOpenBracket: Align
 AlignArrayOfStructures: Left  # clang-format 13
 AlignConsecutiveAssignments: AcrossComments
@@ -29,7 +30,7 @@ BreakConstructorInitializers: AfterColon
 BreakStringLiterals: true
 ColumnLimit: 100
 DeriveLineEnding: true
-EmptyLineBeforeAccessModifier: Always
+EmptyLineBeforeAccessModifier: LogicalBlock  # clang-format 12
 FixNamespaceComments: true
 IncludeBlocks: Regroup
 # IndentAccessModifiers: false  # clang-format 13  # [true] results in structs indenting two levels
@@ -72,4 +73,6 @@ SpacesInLineCommentPrefix:  # clang-format 14
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard: Latest
+TabWidth: 2
 UseCRLF: false
+UseTab: ForIndentation
