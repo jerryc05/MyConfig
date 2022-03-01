@@ -73,6 +73,4 @@ SpacesInLineCommentPrefix:  # clang-format 14
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 Standard: Latest
-TabWidth: 2
 UseCRLF: false
-UseTab: ForIndentation
