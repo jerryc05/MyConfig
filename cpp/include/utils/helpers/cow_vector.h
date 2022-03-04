@@ -12,8 +12,8 @@
 namespace jerryc05 {
 
   /// Not thread-safe!
-  /// [IS_TRIVIALLY_MOVE_DESTRUCTIBLE] means whether the T can be moved without calling destructor
-  /// [GROWTH_RATE] defaults to the solution of [x^0+x^1+x^2+x^3 = x^5] => [x≈1.5341577449]
+  /// [IS_TRIVIALLY_MOVE_DESTRUCTIBLE] shows if [T] does not need to call destructor after moved
+  /// [GROWTH_RATE] defaults to the solution of [x^0+x^1+x^2+x^3<=x^5] => [x≈1.5341577449]
   template <class T,
             bool IS_TRIVIALLY_MOVE_DESTRUCTIBLE = false,
             class GROWTH_RATE                   = std::ratio<1645915, 1072846>>
