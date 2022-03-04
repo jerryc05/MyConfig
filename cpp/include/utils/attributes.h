@@ -7,18 +7,15 @@
 
 #include <bits/c++config.h>
 
-#include "constants.h"
-
 
 // ============================================================================
-#define ConstExpr   _GLIBCXX_CONSTEXPR
 #define RestrictPtr __restrict
 
 #define NoDiscard _GLIBCXX_NODISCARD
 #define NoReturn  _GLIBCXX_NORETURN
 #define NoThrow   _GLIBCXX_NOTHROW
 
-#if __cplusplus >= __cpp_2017
+#if __cplusplus >= 201603
 #  define MaybeUnused [[maybe_unused]]
 #else
 #  define MaybeUnused __attribute__((unused))
@@ -56,8 +53,8 @@
 
 namespace std {
   template <size_t ALIGN, size_t OFFSET, class T>
-  NoDiscard ForceInline ConstExpr T*
-  __attribute__((assume_aligned(ALIGN, OFFSET))) 
+  NoDiscard ForceInline constexpr T*
+  __attribute__((assume_aligned(ALIGN, OFFSET)))
   assume_aligned(T* ptr) noexcept {
     return reinterpret_cast<T*>(__builtin_assume_aligned(ptr, ALIGN));
   }

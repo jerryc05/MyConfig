@@ -5,11 +5,11 @@
 
 #pragma once
 
-#include "constants.h"
 #include "macros.h"
 
 
 // ============================================================================
+#include "impls/optional_compat.h"
 #include "impls/span_compat.h"
 #include "impls/stddef_compat.h"
 #include "impls/type_traits_compat.h"

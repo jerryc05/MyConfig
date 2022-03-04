@@ -20,7 +20,7 @@
 // debugBytes(void* ptr, std::size_t size) {
 //   auto charTPtr = reinterpret_cast<CharT*>(ptr);
 
-//   ConstExpr auto hexWidth        = 2 * sizeof(CharT);
+//   constexpr auto hexWidth        = 2 * sizeof(CharT);
 //   const auto     sizeToPrint     = std::min(size, MAX_SIZE);
 //   const auto     printCharMargin = [sizeToPrint]() {
 //     OS << '|' << std::setfill('-')

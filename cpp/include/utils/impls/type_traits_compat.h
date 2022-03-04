@@ -12,19 +12,19 @@
 namespace std {
 #if not __cpp_lib_type_trait_variable_templates
   template <class T>
-  ConstExpr bool is_const_v = is_const<T>::value;
+  constexpr bool is_const_v = is_const<T>::value;
 
   template <class T>
-  ConstExpr bool is_lvalue_reference_v = is_lvalue_reference<T>::value;
+  constexpr bool is_lvalue_reference_v = is_lvalue_reference<T>::value;
 
   template <class T>
-  ConstExpr bool is_rvalue_reference_v = is_rvalue_reference<T>::value;
+  constexpr bool is_rvalue_reference_v = is_rvalue_reference<T>::value;
 
   template <class T, class U>
-  ConstExpr bool is_same_v = is_same<T, U>::value;
+  constexpr bool is_same_v = is_same<T, U>::value;
 
   template <class T>
-  ConstExpr bool is_volatile_v = is_volatile<T>::value;
+  constexpr bool is_volatile_v = is_volatile<T>::value;
 #endif
 }  // namespace std
 
