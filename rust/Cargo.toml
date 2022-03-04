@@ -22,5 +22,5 @@ categories = [
 
 [profile.release]
 codegen-units = 1
-lto = true
+lto = fat
 panic = 'abort'

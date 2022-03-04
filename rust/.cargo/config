@@ -11,6 +11,8 @@ rr = "run --release"
 rustflags = [
     "-Clink-args=-s",
     "-Ctarget-cpu=native",
+    "-Clinker-plugin-lto",
+    "-Ztune-cpu=machine
 ]
     #"-Cllvm-args=",
     #
@@ -20,6 +22,8 @@ rustflags = [
     #"-Zsanitizer=?"
     #"-Zsanitizer-memory-track-origins=1"
     #"-Zsaturating-float-casts=1"
+
+    #"-Zmutable-noalias"
 
 
 [profile.release]
