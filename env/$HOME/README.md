@@ -86,11 +86,8 @@ Use at your **OWN** risk.
         -e 's/# *java_version/java_version/g' \
         -e 's/# *package/package/g' \
         -e 's/# *vpn_ip/vpn_ip/g' \
-        -e 's/# *load/load/g' \
         -e 's/# *disk_usage/disk_usage/g' \
         -e 's/# *ram/ram/g' \
-        -e 's/# *battery/battery/g' \
-        -e 's/# *wifi  /wifi  /g' \
         -e 's/^\( *\)context/#\1context/g'"
         eval "sed $scr -i ~/.p10k.zsh || sed $scr -i '' ~/.p10k.zsh"
         . ~/.p10k.zsh
@@ -139,4 +136,9 @@ git config --global help.autoCorrect prompt
 
 
 git config --global alias.adog 'log --all --decorate --oneline --graph'
+
+git config --global alias.slf 'fetch --depth=1'
+#                         └ [S]ha[l]low [F]etch
+git config --global alias.hrf 'reset FETCH_HEAD --hard'
+#                         └ [H]ard [R]eset to [F]ETCH_HEAD
 ```
