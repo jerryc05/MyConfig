@@ -30,8 +30,7 @@
 #endif
 
 template <class T = void>
-auto
-example_pretty_function() {
+auto example_pretty_function() {
   // "auto example_pretty_function()"
   const char* func = __PRETTY_FUNCTION__;
 }

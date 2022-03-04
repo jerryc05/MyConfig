@@ -11,9 +11,16 @@
 // ============================================================================
 #define RestrictPtr __restrict
 
-#define NoDiscard _GLIBCXX_NODISCARD
-#define NoReturn  _GLIBCXX_NORETURN
-#define NoThrow   _GLIBCXX_NOTHROW
+#if __cplusplus >= 201603
+#  define NoDiscard [[nodiscard]]
+#elif !defined(_MSC_VER)
+#  define NoDiscard __attribute__((warn_unused_result))
+#else
+#  define NoDiscard _Check_return_
+#endif
+
+#define NoReturn _GLIBCXX_NORETURN
+#define NoThrow  _GLIBCXX_NOTHROW
 
 #if __cplusplus >= 201603
 #  define MaybeUnused [[maybe_unused]]
@@ -30,9 +37,9 @@
 #  define PureFn           __attribute__((pure)) _GLIBCXX_PURE
 #  define ReturnsNonNullFn __attribute__((returns_nonnull))
 
-#  define NoInlineFn                     __attribute__((noinline))
+#  define NoInlineFn     __attribute__((noinline))
 //#  define NonNullFn                      __attribute__((nonnull))
-#  define NonNullFn(...)                 __attribute__((nonnull, __VA_ARGS__))
+#  define NonNullFn(...) __attribute__((nonnull, __VA_ARGS__))
 
 // use C++11 alignas(...) keyword for variables
 
@@ -53,8 +60,7 @@
 
 namespace std {
   template <size_t ALIGN, size_t OFFSET, class T>
-  NoDiscard ForceInline constexpr T*
-  __attribute__((assume_aligned(ALIGN, OFFSET)))
+  NoDiscard ForceInline constexpr T* __attribute__((assume_aligned(ALIGN, OFFSET)))
   assume_aligned(T* ptr) noexcept {
     return reinterpret_cast<T*>(__builtin_assume_aligned(ptr, ALIGN));
   }
