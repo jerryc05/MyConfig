@@ -15,15 +15,13 @@ try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fconstexpr-depth=999)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fconstexpr-loop-limit=999999)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fconstexpr-ops-limit=99999999)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fdelete-dead-exceptions)
-try_add_flag(CMAKE_CXX_FLAGS_RELEASE -ffat-lto-objects)
+#                                    -ffat-lto-objects  # Let compiler decide!
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fgcse-las)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fgcse-sm)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fimplicit-constexpr)
 #                                    -finline-limit=n  # Let compiler decide!
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fipa-pta)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fira-loop-pressure)
-try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fisolate-erroneous-paths-attribute)
-
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -fivopts)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -floop-nest-optimize)
 try_add_flag(CMAKE_CXX_FLAGS_RELEASE -floop-parallelize-all)

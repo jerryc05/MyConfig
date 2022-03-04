@@ -3,8 +3,13 @@
 
 message(CHECK_START "[INTERPROCEDURAL OPTIMIZATION]")
 
+include(${__CFG__}/try-add-flag.cmake)
+
 
 if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
+    try_add_flag(CMAKE_CXX_FLAGS_RELEASE -flto -ffat-lto-objects)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -flto")
+
     include(CheckIPOSupported)
     check_ipo_supported(RESULT result)
 
@@ -12,7 +17,7 @@ if(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
         set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
         message(CHECK_PASS "OK")
     else()
-        message(CHECK_FAIL "ERR: IPO not supported!")
+        message(CHECK_FAIL "ERR: IPO not supported by CMake, but LTO is enabled!")
     endif()
 
 

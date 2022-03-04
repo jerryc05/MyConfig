@@ -10,7 +10,7 @@ if(__DBG_SANITIZE_MEMORY__)
     if(__IS_MSAN_SUPPORTED__)
         set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} \
     -fno-omit-frame-pointer \
-    -fPIE -pie \
+    -fno-optimize-sibling-calls \
     -fsanitize-memory-track-origins=1 \
     -fsanitize-memory-use-after-dtor \
     -fsanitize=memory \

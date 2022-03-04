@@ -16,7 +16,7 @@ set(__CFG__ ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config)
 include(${__CFG__}/default-vars.cmake)
 include(${__CFG__}/clang-tidy.cmake)
 include(${__CFG__}/cppcheck.cmake)
-include(${__CFG__}/enable-ipo-on-release.cmake)
+include(${__CFG__}/flags/enable-ipo-on-release.cmake)
 include(${__CFG__}/symlink-compile-commands.cmake)
 
 message(STATUS "==================== END   OF CMAKE PRE CONFIG ====================")
@@ -40,6 +40,7 @@ include(${__CFG__}/ccache.cmake)
 
 include(${__CFG__}/flags/fast-math-on-release.cmake)
 include(${__CFG__}/flags/strip-symbols-on-release.cmake)
+include(${__CFG__}/flags/disable-exception-on-release.cmake)
 
 include(${__CFG__}/flags/warnings.cmake)
 include(${__CFG__}/flags/debug.cmake)

@@ -358,7 +358,7 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
 -ffunction-sections \
 -finline-functions \
 -finline-hint-functions \
--flto=full \
+-flto \
 -fmerge-all-constants \
 -fno-cxx-exceptions \
 -fno-exceptions \
@@ -370,8 +370,10 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")  # Last checked version: Clang 11
 -fvirtual-function-elimination \
 -fwhole-program-vtables \
 -mllvm --color \
--mllvm --inline-threshold=1000 \
+
+# -mllvm --inline-threshold=?  # Let compiler decide! More inline hurts instr cache!
 -mllvm --polly \
+
 -mllvm --polly-2nd-level-tiling \
 -mllvm --polly-ast-detect-parallel \
 -mllvm --polly-ast-use-context \
@@ -479,3 +481,8 @@ link_libraries(OpenMP::OpenMP_CXX)
 
 find_package(Threads)
 link_libraries(Threads::Threads)
+
+
+
+-mbranches-within-32B-boundaries
+-falign-functions=32
