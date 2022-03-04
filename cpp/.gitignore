@@ -74,6 +74,12 @@ dkms.conf
 ## File-based project format:
 *.iws
 
+## VS Code
+.vscode/*
+!.vscode/c_cpp_properties.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
 
 # =======================================================
 
@@ -92,6 +98,9 @@ CMakeFiles/
 gmon.out
 *.gcda
 
+# core dumps
+core.*
+
 # Binary output
 /bin/*
 
@@ -103,3 +112,6 @@ __*
 
 # Ignore backups
 *.bak
+
+
+# =======================================================

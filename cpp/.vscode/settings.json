@@ -2,6 +2,7 @@
   "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
   "cmake.buildDirectory": "${workspaceFolder}/cmake-build-${buildType}",
   "cmake.configureOnOpen": true,
+  "editor.formatOnSave": true,
   "files.associations": {
     "array": "cpp",
     "atomic": "cpp",
@@ -65,6 +66,7 @@
     "variant": "cpp",
     "queue": "cpp",
     "span": "cpp",
-    "list": "cpp"
+    "list": "cpp",
+    "xtr1common": "cpp"
   },
 }
