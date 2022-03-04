@@ -91,11 +91,11 @@ namespace jerryc05 {
 
     /// Create from C++ array reference (read-only)
     template <std::size_t N>
-    explicit CowVec(T (&slice)[N]): m_data {slice}, m_size {N}, m_capacity {N} {         }
+    explicit CowVec(T (&slice)[N]): m_data {slice}, m_size {N}, m_capacity {N} {}
 
     /// Create from raw pointer (read-only)
     template <std::size_t N>
-    explicit CowVec(T* ptr): m_data {ptr}, m_size {N}, m_capacity {N} {         }
+    explicit CowVec(T* ptr): m_data {ptr}, m_size {N}, m_capacity {N} {}
 
     bool reserve(std::size_t new_capacity) noexcept(noexcept(std::realloc(nullptr, 0))) {
       if (new_capacity > m_capacity) {
@@ -212,9 +212,11 @@ namespace jerryc05 {
     }
 
     NoDiscard bool _grow_capacity_if_full() noexcept(noexcept(reserve(0))) {
-      if (m_size >= m_capacity) {
+      if (m_capacity == 0) {
+        return reserve(1);
+      } else if (m_size >= m_capacity) {
         assert(("Size must not excceed capacity", m_size == m_capacity));
-        return reserve(m_capacity * GROWTH_RATE());
+        return reserve(std::ceil(m_capacity * GROWTH_RATE()));
       } else
         return true;
     }
