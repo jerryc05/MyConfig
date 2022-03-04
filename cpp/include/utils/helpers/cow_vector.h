@@ -26,14 +26,8 @@ namespace jerryc05 {
     }
 
     ~CowVec() noexcept {
-      if (m_p_ref_count != nullptr) {  // if heap allocated
-        if (*m_p_ref_count == 1) {     // if owned
-          std::free(m_p_ref_count);
-          for (std::size_t i = 0; i < m_size; ++i) m_data[i].~T();
-          std::free(m_data);
-        } else
-          --*m_p_ref_count;
-      }
+      if (m_p_ref_count != nullptr)  // if heap allocated
+        _dec_counter_unsafe();
     }
 
     CowVec(const CowVec& o) noexcept(
@@ -149,6 +143,16 @@ namespace jerryc05 {
 
     NoDiscard std::size_t size() const noexcept { return m_size; }
 
+    void clear() noexcept(std::is_nothrow_destructible_v<T>) {
+      if (m_p_ref_count != nullptr)  // if heap allocated
+        _dec_counter_unsafe();
+      else  // if stack allocated
+        m_capacity = 0;
+
+      m_p_ref_count = nullptr;
+      m_size        = 0;
+    }
+
     template <class... Args>
     T& emplace_back(Args&&... args) noexcept(
         noexcept(this->_grow_capacity_if_full()) && noexcept(this->m_data[0]) &&
@@ -160,11 +164,10 @@ namespace jerryc05 {
       return t;
     }
 
-    T pop_back() {
+    T pop_back() noexcept(std::is_nothrow_move_assignable_v<T>&& _move_destruct(m_data[0])) {
       assert(("Container must be non-empty", m_size > 0));
       auto x = std::move(m_data[--m_size]);
-      if constexpr (!IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
-        m_data[m_size].~T();
+      _move_destruct(m_data[m_size]);
       return x;
     }
 
@@ -188,7 +191,7 @@ namespace jerryc05 {
                                         std::is_nothrow_copy_constructible_v<T>) {
       if (m_p_ref_count != nullptr && *m_p_ref_count == 1)  // if already owned
         return true;
-      assert(("if heap allocated, ref count must > 1",
+      assert(("If heap allocated, ref count must > 1",
               m_p_ref_count == nullptr || *m_p_ref_count > 1));
 
       T*         new_data        = std::malloc(m_capacity * sizeof(T));
@@ -199,26 +202,10 @@ namespace jerryc05 {
       if (succeeded) {
         _copy_assign(new_data);
         if (m_p_ref_count != nullptr)  // if heap allocated
-          --*m_p_ref_count;
+          _dec_counter_unsafe();
         m_p_ref_count = new_p_ref_count;
       }
       return succeeded;
-    }
-
-    void _copy_assign(T* new_data) noexcept(std::is_nothrow_copy_constructible_v<T>) {
-      for (std::size_t i = 0; i < m_size; ++i) new (&new_data[i]) T(m_data[i]);
-      m_data = new_data;
-    }
-
-    void _move_assign(T* new_data) noexcept(std::is_nothrow_move_constructible_v<T> &&
-                                            (IS_TRIVIALLY_MOVE_DESTRUCTIBLE ||
-                                             std::is_nothrow_destructible_v<T>)) {
-      for (std::size_t i = 0; i < m_size; ++i) {
-        new (&new_data[i]) T(std::move(m_data[i]));
-        if constexpr (!IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
-          m_data[i].~T();
-      }
-      m_data = new_data;
     }
 
     NoDiscard bool _grow_capacity_if_full() noexcept(noexcept(reserve(0))) {
@@ -227,6 +214,39 @@ namespace jerryc05 {
         return reserve(m_capacity * GROWTH_RATE());
       } else
         return true;
+    }
+
+    void _dec_counter_unsafe() noexcept(
+        noexcept(std::free(nullptr)) && noexcept(--*m_p_ref_count)) {
+      assert(("Ref counter must be non-null", m_p_ref_count != nullptr));
+
+      if (*m_p_ref_count == 1) {  // if owned
+        std::free(m_p_ref_count);
+        m_p_ref_count = nullptr;
+        for (std::size_t i = 0; i < m_size; ++i) m_data[i].~T();
+        std::free(m_data);
+      } else
+        --*m_p_ref_count;
+    }
+
+    void _copy_assign(T* new_data) noexcept(std::is_nothrow_copy_constructible_v<T>) {
+      for (std::size_t i = 0; i < m_size; ++i) new (&new_data[i]) T(m_data[i]);
+      m_data = new_data;
+    }
+
+    void _move_assign(T* new_data) noexcept(
+        std::is_nothrow_move_constructible_v<T>&& _move_destruct(m_data[0])) {
+      for (std::size_t i = 0; i < m_size; ++i) {
+        new (&new_data[i]) T(std::move(m_data[i]));
+        _move_destruct(m_data[i]);
+      }
+      m_data = new_data;
+    }
+
+    void _move_destruct(T& t) noexcept((IS_TRIVIALLY_MOVE_DESTRUCTIBLE ||
+                                        std::is_nothrow_destructible_v<T>)) {
+      if constexpr (!IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
+        m_data[i].~T();
     }
   };
 }  // namespace jerryc05
