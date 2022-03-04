@@ -89,10 +89,13 @@ namespace jerryc05 {
       l.swap(r);
     }
 
+    /// Create from C++ array reference (read-only)
     template <std::size_t N>
-    explicit CowVec(T (&slice)[N]): m_data {slice}, m_size {N}, m_capacity {N} {
-      // stack allocated
-    }
+    explicit CowVec(T (&slice)[N]): m_data {slice}, m_size {N}, m_capacity {N} {         }
+
+    /// Create from raw pointer (read-only)
+    template <std::size_t N>
+    explicit CowVec(T* ptr): m_data {ptr}, m_size {N}, m_capacity {N} {         }
 
     bool reserve(std::size_t new_capacity) noexcept(noexcept(std::realloc(nullptr, 0))) {
       if (new_capacity > m_capacity) {
@@ -100,7 +103,7 @@ namespace jerryc05 {
         T* new_p_ref_count = m_p_ref_count;
         {
           if (m_p_ref_count == nullptr || *m_p_ref_count != 1) {
-            // if stack allocated or not owned
+            // if read-only or not owned
             assert(("if heap allocated, ref count must > 1",
                     m_p_ref_count == nullptr || *m_p_ref_count > 1));
             new_data         = static_cast<T*>(std::malloc(new_capacity * sizeof(T)));
@@ -146,7 +149,7 @@ namespace jerryc05 {
     void clear() noexcept(std::is_nothrow_destructible_v<T>) {
       if (m_p_ref_count != nullptr)  // if heap allocated
         _dec_counter_unsafe();
-      else  // if stack allocated
+      else  // if read-only
         m_capacity = 0;
 
       m_p_ref_count = nullptr;
@@ -184,7 +187,7 @@ namespace jerryc05 {
    private:
     T*                 m_data = nullptr;
     std::size_t        m_size = 0, m_capacity = 0;
-    mutable RefCountT* m_p_ref_count = nullptr;  // remains [nullptr] if stack allocated
+    mutable RefCountT* m_p_ref_count = nullptr;  // remains [nullptr] if read-only
 
     /// Returns whether COW goes as expected
     NoDiscard bool _to_owned() noexcept(noexcept(std::malloc(0)) &&
