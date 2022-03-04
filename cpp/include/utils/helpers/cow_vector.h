@@ -103,10 +103,7 @@ namespace jerryc05 {
       // stack allocated
     }
 
-    bool reserve(std::size_t new_capacity) noexcept(noexcept(std::realloc(nullptr, 0)) &&
-                                                    std::is_nothrow_move_constructible_v<T> &&
-                                                    (IS_TRIVIALLY_MOVE_DESTRUCTIBLE ||
-                                                     std::is_nothrow_destructible_v<T>)) {
+    bool reserve(std::size_t new_capacity) noexcept(noexcept(std::realloc(nullptr, 0))) {
       if (new_capacity > m_capacity) {
         T* new_data;
         {
@@ -120,12 +117,8 @@ namespace jerryc05 {
 
         if (new_data != nullptr) {
           if (m_data != new_data) {
-            for (std::size_t i = 0; i < m_size; ++i) {
-              new (&new_data[i])
-                  T(std::move(m_data[i]));  // ! dont move if not owned, use to_owned first
-              if constexpr (!IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
-                m_data[i].~T();
-            }
+						assert(("Must not be stack allocated", m_p_ref_count != nullptr));
+            _move_assign(new_data);
             m_data = new_data;
           }
           m_capacity = new_capacity;
@@ -196,7 +189,7 @@ namespace jerryc05 {
                                         std::is_nothrow_copy_constructible_v<T>) {
       if (m_p_ref_count != nullptr && *m_p_ref_count == 1)  // if already owned
         return true;
-      assert(*m_p_ref_count > 1);
+      assert(m_p_ref_count == nullptr || *m_p_ref_count > 1);
 
       T*         new_data        = std::malloc(m_capacity * sizeof(T));
       RefCountT* new_p_ref_count = std::malloc(sizeof(RefCountT));
@@ -204,13 +197,27 @@ namespace jerryc05 {
       const bool succeeded       = new_data != nullptr && new_p_ref_count != nullptr;
 
       if (succeeded) {
-        for (std::size_t i = 0; i < m_size; ++i) new (&new_data[i]) T(m_data[i]);
+        _copy_assign(new_data);
         m_data = new_data;
         if (m_p_ref_count != nullptr)  // if heap allocated
           --*m_p_ref_count;
         m_p_ref_count = new_p_ref_count;
       }
       return succeeded;
+    }
+
+    void _copy_assign(T* new_addr) noexcept(std::is_nothrow_copy_constructible_v<T>) {
+      for (std::size_t i = 0; i < m_size; ++i) new (&new_data[i]) T(m_data[i]);
+    }
+
+    void _move_assign(T* new_addr) noexcept(std::is_nothrow_move_constructible_v<T> &&
+                                            (IS_TRIVIALLY_MOVE_DESTRUCTIBLE ||
+                                             std::is_nothrow_destructible_v<T>)) {
+      for (std::size_t i = 0; i < m_size; ++i) {
+        new (&new_data[i]) T(std::move(m_data[i]));
+        if constexpr (!IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
+          m_data[i].~T();
+      }
     }
 
     NoDiscard bool _grow_capacity_if_full() noexcept(noexcept(reserve(0))) {
