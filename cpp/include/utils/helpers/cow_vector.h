@@ -3,10 +3,8 @@
  *                         All rights reserved.
  */
 
-#include <algorithm>
 #include <cassert>
 #include <ratio>
-#include <stdexcept>
 
 #include "../attributes.h"
 #include "../compats/optional_compat.h"
