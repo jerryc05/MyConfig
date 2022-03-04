@@ -9,17 +9,16 @@
 #include <stdexcept>
 
 #include "../attributes.h"
-#include "../types.h"
+#include "../compats/optional_compat.h"
 
 namespace jerryc05 {
 
   /// Not thread-safe!
   /// [IS_TRIVIALLY_MOVE_DESTRUCTIBLE] means whether the T can be moved without calling destructor
-  /// [GROWTH_RATE] defaults to the solution of [x^0+x^1+x^2+x^3 = x^5]
+  /// [GROWTH_RATE] defaults to the solution of [x^0+x^1+x^2+x^3 = x^5] => [x≈1.5341577449]
   template <class T,
             bool IS_TRIVIALLY_MOVE_DESTRUCTIBLE = false,
-            class GROWTH_RATE                   = std::ratio<1645915, 1072846>,
-            bool DEBUG                          = false>
+            class GROWTH_RATE                   = std::ratio<1645915, 1072846>>
   class CowVec {
    public:
     using RefCountT = std::size_t;
@@ -48,7 +47,7 @@ namespace jerryc05 {
         m_capacity {o.m_capacity},
         m_size {o.m_size},
         m_p_ref_count {o.m_p_ref_count} {
-      assert(&m_p_ref_count != &o.m_p_ref_count);
+      assert(("Must not self-construct", &m_p_ref_count != &o.m_p_ref_count));
       if (m_p_ref_count != nullptr)  // if heap allocated
         ++*m_p_ref_count;
     }
@@ -62,19 +61,19 @@ namespace jerryc05 {
         m_capacity {std::move(o.m_capacity)},
         m_size {std::move(o.m_size)},
         m_p_ref_count {std::move(o.m_p_ref_count)} {
-      assert(&m_p_ref_count != &o.m_p_ref_count);
+      assert(("Must not self-construct", &m_p_ref_count != &o.m_p_ref_count));
       o.m_p_ref_count = nullptr;
     }
 
     auto& operator=(const CowVec& o) noexcept(
         std::is_nothrow_copy_constructible_v<decltype(*this)>&& noexcept(swap(CowVec {o}))) {
-      assert(&m_p_ref_count != &o.m_p_ref_count);
+      assert(("Must not self-assign", &m_p_ref_count != &o.m_p_ref_count));
       swap(CowVec {o});
     }
 
     auto& operator=(CowVec&& o) noexcept(
         std::is_nothrow_move_constructible_v<decltype(*this)>&& noexcept(swap(o))) {
-      assert(&m_p_ref_count != &o.m_p_ref_count);
+      assert(("Must not self-assign", &m_p_ref_count != &o.m_p_ref_count));
       swap(o);
     }
 
@@ -82,7 +81,7 @@ namespace jerryc05 {
         std::is_nothrow_swappable_v<decltype(m_data)>&& std::is_nothrow_swappable_v<
             decltype(m_size)>&& std::is_nothrow_swappable_v<decltype(m_capacity)>&&
                                 std::is_nothrow_swappable_v<decltype(m_p_ref_count)>) {
-      assert(&m_p_ref_count != &o.m_p_ref_count);
+      assert(("Must not self-swap", &m_p_ref_count != &o.m_p_ref_count));
       {
         using std::swap;  // ADL
         swap(m_data, o.m_data);
@@ -94,7 +93,7 @@ namespace jerryc05 {
     }
 
     friend auto swap(CowVec& l, CowVec& r) noexcept(noexcept(l.swap(r))) {
-      assert(&l.m_p_ref_count != &r.m_p_ref_count);
+      assert(("Must not self-swap", &l.m_p_ref_count != &r.m_p_ref_count));
       l.swap(r);
     }
 
@@ -106,41 +105,43 @@ namespace jerryc05 {
     bool reserve(std::size_t new_capacity) noexcept(noexcept(std::realloc(nullptr, 0))) {
       if (new_capacity > m_capacity) {
         T* new_data;
+        T* new_p_ref_count = m_p_ref_count;
         {
           if (m_p_ref_count == nullptr || *m_p_ref_count != 1) {
             // if stack allocated or not owned
-            assert(m_p_ref_count == nullptr || *m_p_ref_count > 1);
-            new_data = static_cast<T*>(std::malloc(new_capacity * sizeof(T)));
+            assert(("if heap allocated, ref count must > 1",
+                    m_p_ref_count == nullptr || *m_p_ref_count > 1));
+            new_data         = static_cast<T*>(std::malloc(new_capacity * sizeof(T)));
+            new_p_ref_count  = std::malloc(sizeof(RefCountT));
+            *new_p_ref_count = 1;
           } else
             new_data = static_cast<T*>(std::realloc(m_data, new_capacity * sizeof(T)));
         }
 
-        if (new_data != nullptr) {
-          if (m_data != new_data) {
-						assert(("Must not be stack allocated", m_p_ref_count != nullptr));
+        const bool& succeeded = new_data != nullptr && new_p_ref_count != nullptr;
+        if (succeeded) {
+          if (m_data != new_data)
             _move_assign(new_data);
-            m_data = new_data;
-          }
           m_capacity = new_capacity;
         }
-        return new_data != nullptr;
+        return succeeded;
 
       } else
         return true;
     }
 
-    const NoDiscard T& operator[](std::size_t i) const noexcept(noexcept(m_data[i])) {
-      assert(i < m_size);
+    const T& operator[](std::size_t i) const noexcept(noexcept(m_data[i])) {
+      assert(("Index must be in range", i < m_size));
       return m_data[i];
     }
 
     NoDiscard std::optional<T&> operator[](std::size_t i) noexcept(
         noexcept(_to_owned()) && noexcept(m_data[i])) {
-      assert(i < m_size);
+      assert(("Index must be in range", i < m_size));
       return _to_owned() ? m_data[i] : ({});
     }
 
-    const NoDiscard T* data() const noexcept { return m_data; }
+    const T* data() const noexcept { return m_data; }
 
     NoDiscard std::optional<T*> data() noexcept(noexcept(_to_owned())) {
       return _to_owned() ? m_data : ({});
@@ -162,7 +163,7 @@ namespace jerryc05 {
     }
 
     T pop_back() {
-      assert(m_size > 0);
+      assert(("Container must be non-empty", m_size > 0));
       auto x = std::move(m_data[--m_size]);
       if constexpr (!IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
         m_data[m_size].~T();
@@ -189,16 +190,16 @@ namespace jerryc05 {
                                         std::is_nothrow_copy_constructible_v<T>) {
       if (m_p_ref_count != nullptr && *m_p_ref_count == 1)  // if already owned
         return true;
-      assert(m_p_ref_count == nullptr || *m_p_ref_count > 1);
+      assert(("if heap allocated, ref count must > 1",
+              m_p_ref_count == nullptr || *m_p_ref_count > 1));
 
       T*         new_data        = std::malloc(m_capacity * sizeof(T));
       RefCountT* new_p_ref_count = std::malloc(sizeof(RefCountT));
       *new_p_ref_count           = 1;
-      const bool succeeded       = new_data != nullptr && new_p_ref_count != nullptr;
+      const bool& succeeded      = new_data != nullptr && new_p_ref_count != nullptr;
 
       if (succeeded) {
         _copy_assign(new_data);
-        m_data = new_data;
         if (m_p_ref_count != nullptr)  // if heap allocated
           --*m_p_ref_count;
         m_p_ref_count = new_p_ref_count;
@@ -206,11 +207,12 @@ namespace jerryc05 {
       return succeeded;
     }
 
-    void _copy_assign(T* new_addr) noexcept(std::is_nothrow_copy_constructible_v<T>) {
+    void _copy_assign(T* new_data) noexcept(std::is_nothrow_copy_constructible_v<T>) {
       for (std::size_t i = 0; i < m_size; ++i) new (&new_data[i]) T(m_data[i]);
+      m_data = new_data;
     }
 
-    void _move_assign(T* new_addr) noexcept(std::is_nothrow_move_constructible_v<T> &&
+    void _move_assign(T* new_data) noexcept(std::is_nothrow_move_constructible_v<T> &&
                                             (IS_TRIVIALLY_MOVE_DESTRUCTIBLE ||
                                              std::is_nothrow_destructible_v<T>)) {
       for (std::size_t i = 0; i < m_size; ++i) {
@@ -218,11 +220,12 @@ namespace jerryc05 {
         if constexpr (!IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
           m_data[i].~T();
       }
+      m_data = new_data;
     }
 
     NoDiscard bool _grow_capacity_if_full() noexcept(noexcept(reserve(0))) {
       if (m_size >= m_capacity) {
-        assert(m_size == m_capacity);
+        assert(("Size must not excceed capacity", m_size == m_capacity));
         return reserve(m_capacity * GROWTH_RATE());
       } else
         return true;
