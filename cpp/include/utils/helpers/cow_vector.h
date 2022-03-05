@@ -103,22 +103,28 @@ namespace jerryc05 {
       if (new_capacity > m_capacity) {
         T*         new_data;
         RefCountT* new_p_ref_count = m_p_ref_count;
+        bool       use_realloc     = false;
         {
           if (m_p_ref_count == nullptr || *m_p_ref_count != 1) {
             // if read-only or not owned
             assert(("if heap allocated, ref count must > 1",
                     m_p_ref_count == nullptr || *m_p_ref_count > 1));
-            new_data         = static_cast<T*>(std::malloc(new_capacity * sizeof(T)));
             new_p_ref_count  = static_cast<RefCountT*>(std::malloc(sizeof(RefCountT)));
             *new_p_ref_count = 1;
-          } else
-            new_data = static_cast<T*>(std::realloc(m_data, new_capacity * sizeof(T)));
+            if constexpr (IS_TRIVIALLY_MOVE_DESTRUCTIBLE)
+              use_realloc = true;
+          }
+          new_data = static_cast<T*>(
+              std::realloc(use_realloc ? m_data : nullptr, new_capacity * sizeof(T)));
         }
 
         const bool& succeeded = new_data != nullptr && new_p_ref_count != nullptr;
         if (succeeded) {
-          if (m_data != new_data)
+          if (m_data != new_data && !use_realloc) {
             _move_assign(new_data);
+            std::free(m_data);
+            m_data = new_data;
+          }
           m_capacity = new_capacity;
         }
         return succeeded;
@@ -250,7 +256,6 @@ namespace jerryc05 {
         new (&new_data[i]) T(std::move(m_data[i]));
         _move_destruct(m_data[i]);
       }
-      m_data = new_data;
     }
 
     void _move_destruct(T& t) noexcept((IS_TRIVIALLY_MOVE_DESTRUCTIBLE ||
