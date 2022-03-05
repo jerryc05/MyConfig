@@ -59,10 +59,10 @@
 #  define __cpp_lib_assume_aligned
 
 namespace std {
-  template <size_t ALIGN, size_t OFFSET, class T>
+  template <size_t ALIGN, class T, std::size_t OFFSET = 0>
   NoDiscard ForceInline constexpr T* __attribute__((assume_aligned(ALIGN, OFFSET)))
   assume_aligned(T* ptr) noexcept {
-    return reinterpret_cast<T*>(__builtin_assume_aligned(ptr, ALIGN));
+    return static_cast<T*>(__builtin_assume_aligned(ptr, ALIGN));
   }
 }  // namespace std
 #endif
