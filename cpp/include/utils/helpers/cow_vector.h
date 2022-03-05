@@ -221,7 +221,7 @@ namespace jerryc05 {
         return reserve(1);
       } else if (m_size >= m_capacity) {
         assert(("Size must not excceed capacity", m_size == m_capacity));
-        return reserve(std::ceil(m_capacity * (GROWTH_RATE::num / GROWTH_RATE::den)));
+        return reserve(std::ceil(m_capacity * (1. * GROWTH_RATE::num / GROWTH_RATE::den)));
       } else
         return true;
     }
