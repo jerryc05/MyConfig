@@ -5,6 +5,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <cstring>
 #include <new>
 #include <ostream>
 #include <ratio>
@@ -24,7 +25,8 @@ namespace jerryc05 {
             class GROWTH_RATE                         = std::ratio<1645915, 1072846>>
   class CowVec {
    public:
-    using RefCountT = std::size_t;
+    using RefCountT                  = std::size_t;
+    constexpr std::size_t DATA_ALIGN = std::max(sizeof(T), sizeof(void*));
 
     CowVec() noexcept = default;
 
@@ -175,15 +177,16 @@ namespace jerryc05 {
     mutable RefCountT* m_p_ref_count {};  // remains [nullptr] if read-only
 
     /// Returns whether COW goes as expected
-    NoDiscard bool _to_owned() noexcept(noexcept(std::malloc(0)) &&
+    NoDiscard bool _to_owned() noexcept(noexcept(std::aligned_alloc(0ul, 0ul)) &&
                                         std::is_nothrow_copy_constructible_v<T>) {
       if (m_p_ref_count != nullptr && *m_p_ref_count == 1)  // if already owned
         return true;
       assert(("If heap allocated, ref count must > 1",
               m_p_ref_count == nullptr || *m_p_ref_count > 1));
 
-      auto new_data         = static_cast<T*>(std::malloc(m_capacity * sizeof(T)));
-      auto new_p_ref_count  = static_cast<RefCountT*>(std::malloc(sizeof(RefCountT)));
+      auto new_data = static_cast<T*>(std::aligned_alloc(DATA_ALIGN, m_capacity * sizeof(T)));
+      auto new_p_ref_count =
+          static_cast<RefCountT*>(std::aligned_alloc(sizeof(RefCountT), sizeof(RefCountT)));
       *new_p_ref_count      = 1;
       const bool& succeeded = new_data != nullptr && new_p_ref_count != nullptr;
 
@@ -197,7 +200,7 @@ namespace jerryc05 {
       return succeeded;
     }
 
-    NoDiscard bool _grow_capacity_if_full() noexcept(noexcept(reserve(0))) {
+    NoDiscard bool _grow_capacity_if_full() noexcept(noexcept(reserve(0ul))) {
       if (m_capacity == 0) {
         return _reserve_unsafe(1);
       } else if (m_size >= m_capacity) {
@@ -208,9 +211,8 @@ namespace jerryc05 {
     }
 
     NoDiscard bool _reserve_unsafe(std::size_t new_capacity) noexcept(
-        noexcept(std::malloc(new_capacity)) && noexcept(std::realloc(
-            nullptr,
-            new_capacity)) && noexcept(_move_assign(m_data)) && noexcept(std::free(nullptr))) {
+        noexcept(std::aligned_alloc(0ul, 0ul)) && noexcept(std::realloc(nullptr, 0ul)) && noexcept(
+            _move_assign(m_data)) && noexcept(std::free(nullptr))) {
       assert(new_capacity > m_capacity);
       T*          new_data;
       RefCountT*  new_p_ref_count;
@@ -221,7 +223,8 @@ namespace jerryc05 {
         if (!is_owned) {
           assert(("if heap allocated, ref count must > 1",
                   m_p_ref_count == nullptr || *m_p_ref_count > 1));
-          new_p_ref_count  = static_cast<RefCountT*>(std::malloc(sizeof(RefCountT)));
+          new_p_ref_count =
+              static_cast<RefCountT*>(std::aligned_alloc(sizeof(RefCountT), sizeof(RefCountT)));
           *new_p_ref_count = 1;
           if constexpr (IS_TRIVIALLY_RELOCATABLE)
             use_realloc = true;
@@ -265,15 +268,18 @@ namespace jerryc05 {
     }
 
     void _move_assign(T* new_data) noexcept(
-        std::is_nothrow_move_constructible_v<T>&& noexcept(_move_destruct(m_data[this->m_size]))) {
-      // if constexpr (IS_TRIVIALLY_RELOCATABLE)
-      //   std::memcpy(new_data, m_data, m_size * sizeof(T));
+        IS_TRIVIALLY_RELOCATABLE ? noexcept(std::memcpy(nullptr, nullptr, 0ul))
+                                 : std::is_nothrow_move_constructible_v<T>&& noexcept(
+                                       _move_destruct(m_data[this->m_size]))) {
+      if constexpr (IS_TRIVIALLY_RELOCATABLE)
+        std::memcpy(std::assume_aligned<DATA_ALIGN>(new_data),
+                    std::assume_aligned<DATA_ALIGN>(m_data), m_size * sizeof(decltype(m_data)));
 
-      // else
-      for (std::size_t i = 0; i < m_size; ++i) {
-        new (&new_data[i]) T(std::move(m_data[i]));
-        _move_destruct(m_data[i]);
-      }
+      else
+        for (std::size_t i = 0; i < m_size; ++i) {
+          new (&new_data[i]) T(std::move(m_data[i]));
+          _move_destruct(m_data[i]);
+        }
     }
 
     void _move_destruct(T& t) noexcept((IS_TRIVIALLY_DESTRUCTIBLE_AFTER_MOVE ||
