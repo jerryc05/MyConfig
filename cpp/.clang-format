@@ -48,6 +48,7 @@ PackConstructorInitializers: NextLine  # clang-format 14
 PointerAlignment: Left
 QualifierAlignment: Left  # clang-format 14
 ReferenceAlignment: Left  # clang-format 13
+ReflowComments: false
 RemoveBracesLLVM: true  # clang-format 14
 SeparateDefinitionBlocks: Always  # clang-format 14
 SortUsingDeclarations: true
