@@ -5,7 +5,6 @@
 
 #include <cassert>
 #include <cmath>
-#include <cstring>
 #include <new>
 #include <ostream>
 #include <ratio>
@@ -27,10 +26,7 @@ namespace jerryc05 {
    public:
     using RefCountT = std::size_t;
 
-    CowVec() noexcept(noexcept(std::malloc(sizeof(RefCountT)))):
-        m_p_ref_count {static_cast<RefCountT*>(std::malloc(sizeof(RefCountT)))} {
-      *m_p_ref_count = 1;
-    }
+    CowVec() noexcept = default;
 
     ~CowVec() noexcept(noexcept(this->_dec_counter_unsafe())) {
       if (m_p_ref_count != nullptr)  // if heap allocated
@@ -91,9 +87,7 @@ namespace jerryc05 {
       return *this;
     }
 
-    auto& swap(CowVec&& o) noexcept(noexcept(swap(o))){
-      return swap(o);
-    }
+    auto& swap(CowVec&& o) noexcept(noexcept(swap(o))) { return swap(o); }
 
     friend auto swap(CowVec& l, CowVec& r) noexcept(noexcept(l.swap(r))) {
       assert(("Must not self-swap", &l.m_p_ref_count != &r.m_p_ref_count));
@@ -218,12 +212,13 @@ namespace jerryc05 {
             nullptr,
             new_capacity)) && noexcept(_move_assign(m_data)) && noexcept(std::free(nullptr))) {
       assert(new_capacity > m_capacity);
-      T*         new_data;
-      RefCountT* new_p_ref_count = m_p_ref_count;
-      bool       use_realloc     = false;
+      T*          new_data;
+      RefCountT*  new_p_ref_count;
+      bool        use_realloc = false;
+      const bool& is_owned =
+          m_p_ref_count != nullptr && *m_p_ref_count == 1;  // if read-only or not owned
       {
-        if (m_p_ref_count == nullptr || *m_p_ref_count != 1) {
-          // if read-only or not owned
+        if (!is_owned) {
           assert(("if heap allocated, ref count must > 1",
                   m_p_ref_count == nullptr || *m_p_ref_count > 1));
           new_p_ref_count  = static_cast<RefCountT*>(std::malloc(sizeof(RefCountT)));
@@ -235,7 +230,7 @@ namespace jerryc05 {
             static_cast<T*>(std::realloc(use_realloc ? m_data : nullptr, new_capacity * sizeof(T)));
       }
 
-      const bool& succeeded = new_data != nullptr && new_p_ref_count != nullptr;
+      const bool& succeeded = new_data != nullptr && (is_owned || new_p_ref_count != nullptr);
       if (succeeded) {
         if (m_data != new_data && !use_realloc) {
           _move_assign(new_data);
@@ -243,6 +238,11 @@ namespace jerryc05 {
           m_data = new_data;
         }
         m_capacity = new_capacity;
+
+        if (m_p_ref_count != nullptr)
+          _dec_counter_unsafe();
+        if (!is_owned)
+          m_p_ref_count = new_p_ref_count;
       }
       return succeeded;
     }
@@ -266,14 +266,14 @@ namespace jerryc05 {
 
     void _move_assign(T* new_data) noexcept(
         std::is_nothrow_move_constructible_v<T>&& noexcept(_move_destruct(m_data[this->m_size]))) {
-      if constexpr (IS_TRIVIALLY_RELOCATABLE)
-        std::memcpy(new_data, m_data, m_size * sizeof(T));
+      // if constexpr (IS_TRIVIALLY_RELOCATABLE)
+      //   std::memcpy(new_data, m_data, m_size * sizeof(T));
 
-      else
-        for (std::size_t i = 0; i < m_size; ++i) {
-          new (&new_data[i]) T(std::move(m_data[i]));
-          _move_destruct(m_data[i]);
-        }
+      // else
+      for (std::size_t i = 0; i < m_size; ++i) {
+        new (&new_data[i]) T(std::move(m_data[i]));
+        _move_destruct(m_data[i]);
+      }
     }
 
     void _move_destruct(T& t) noexcept((IS_TRIVIALLY_DESTRUCTIBLE_AFTER_MOVE ||
@@ -283,3 +283,59 @@ namespace jerryc05 {
     }
   };
 }  // namespace jerryc05
+
+/*
+
+constexpr int SIZE=130;
+using T = std::size_t;
+
+static void cow_vec(benchmark::State& state) {
+  for (auto _ : state) {
+    jerryc05::CowVec<T> x;
+    x.reserve(SIZE);
+    for (int i=0;i<SIZE;++i) x.emplace_back(1234567890);
+    auto x2=x;
+    x2=x;
+    benchmark::DoNotOptimize(x);
+    benchmark::DoNotOptimize(x2);
+  }
+}BENCHMARK(cow_vec);
+
+static void cow_vec_1(benchmark::State& state) {
+  for (auto _ : state) {
+    jerryc05::CowVec<T,true> x;
+    x.reserve(SIZE);
+    for (int i=0;i<SIZE;++i) x.emplace_back(1234567890);
+    auto x2=x;
+    x2=x;
+    benchmark::DoNotOptimize(x);
+    benchmark::DoNotOptimize(x2);
+  }
+}BENCHMARK(cow_vec_1);
+
+static void cow_vec_0_1(benchmark::State& state) {
+  for (auto _ : state) {
+    jerryc05::CowVec<T,false,true> x;
+    x.reserve(SIZE);
+    for (int i=0;i<SIZE;++i) x.emplace_back(1234567890);
+    auto x2=x;
+    x2=x;
+    benchmark::DoNotOptimize(x);
+    benchmark::DoNotOptimize(x2);
+  }
+}BENCHMARK(cow_vec_0_1);
+
+#include <vector>
+static void std_vec(benchmark::State& state) {
+  for (auto _ : state) {
+    std::vector<T> x;
+    x.reserve(SIZE);
+    for (int i=0;i<SIZE;++i) x.emplace_back(1234567890);
+    auto x2=x;
+    x2=x;
+    benchmark::DoNotOptimize(x);
+    benchmark::DoNotOptimize(x2);
+  }
+}//BENCHMARK(std_vec);
+
+*/
