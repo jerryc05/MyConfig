@@ -35,7 +35,7 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")  # Last checked version: GCC 10
 
         ]]
 
-
+# todo change this to accept [MinSizedRel]
     elseif(CMAKE_BUILD_TYPE STRGREATER_EQUAL "Rel")
         message(STATUS "CMAKE IN RELEASE MODE")
         message(STATUS "")
