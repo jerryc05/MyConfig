@@ -1,4 +1,4 @@
-
+#!/usr/bin/env sh
 
 # Color! More color! But not all on MacOS!
 [ "$(uname -s)" = "Linux" ] && alias dir='dir --color=auto'
@@ -48,15 +48,15 @@ command -v tar >/dev/null && xtar() {
 }
 
 # Handy rsync command
-xrsync(){rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 $*}
+xrsync(){ rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 $*;}
 #               ||||| └-> compress file data during the transfer
 #               ||||└---> increase verbosity
 #               |||└----> keep partially transferred files + show progress during transfer
 #               ||└-----> transform symlink into referent file/dir
 #               |└------> output numbers in a human-readable format
 #               └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
-frsync(){{ git ls-files||find . -print;}|xrsync --files-from=- $*}
-drsync(){{ git ls-files||find . -print;}|xrsync --include-from=- --exclude='*' --delete-excluded $*}
+frsync(){ { git ls-files||find . -print;}|xrsync --files-from=- $*;}
+drsync(){ { git ls-files||find . -print;}|xrsync --include-from=- --exclude='*' --delete-excluded $*;}
 #                                                                                └-> delete any "untracked" files
 
 # VSCode, if only insiders is installed, alias to it
