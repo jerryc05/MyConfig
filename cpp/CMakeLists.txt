@@ -64,9 +64,7 @@ include(${__CFG__}/symlink-compile-commands.cmake)
 
 
 # Compatibility with Windows systems
-if(WIN32)
-    set(CMAKE_EXECUTABLE_SUFFIX ".exe")
-endif()
+#set(CMAKE_EXECUTABLE_SUFFIX ".exe")
 
 # Google Benchmark
 #find_package(benchmark REQUIRED)
