@@ -3,6 +3,8 @@
  *                         All rights reserved.
  */
 
+#pragma once
+
 #include <cassert>
 #include <cmath>
 #include <cstring>
@@ -11,6 +13,8 @@
 #include <ratio>
 
 #include "../attributes.h"
+#include "../compats/memory.h"
+#include "aligned_to_size_allocator.h"
 
 namespace jerryc05 {
 
@@ -25,8 +29,7 @@ namespace jerryc05 {
             class GROWTH_RATE                         = std::ratio<1645915, 1072846>>
   class CowVec {
    public:
-    using RefCountT                  = std::size_t;
-    constexpr std::size_t DATA_ALIGN = std::max(sizeof(T), sizeof(void*));
+    using RefCountT = std::size_t;
 
     CowVec() noexcept = default;
 
@@ -44,7 +47,7 @@ namespace jerryc05 {
         m_capacity {o.m_capacity},
         m_size {o.m_size},
         m_p_ref_count {o.m_p_ref_count} {
-      assert(("Must not self-construct", &m_p_ref_count != &o.m_p_ref_count));
+      assert(("Must not self-construct" && &m_p_ref_count != &o.m_p_ref_count));
       if (m_p_ref_count != nullptr)  // if heap allocated
         ++*m_p_ref_count;
     }
@@ -58,19 +61,19 @@ namespace jerryc05 {
         m_capacity {std::move(o.m_capacity)},
         m_size {std::move(o.m_size)},
         m_p_ref_count {std::move(o.m_p_ref_count)} {
-      assert(("Must not self-construct", &m_p_ref_count != &o.m_p_ref_count));
+      assert(("Must not self-construct" && &m_p_ref_count != &o.m_p_ref_count));
       o.m_p_ref_count = {};
     }
 
     auto& operator=(const CowVec& o) noexcept(
         std::is_nothrow_copy_constructible_v<decltype(*this)>&& noexcept(swap(CowVec {o}))) {
-      assert(("Must not self-assign", &m_p_ref_count != &o.m_p_ref_count));
+      assert(("Must not self-assign" && &m_p_ref_count != &o.m_p_ref_count));
       return swap(CowVec {o});
     }
 
     auto& operator=(CowVec&& o) noexcept(
         std::is_nothrow_move_constructible_v<decltype(*this)>&& noexcept(swap(o))) {
-      assert(("Must not self-assign", &m_p_ref_count != &o.m_p_ref_count));
+      assert(("Must not self-assign" && &m_p_ref_count != &o.m_p_ref_count));
       return swap(o);
     }
 
@@ -78,7 +81,7 @@ namespace jerryc05 {
         std::is_nothrow_swappable_v<decltype(this->m_data)>&& std::is_nothrow_swappable_v<
             decltype(this->m_size)>&& std::is_nothrow_swappable_v<decltype(this->m_capacity)>&&
                                       std::is_nothrow_swappable_v<decltype(this->m_p_ref_count)>) {
-      assert(("Must not self-swap", &m_p_ref_count != &o.m_p_ref_count));
+      assert(("Must not self-swap" && &m_p_ref_count != &o.m_p_ref_count));
       {
         using std::swap;  // ADL
         swap(m_data, o.m_data);
@@ -92,7 +95,7 @@ namespace jerryc05 {
     auto& swap(CowVec&& o) noexcept(noexcept(swap(o))) { return swap(o); }
 
     friend auto swap(CowVec& l, CowVec& r) noexcept(noexcept(l.swap(r))) {
-      assert(("Must not self-swap", &l.m_p_ref_count != &r.m_p_ref_count));
+      assert(("Must not self-swap" && &l.m_p_ref_count != &r.m_p_ref_count));
       l.swap(r);
     }
 
@@ -110,13 +113,13 @@ namespace jerryc05 {
     }
 
     const T& operator[](std::size_t i) const noexcept(noexcept(this->m_data[i])) {
-      assert(("Index must be in range", i < m_size));
+      assert(("Index must be in range" && i < m_size));
       return m_data[i];
     }
 
     NoDiscard T* operator[](std::size_t i) noexcept(
         noexcept(this->_to_owned()) && noexcept(this->m_data[i])) {
-      assert(("Index must be in range", i < m_size));
+      assert(("Index must be in range" && i < m_size));
       return _to_owned() ? &m_data[i] : ({});
     }
 
@@ -155,7 +158,7 @@ namespace jerryc05 {
 
     T pop_back() noexcept(
         std::is_nothrow_move_assignable_v<T>&& _move_destruct(m_data[this->m_size])) {
-      assert(("Container must be non-empty", m_size > 0));
+      assert(("Container must be non-empty" && m_size > 0));
       auto x = std::move(m_data[--m_size]);
       _move_destruct(m_data[m_size]);
       return x;
@@ -177,16 +180,15 @@ namespace jerryc05 {
     mutable RefCountT* m_p_ref_count {};  // remains [nullptr] if read-only
 
     /// Returns whether COW goes as expected
-    NoDiscard bool _to_owned() noexcept(noexcept(std::aligned_alloc(0ul, 0ul)) &&
+    NoDiscard bool _to_owned() noexcept(noexcept(jerryc05::aligned_to_size_alloc<T>(0ul)) &&
                                         std::is_nothrow_copy_constructible_v<T>) {
       if (m_p_ref_count != nullptr && *m_p_ref_count == 1)  // if already owned
         return true;
-      assert(("If heap allocated, ref count must > 1",
-              m_p_ref_count == nullptr || *m_p_ref_count > 1));
+      assert(("If heap allocated, ref count must > 1" && m_p_ref_count == nullptr ||
+              *m_p_ref_count > 1));
 
-      auto new_data = static_cast<T*>(std::aligned_alloc(DATA_ALIGN, m_capacity * sizeof(T)));
-      auto new_p_ref_count =
-          static_cast<RefCountT*>(std::aligned_alloc(sizeof(RefCountT), sizeof(RefCountT)));
+      auto new_data         = static_cast<T*>(jerryc05::aligned_to_size_alloc<T>(m_capacity));
+      auto new_p_ref_count  = static_cast<RefCountT*>(jerryc05::aligned_to_size_alloc<RefCountT>());
       *new_p_ref_count      = 1;
       const bool& succeeded = new_data != nullptr && new_p_ref_count != nullptr;
 
@@ -203,16 +205,27 @@ namespace jerryc05 {
     NoDiscard bool _grow_capacity_if_full() noexcept(noexcept(reserve(0ul))) {
       if (m_capacity == 0) {
         return _reserve_unsafe(1);
+
       } else if (m_size >= m_capacity) {
-        assert(("Size must not excceed capacity", m_size == m_capacity));
-        return _reserve_unsafe(std::ceil(m_capacity * (1. * GROWTH_RATE::num / GROWTH_RATE::den)));
+        assert(("Size must not excceed capacity" && m_size == m_capacity));
+
+        std::size_t alloc_count;
+        {
+          auto alloc_count_ = 1. * GROWTH_RATE::num / GROWTH_RATE::den * m_capacity;
+          if (alloc_count_ >
+              static_cast<decltype(alloc_count_)>(std::numeric_limits<decltype(alloc_count)>::max()))
+            return false;
+        }
+        return _reserve_unsafe(std::ceil(alloc_count));
+
       } else
         return true;
     }
 
     NoDiscard bool _reserve_unsafe(std::size_t new_capacity) noexcept(
-        noexcept(std::aligned_alloc(0ul, 0ul)) && noexcept(std::realloc(nullptr, 0ul)) && noexcept(
-            _move_assign(m_data)) && noexcept(std::free(nullptr))) {
+        noexcept(jerryc05::aligned_to_size_alloc<RefCountT>(0ul)) && noexcept(
+            std::realloc(nullptr,
+                         0ul)) && noexcept(_move_assign(m_data)) && noexcept(std::free(nullptr))) {
       assert(new_capacity > m_capacity);
       T*          new_data;
       RefCountT*  new_p_ref_count;
@@ -221,16 +234,19 @@ namespace jerryc05 {
           m_p_ref_count != nullptr && *m_p_ref_count == 1;  // if read-only or not owned
       {
         if (!is_owned) {
-          assert(("if heap allocated, ref count must > 1",
-                  m_p_ref_count == nullptr || *m_p_ref_count > 1));
-          new_p_ref_count =
-              static_cast<RefCountT*>(std::aligned_alloc(sizeof(RefCountT), sizeof(RefCountT)));
+          assert(("if heap allocated, ref count must > 1" && m_p_ref_count == nullptr ||
+                  *m_p_ref_count > 1));
+          new_p_ref_count  = static_cast<RefCountT*>(jerryc05::aligned_to_size_alloc<RefCountT>());
           *new_p_ref_count = 1;
           if constexpr (IS_TRIVIALLY_RELOCATABLE)
             use_realloc = true;
         }
-        new_data =
-            static_cast<T*>(std::realloc(use_realloc ? m_data : nullptr, new_capacity * sizeof(T)));
+
+        std::size_t alloc_count;
+        if (__builtin_mul_overflow(sizeof(T), new_capacity, &alloc_count))
+          return false;
+        else
+          new_data = static_cast<T*>(std::realloc(use_realloc ? m_data : nullptr, alloc_count));
       }
 
       const bool& succeeded = new_data != nullptr && (is_owned || new_p_ref_count != nullptr);
@@ -252,7 +268,7 @@ namespace jerryc05 {
 
     void _dec_counter_unsafe() noexcept(
         noexcept(std::free(nullptr)) && noexcept(--*m_p_ref_count)) {
-      assert(("Ref counter must be non-null", m_p_ref_count != nullptr));
+      assert(("Ref counter must be non-null" && m_p_ref_count != nullptr));
 
       if (*m_p_ref_count == 1) {  // if owned
         std::free(m_p_ref_count);
@@ -272,8 +288,10 @@ namespace jerryc05 {
                                  : std::is_nothrow_move_constructible_v<T>&& noexcept(
                                        _move_destruct(m_data[this->m_size]))) {
       if constexpr (IS_TRIVIALLY_RELOCATABLE)
-        std::memcpy(std::assume_aligned<DATA_ALIGN>(new_data),
-                    std::assume_aligned<DATA_ALIGN>(m_data), m_size * sizeof(decltype(m_data)));
+        std::memcpy(
+            std::assume_aligned<sizeof(std::remove_pointer_t<decltype(new_data)>)>(new_data),
+            std::assume_aligned<sizeof(std::remove_pointer_t<decltype(m_data)>)>(m_data),
+            m_size * sizeof(decltype(m_data)));
 
       else
         for (std::size_t i = 0; i < m_size; ++i) {

@@ -14,8 +14,7 @@
 
 namespace jerryc05 {
   template <class T, bool WITH_MODIFIER = true>
-  auto
-  cpp_type_name(std::string& output) {
+  auto cpp_type_name(std::string& output) {
     const auto& name = typeid(T).name();
 
     if (WITH_MODIFIER) {
@@ -47,8 +46,7 @@ namespace jerryc05 {
   }
 
   template <class T, bool WITH_MODIFIER = true>
-  auto
-  cpp_type_name(std::string&& s = std::string {}) {
+  auto cpp_type_name(std::string&& s = std::string {}) {
     cpp_type_name<T, WITH_MODIFIER>(s);
     return s;
   }

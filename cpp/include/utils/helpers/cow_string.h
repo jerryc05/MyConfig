@@ -154,182 +154,162 @@
 * poorly on move semantics, since copying and moving becomes almost the same for little strings. ). I'm not aware of what LLVM's libc++ for CLang does.
 */
 
-#include <memory>
 #include <algorithm>
-#include <vector>
-#include <stdexcept>
 #include <iostream>
+#include <memory>
+#include <stdexcept>
+#include <vector>
 
 /*
  * Note that this string wasn't tested, its only a proof of concept. Anyway, contact me if you have any issue with this.
  * Check my website above for contact.
  */
 
-template<class CHAR , bool debug = false>
-struct cowbasic_string
-{
-public:
-    //Default ctor
-    cowbasic_string() :
-        _shared_buff{ std::make_shared<storage>() }, //Zero length buffer by default.
-        _begin{0},
-        _end{0}
-    {}
+template <class CHAR, bool debug = false>
+struct cowbasic_string {
+ public:
+  //Default ctor
+  cowbasic_string():
+      _shared_buff {std::make_shared<storage>()},  //Zero length buffer by default.
+      _begin {0},
+      _end {0} {}
 
-    //A constructor to initialize our strings with string literals
-    template<std::size_t N>
-    explicit cowbasic_string( const CHAR (&string_literal)[N] ) : _shared_buff{ std::make_shared<storage>( N-1 ) }, //-1 since we don't store the null terminator
-        _begin{0},
-        _end{N-2}
-    {
-        std::copy( std::begin(string_literal) , std::end(string_literal) - 1 ,
-                   _shared_buff->begin() );
-    }
+  //A constructor to initialize our strings with string literals
+  template <std::size_t N>
+  explicit cowbasic_string(const CHAR (&string_literal)[N]):
+      _shared_buff {
+          std::make_shared<storage>(N - 1)},  //-1 since we don't store the null terminator
+      _begin {0},
+      _end {N - 2} {
+    std::copy(std::begin(string_literal), std::end(string_literal) - 1, _shared_buff->begin());
+  }
 
-    //A constructor to generate views of (sub)strings:
-    cowbasic_string( const cowbasic_string& other , std::size_t begin , std::size_t end ) : //Note the user is responsible of passing the right indices (Indices from the buffer perspective not the string one) using the
-        cowbasic_string{ other } //Call copy ctor                                             required offset() calls on their parent string.
-    {
-        _begin = begin;
-        _end = end;
-    }
-
-
-
+  //A constructor to generate views of (sub)strings:
+  cowbasic_string(const cowbasic_string& other, std::size_t begin, std::size_t end):
+      //Note the user is responsible of passing the right indices (Indices from the buffer perspective not the string one) using the
+      cowbasic_string {other}
+  //Call copy ctor                                             required offset() calls on their parent string.
+  {
+    _begin = begin;
+    _end   = end;
+  }
 
   //Some string ops
 
   //Returns a substring of this string given the range [begin,end] of characters
-  cowbasic_string substr( std::size_t begin , std::size_t end )
-  {
-      if( begin > end ) throw std::invalid_argument{ "cowbasic_string::substr(): The substring has range [begin,end]. End should be greater or equal to begin" };
+  cowbasic_string substr(std::size_t begin, std::size_t end) {
+    if (begin > end)
+      throw std::invalid_argument {
+          "cowbasic_string::substr(): The substring has range [begin,end]. End should be greater "
+          "or equal to begin"};
 
-      //Begin and end are indices relative to the string, not the underlying storage.
-      //Suppose our string is "world", but our string is really a substring of another "hello world"
-      //string:
-      //
-      // Shared storage: "hello world"
-      //                        <--->
-      //                      Our string
-      //
-      //That means the character at position 0 of our string is really the character at position 6
-      //on the storage. The _begin and _end members of cowbasic_string are relative to the storage,
-      //so we should apply the offset to the indices the user passed to us.
+    //Begin and end are indices relative to the string, not the underlying storage.
+    //Suppose our string is "world", but our string is really a substring of another "hello world"
+    //string:
+    //
+    // Shared storage: "hello world"
+    //                        <--->
+    //                      Our string
+    //
+    //That means the character at position 0 of our string is really the character at position 6
+    //on the storage. The _begin and _end members of cowbasic_string are relative to the storage,
+    //so we should apply the offset to the indices the user passed to us.
 
-      return cowbasic_string{ *this , begin + offset() , end + offset() };
+    return cowbasic_string {*this, begin + offset(), end + offset()};
   }
 
+  //Does no bounds-checked read access to a character of the string
+  CHAR operator[](std::size_t index) const { return (*_shared_buff)[index + offset()]; }
 
-    //Does no bounds-checked read access to a character of the string
-    CHAR operator[]( std::size_t index ) const
-    {
-        return (*_shared_buff)[index + offset()];
-    }
+  //Does no bounds-checked write access to a character of the string
+  CHAR& operator[](std::size_t index) {
+    _detach();  //This is a mutable op, so detach from the source string first
+    return (*_shared_buff)[index + offset()];
+  }
 
-    //Does no bounds-checked write access to a character of the string
-    CHAR& operator[]( std::size_t index )
-    {
-        _detach(); //This is a mutable op, so detach from the source string first
-        return (*_shared_buff)[index + offset()];
-    }
+  //Does bounds-checked read access to a character of the string
+  CHAR at(std::size_t index) const {
+    if (index < size())
+      return (*this)[index];
+    else
+      throw std::out_of_range {"cowbasic_string::at() (READ): Index out of range"};
+  }
 
-    //Does bounds-checked read access to a character of the string
-    CHAR at( std::size_t index ) const
-    {
-        if( index < size() )
-            return (*this)[index];
-        else
-            throw std::out_of_range{"cowbasic_string::at() (READ): Index out of range"};
-    }
+  //Does bounds-checked write access to a character of the string
+  CHAR& at(std::size_t index) {
+    if (index < size())
+      return (*this)[index];
+    else
+      throw std::out_of_range {"cowbasic_string::at() (WRITE): Index out of range"};
+  }
 
-    //Does bounds-checked write access to a character of the string
-    CHAR& at( std::size_t index )
-    {
-        if( index < size() )
-            return (*this)[index];
-        else
-            throw std::out_of_range{"cowbasic_string::at() (WRITE): Index out of range"};
-    }
+  //Returns the offset from the beginning of the storage to the beginning of this string
+  std::size_t offset() const { return _begin; }
 
-    //Returns the offset from the beginning of the storage to the beginning of this string
-    std::size_t offset() const
-    {
-        return _begin;
-    }
+  //Returns the size (Length) of this string
+  std::size_t size() const { return _end - _begin + 1; }
 
-    //Returns the size (Length) of this string
-    std::size_t size() const
-    {
-        return _end - _begin + 1;
-    }
+  //Returns the start address of the string (Only for debugging purposes, don't use it!)
+  void* start_addr() const { return static_cast<void*>(&(*_shared_buff)[offset()]); }
 
-    //Returns the start address of the string (Only for debugging purposes, don't use it!)
-    void* start_addr() const
-    {
-        return static_cast<void*>(&(*_shared_buff)[offset()]);
-    }
+  //Prints our strings to C++ streams. Use it to overload std::to_string() or explicit to std::string conversion if you like.
+  friend std::ostream& operator<<(std::ostream& os, const cowbasic_string& str) {
+    for (std::size_t i = 0; i < str.size(); ++i) os << str[i];
 
-    //Prints our strings to C++ streams. Use it to overload std::to_string() or explicit to std::string conversion if you like.
-    friend std::ostream& operator<<( std::ostream& os , const cowbasic_string& str )
-    {
-        for( std::size_t i = 0 ; i < str.size() ; ++i )
-            os << str[i];
+    return os << '\0';
+  }
 
-        return os << '\0';
-    }
-private:
-    using storage = std::vector<CHAR>;
+ private:
+  using storage = std::vector<CHAR>;
 
-    std::shared_ptr<storage> _shared_buff; //Note that std::shared_ptr is thread safe, so making a thread safe implementation of this could be easier than in the old days.
-                                           //Enter atomics and say goodbye to lock-based concurrent programming! https://www.youtube.com/watch?v=CmxkPChOcvw (std::smart_ptr has an internal mutex, is not atomic yet :( )
+  std::shared_ptr<storage>
+      _shared_buff;  //Note that std::shared_ptr is thread safe, so making a thread safe implementation of this could be easier than in the old days.
+  //Enter atomics and say goodbye to lock-based concurrent programming! https://www.youtube.com/watch?v=CmxkPChOcvw (std::smart_ptr has an internal mutex, is not atomic yet :( )
 
-    std::size_t _begin , _end; //Range of characters of the buffer which this string has. This is why we don't store the null terminator, because its added explicitly later in all cases, to take care of middle ranges.
+  std::size_t _begin,
+      _end;  //Range of characters of the buffer which this string has. This is why we don't store the null terminator, because its added explicitly later in all cases, to take care of middle ranges.
 
-    //Detach this string from the original and create a buffer for its own.
-    void _detach()
-    {
-        if( _shared_buff.unique() ) return; //If this string is the only viewing the buffer the detach is not needed.
+  //Detach this string from the original and create a buffer for its own.
+  void _detach() {
+    if (_shared_buff.unique())
+      return;  //If this string is the only viewing the buffer the detach is not needed.
 
-        const storage& old = *_shared_buff;
-        _shared_buff.reset( new storage(_end - _begin , ' ') ); //Be careful with uniform initialization and narrowing conversions here
+    const storage& old = *_shared_buff;
+    _shared_buff.reset(
+        new storage(_end - _begin,
+                    ' '));  //Be careful with uniform initialization and narrowing conversions here
 
-        std::copy( old.begin() + _begin , old.begin() + _end ,
-                   _shared_buff->begin() );
+    std::copy(old.begin() + _begin, old.begin() + _end, _shared_buff->begin());
 
-        //Never use an ugly preprocesor if for something you can do with a simple and readable compile-time if
-        if(debug)
-            std::cout << "Detach done" << std::endl;
-    }
+    //Never use an ugly preprocesor if for something you can do with a simple and readable compile-time if
+    if (debug)
+      std::cout << "Detach done" << std::endl;
+  }
 };
 
+using cowstring       = cowbasic_string<char>;
+using debug_cowstring = cowbasic_string<char, true>;
 
-using cowstring = cowbasic_string<char>;
-using debug_cowstring = cowbasic_string<char,true>;
+int main() {
+  debug_cowstring hello_world {"hello world"};
+  auto            hello = hello_world.substr(0, 4);
+  auto            world = hello_world.substr(6, 10);
 
+  std::cout << hello_world << std::endl
+            << hello << std::endl
+            << world << std::endl;  //Ok Freire, one point for C: printf() formatting...
 
-int main()
-{
-    debug_cowstring hello_world{"hello world"};
-    auto hello = hello_world.substr(0,4);
-    auto world = hello_world.substr(6,10);
-
-    std::cout << hello_world << std::endl
-              << hello << std::endl
-              << world << std::endl; //Ok Freire, one point for C: printf() formatting...
-
-    std::cout << "hello_world start address: " << hello_world.start_addr() << std::endl
-              << "hello start address:       " << hello.start_addr()       << std::endl
-              << "world start address:       " << world.start_addr()       << std::endl;
+  std::cout << "hello_world start address: " << hello_world.start_addr() << std::endl
+            << "hello start address:       " << hello.start_addr() << std::endl
+            << "world start address:       " << world.start_addr() << std::endl;
 
 
-    hello[0] = 'j';
-    hello[4] = 'y';
+  hello[0] = 'j';
+  hello[4] = 'y';
 
-    std::cout << hello_world << std::endl
-              << hello << std::endl
-              << world << std::endl;
+  std::cout << hello_world << std::endl << hello << std::endl << world << std::endl;
 
-    std::cout << "hello_world start address: " << hello_world.start_addr() << std::endl
-              << "hello start address:       " << hello.start_addr()       << std::endl
-              << "world start address:       " << world.start_addr()       << std::endl;
+  std::cout << "hello_world start address: " << hello_world.start_addr() << std::endl
+            << "hello start address:       " << hello.start_addr() << std::endl
+            << "world start address:       " << world.start_addr() << std::endl;
 }

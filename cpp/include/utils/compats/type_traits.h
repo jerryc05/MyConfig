@@ -33,12 +33,12 @@ namespace jerryc05 {
 
   template <std::size_t N, class T0, class... Ts>
   struct NthType {
-      using value = typename NthType<N - 1U, Ts...>::value;
+    using value = typename NthType<N - 1U, Ts...>::value;
   };
 
   template <class T0, class... Ts>
   struct NthType<0U, T0, Ts...> {
-      using value = T0;
+    using value = T0;
   };
 
 
@@ -47,9 +47,9 @@ namespace jerryc05 {
 
   template <class Ret, class... Args>
   struct FnTypes<Ret(Args...)> {
-      using RetT = Ret;
+    using RetT = Ret;
 
-      template <std::size_t N>
-      using ArgT = typename NthType<N, Args...>::value;
+    template <std::size_t N>
+    using ArgT = typename NthType<N, Args...>::value;
   };
 }  // namespace jerryc05
