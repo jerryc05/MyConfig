@@ -4,20 +4,20 @@
 # https://cmake.org/cmake/help/git-master/command/message.html#reporting-checks
 cmake_minimum_required(VERSION 3.17)
 
-project(MyTemplate)
-
 # Uncomment to use specific standard
 set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#set(CMAKE_CXX_EXTENSIONS ON)
+
+project(MyTemplate)
 
 message(STATUS "==================== BEGIN OF CMAKE PRE CONFIG ====================")
 
 set(__CFG__ ${CMAKE_CURRENT_SOURCE_DIR}/.cmake_config)
-include(${__CFG__}/default-vars.cmake)
+include(${__CFG__}/init.cmake)
 include(${__CFG__}/clang-tidy.cmake)
 include(${__CFG__}/cppcheck.cmake)
 include(${__CFG__}/flags/enable-ipo-on-release.cmake)
-include(${__CFG__}/symlink-compile-commands.cmake)
 
 message(STATUS "==================== END   OF CMAKE PRE CONFIG ====================")
 message(STATUS)
@@ -60,6 +60,7 @@ set(__DBG_SANITIZE_UB__                 ON)
 # include(${__CFG__}/!main.cmake)
 include(${__CFG__}/clang-format.cmake)
 include(${__CFG__}/report.cmake)
+include(${__CFG__}/symlink-compile-commands.cmake)
 
 
 # Compatibility with Windows systems
