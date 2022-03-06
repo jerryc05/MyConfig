@@ -21,8 +21,7 @@ namespace jerryc05 {
   /// Not thread-safe!
   /// [IS_TRIVIALLY_RELOCATABLE] shows if [T] can be moved BY MEMCPY() without calling dtor
   /// [IS_TRIVIALLY_DESTRUCTIBLE_AFTER_MOVE] shows if [T] can be moved WITHOUT calling dtor
-  /// [GROWTH_RATE] defaults to the solution of [x^0+x^1+x^2+x^3<=x^5] =>
-  /// [x≈1.5341577449]
+  /// [GROWTH_RATE] defaults to the solution of [x^0+x^1+x^2+x^3<=x^5] => [x≈1.5341577449]
   template <class T,
             bool IS_TRIVIALLY_RELOCATABLE             = false,
             bool IS_TRIVIALLY_DESTRUCTIBLE_AFTER_MOVE = IS_TRIVIALLY_RELOCATABLE,
