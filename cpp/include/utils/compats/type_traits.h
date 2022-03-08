@@ -11,6 +11,7 @@
 
 namespace std {
 #if not __cpp_lib_type_trait_variable_templates
+#define __cpp_lib_type_trait_variable_templates
   template <class T>
   constexpr bool is_const_v = is_const<T>::value;
 
