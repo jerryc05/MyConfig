@@ -48,19 +48,20 @@ See https://github.com/yuk7/ArchWSL
 
 0.  ```
     pacman -Syyu
-    pacman -S archlinux-keyring 
+    pacman -S archlinux-keyring
     gpgconf --kill all
     ```
-    
-0.  Rank mirrors by `pacman -S pacman-contrib` ([Wiki](https://wiki.archlinux.org/title/Mirrors#List_by_speed)), then 
+
+0.  Rank mirrors by `pacman -S pacman-contrib` ([Wiki](https://wiki.archlinux.org/title/Mirrors#List_by_speed)), then
     ```
     rankmirrors -n 9 /etc/pacman.d/mirrorlist >/tmp/mirror
     mv /tmp/mirror /etc/pacman.d/mirrorlist
     ```
 
-0.  Edit `/etc/pacman.conf`, uncomment the line `Color` under `# Misc options` and save. E.g.:
+0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
     ```
     sed s/^#Color/Color/ /etc/pacman.conf -i
+    sed s/^#ParallelDownloads/ParallelDownloads/ /etc/pacman.conf -i
     ```
 
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
@@ -86,7 +87,7 @@ See https://github.com/yuk7/ArchWSL
     1.  Add:
         1.  admin user: `groupadd sudo && useradd -m <username> -G sudo`
         2.  normal user: `useradd -m <username>`
-    
+
     2.  Set password: `passwd <username>`
 
     3.  Set default login user (windows):
