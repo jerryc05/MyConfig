@@ -40,7 +40,7 @@ export default defineConfig({
         const origSz = await stat(p).then(s => s.size)
         const newFileDir = path.join(path.dirname(p), '_br')
         await mkdir(newFileDir, { recursive: true })
-        const newFileName = path.join(newFileDir, `${path.basename(p)}.br`)
+        const newFileName = path.join(newFileDir, path.basename(p))
         await open(newFileName, 'wx').then(async f => {
           const orig = await readFile(p)
           const compressed: Buffer = await new Promise((res, rej) =>
