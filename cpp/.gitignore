@@ -103,6 +103,7 @@ core.*
 
 # Binary output
 /bin/*
+test/bin/*
 
 # Anything begins with two underscores shall not be synced on purpose
 __*
