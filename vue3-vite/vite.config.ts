@@ -64,18 +64,27 @@ export default defineConfig({
   //       └-> Removes leading slash from the path
   css: {
     postcss: {
-      plugins: [{
-        // Remove @charset warnings
-        postcssPlugin: 'internal:charset-removal',
-        AtRule: {
-          charset: (atRule) => {
-            if (atRule.name === 'charset') {
-              atRule.remove()
+      plugins: [
+        {  // Remove @charset warnings
+          postcssPlugin: 'internal:charset-removal',
+          AtRule: {
+            charset: (atRule) => {
+              if (atRule.name === 'charset') {
+                atRule.remove()
+              }
             }
           }
-        }
-      }]
+        }]
     }
+  },
+  server: {
+    port: 8080,
+    strictPort: false,
+    // https: {
+    //   minVersion: 'TLSv1.3',
+    //   cert: 'server.crt',
+    //   key: 'server.key',
+    // }
   }
 })
 
