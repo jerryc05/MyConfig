@@ -6,7 +6,10 @@ from quart import Response, request
 
 async def compress(res: Response) -> Response:
     GZIP = 'gzip'
-    if GZIP in request.accept_encodings and GZIP != res.content_encoding:
+    IDENTITY = 'identity'
+    if GZIP in request.accept_encodings and (
+        not res.content_encoding or res.content_encoding == IDENTITY
+    ):
         data = res.get_data(as_text=False)
         try:
             data = await data

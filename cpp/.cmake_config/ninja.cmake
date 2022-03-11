@@ -8,7 +8,7 @@ message(CHECK_START "[ninja-build]")
 find_program(__NINJA__ ninja)
 
 if(__NINJA__)
-    set(CMAKE_GENERATOR "Ninja")
+    set(CMAKE_GENERATOR "Ninja" CACHE INTERNAL "")
 
     # execute_process(COMMAND ${__NINJA__} --version
     #         OUTPUT_VARIABLE __CCACHE_VER__)

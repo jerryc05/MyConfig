@@ -4,28 +4,54 @@ import { brotliCompress } from 'zlib'
 
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, normalizePath, Plugin } from 'vite'
-import { injectHtml, minifyHtml } from 'vite-plugin-html'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    minifyHtml(), injectHtml({ data: { injectHead: '' } }),
+    createHtmlPlugin({
+      minify: true,
+      pages: [
+        {
+          entry: 'src/main.ts',
+          filename: 'index.html',
+          template: 'index.html',
+          injectOptions: {
+            data: {
+              htmlLang: '"en-US"',  // '"zh-cmn-Hans"',
+            },
+            // tags: [
+            //   {
+            //     injectTo: 'head',
+            //     tag: 'script',
+            //     attrs: {
+            //       src: '',
+            //     },
+            //   },
+            // ],
+          },
+        }
+      ]
+    }),
     MyPostProcessorOnBuild(async p => {
-      if (/\.(\w?js|css|\w?html)$/.test(p)) {
-        const newFileName = `${p}.br`
+      /* if (/\.(\w?js|css|\w?html)$/.test(p)) */ {
         const origSz = await stat(p).then(s => s.size)
-        if (origSz <= 1024) return
+        const newFileDir = path.join(path.dirname(p), '_br')
+        await mkdir(newFileDir, { recursive: true })
+        const newFileName = path.join(newFileDir, path.basename(p))
         await open(newFileName, 'wx').then(async f => {
           const orig = await readFile(p)
           const compressed: Buffer = await new Promise((res, rej) =>
             brotliCompress(orig, (e, d) => e != null ? rej(e) : res(d))
           )
-          f.write(compressed)
+          const newSz = compressed.byteLength
+          const willSave = newSz < origSz * 0.95
+          if (willSave)
+            f.write(compressed)
+          console.log(`${p}\n\t${origSz} \t-> ${newSz} bytes \t${newSz / origSz}x \t${willSave ? '✅' : '❌'}`)
         })
-        const newSz = await stat(newFileName).then(s => s.size)
-        console.log(`${p}\n\t${origSz} bytes\n\t${newSz} bytes\n\t-${(origSz - newSz) / origSz * 100}%`)
       }
     })
   ],
@@ -41,18 +67,27 @@ export default defineConfig({
   //       └-> Removes leading slash from the path
   css: {
     postcss: {
-      plugins: [{
-        // Remove @charset warnings
-        postcssPlugin: 'internal:charset-removal',
-        AtRule: {
-          charset: (atRule) => {
-            if (atRule.name === 'charset') {
-              atRule.remove()
+      plugins: [
+        {  // Remove @charset warnings
+          postcssPlugin: 'internal:charset-removal',
+          AtRule: {
+            charset: (atRule) => {
+              if (atRule.name === 'charset') {
+                atRule.remove()
+              }
             }
           }
-        }
-      }]
+        }]
     }
+  },
+  server: {
+    port: 5000,
+    strictPort: false,
+    // https: {
+    //   minVersion: 'TLSv1.3',
+    //   cert: 'server.crt',
+    //   key: 'server.key',
+    // }
   }
 })
 
