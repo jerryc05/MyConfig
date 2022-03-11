@@ -71,4 +71,7 @@ if __name__ == '__main__':
 
     config.application_path = APP
 
-    run(config)
+    try:
+        run(config)
+    except asyncio.exceptions.TimeoutError:
+        pass
