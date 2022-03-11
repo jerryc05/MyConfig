@@ -36,19 +36,22 @@ export default defineConfig({
       ]
     }),
     MyPostProcessorOnBuild(async p => {
-      if (/\.(\w?js|css|\w?html)$/.test(p)) {
-        const newFileName = `${p}.br`
+      /* if (/\.(\w?js|css|\w?html)$/.test(p)) */ {
         const origSz = await stat(p).then(s => s.size)
-        if (origSz <= 1024) return
+        const newFileDir = path.join(path.dirname(p), '_br')
+        await mkdir(newFileDir, { recursive: true })
+        const newFileName = path.join(newFileDir, `${path.basename(p)}.br`)
         await open(newFileName, 'wx').then(async f => {
           const orig = await readFile(p)
           const compressed: Buffer = await new Promise((res, rej) =>
             brotliCompress(orig, (e, d) => e != null ? rej(e) : res(d))
           )
-          f.write(compressed)
+          const newSz = compressed.byteLength
+          const willSave = newSz < origSz * 0.95
+          if (willSave)
+            f.write(compressed)
+          console.log(`${p}\n\t${origSz} \t-> ${newSz} bytes \t${newSz / origSz}x \t${willSave ? '✅' : '❌'}`)
         })
-        const newSz = await stat(newFileName).then(s => s.size)
-        console.log(`${p}\n\t${origSz} bytes\n\t${newSz} bytes\n\t-${(origSz - newSz) / origSz * 100}%`)
       }
     })
   ],
