@@ -16,7 +16,7 @@
     "@types/node": "latest",
     "@vitejs/plugin-vue": "latest",
     // "sass": "latest",
-    "typescript": "beta",
+    "typescript": "next",
     "vite": "beta",
     "vite-plugin-html": "latest",
     "vue-tsc": "latest"
