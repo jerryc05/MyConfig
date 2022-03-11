@@ -41,17 +41,17 @@ export default defineConfig({
         const newFileDir = path.join(path.dirname(p), '_br')
         await mkdir(newFileDir, { recursive: true })
         const newFileName = path.join(newFileDir, path.basename(p))
-        await open(newFileName, 'wx').then(async f => {
-          const orig = await readFile(p)
-          const compressed: Buffer = await new Promise((res, rej) =>
-            brotliCompress(orig, (e, d) => e != null ? rej(e) : res(d))
-          )
-          const newSz = compressed.byteLength
-          const willSave = newSz < origSz * 0.95
-          if (willSave)
+        const orig = await readFile(p)
+        const compressed: Buffer = await new Promise((res, rej) =>
+          brotliCompress(orig, (e, d) => e != null ? rej(e) : res(d))
+        )
+        const newSz = compressed.byteLength
+        const willSave = newSz < origSz * 0.95
+        if (willSave)
+          await open(newFileName, 'wx').then(async f => {
             f.write(compressed)
-          console.log(`${p}\n\t${origSz} \t-> ${newSz} bytes \t${newSz / origSz}x \t${willSave ? '✅' : '❌'}`)
-        })
+          })
+        console.log(`${p}\n\t${origSz} \t-> ${newSz} bytes \t${newSz / origSz}x \t${willSave ? '✅' : '❌'}`)
       }
     })
   ],
