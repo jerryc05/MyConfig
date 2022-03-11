@@ -78,7 +78,7 @@ export default defineConfig({
     }
   },
   server: {
-    port: 8080,
+    port: 5000,
     strictPort: false,
     // https: {
     //   minVersion: 'TLSv1.3',
