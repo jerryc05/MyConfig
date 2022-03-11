@@ -4,14 +4,37 @@ import { brotliCompress } from 'zlib'
 
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, normalizePath, Plugin } from 'vite'
-import { injectHtml, minifyHtml } from 'vite-plugin-html'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    minifyHtml(), injectHtml({ data: { injectHead: '' } }),
+    createHtmlPlugin({
+      minify: true,
+      pages: [
+        {
+          entry: 'src/main.ts',
+          filename: 'index.html',
+          template: 'index.html',
+          injectOptions: {
+            data: {
+              htmlLang: '"en-US"',  // '"zh-cmn-Hans"',
+            },
+            // tags: [
+            //   {
+            //     injectTo: 'head',
+            //     tag: 'script',
+            //     attrs: {
+            //       src: '',
+            //     },
+            //   },
+            // ],
+          },
+        }
+      ]
+    }),
     MyPostProcessorOnBuild(async p => {
       if (/\.(\w?js|css|\w?html)$/.test(p)) {
         const newFileName = `${p}.br`
