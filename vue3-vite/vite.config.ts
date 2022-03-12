@@ -37,6 +37,16 @@ export default defineConfig({
       ]
     }),
     MyPostProcessorOnBuild(async p => {
+      if (/\.(\w?js|css)$/.test(p)) {
+        let content = await (await readFile(p)).toString()
+        const commentRegex = /\/\*[\s\S]*?\*\//g
+        if (commentRegex.test(content)) {
+          content = content.replace(commentRegex, '')
+          await open(p, 'w').then(async f => f.write(content))
+        }
+      }
+    }),
+    MyPostProcessorOnBuild(async p => {
       /* if (/\.(\w?js|css|\w?html)$/.test(p)) */ {
         const origSz = await stat(p).then(s => s.size)
         const newFileDir = path.join(path.dirname(p), '_br')
