@@ -22,15 +22,16 @@ export default defineConfig({
             data: {
               htmlLang: '"en-US"',  // '"zh-cmn-Hans"',
             },
-            // tags: [
-            //   {
-            //     injectTo: 'head',
-            //     tag: 'script',
-            //     attrs: {
-            //       src: '',
-            //     },
-            //   },
-            // ],
+            tags: [
+              {
+                injectTo: 'head-prepend',
+                tag: 'meta',
+                attrs: {
+                  'http-equiv': 'Content-Security-Policy',
+                  content: "default-src 'self'",
+                },
+              },
+            ],
           },
         }
       ]

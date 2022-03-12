@@ -30,7 +30,8 @@ def remove_headers(res: Response) -> Response:
     return res
 
 
-def add_csp(res: Response) -> Response:
-    res.content_security_policy = ContentSecurityPolicy()
-    res.content_security_policy.default_src = "'self'"
+def add_html_csp(res: Response) -> Response:
+    if res.content_type and 'html' in res.content_type:
+        res.content_security_policy = ContentSecurityPolicy()
+        res.content_security_policy.default_src = "'self'"
     return res
