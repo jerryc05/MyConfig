@@ -5,6 +5,7 @@
     "serve": "vite preview",
     "d": "npm run dev",
     "b": "npm run build",
+    "b!": "vite build",
     "s": "npm run serve"
   },
   "dependencies": {
