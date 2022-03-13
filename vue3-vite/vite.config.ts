@@ -69,7 +69,7 @@ export default defineConfig({
         const willSave = newSz < origSz * 0.95
         if (willSave)
           await open(newFileName, 'wx').then(async f => f.write(compressed))
-        console.log(`${p}\n\t${origSz} \t-> ${newSz} bytes \t${newSz / origSz}x \t${willSave ? '✅' : '❌'}`)
+        console.log(`${p}\n\t${origSz} \t-> ${newSz} bytes \t${(newSz / origSz).toFixed(4)}x ${willSave ? '✅' : '❌'}`)
       }
     })
   ],
