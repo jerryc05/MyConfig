@@ -5,6 +5,7 @@ import { brotliCompress } from 'zlib'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig, normalizePath, Plugin } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
+import { viteExternalsPlugin } from 'vite-plugin-externals'
 
 
 // https://vitejs.dev/config/
@@ -28,7 +29,14 @@ export default defineConfig({
                 tag: 'meta',
                 attrs: {
                   'http-equiv': 'Content-Security-Policy',
-                  content: "default-src 'self'",
+                  content: "default-src 'self';script-src-elem 'self' https://cdn.jsdelivr.net",
+                },
+              },
+              {
+                injectTo: 'head',
+                tag: 'script',
+                attrs: {
+                  src: 'https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.runtime.global.prod.js',
                 },
               },
             ],
@@ -36,6 +44,7 @@ export default defineConfig({
         }
       ]
     }),
+    viteExternalsPlugin({ vue: 'Vue' }),
     MyPostProcessorOnBuild(async p => {
       if (/\.(\w?js|css)$/.test(p)) {
         let content = await (await readFile(p)).toString()
