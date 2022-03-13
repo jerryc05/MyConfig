@@ -36,7 +36,7 @@ export default defineConfig({
                 injectTo: 'head',
                 tag: 'script',
                 attrs: {
-                  src: 'https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.runtime.global.prod.js',
+                  src: 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.runtime.global.prod.js',
                 },
               },
               {
