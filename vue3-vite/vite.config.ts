@@ -39,12 +39,29 @@ export default defineConfig({
                   src: 'https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.runtime.global.prod.js',
                 },
               },
+              {
+                injectTo: 'head',
+                tag: 'script',
+                attrs: {
+                  src: 'https://cdn.jsdelivr.net/npm/vue-demi',
+                },
+              },
+              {
+                injectTo: 'head',
+                tag: 'script',
+                attrs: {
+                  src: 'https://cdn.jsdelivr.net/npm/pinia',
+                },
+              },
             ],
           },
         }
       ]
     }),
-    viteExternalsPlugin({ vue: 'Vue' }),
+    viteExternalsPlugin({
+      vue: 'Vue',
+      pinia: 'Pinia'
+    }),
     MyPostProcessorOnBuild(async p => {
       if (/\.(\w?js|css)$/.test(p)) {
         let content = await (await readFile(p)).toString()
