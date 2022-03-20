@@ -29,24 +29,51 @@ for USR in "$HOME" $USR_DIRS; do
   done
 done
 
-# SSH Agent
-if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; then
-  ssh-add -l >/dev/null 2>&1
-  if [ $? -eq 2 ]; then
-    export DOT_SSH="$HOME/.ssh"
-    mkdir -p $DOT_SSH
 
-    export SSH_AUTH_SOCK=$(cat $DOT_SSH/.SSH_AUTH_SOCK 2>/dev/null)
-    export SSH_AGENT_PID=$(cat $DOT_SSH/.SSH_AGENT_PID 2>/dev/null)
+# SSH and GPG
+DOT_SSH="$HOME/.ssh"
+mkdir -p $DOT_SSH
 
+# If using security key under WSL, with Putty in Windows
+if grep -qEi "(Microsoft|WSL)" /proc/version &>/dev/null && command -v putty.exe >/dev/null 2>&1; then
+  # `(cd ~/.ssh&&curl -JOL https://github.com/BlackReloaded/wsl2-ssh-pageant/releases/latest/download/wsl2-ssh-pageant.exe&&chmod +x ./wsl2-ssh-pageant.exe)`
+
+  # SSH Socket
+  # Removing Linux SSH socket and replacing it by link to wsl2-ssh-pageant socket
+  export SSH_AUTH_SOCK="$DOT_SSH/agent.sock"
+  ss -a | fgrep -q $SSH_AUTH_SOCK
+  if [ $? -ne 0 ]; then
+    rm -f $SSH_AUTH_SOCK
+    setsid nohup socat UNIX-LISTEN:$SSH_AUTH_SOCK,fork EXEC:"$DOT_SSH/wsl2-ssh-pageant.exe" &>/dev/null &
+  fi
+
+  # GPG Socket
+  # Removing Linux GPG Agent socket and replacing it by link to wsl2-ssh-pageant GPG socket
+  export GPG_AGENT_SOCK=$HOME/.gnupg/S.gpg-agent
+  ss -a | fgrep -q $GPG_AGENT_SOCK
+  if [ $? -ne 0 ]; then
+    rm -rf $GPG_AGENT_SOCK
+    setsid nohup socat UNIX-LISTEN:$GPG_AGENT_SOCK,fork EXEC:"$DOT_SSH/wsl2-ssh-pageant.exe --gpg S.gpg-agent" &>/dev/null &
+  fi
+
+else
+  # SSH Agent
+  if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; then
     ssh-add -l >/dev/null 2>&1
     if [ $? -eq 2 ]; then
-      eval `ssh-agent` >/dev/null
-      echo $SSH_AUTH_SOCK >$DOT_SSH/.SSH_AUTH_SOCK
-      echo $SSH_AGENT_PID >$DOT_SSH/.SSH_AGENT_PID
+      export SSH_AUTH_SOCK=$(cat $DOT_SSH/.SSH_AUTH_SOCK 2>/dev/null)
+      export SSH_AGENT_PID=$(cat $DOT_SSH/.SSH_AGENT_PID 2>/dev/null)
+
+      ssh-add -l >/dev/null 2>&1
+      if [ $? -eq 2 ]; then
+        eval `ssh-agent` >/dev/null
+        echo $SSH_AUTH_SOCK >$DOT_SSH/.SSH_AUTH_SOCK
+        echo $SSH_AGENT_PID >$DOT_SSH/.SSH_AGENT_PID
+      fi
     fi
   fi
 fi
+
 
 # XDG Variables
 test ${XDG_CONFIG_HOME:="$HOME/.config"}
