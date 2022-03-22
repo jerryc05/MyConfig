@@ -10,6 +10,7 @@
 #include <cstring>
 #include <new>
 #include <ostream>
+#include <utility>
 #include <ratio>
 
 #include "../attributes.h"
@@ -43,8 +44,8 @@ namespace jerryc05 {
                     std::is_nothrow_copy_constructible_v<decltype(m_capacity)>&&
                     std::is_nothrow_copy_constructible_v<decltype(m_p_ref_count)>):
         m_data {o.m_data},
-        m_capacity {o.m_capacity},
         m_size {o.m_size},
+        m_capacity {o.m_capacity},
         m_p_ref_count {o.m_p_ref_count} {
       assert(("Must not self-construct" && &m_p_ref_count != &o.m_p_ref_count));
       if (m_p_ref_count != nullptr)  // if heap allocated
@@ -57,8 +58,8 @@ namespace jerryc05 {
                     std::is_nothrow_move_constructible_v<decltype(m_capacity)>&&
                     std::is_nothrow_move_constructible_v<decltype(m_p_ref_count)>):
         m_data {std::move(o.m_data)},
-        m_capacity {std::move(o.m_capacity)},
         m_size {std::move(o.m_size)},
+        m_capacity {std::move(o.m_capacity)},
         m_p_ref_count {std::move(o.m_p_ref_count)} {
       assert(("Must not self-construct" && &m_p_ref_count != &o.m_p_ref_count));
       o.m_p_ref_count = {};
@@ -116,8 +117,18 @@ namespace jerryc05 {
       return m_data[i];
     }
 
-    NoDiscard constexpr T* operator[](std::size_t i) noexcept(
-        noexcept(this->_to_owned()) && noexcept(this->m_data[i])) {
+  //   NoDiscard T& operator[](std::size_t i) {
+  //     assert(("Index must be in range" && i < m_size));
+  //     if (!_to_owned()) {
+  // #ifndef NDEBUG
+  //       std::cerr << __PRETTY_FUNCTION__ << " failed to own internal data\n";
+  // #endif
+  //       std::terminate();
+  //     }
+  //     return const_cast<T&>(std::as_const(*this)[i]);
+  //   }
+
+    NoDiscard T* at(std::size_t i) {
       assert(("Index must be in range" && i < m_size));
       return _to_owned() ? &m_data[i] : ({});
     }
