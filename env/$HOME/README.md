@@ -126,16 +126,18 @@ git config --get-regexp 'rerere.*'
 #git config --global gpg.program "/path/to/gpg_executable"
 #git config --global user.signingkey GPG_KEY_ID_OR_SSH_PUBKEY_HERE
 
-git config --global init.defaultBranch          main
-git config --global push.recursesubmodules      check
-git config --global core.usebuiltinfsmonitor    true
+git config --global init.defaultBranch       main
+git config --global push.recursesubmodules   check
+git config --global core.usebuiltinfsmonitor true
+git config --global core.symlinks            true
 
-git config --global pull.rebase true
 git config --global rebase.autoStash true
 git config --global help.autoCorrect prompt
 
-
 git config --global alias.adog 'log --all --decorate --oneline --graph'
+git config --global alias.c 'commit'
+git config --global alias.p '!git pull && git push'
+git config --global alias.s 'status'
 
 git config --global alias.slf 'fetch --depth=1'
 #                         └ [S]ha[l]low [F]etch
