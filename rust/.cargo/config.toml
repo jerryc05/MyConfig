@@ -7,23 +7,13 @@ tr = "test --release"
 r = "run"
 rr = "run --release"
 
-[build]
-rustflags = [
-    "-Clink-args=-s",
-    "-Ctarget-cpu=native",
-    "-Clinker-plugin-lto",
-    "-Ztune-cpu=machine
-]
-    #"-Cllvm-args=",
-    #
-    # For debug
-    #"-Ccontrol-flow-guard=1"
-    #"-Cinline-threshold=1000"
-    #"-Zsanitizer=?"
-    #"-Zsanitizer-memory-track-origins=1"
-    #"-Zsaturating-float-casts=1"
 
-    #"-Zmutable-noalias"
+[build]
+incremental = true
+
+
+[env]
+ASAN_OPTIONS = 'detect_leaks=1,detect_stack_use_after_return=1'
 
 
 [profile.release]

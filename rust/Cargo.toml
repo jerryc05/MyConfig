@@ -1,3 +1,5 @@
+cargo-features = ["profile-rustflags"]
+
 [package]
 name = "my-template"
 version = "0.1.0"
@@ -22,5 +24,30 @@ categories = [
 
 [profile.release]
 codegen-units = 1
-lto = fat
+lto = true
 panic = 'abort'
+rustflags = [
+    "-Cinline-threshold=1000",
+    "-Clinker-plugin-lto",
+    "-Ctarget-cpu=native",
+    "-Zmutable-noalias",
+
+    "-Zbuild-std=std,panic_abort",
+    "-Zbuild-std-features=panic_immediate_abort"
+]
+strip = 'symbols'
+
+[profile.dev]
+rustflags = [
+    "-Ccontrol-flow-guard=on",
+    #"-Zsanitizer=address",
+    #"-Zsanitizer=leak",
+    #"-Zsanitizer-memory-track-origins=1",
+    #"-Zsaturating-float-casts=1"
+]
+
+#  rustup toolchain install nightly
+#  rustup component add rust-src --toolchain nightly
+
+#  cargo install cargo-bloat --no-default-features
+#  cargo bloat --release

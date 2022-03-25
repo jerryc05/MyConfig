@@ -7,9 +7,9 @@
 
 #include <cassert>
 #include <cmath>
-#include <type_traits>
 
 #include "attributes.h"
+#include "compats/type_traits.h"
 
 namespace jerryc05 {
 
