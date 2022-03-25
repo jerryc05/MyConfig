@@ -119,6 +119,6 @@ try_add_flag(CMAKE_CXX_FLAGS -Wunused-macros)
 try_add_flag(CMAKE_CXX_FLAGS -Wuse-after-free=3)
 try_add_flag(CMAKE_CXX_FLAGS -Wuseless-cast)
 try_add_flag(CMAKE_CXX_FLAGS -Wvector-operation-performance)
-try_add_flag(CMAKE_CXX_FLAGS -Wvla)
+#                            -Wvla  # OK
 try_add_flag(CMAKE_CXX_FLAGS -Wwrite-strings)
 try_add_flag(CMAKE_CXX_FLAGS -Wzero-as-null-pointer-constant)
