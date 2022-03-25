@@ -5,6 +5,7 @@
     "serve": "vite preview",
     "d": "npm run dev",
     "b": "npm run build",
+    "b!": "vite build",
     "s": "npm run serve"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
     // "sass": "latest",
     "typescript": "next",
     "vite": "beta",
+    "vite-plugin-externals": "latest",
     "vite-plugin-html": "latest",
     "vue-tsc": "latest"
   },

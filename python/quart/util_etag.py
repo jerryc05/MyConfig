@@ -76,7 +76,7 @@ async def etag_file_try_content_encoding(
     if content_encoding in req.accept_encodings and p_br.exists():
         res = await etag_file(req, p_br, content_encoding)
     else:
-        res = await etag_file(req, p, content_encoding)
+        res = await etag_file(req, p)
     return res
 
 

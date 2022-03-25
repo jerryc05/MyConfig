@@ -38,7 +38,7 @@ IndentCaseBlocks: false
 IndentCaseLabels: true
 IndentExternBlock: Indent  # clang-format 12
 IndentGotoLabels: true
-IndentPPDirectives: AfterHash
+IndentPPDirectives: BeforeHash
 IndentRequires: true  # clang-format 13
 IndentWidth: 2
 LambdaBodyIndentation: OuterScope  # clang-format 13
