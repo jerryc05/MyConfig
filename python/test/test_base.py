@@ -29,8 +29,14 @@ SIG_DICT = {v: k for k, v in sig.__dict__.items() if k.startswith('SIG')}
 
 def reason_from_code(code: int, stderr: 'tp.IO[bytes]|None' = None) -> str:
     desc = f"{code}"
-    with suppress(KeyError, ValueError):
+    try:
         desc += f" {SIG_DICT[-code]} ({sig.strsignal(-code)})"
+    except (KeyError, ValueError):
+        try:
+            desc += f" {SIG_DICT[code-128]} ({sig.strsignal(code-128)})"
+        except (KeyError, ValueError):
+            pass
+
     rv = f'Exit code: [{desc}]'
     if stderr is not None:
         rv += f', stderr: [{stderr.read().strip().decode()}]'
@@ -198,6 +204,8 @@ class ParallelTest(ABC):
         global lock
         try:
             mp.set_start_method('fork')  # Only Unix
+        except RuntimeError:
+            ...
         except ValueError:
             raise NotImplementedError(
                 f'{p.L_RED}Current OS does not support {p.BOLD}fork(){p.NORMAL}!{p.CLR_ALL}'
@@ -238,6 +246,7 @@ class ParallelTest(ABC):
             'mp.Queue[dict[str,str|None]]', (mp.Queue() if self.n_pools() > 1 else Queue())
         )
         q.put_nowait({})
+        assert tasks
 
         # pyright:reportUnknownArgumentType=false,reportUnknownMemberType=false
         sig.signal(sig.SIGALRM, TleErr.raise_)  # use signal.SIG_IGN as handler to ignore
@@ -379,10 +388,11 @@ class ParallelTest(ABC):
             fail.sort()
             digit, sec_digit = len(str(max(len(succ), len(fail)))), 4
             for i, (x, r, t) in enumerate(succ):
+                r = '\t (' + r + ')' if r else ''
                 p(
                     f'{p.L_GREEN}{i+1:>{digit}}. OK'
                     f' ({t:{sec_digit}.{max(0,sec_digit-1-len(str(ceil(t))))}f} s) \u2714'
-                    f' {p.BOLD}{x}{p.NORMAL}'
+                    f' {p.BOLD}{x}{p.NORMAL}{r}',
                 )
             sig_re = re.compile(r'SIG\w+ *\(.+?\)')
             for i, (x, r, t) in enumerate(fail):
