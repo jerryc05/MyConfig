@@ -1,3 +1,5 @@
+cargo-features = ["profile-rustflags"]
+
 [package]
 name = "my-template"
 version = "0.1.0"
@@ -22,5 +24,21 @@ categories = [
 
 [profile.release]
 codegen-units = 1
-lto = fat
+lto = true
 panic = 'abort'
+rustflags = [
+    "-Cinline-threshold=1000",
+    "-Clinker-plugin-lto",
+    "-Ctarget-cpu=native",
+    "-Zmutable-noalias",
+]
+strip = 'symbols'
+
+[profile.dev]
+rustflags = [
+    "-Ccontrol-flow-guard=on",
+    #"-Zsanitizer=address",
+    #"-Zsanitizer=leak",
+    #"-Zsanitizer-memory-track-origins=1",
+    #"-Zsaturating-float-casts=1"
+]
