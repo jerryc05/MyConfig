@@ -1,11 +1,12 @@
 [alias]
-b = "build"
-br = "build --release"
-c = "clippy -- -Wclippy::all -Wclippy::nursery -Wclippy::cargo"
-t = "test"  # "-- --nocapture"
-tr = "test --release"
-r = "run"
-rr = "run --release"
+b = 'build --timings'
+br = 'b --release'
+t = 'test --timings'  # '-- --nocapture'
+tr = 't --release'
+r = 'run --timings'
+rr = 'r --release'
+
+c = 'clippy -- -Wclippy::all -Wclippy::nursery -Wclippy::cargo'
 
 
 [build]

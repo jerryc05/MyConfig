@@ -134,10 +134,11 @@ git config --global core.symlinks            true
 git config --global rebase.autoStash true
 git config --global help.autoCorrect prompt
 
-git config --global alias.adog 'log --all --decorate --oneline --graph'
 git config --global alias.c 'commit'
 git config --global alias.p '!git pull && git push'
 git config --global alias.s 'status'
+git config --global alias.adog 'log --all --decorate --oneline --graph'
+git config --global alias.ls 'ls-files -s'
 
 git config --global alias.slf 'fetch --depth=1'
 #                         └ [S]ha[l]low [F]etch
