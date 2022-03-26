@@ -4,6 +4,7 @@
 
 #[macro_use]
 mod my_err;
+pub mod ncurses;
 
 use std::fs::File;
 use std::os::unix::io::FromRawFd;

@@ -5,8 +5,8 @@
 mod utils;
 mod test;
 
+use crate::ncurses::*;
 use crate::utils::*;
-use ncurses::*;
 
 #[no_mangle]
 pub fn main(_argc: i32, _argv: *const *const u8) -> i32 {
