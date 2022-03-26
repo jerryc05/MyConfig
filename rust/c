@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+
+####################################################
+# [C]reate a version with [build-std] optimization #
+####################################################
+
+#  rustup toolchain install nightly
+#  rustup component add rust-src --toolchain nightly
+
+cargo $1 \
+-Zunstable-options \
+--config='profile.release.rustflags=["-Clink-arg=-fuse-ld=lld"]' \
+-Zbuild-std=std,panic_abort \
+-Zbuild-std-features=panic_immediate_abort \
+--target=`rustc -vV|sed -n "s|host: ||p"`
