@@ -9,7 +9,7 @@
 
 cargo $1 \
 -Zunstable-options \
---config='profile.release.rustflags=["-Clink-arg=-fuse-ld=lld"]' \
+--config='profile.release.rustflags=["-Clink-arg=-fuse-ld=lld","-Clinker-plugin-lto"]' \
 -Zbuild-std=std,panic_abort \
 -Zbuild-std-features=panic_immediate_abort \
 --target=`rustc -vV|sed -n "s|host: ||p"`

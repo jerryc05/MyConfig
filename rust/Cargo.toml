@@ -26,9 +26,11 @@ lto = true
 panic = 'abort'
 rustflags = [
     '-Cinline-threshold=1000',
-    '-Clinker-plugin-lto',
     '-Ctarget-cpu=native',
     '-Zmutable-noalias',
+
+    '-Clink-arg=-fuse-ld=lld', # requires lld from clang
+    '-Clinker-plugin-lto',
 ]
 strip = true
 
