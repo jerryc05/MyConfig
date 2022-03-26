@@ -100,7 +100,7 @@ Use at your **OWN** risk.
 ### Git Config
 ```sh
 git config --global user.name   'Ziyan "Jerry" Chen'
-git config --global user.email  "jerryc443@gmail.com"
+git config --global user.email  'jerryc443@gmail.com'
 git config --get-regexp 'user.*'
 
 git config --global core.autocrlf   input

@@ -3,8 +3,8 @@
 #[macro_use]
 mod utils;
 
-use std::io::Write;
 use crate::utils::stdout_file;
+use std::io::Write;
 
 #[no_mangle]
 pub fn main(_argc: i32, _argv: *const *const u8) -> i32 {
