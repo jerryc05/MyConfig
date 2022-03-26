@@ -20,10 +20,29 @@ ASAN_OPTIONS = 'detect_leaks=1,detect_stack_use_after_return=1'
 [profile.release]
 codegen-units = 1
 lto = true
+panic = 'abort'
+rustflags = [
+  '-Cinline-threshold=1000',
+  '-Ctarget-cpu=native',
+  '-Zmutable-noalias',
 
-[profile.bench]
-codegen-units = 1
-lto = true
+  '-Clink-arg=-fuse-ld=lld', # requires lld from clang
+  '-Clinker-plugin-lto',
+]
+strip = true
+
+
+[profile.dev]
+rustflags = [
+  '-Ccontrol-flow-guard=on',
+  #'-Zsanitizer=address',
+  #'-Zsanitizer=leak',
+  #'-Zsanitizer-memory-track-origins=1',
+  #'-Zsaturating-float-casts=1'
+]
+
+#  cargo install cargo-bloat --no-default-features
+#  cargo bloat --release
 
 
 #[target.x86_64-unknown-linux-gnu]
