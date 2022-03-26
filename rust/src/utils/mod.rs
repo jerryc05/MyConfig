@@ -3,7 +3,10 @@
 #![allow(unused_macros)]
 
 #[macro_use]
-pub mod my_err;
+mod my_err;
+
+use std::fs::File;
+use std::os::unix::io::FromRawFd;
 
 #[inline]
 pub const fn is_debug() -> bool {
@@ -18,4 +21,8 @@ macro_rules! static_assert {
             X
         } as usize] = [];
     };
+}
+
+pub fn stdout_file() -> File {
+    unsafe { File::from_raw_fd(1) }
 }
