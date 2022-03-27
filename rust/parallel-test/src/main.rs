@@ -10,23 +10,24 @@ use crate::utils::*;
 
 #[no_mangle]
 pub fn main(_argc: i32, _argv: *const *const u8) -> i32 {
-    let w = NcursesWindow::default();
+    let n = NcursesMgr::default();
+    box_(n.stdscr(), 0, 0);
     {
-        let x = w.getcurx();
-        let y = w.getcury();
-        w.addstr(&format!("{} {}", x, y));
-        w.move_(y + 1, 0);
+        let x = getcurx(n.stdscr());
+        let y = getcury(n.stdscr());
+        wmove(n.stdscr(), y + 1, 1);
+        waddstr(n.stdscr(), &format!("{} {}", x, y));
     }
-    w.addstr("Hello, world! Ncurses!");
+    wmove(n.stdscr(), getcury(n.stdscr()) + 1, 1);
+    waddstr(n.stdscr(), "Hello, world! Ncurses!");
     {
-        let x = w.getcurx();
-        let y = w.getcury();
-        w.addstr(&format!("{} {}", x, y));
-        w.move_(y + 1, 0);
+        let x = getcurx(n.stdscr());
+        let y = getcury(n.stdscr());
+        wmove(n.stdscr(), y + 1, 1);
+        waddstr(n.stdscr(), &format!("{} {}", x, y));
     }
-    w.box_(0, 0);
-    w.refresh();
-    w.getch();
+    wrefresh(n.stdscr());
+    wgetch(n.stdscr());
 
     0
 }
