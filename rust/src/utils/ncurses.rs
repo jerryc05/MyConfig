@@ -25,6 +25,9 @@ impl NcursesWindow {
     pub fn addstr(&self, s: &str) {
         waddstr(self.0, s);
     }
+    pub fn box_(&self, v: chtype, h: chtype) -> i32 {
+        box_(self.0, v, h)
+    }
     pub fn getch(&self) -> i32 {
         wgetch(self.0)
     }
@@ -33,6 +36,12 @@ impl NcursesWindow {
     }
     pub fn getcury(&self) -> i32 {
         getcury(self.0)
+    }
+    pub fn getmaxx(&self) -> i32 {
+        getmaxx(self.0)
+    }
+    pub fn getmaxy(&self) -> i32 {
+        getmaxy(self.0)
     }
     pub fn keypad(&self, b: bool) -> i32 {
         keypad(self.0, b)

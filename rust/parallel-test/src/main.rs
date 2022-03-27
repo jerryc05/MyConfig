@@ -24,6 +24,7 @@ pub fn main(_argc: i32, _argv: *const *const u8) -> i32 {
         w.addstr(&format!("{} {}", x, y));
         w.move_(y + 1, 0);
     }
+    w.box_(0, 0);
     w.refresh();
     w.getch();
 

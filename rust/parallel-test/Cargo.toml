@@ -18,7 +18,7 @@ license = 'BSD-4-Clause'
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-ncurses = '^5'
+ncurses = '5.101.0'
 
 
 [profile.release]
