@@ -1,9 +1,10 @@
 #![no_main]
 #![feature(generator_trait)]
+#![feature(thread_local)]
 
 #[macro_use]
 mod utils;
-mod test;
+// mod test;
 
 use crate::ncurses::*;
 use crate::utils::*;

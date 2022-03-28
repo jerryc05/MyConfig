@@ -2,7 +2,7 @@ use std::fs::File;
 use std::sync::Mutex;
 use std::{borrow::Cow, ops::Generator};
 
-use crate::utils::stdout_file;
+use crate::utils::*;
 
 #[derive(Debug)]
 struct TestResult<'a> {
@@ -26,7 +26,7 @@ impl<'a> Test<'a> {
         Self {
             scheduler,
             n_pool,
-            stdout: Mutex::new(stdout_file()),
+            stdout: Mutex::new(sout()),
         }
     }
 

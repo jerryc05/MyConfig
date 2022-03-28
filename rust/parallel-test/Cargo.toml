@@ -21,6 +21,10 @@ license = 'BSD-4-Clause'
 ncurses = '5.101.0'
 
 
+[features]
+ref-count-init = []
+
+
 [profile.release]
 
 
