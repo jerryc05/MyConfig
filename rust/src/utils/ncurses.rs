@@ -1,9 +1,11 @@
 use std::io::Write;
 
 pub use ncurses::{
-    box_, getcurx, getcury, keypad, waddnstr, waddstr, wgetch, wmove, wrefresh, WINDOW,
+    box_, getcurx, getcury, keypad, mmask_t, waddnstr, waddstr, wgetch, wmove, wrefresh, WINDOW,
 };
-use ncurses::{endwin, initscr, newwin, noecho, raw, stdscr};
+use ncurses::{
+    endwin, initscr, mousemask, newwin, noecho, raw, start_color, stdscr, ALL_MOUSE_EVENTS,
+};
 pub use ncurses::{ERR, OK};
 pub use ncurses::{KEY_F0, KEY_F1, KEY_F2, KEY_F3, KEY_F4, KEY_F5, KEY_F6, KEY_F7, KEY_F9};
 pub use ncurses::{KEY_F10, KEY_F11, KEY_F12, KEY_F13, KEY_F14, KEY_F15};
@@ -38,10 +40,29 @@ impl Default for NcursesMgr {
         }
 
         if do_() {
-            if is_debug() {
-                sout().write(b"init ncurses\n").unwrap();
+            {
+                if is_debug() {
+                    sout().write(b"init ncurses: initscr()\n").unwrap();
+                }
+                initscr();
             }
-            initscr();
+            {
+                if is_debug() {
+                    sout().write(b"init ncurses: start_color()\n").unwrap();
+                }
+                let _r = start_color();
+                debug_assert_eq!(_r, OK);
+            }
+            {
+                if is_debug() {
+                    sout().write(b"init ncurses: mousemask()\n").unwrap();
+                    let _r = mousemask(ALL_MOUSE_EVENTS as mmask_t, Option::None);
+                    debug_assert_eq!(_r, ALL_MOUSE_EVENTS as mmask_t);
+                }
+            }
+        }
+        if is_debug() {
+            sout().write(b"init ncurses: -\n").unwrap();
         }
         NcursesMgr {}
     }
@@ -70,11 +91,14 @@ impl Drop for NcursesMgr {
         }
 
         if do_() {
-            let r = endwin();
             if is_debug() {
-                sout().write(b"end ncurses\n").unwrap();
+                sout().write(b"end ncurses: endwin()\n").unwrap();
             }
-            debug_assert_eq!(r, OK);
+            let _r = endwin();
+            debug_assert_eq!(_r, OK);
+        }
+        if is_debug() {
+            sout().write(b"end ncurses: -\n").unwrap();
         }
     }
 }
