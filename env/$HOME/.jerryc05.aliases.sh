@@ -60,4 +60,4 @@ drsync(){ { git ls-files||find . -print;}|xrsync --include-from=- --exclude='*' 
 #                                                                                └-> delete any "untracked" files
 
 # VSCode, if only insiders is installed, alias to it
-command -v code >/dev/null || command -v code-insiders >/dev/null && alias code=code-insiders
+command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
