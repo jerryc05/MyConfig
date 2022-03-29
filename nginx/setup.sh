@@ -7,23 +7,32 @@ set -eou pipefail
 sudo apt install git mercurial cmake libunwind-dev libpcre3-dev || \
 sudo pacman -S   git mercurial cmake libunwind        pcre
 
-# Clone `BoringSSL`
-git clone https://github.com/google/boringssl.git --depth=1
-
-# Update `BoringSSL` if already cloned before
-(cd boringssl && git fetch --depth=1 && git reset FETCH_HEAD)
+# Clone and update `BoringSSL` if already cloned before
+(
+  [ -f boringssl ] || git clone https://github.com/google/boringssl.git --depth=1
+  cd boringssl
+  git fetch --depth=1
+  git reset FETCH_HEAD
+)
 
 # Build `BoringSSL`
-(cd boringssl && cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE='-DNDEBUG -Ofast -march=native -w' -DCMAKE_BUILD_TYPE=Release && cmake --build build)
+(
+  cd boringssl
+  cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE='-DNDEBUG -Ofast -march=native -w' -DCMAKE_BUILD_TYPE=Release
+  cmake --build build
+)
 
-# Clone `nginx-quic`
-hg clone -b quic https://hg.nginx.org/nginx-quic
-
-# Update `nginx-quic` if already cloned before
-(cd nginx-quic && hg update)
+# Clone and update `nginx-quic` if already cloned before
+(
+  [ -f nginx-quic ] || hg clone -b quic https://hg.nginx.org/nginx-quic
+  cd nginx-quic
+  hg update
+)
 
 # Build `nginx-quic`
-(cd nginx-quic && ./auto/configure \
+(
+cd nginx-quic
+./auto/configure \
 --prefix=/etc/nginx \
 --sbin-path=/usr/local/sbin/nginx \
 --modules-path=/usr/lib/nginx/modules \
@@ -40,14 +49,15 @@ hg clone -b quic https://hg.nginx.org/nginx-quic
 --with-http_degradation_module \
 --without-http_auth_basic_module \
 --without-http_autoindex_module \
---without-http_geo_module \
 --with-stream=dynamic \
 --with-stream_ssl_module \
 --with-stream_realip_module \
 --with-stream_ssl_preread_module \
 --with-stream_quic_module \
---with-compat) && \
-(cd nginx-quic && make && sudo make install)
+--with-compat
+make
+sudo make install
+)
 # --prefix=/usr/local/nginx \
 # --sbin-path=[prefix]/sbin/nginx \
 # --modules-path=[prefix]/modules \
