@@ -4,7 +4,7 @@ echo 'Update date: 2022-03-28'
 set -eou pipefail
 
 # Install `git`, `mercurial`, `cmake`, `libunwind`, `pcre`
-sudo apt install git mercurial cmake libunwind-dev libpcre3-dev
+sudo apt install git mercurial cmake libunwind-dev libpcre3-dev || \
 sudo pacman -S   git mercurial cmake libunwind        pcre
 
 # Clone `BoringSSL`
