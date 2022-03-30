@@ -7,9 +7,9 @@ set -eou pipefail
 sudo apt install git mercurial cmake libunwind-dev libpcre3-dev || \
 sudo pacman -S   git mercurial cmake libunwind        pcre
 
-# Clone and update `BoringSSL` if already cloned before
+# Clone or update `BoringSSL` if already cloned before
 (
-  [ -f boringssl ] || git clone https://github.com/google/boringssl.git --depth=1
+  [ -f boringssl ] || git clone --depth=1 https://github.com/google/boringssl.git
   cd boringssl
   git fetch --depth=1
   git reset FETCH_HEAD
@@ -22,7 +22,16 @@ sudo pacman -S   git mercurial cmake libunwind        pcre
   cmake --build build
 )
 
-# Clone and update `nginx-quic` if already cloned before
+# Clone or update `ngx_brotli` if already cloned before
+(
+  [ -f ngx_brotli ] || git clone --depth=1 https://github.com/google/ngx_brotli.git
+  cd ngx_brotli
+  git fetch --depth=1
+  git reset FETCH_HEAD
+  git submodule update --init --depth=1
+)
+
+# Clone or update `nginx-quic` if already cloned before
 (
   [ -f nginx-quic ] || hg clone -b quic https://hg.nginx.org/nginx-quic
   cd nginx-quic
@@ -31,32 +40,35 @@ sudo pacman -S   git mercurial cmake libunwind        pcre
 
 # Build `nginx-quic`
 (
-cd nginx-quic
-./auto/configure \
---prefix=/etc/nginx \
---sbin-path=/usr/local/sbin/nginx \
---modules-path=/usr/lib/nginx/modules \
---conf-path=/etc/nginx/nginx.conf \
---with-cc-opt='-I../boringssl/include -DNDEBUG -Ofast -march=native -w' \
---with-ld-opt='-L../boringssl/build/ssl -L../boringssl/build/crypto' \
---with-threads \
---with-file-aio \
---with-http_realip_module \
---with-http_ssl_module \
---with-http_v2_module \
---with-http_v3_module \
---with-http_gzip_static_module \
---with-http_degradation_module \
---without-http_auth_basic_module \
---without-http_autoindex_module \
---with-stream=dynamic \
---with-stream_ssl_module \
---with-stream_realip_module \
---with-stream_ssl_preread_module \
---with-stream_quic_module \
---with-compat
-make
-sudo make install
+  MODULE_PATH='/usr/lib/nginx/modules'
+  cd nginx-quic
+  ./auto/configure \
+  --prefix='/etc/nginx' \
+  --sbin-path='/usr/local/sbin/nginx' \
+  --modules-path="$MODULE_PATH" \
+  --conf-path='/etc/nginx/nginx.conf' \
+  --with-cc-opt='-I../boringssl/include -DNDEBUG -Ofast -march=native -w' \
+  --with-ld-opt='-L../boringssl/build/ssl -L../boringssl/build/crypto' \
+  --with-threads \
+  --with-file-aio \
+  --with-http_realip_module \
+  --with-http_ssl_module \
+  --with-http_v2_module \
+  --with-http_v3_module \
+  --with-http_gzip_static_module \
+  --with-http_degradation_module \
+  --without-http_auth_basic_module \
+  --without-http_autoindex_module \
+  --with-stream=dynamic \
+  --with-stream_ssl_module \
+  --with-stream_realip_module \
+  --with-stream_ssl_preread_module \
+  --with-stream_quic_module \
+  --with-compat \
+  --add-dynamic-module='../ngx_brotli'
+  make
+  make modules
+  sudo make install
 )
 # --prefix=/usr/local/nginx \
 # --sbin-path=[prefix]/sbin/nginx \
