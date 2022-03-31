@@ -14,7 +14,7 @@ BORINGSSL_DIR="`pwd`/$BORINGSSL"
   [ -f "$BORINGSSL_DIR" ] || git clone --depth=1 "https://github.com/google/$BORINGSSL.git $BORINGSSL_DIR"
   cd "$BORINGSSL_DIR"
   git fetch --depth=1
-  git reset FETCH_HEAD
+  git reset --hard FETCH_HEAD
 
   # Build `BoringSSL`
   cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE='-DNDEBUG -Ofast -march=native -w' -DCMAKE_BUILD_TYPE=Release
@@ -28,7 +28,7 @@ NGX_BROTLI_DIR="`pwd`/$NGX_BROTLI"
   [ -f "$NGX_BROTLI_DIR" ] || git clone --depth=1 "https://github.com/google/$NGX_BROTLI.git $NGX_BROTLI_DIR"
   cd "$NGX_BROTLI_DIR"
   git fetch --depth=1
-  git reset FETCH_HEAD
+  git reset --hard FETCH_HEAD
   git submodule update --init --depth=1
 )
 
