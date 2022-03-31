@@ -7,6 +7,8 @@ set -eou pipefail
 sudo apt install git autoconf || \
 sudo pacman -S   git autoconf
 
+MAKEFLAGS="$MAKEFLAGS -j $(($(nproc) * 2))"
+
 JEMALLOC='jemalloc'
 JEMALLOC_DIR="`pwd`/$JEMALLOC"
 (
@@ -26,7 +28,6 @@ JEMALLOC_DIR="`pwd`/$JEMALLOC"
   --disable-fill \
   --enable-lazy-lock
 
-  MAKEFLAGS="$MAKEFLAGS -j `nproc`"
   make
   sudo make install
 )
