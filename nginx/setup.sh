@@ -11,7 +11,7 @@ BORINGSSL='boringssl'
 BORINGSSL_DIR="`pwd`/$BORINGSSL"
 (
   # Clone/update `BoringSSL`
-  [ -d "$BORINGSSL_DIR" ] || git clone --depth=1 "https://github.com/google/$BORINGSSL.git $BORINGSSL_DIR"
+  [ -d "$BORINGSSL_DIR" ] || git clone --depth=1 "https://github.com/google/$BORINGSSL.git" "$BORINGSSL_DIR"
   cd "$BORINGSSL_DIR"
   git fetch --depth=1
   git reset --hard FETCH_HEAD
@@ -25,8 +25,19 @@ NGX_BROTLI='ngx_brotli'
 NGX_BROTLI_DIR="`pwd`/$NGX_BROTLI"
 (
   # Clone/update `ngx_brotli`
-  [ -d "$NGX_BROTLI_DIR" ] || git clone --depth=1 "https://github.com/google/$NGX_BROTLI.git $NGX_BROTLI_DIR"
+  [ -d "$NGX_BROTLI_DIR" ] || git clone --depth=1 "https://github.com/google/$NGX_BROTLI.git" "$NGX_BROTLI_DIR"
   cd "$NGX_BROTLI_DIR"
+  git fetch --depth=1
+  git reset --hard FETCH_HEAD
+  git submodule update --init --depth=1
+)
+
+HEADERS_MORE='headers-more-nginx-module'
+HEADERS_MORE_DIR="`pwd`/headers-more"
+(
+  # Clone/update `ngx_brotli`
+  [ -d "$HEADERS_MORE_DIR" ] || git clone --depth=1 "https://github.com/openresty/$HEADERS_MORE.git" "$HEADERS_MORE_DIR"
+  cd "$HEADERS_MORE_DIR"
   git fetch --depth=1
   git reset --hard FETCH_HEAD
   git submodule update --init --depth=1
@@ -66,8 +77,9 @@ NGX_BROTLI_DIR="`pwd`/$NGX_BROTLI"
   --with-stream_ssl_preread_module \
   --with-stream_quic_module \
   --with-compat \
-  --add-dynamic-module="$NGX_BROTLI_DIR"
-  MAKEFLAGS="$MAKEFLAGS -j `nproc` "
+  --add-dynamic-module="$NGX_BROTLI_DIR" \
+  --add-dynamic-module="$HEADERS_MORE_DIR"
+  [ "$MAKEFLAGS" == *"-j"* ] || MAKEFLAGS="$MAKEFLAGS -j `nproc` "
   make
   make modules
   sudo make install
