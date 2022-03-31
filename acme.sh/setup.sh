@@ -37,5 +37,6 @@ sudo chmod -R 777 "$WWW_ROOT"
 acme.sh --issue --keylength $KEY_LEN -d $YOUR_DOMAIN -w "$WWW_ROOT"
 
 # Deploy
-chmod -R 755 "$INSTALL_PATH"
+chmod -R +r "$INSTALL_PATH"
+find "$INSTALL_PATH" -type d | xargs chmod +x
 sudo mv "$INSTALL_PATH" "$DEPLOY_PATH"
