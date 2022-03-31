@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-echo 'Update date: 2022-03-28'
+echo 'Update date: 2022-03-30'
 set -eou pipefail
 
 # Install `git`, `mercurial`, `cmake`, `libunwind`, `pcre`
