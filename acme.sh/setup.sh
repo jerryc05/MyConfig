@@ -15,7 +15,7 @@ sudo mkdir -p -m755 "$INSTALL_PATH"
 # Clone/update repo
 (
   REPO_NAME='acme.sh'
-  [ -f "$REPO_NAME" ] || git clone --depth=1 "https://github.com/acmesh-official/$REPO_NAME.git"
+  [ -d "$REPO_NAME" ] || git clone --depth=1 "https://github.com/acmesh-official/$REPO_NAME.git"
   cd "$REPO_NAME"
   git fetch --depth=1
   git reset --hard FETCH_HEAD

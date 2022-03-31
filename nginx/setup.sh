@@ -11,7 +11,7 @@ BORINGSSL='boringssl'
 BORINGSSL_DIR="`pwd`/$BORINGSSL"
 (
   # Clone/update `BoringSSL`
-  [ -f "$BORINGSSL_DIR" ] || git clone --depth=1 "https://github.com/google/$BORINGSSL.git $BORINGSSL_DIR"
+  [ -d "$BORINGSSL_DIR" ] || git clone --depth=1 "https://github.com/google/$BORINGSSL.git $BORINGSSL_DIR"
   cd "$BORINGSSL_DIR"
   git fetch --depth=1
   git reset --hard FETCH_HEAD
@@ -25,7 +25,7 @@ NGX_BROTLI='ngx_brotli'
 NGX_BROTLI_DIR="`pwd`/$NGX_BROTLI"
 (
   # Clone/update `ngx_brotli`
-  [ -f "$NGX_BROTLI_DIR" ] || git clone --depth=1 "https://github.com/google/$NGX_BROTLI.git $NGX_BROTLI_DIR"
+  [ -d "$NGX_BROTLI_DIR" ] || git clone --depth=1 "https://github.com/google/$NGX_BROTLI.git $NGX_BROTLI_DIR"
   cd "$NGX_BROTLI_DIR"
   git fetch --depth=1
   git reset --hard FETCH_HEAD
@@ -36,14 +36,15 @@ NGX_BROTLI_DIR="`pwd`/$NGX_BROTLI"
   REPO_NAME='nginx-quic'
 
   # Clone/update `nginx-quic`
-  [ -f "$REPO_NAME" ] || hg clone -b quic "https://hg.nginx.org/$REPO_NAME"
+  [ -d "$REPO_NAME" ] || hg clone -b quic "https://hg.nginx.org/$REPO_NAME"
   cd "$REPO_NAME"
   hg update
 
   # Build `nginx-quic`
-  MODULE_PATH='/usr/lib/nginx/modules'
+  PREFIX_PATH='/etc/nginx'
+  MODULE_PATH="$PREFIX_PATH/modules"
   ./auto/configure \
-  --prefix='/etc/nginx' \
+  --prefix="$PREFIX_PATH" \
   --sbin-path='/usr/local/sbin/nginx' \
   --modules-path="$MODULE_PATH" \
   --conf-path='/etc/nginx/nginx.conf' \
@@ -66,6 +67,7 @@ NGX_BROTLI_DIR="`pwd`/$NGX_BROTLI"
   --with-stream_quic_module \
   --with-compat \
   --add-dynamic-module="$NGX_BROTLI_DIR"
+  MAKEFLAGS="$MAKEFLAGS -j `nproc` "
   make
   make modules
   sudo make install
