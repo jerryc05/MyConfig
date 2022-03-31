@@ -6,6 +6,10 @@ set -eou pipefail
 read -p 'Enter email address: ' YOUR_EMAIL_ADDR
 read -p 'Enter domain, separated by " -d ": ' YOUR_DOMAIN
 
+# Install `git`
+sudo apt install git || \
+sudo pacman -S   git
+
 DEPLOY_PATH='/etc/acme.sh'
 INSTALL_PATH="${XDG_CONFIG_HOME:="$HOME/.config"}/acme.sh"
 KEY_LEN='ec-256'
