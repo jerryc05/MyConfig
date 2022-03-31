@@ -7,48 +7,48 @@ set -eou pipefail
 sudo apt install git mercurial cmake libunwind-dev libpcre3-dev || \
 sudo pacman -S   git mercurial cmake libunwind        pcre
 
-# Clone or update `BoringSSL` if already cloned before
+BORINGSSL='boringssl'
+BORINGSSL_DIR="`pwd`/$BORINGSSL"
 (
-  [ -f boringssl ] || git clone --depth=1 https://github.com/google/boringssl.git
-  cd boringssl
+  # Clone/update `BoringSSL`
+  [ -f "$BORINGSSL_DIR" ] || git clone --depth=1 "https://github.com/google/$BORINGSSL.git $BORINGSSL_DIR"
+  cd "$BORINGSSL_DIR"
   git fetch --depth=1
   git reset FETCH_HEAD
-)
 
-# Build `BoringSSL`
-(
-  cd boringssl
+  # Build `BoringSSL`
   cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE='-DNDEBUG -Ofast -march=native -w' -DCMAKE_BUILD_TYPE=Release
   cmake --build build
 )
 
-# Clone or update `ngx_brotli` if already cloned before
+NGX_BROTLI='ngx_brotli'
+NGX_BROTLI_DIR="`pwd`/$NGX_BROTLI"
 (
-  [ -f ngx_brotli ] || git clone --depth=1 https://github.com/google/ngx_brotli.git
-  cd ngx_brotli
+  # Clone/update `ngx_brotli`
+  [ -f "$NGX_BROTLI_DIR" ] || git clone --depth=1 "https://github.com/google/$NGX_BROTLI.git $NGX_BROTLI_DIR"
+  cd "$NGX_BROTLI_DIR"
   git fetch --depth=1
   git reset FETCH_HEAD
   git submodule update --init --depth=1
 )
 
-# Clone or update `nginx-quic` if already cloned before
 (
-  [ -f nginx-quic ] || hg clone -b quic https://hg.nginx.org/nginx-quic
-  cd nginx-quic
-  hg update
-)
+  REPO_NAME='nginx-quic'
 
-# Build `nginx-quic`
-(
+  # Clone/update `nginx-quic`
+  [ -f "$REPO_NAME" ] || hg clone -b quic "https://hg.nginx.org/$REPO_NAME"
+  cd "$REPO_NAME"
+  hg update
+
+  # Build `nginx-quic`
   MODULE_PATH='/usr/lib/nginx/modules'
-  cd nginx-quic
   ./auto/configure \
   --prefix='/etc/nginx' \
   --sbin-path='/usr/local/sbin/nginx' \
   --modules-path="$MODULE_PATH" \
   --conf-path='/etc/nginx/nginx.conf' \
-  --with-cc-opt='-I../boringssl/include -DNDEBUG -Ofast -march=native -w' \
-  --with-ld-opt='-L../boringssl/build/ssl -L../boringssl/build/crypto' \
+  --with-cc-opt="-I$BORINGSSL_DIR/include -DNDEBUG -Ofast -march=native -w" \
+  --with-ld-opt="-L$BORINGSSL_DIR/build/ssl -L$BORINGSSL_DIR/build/crypto" \
   --with-threads \
   --with-file-aio \
   --with-http_realip_module \
@@ -65,7 +65,7 @@ sudo pacman -S   git mercurial cmake libunwind        pcre
   --with-stream_ssl_preread_module \
   --with-stream_quic_module \
   --with-compat \
-  --add-dynamic-module='../ngx_brotli'
+  --add-dynamic-module="$NGX_BROTLI_DIR"
   make
   make modules
   sudo make install
