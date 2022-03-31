@@ -3,12 +3,14 @@
 echo 'Update date: 2022-03-30'
 set -eou pipefail
 
+read -p "Enter email address: " YOUR_EMAIL_ADDR
+read -p "Enter domain: " YOUR_DOMAIN
+
 INSTALL_PATH='/etc/acme.sh'
 KEY_LEN='ec-256'
 
 # Pre-install
-sudo mkdir -p  "$INSTALL_PATH"
-sudo chmod 755 "$INSTALL_PATH"
+sudo mkdir -p -m755 "$INSTALL_PATH"
 
 # Clone/update repo
 (
@@ -20,7 +22,9 @@ sudo chmod 755 "$INSTALL_PATH"
 )
 
 # Install
-./acme.sh --install --cert-home "$INSTALL_PATH" --keylength "$KEY_LEN"  # -m YOUR_EMAIL_ADDR
+./acme.sh --install --cert-home "$INSTALL_PATH" --keylength "$KEY_LEN" -m "$YOUR_EMAIL_ADDR"
 
 # Issue
-acme.sh --issue --cron --keylength "$KEY_LEN"  # -d YOUR_DOMAIN -w /home/wwwroot/YOUR_DOMAIN
+WWW_ROOT='/var/wwwroot'
+sudo mkdir -p -m777 "$WWW_ROOT"
+acme.sh --issue --cron --keylength "$KEY_LEN" -d "$YOUR_DOMAIN" -w "$WWW_ROOT/$YOUR_DOMAIN"
