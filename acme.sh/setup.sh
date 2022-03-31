@@ -25,6 +25,6 @@ sudo mkdir -p -m755 "$INSTALL_PATH"
 ./acme.sh --install --cert-home "$INSTALL_PATH" --keylength "$KEY_LEN" -m "$YOUR_EMAIL_ADDR"
 
 # Issue
-WWW_ROOT='/var/wwwroot'
+WWW_ROOT='/var/wwwroot'  # also change in [nginx.conf]
 sudo mkdir -p -m777 "$WWW_ROOT"
 acme.sh --issue --cron --keylength "$KEY_LEN" -d "$YOUR_DOMAIN" -w "$WWW_ROOT/$YOUR_DOMAIN"
