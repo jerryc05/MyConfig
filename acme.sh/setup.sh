@@ -3,8 +3,8 @@
 echo 'Update date: 2022-03-30'
 set -eou pipefail
 
-read -p "Enter email address: " YOUR_EMAIL_ADDR
-read -p "Enter domain: " YOUR_DOMAIN
+read -p 'Enter email address: ' YOUR_EMAIL_ADDR
+read -p 'Enter domain, separated by " -d ": ' YOUR_DOMAIN
 
 DEPLOY_PATH='/etc/acme.sh'
 INSTALL_PATH="${XDG_CONFIG_HOME:="$HOME/.config"}/acme.sh"
@@ -34,7 +34,7 @@ REPO_NAME='acme.sh'
 WWW_ROOT='/var/wwwroot'  # also change in [nginx.conf]
 sudo mkdir -p "$WWW_ROOT"
 sudo chmod -R 777 "$WWW_ROOT"
-acme.sh --issue --keylength "$KEY_LEN" -d "$YOUR_DOMAIN" -w "$WWW_ROOT"
+acme.sh --issue --keylength $KEY_LEN -d $YOUR_DOMAIN -w "$WWW_ROOT"
 
 # Deploy
 chmod -R 755 "$INSTALL_PATH"
