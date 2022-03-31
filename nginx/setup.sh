@@ -79,7 +79,7 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   --with-compat \
   --add-dynamic-module="$NGX_BROTLI_DIR" \
   --add-dynamic-module="$HEADERS_MORE_DIR"
-  [ "$MAKEFLAGS" == *"-j"* ] || MAKEFLAGS="$MAKEFLAGS -j `nproc` "
+  MAKEFLAGS="$MAKEFLAGS -j `nproc` "
   make
   make modules
   sudo make install
