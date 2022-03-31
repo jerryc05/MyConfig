@@ -39,4 +39,4 @@ acme.sh --issue --keylength $KEY_LEN -d $YOUR_DOMAIN -w "$WWW_ROOT"
 # Deploy
 chmod -R +r "$INSTALL_PATH"
 find "$INSTALL_PATH" -type d | xargs chmod +x
-sudo mv "$INSTALL_PATH" "$DEPLOY_PATH"
+sudo mv "$INSTALL_PATH/acme.sh" "$DEPLOY_PATH"
