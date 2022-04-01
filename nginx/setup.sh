@@ -18,7 +18,7 @@ ZLIB_NG_DIR="`pwd`/zlib-ng"
   [ -d "$ZLIB_NG_DIR" ] || git clone --depth=1 https://github.com/zlib-ng/zlib-ng.git "$ZLIB_NG_DIR"
   cd "$ZLIB_NG_DIR"
   git fetch --depth=1
-  git reset --hard FETCH_HEAD
+  git reset --hard origin/HEAD
 
   # Build `zlib-ng`
   cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE="$FLAGS" -DCMAKE_BUILD_TYPE=Release -DZLIB_ENABLE_TESTS=OFF -DWITH_NATIVE_INSTRUCTIONS=ON
@@ -31,7 +31,7 @@ ZLIB_NG_DIR="`pwd`/zlib-ng"
 #   [ -d "$BORINGSSL_DIR" ] || git clone --depth=1 https://github.com/google/boringssl.git "$BORINGSSL_DIR"
 #   cd "$BORINGSSL_DIR"
 #   git fetch --depth=1
-#   git reset --hard FETCH_HEAD
+#   git reset --hard origin/HEAD
 
 #   # Build `BoringSSL`
 #   cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE="$FLAGS" -DCMAKE_BUILD_TYPE=Release
@@ -44,7 +44,7 @@ QUICTLS_DIR="`pwd`/quictls"
   [ -d "$QUICTLS_DIR" ] || git clone --depth=1 https://github.com/quictls/openssl.git "$QUICTLS_DIR"
   cd "$QUICTLS_DIR"
   git fetch --depth=1
-  git reset --hard FETCH_HEAD
+  git reset --hard origin/HEAD
   git submodule update --init --depth=1
 
   # Build `quictls`
@@ -63,7 +63,7 @@ NGX_BROTLI_DIR="`pwd`/ngx_brotli"
   [ -d "$NGX_BROTLI_DIR" ] || git clone --depth=1 https://github.com/google/ngx_brotli.git "$NGX_BROTLI_DIR"
   cd "$NGX_BROTLI_DIR"
   git fetch --depth=1
-  git reset --hard FETCH_HEAD
+  git reset --hard origin/HEAD
   git submodule update --init --depth=1
 )
 
@@ -73,7 +73,7 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   [ -d "$HEADERS_MORE_DIR" ] || git clone --depth=1 https://github.com/openresty/headers-more-nginx-module.git "$HEADERS_MORE_DIR"
   cd "$HEADERS_MORE_DIR"
   git fetch --depth=1
-  git reset --hard FETCH_HEAD
+  git reset --hard origin/HEAD
   git submodule update --init --depth=1
 )
 

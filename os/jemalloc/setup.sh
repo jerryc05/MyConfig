@@ -16,7 +16,7 @@ JEMALLOC_DIR="`pwd`/$JEMALLOC"
   [ -d "$JEMALLOC_DIR" ] || git clone --depth=1 "https://github.com/$JEMALLOC/$JEMALLOC.git" "$JEMALLOC_DIR"
   cd "$JEMALLOC_DIR"
   git fetch --depth=1
-  git reset --hard FETCH_HEAD
+  git reset --hard origin/HEAD
 
   # Build `jemalloc`
   export EXTRA_CFLAGS="-DNDEBUG -Ofast -march=native -w"

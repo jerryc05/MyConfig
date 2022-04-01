@@ -25,7 +25,7 @@ REPO_NAME='acme.sh'
   [ -d "$REPO_NAME" ] || git clone --depth=1 "https://github.com/acmesh-official/$REPO_NAME.git"
   cd "$REPO_NAME"
   git fetch --depth=1
-  git reset --hard FETCH_HEAD
+  git reset --hard origin/HEAD
 
   # Install
   ./acme.sh --install --cert-home "$INSTALL_PATH" --keylength "$KEY_LEN" -m "$YOUR_EMAIL_ADDR"

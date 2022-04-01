@@ -45,5 +45,5 @@ git config --global alias.ls    'ls-files -s'
 
 git config --global alias.slf 'fetch --depth=1'
 #                         └ [S]ha[l]low [F]etch
-git config --global alias.hrf 'reset FETCH_HEAD --hard'
+git config --global alias.hrf 'reset origin/HEAD --hard'
 #                         └ [H]ard [R]eset to [F]ETCH_HEAD
