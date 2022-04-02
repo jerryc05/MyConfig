@@ -1,8 +1,8 @@
-const attestation: AttestationConveyancePreference | undefined = 'none'  // default 'none'
+const attestation: AttestationConveyancePreference | undefined = undefined  // default 'none'
 const authenticatorSelection: AuthenticatorSelectionCriteria = {
   authenticatorAttachment: undefined,  // [authenticatorAttachment] tries [platform] first, and then [cross-platform], if has [PKCS1] alg
   requireResidentKey: true,
-  userVerification: 'required',
+  userVerification: 'preferred',
 }
 const challenge: Uint8Array = new TextEncoder().encode('randomStringFromServer, need to prevent replay attacks')
 const excludeCredentials: PublicKeyCredentialDescriptor[] | undefined = undefined
