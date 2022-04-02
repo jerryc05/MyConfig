@@ -1,6 +1,6 @@
-const attestation: AttestationConveyancePreference | undefined = undefined  // default 'none'
+const attestation: AttestationConveyancePreference | undefined = 'indirect'  // default 'none', recognizes 'fido-u2f', 'tpm', 'apple' ...
 const authenticatorSelection: AuthenticatorSelectionCriteria = {
-  authenticatorAttachment: undefined,  // [authenticatorAttachment] tries [platform] first, and then [cross-platform], if has [PKCS1] alg
+  authenticatorAttachment: undefined,  // [authenticatorAttachment] tries 'platform' first, and then 'cross-platform', if has [PKCS1] alg
   requireResidentKey: true,
   userVerification: 'preferred',
 }
