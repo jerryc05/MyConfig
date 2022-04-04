@@ -1,0 +1,15 @@
+[Unit]
+Description=FRP Server Service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/home/jerryc05/apps/frp
+ExecStart=/home/jerryc05/apps/frp/frps -c /home/jerryc05/apps/frp/frps.ini
+Restart=always
+RestartSec=2s
+
+[Install]
+WantedBy=multi-user.target
+
+# Run `systemd-analyze verify ???` to validate configuration
