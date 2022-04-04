@@ -4,6 +4,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
+DynamicUser=yes
 WorkingDirectory=/home/jerryc05/apps/frp
 ExecStart=/home/jerryc05/apps/frp/frps -c /home/jerryc05/apps/frp/frps.ini
 Restart=always
@@ -12,4 +13,7 @@ RestartSec=2s
 [Install]
 WantedBy=multi-user.target
 
-# Run `systemd-analyze verify ???` to validate configuration
+# Run
+# systemd-analyze verify ???.service
+# systemd-analyze security ???.service
+# to validate configuration

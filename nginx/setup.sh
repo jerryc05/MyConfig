@@ -99,10 +99,11 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
 
   # Build `nginx-quic`
   PREFIX_PATH='/etc/nginx'
+  SBIN_PATH='/usr/local/sbin/nginx'
   MODULE_PATH="$PREFIX_PATH/modules"
   ./auto/configure \
   --prefix="$PREFIX_PATH" \
-  --sbin-path='/usr/local/sbin/nginx' \
+  --sbin-path=$SBIN_PATH \
   --modules-path="$MODULE_PATH" \
   --conf-path='/etc/nginx/nginx.conf' \
   --with-cc-opt="-I$TLS_LIB/include $LINK_ARG $FLAGS" \
@@ -130,6 +131,23 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   make
   make modules
   sudo make install
+
+  sudo tee /etc/systemd/system/nginx.service <<EOF
+[Unit]
+Description=The NGINX HTTP and reverse proxy server
+After=network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+
+[Service]
+ExecStartPre=$SBIN_PATH -t
+ExecStart=$SBIN_PATH
+ExecReload=$SBIN_PATH -s reload
+ExecStop=$SBIN_PATH -s stop
+
+[Install]
+WantedBy=multi-user.target
+EOF
+  systemd-analyze verify nginx.service
 )
 # [http_gzip_module] uses regular zlib, it's slow, don't
 
