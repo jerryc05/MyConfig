@@ -83,7 +83,7 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   # Clone/update `nginx-quic`
   [ -d "$REPO_NAME" ] || hg clone -b quic "https://hg.nginx.org/$REPO_NAME"
   cd "$REPO_NAME"
-  hg update
+  hg update --clean -v
 
   # Test if `jemalloc` exists
   command -v jemalloc-config >/dev/null \
@@ -93,6 +93,10 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   # Decide which TLS library to use
   [ -d "$QUICTLS_DIR" ] && { TLS_LIB="$QUICTLS_DIR"; LINK_ARG="$LINK_ARG -Wl,-rpath,$QUICTLS_DIR"; } || TLS_LIB="$BORINGSSL_DIR"
 
+  # *OPTIONAL* Remove error page body
+  cp src/http/ngx_http_special_response.c src/http/ngx_http_special_response.c~
+  sed -i 's/ngx_stri.*),/ngx_null_string,/g' src/http/ngx_http_special_response.c
+
   # Build `nginx-quic`
   PREFIX_PATH='/etc/nginx'
   MODULE_PATH="$PREFIX_PATH/modules"
@@ -101,7 +105,7 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   --sbin-path='/usr/local/sbin/nginx' \
   --modules-path="$MODULE_PATH" \
   --conf-path='/etc/nginx/nginx.conf' \
-  --with-cc-opt="-I$TLS_LIB/include $FLAGS" \
+  --with-cc-opt="-I$TLS_LIB/include $LINK_ARG $FLAGS" \
   --with-ld-opt="-L$TLS_LIB -L$TLS_LIB/build/ssl -L$TLS_LIB/build/crypto $LINK_ARG" \
   --with-threads \
   --with-file-aio \
