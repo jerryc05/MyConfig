@@ -94,8 +94,10 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   [ -d "$QUICTLS_DIR" ] && { TLS_LIB="$QUICTLS_DIR"; LINK_ARG="$LINK_ARG -Wl,-rpath,$QUICTLS_DIR"; } || TLS_LIB="$BORINGSSL_DIR"
 
   # *OPTIONAL* Remove error page body
-  cp src/http/ngx_http_special_response.c src/http/ngx_http_special_response.c~
   sed -i 's/ngx_stri.*),/ngx_null_string,/g' src/http/ngx_http_special_response.c
+
+  # *OPTIONAL* Return 444 on error
+  sed -i 's/= *\w\+BAD_REQUEST *;/=NGX_HTTP_CLOSE;/g' src/http/ngx_http_core_module.c
 
   # Build `nginx-quic`
   PREFIX_PATH='/etc/nginx'
