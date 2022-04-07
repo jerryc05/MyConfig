@@ -40,11 +40,13 @@ command -v delta >/dev/null && xdelta() {
 
 # More helpful tar/untar
 command -v tar >/dev/null && xtar() {
-  echo "XZ_OPT=-8 tar acvf $* \n"
-        XZ_OPT=-8 tar acvf $*
+  str="XZ_OPT=-9 tar acvf $*"
+  echo "$str\n"
+  eval "$str"
 } && xuntar() {
-  echo "tar xvf $* \n"
-        tar xvf $*
+  str="tar xvf $*"
+  echo "$str\n"
+  eval "$str"
 }
 
 # Handy rsync command
