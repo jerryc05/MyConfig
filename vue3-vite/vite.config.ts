@@ -29,7 +29,15 @@ export default defineConfig({
                 tag: 'meta',
                 attrs: {
                   'http-equiv': 'Content-Security-Policy',
-                  content: "default-src 'self';script-src-elem 'self' https://cdn.jsdelivr.net",
+                  content: "default-src 'self';script-src-elem 'self' https://cdn.jsdelivr.net;style-src-elem 'unsafe-inline'",
+                },
+              },
+              {
+                injectTo: 'head-prepend',
+                tag: 'meta',
+                attrs: {
+                  'http-equiv': 'X-Content-Type-Options',
+                  content: 'nosniff',
                 },
               },
               {
