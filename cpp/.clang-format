@@ -47,7 +47,7 @@ NamespaceIndentation: All
 PackConstructorInitializers: NextLine  # clang-format 14
 PointerAlignment: Left
 QualifierAlignment: Custom  # clang-format 14
-QualifierOrder: ['constexpr', 'inline', 'static', 'type', 'const', 'volatile', 'restrict']  # clang-format 14
+QualifierOrder: ['constexpr', 'inline', 'static', 'const', 'volatile', 'type', 'restrict']  # clang-format 14
 ReferenceAlignment: Left  # clang-format 13
 ReflowComments: false
 RemoveBracesLLVM: true  # clang-format 14
