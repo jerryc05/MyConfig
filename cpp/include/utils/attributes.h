@@ -14,7 +14,7 @@
 #if __cplusplus >= 201603
 #  define NoDiscard [[nodiscard]]
 #elif !defined(_MSC_VER)
-#  define NoDiscard __attribute__((warn_unused_result))
+#  define NoDiscard __attribute__((warn_unused_result)) __attribute_warn_unused_result__
 #else
 #  define NoDiscard _Check_return_
 #endif
@@ -39,7 +39,7 @@
 
 #  define NoInlineFn     __attribute__((noinline))
 //#  define NonNullFn                      __attribute__((nonnull))
-#  define NonNullFn(...) __attribute__((nonnull, __VA_ARGS__))
+#  define NonNullFn(...) __attribute__((nonnull __VA_ARGS__))
 
 // use C++11 alignas(...) keyword for variables
 
