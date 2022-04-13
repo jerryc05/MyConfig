@@ -1,13 +1,14 @@
 #!/usr/bin/env sh
 
-echo 'Update date: 2022-03-31'
 set -eou pipefail
 
 # Install `git`, `autoconf`
 sudo apt install git autoconf || \
 sudo pacman -S   git autoconf
 
-MAKEFLAGS="$MAKEFLAGS -j $(($(nproc) * 2))"
+[ -z "$FLAGS" ] && echo "Run [`git root`/os/build_flags.sh] first!" && exit 1
+export EXTRA_CFLAGS="$FLAGS"
+export EXTRA_CXXFLAGS="$EXTRA_CFLAGS"
 
 JEMALLOC='jemalloc'
 JEMALLOC_DIR="`pwd`/$JEMALLOC"
@@ -19,8 +20,6 @@ JEMALLOC_DIR="`pwd`/$JEMALLOC"
   git reset --hard origin/HEAD
 
   # Build `jemalloc`
-  export EXTRA_CFLAGS="-DNDEBUG -Ofast -march=native -w"
-  export EXTRA_CXXFLAGS="$EXTRA_CFLAGS"
   ./autogen.sh \
   --disable-stats \
   --disable-prof-libgcc \

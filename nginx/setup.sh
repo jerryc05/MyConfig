@@ -1,16 +1,12 @@
 #!/usr/bin/env sh
 
-echo 'Update date: 2022-03-30'
 set -eou pipefail
 
 # Install `git`, `mercurial`, `cmake`, `libunwind`, `pcre`
 sudo apt install git mercurial cmake libunwind-dev libpcre3-dev || \
 sudo pacman -S   git mercurial cmake libunwind        pcre
 
-MAKEFLAGS="$MAKEFLAGS -j $(($(nproc) * 2))"
-FLAGS='-DNDEBUG -Ofast -march=native -Werror=vla-parameter -w'
-export CFLAGS="$CFLAGS $FLAGS"
-export CXXFLAGS="$CXXFLAGS $FLAGS"
+[ -z "$FLAGS" ] && echo "Run [`git root`/os/build_flags.sh] first!" && exit 1
 
 ZLIB_NG_DIR="`pwd`/zlib-ng"
 (

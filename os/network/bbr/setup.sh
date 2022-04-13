@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
 
-echo 'Update date: 2022-04-01'
 set -eou pipefail
 
 . `dirname "$0"`/../util.sh
