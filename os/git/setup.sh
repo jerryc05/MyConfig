@@ -42,6 +42,7 @@ git config --global alias.s 'status'
 
 git config --global alias.adog  'log --all --decorate --oneline --graph'
 git config --global alias.ls    'ls-files -s'
+git config --global alias.root  'rev-parse --show-toplevel'
 
 git config --global alias.slf 'fetch --depth=1'
 #                         └ [S]ha[l]low [F]etch
