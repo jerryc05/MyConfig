@@ -97,7 +97,8 @@ export default defineConfig({
     })
   ],
   build: {
-    reportCompressedSize: false  // improve speed
+    reportCompressedSize: false,  // improve speed
+    target: 'esnext'
   },
   resolve: {
     alias: {
@@ -107,6 +108,9 @@ export default defineConfig({
   // base: ''  # Default: '/'
   //       └-> Removes leading slash from the path
   css: {
+    modules: {
+      localsConvention: 'camelCase',
+    }
     postcss: {
       plugins: [
         {  // Remove @charset warnings
