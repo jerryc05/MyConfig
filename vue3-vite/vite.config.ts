@@ -29,7 +29,7 @@ export default defineConfig({
                 tag: 'meta',
                 attrs: {
                   'http-equiv': 'Content-Security-Policy',
-                  content: "default-src 'self';script-src-elem 'self' https://cdn.jsdelivr.net;style-src-elem 'unsafe-inline'",
+                  content: "default-src 'self';script-src-elem 'self' https://cdn.jsdelivr.net;style-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
                 },
               },
               {
