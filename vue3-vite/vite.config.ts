@@ -9,6 +9,7 @@ import { viteExternalsPlugin } from 'vite-plugin-externals'
 
 
 // https://vitejs.dev/config/
+const target = 'esnext'
 export default defineConfig({
   plugins: [
     vue(),
@@ -98,7 +99,7 @@ export default defineConfig({
   ],
   build: {
     reportCompressedSize: false,  // improve speed
-    target: 'esnext'
+    target
   },
   resolve: {
     alias: {
@@ -123,6 +124,11 @@ export default defineConfig({
             }
           }
         }]
+    }
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target
     }
   },
   server: {
