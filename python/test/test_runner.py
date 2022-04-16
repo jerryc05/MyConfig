@@ -38,6 +38,7 @@ class MyTest(ParallelTest):
         '''
         This function will be executed in parallel.
         '''
+        assert isinstance(args, tuple)
         test_name, result, reason = 'Sleep test', False, ''
         assert isinstance(test_name, str)
         start_t, time_limit, popens = float('-inf'), 2, tp.cast('list[sp.Popen[bytes]]', [])

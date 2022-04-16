@@ -288,7 +288,7 @@ class ParallelTest(ABC):
         if self.n_pools() > 1:
             assert pool is not None
             for fn, args in tasks:
-                rets.append(pool.apply_async(fn, args))
+                rets.append(pool.apply_async(fn, (args,)))
         else:
 
             class FakeAsyncResult:
