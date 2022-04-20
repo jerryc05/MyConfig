@@ -111,7 +111,7 @@ export default defineConfig({
   css: {
     modules: {
       localsConvention: 'camelCase',
-    }
+    },
     postcss: {
       plugins: [
         {  // Remove @charset warnings

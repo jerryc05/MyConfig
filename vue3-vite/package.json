@@ -11,12 +11,16 @@
   "dependencies": {
     // "pinia": "latest",
     // "throttle-debounce-ts": "latest",
-    "vue": "latest"
+    "vue": "^3"
   },
   "devDependencies": {
     "@types/node": "latest",
+    // "@types/tailwindcss": "latest",
     "@vitejs/plugin-vue": "latest",
     // "sass": "latest",
+    // "autoprefixer": "latest",
+    // "postcss": "latest",
+    // "tailwindcss": "latest",
     "typescript": "next",
     "vite": "beta",
     "vite-plugin-externals": "latest",
