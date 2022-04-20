@@ -42,6 +42,11 @@ export default defineConfig({
                 },
               },
               {
+                injectTo: 'head-prepend',
+                tag: 'title',
+                children: 'Title'
+              },
+              {
                 injectTo: 'head',
                 tag: 'script',
                 attrs: {
