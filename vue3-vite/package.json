@@ -23,6 +23,7 @@
     "@vitejs/plugin-vue": "latest",
     // "sass": "latest",
     // "autoprefixer": "latest",
+    // "cssnano": "latest",
     // "cssnano-preset-advanced": "latest",
     // "postcss": "latest",
     // "tailwindcss": "latest",
