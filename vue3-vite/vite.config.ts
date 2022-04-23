@@ -10,12 +10,14 @@ import { viteExternalsPlugin } from 'vite-plugin-externals'
 
 // https://vitejs.dev/config/
 const target = 'esnext'
+const jsdelivr = 'https://cdn.jsdelivr.net'
 const tags: HtmlTagDescriptor[] = [{
   injectTo: 'head-prepend',
   tag: 'meta',
   attrs: {
     'http-equiv': 'Content-Security-Policy',
-    content: "default-src 'self';script-src-elem 'self' https://cdn.jsdelivr.net;style-src-elem 'self' 'unsafe-inline' https://cdn.jsdelivr.net",
+    // [*-elem] doesn't work in Safari/iOS, fvck Safari
+    content: `default-src 'self';script-src 'self' ${jsdelivr};style-src 'self' 'unsafe-inline' ${jsdelivr}`,
   },
 },
 {
