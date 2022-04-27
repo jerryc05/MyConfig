@@ -40,26 +40,24 @@ command -v delta >/dev/null && xdelta() {
 
 # More helpful tar/untar
 command -v tar >/dev/null && xtar() {
-  str="XZ_OPT=-9 tar acvf $*"
+  str="XZ_OPT=-9 tar acvf \"$*\""
   echo "$str\n"
   eval "$str"
 } && xuntar() {
-  str="tar xvf $*"
+  str="tar xvf \"$*\""
   echo "$str\n"
   eval "$str"
 }
 
 # Handy rsync command
-xrsync(){ rsync -ahLPvvz --delete-after --no-whole-file --info=progress2 $*;} #--no-links
+xrsync(){ rsync -ahLPvvz --delete-during --no-whole-file --info=progress2 $*;}  # --no-links
 #               ||||| └-> compress file data during the transfer
 #               ||||└---> increase verbosity
 #               |||└----> keep partially transferred files + show progress during transfer
 #               ||└-----> transform symlink into referent file/dir
 #               |└------> output numbers in a human-readable format
 #               └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
-frsync(){ { git ls-files||find . -print;}|xrsync --files-from=- $*;}
-drsync(){ { git ls-files||find . -print;}|xrsync --include-from=- --exclude='*' --delete-excluded $*;}
-#                                                                                └-> delete any "untracked" files
+drsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude=`git -C $1 ls-files --exclude-standard -oi --directory` $*; else xrsync $*; fi;}
 
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
