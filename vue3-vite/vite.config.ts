@@ -115,6 +115,7 @@ export default defineConfig({
       }
     }),
     MyPostProcessorOnBuild(async p => {
+      // p = p.split(path.sep).join(path.posix.sep)
       /* if (/\.(\w?js|css|\w?html)$/.test(p)) */ {
         const newFileName = `${p}.br`
         const orig = await readFile(p)
