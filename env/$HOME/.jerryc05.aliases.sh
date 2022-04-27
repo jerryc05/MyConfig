@@ -57,7 +57,7 @@ xrsync(){ rsync -ahLPvvz --delete-during --no-whole-file --info=progress2 $*;}  
 #               ||└-----> transform symlink into referent file/dir
 #               |└------> output numbers in a human-readable format
 #               └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
-drsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude=`git -C $1 ls-files --exclude-standard -oi --directory` $*; else xrsync $*; fi;}
+drsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude=$(git -C $1 ls-files --exclude-standard -oi --directory) $*; else xrsync $*; fi;}
 
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
