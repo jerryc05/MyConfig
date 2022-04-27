@@ -50,7 +50,7 @@ command -v tar >/dev/null && xtar() {
 }
 
 # Handy rsync command
-xrsync(){ rsync -ahLPvvz --no-links --delete-after --no-whole-file --info=progress2 $*;}
+xrsync(){ rsync -ahLPvvz --delete-after --no-whole-file --info=progress2 $*;} #--no-links
 #               ||||| └-> compress file data during the transfer
 #               ||||└---> increase verbosity
 #               |||└----> keep partially transferred files + show progress during transfer
