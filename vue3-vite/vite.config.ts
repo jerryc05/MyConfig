@@ -1,11 +1,13 @@
-import { open, readdir, readFile, stat } from 'fs/promises'
+import { constants } from 'fs'
+import { access, open, readdir, readFile, stat } from 'fs/promises'
 import * as path from 'path'
 import { brotliCompress } from 'zlib'
 
 import vue from '@vitejs/plugin-vue'
-import { defineConfig, normalizePath, Plugin } from 'vite'
+import { defineConfig, normalizePath, HtmlTagDescriptor, Plugin } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteExternalsPlugin } from 'vite-plugin-externals'
+import removeConsole from 'vite-plugin-remove-console'
 
 
 // https://vitejs.dev/config/
@@ -28,11 +30,11 @@ const tags: HtmlTagDescriptor[] = [{
     content: 'nosniff',
   },
 },
-{
-  injectTo: 'head-prepend',
-  tag: 'title',
-  children: 'BigO Diner'
-},
+// {
+//   injectTo: 'head-prepend',
+//   tag: 'title',
+//   children: 'Title'
+// },
 // {
 //   injectTo: 'head-prepend',
 //   tag: 'link',
@@ -87,6 +89,7 @@ if (process.env.NODE_ENV === 'production') {
 export default defineConfig({
   plugins: [
     vue(),
+    removeConsole(),
     createHtmlPlugin({
       minify: true,
       pages: [
@@ -200,6 +203,6 @@ function MyPostProcessorOnBuild(fn: (p: string) => Promise<void> | void): Plugin
     configResolved(conf) {
       outRoot = normalizePath(path.resolve(conf.root, conf.build.outDir))
     },
-    async closeBundle() { await iterDir(outRoot) }
+    async closeBundle() { access(outRoot, constants.F_OK).then(_ => iterDir(outRoot)) }
   }
 }
