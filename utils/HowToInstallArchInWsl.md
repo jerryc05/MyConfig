@@ -85,7 +85,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Add new user:
     1.  Add:
-        1.  admin user: `groupadd sudo && useradd -m <username> -G sudo`
+        1.  admin user: `groupadd sudo; useradd -m <username> -G sudo`
         2.  normal user: `useradd -m <username>`
 
     2.  Set password: `passwd <username>`
