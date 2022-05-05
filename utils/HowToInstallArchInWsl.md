@@ -55,6 +55,7 @@ See https://github.com/yuk7/ArchWSL
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
     ```
     sed s/^#en_US.UTF-8/en_US.UTF-8/ /etc/locale.gen -i
+    locale-gen
     ```
 
 0.  ```
