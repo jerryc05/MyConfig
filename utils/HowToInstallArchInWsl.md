@@ -46,6 +46,12 @@ See https://github.com/yuk7/ArchWSL
       >>/etc/pacman.d/mirrorlist
     ```
 
+0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
+    ```
+    sed s/^#Color/Color/ /etc/pacman.conf -i
+    sed s/^#ParallelDownloads/ParallelDownloads/ /etc/pacman.conf -i
+    ```
+
 0.  ```
     pacman -Syyu
     pacman -S archlinux-keyring
@@ -56,12 +62,6 @@ See https://github.com/yuk7/ArchWSL
     ```
     rankmirrors -n 9 /etc/pacman.d/mirrorlist >/tmp/mirror
     mv /tmp/mirror /etc/pacman.d/mirrorlist
-    ```
-
-0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
-    ```
-    sed s/^#Color/Color/ /etc/pacman.conf -i
-    sed s/^#ParallelDownloads/ParallelDownloads/ /etc/pacman.conf -i
     ```
 
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
