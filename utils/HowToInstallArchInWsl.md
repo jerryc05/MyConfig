@@ -40,9 +40,9 @@ See https://github.com/yuk7/ArchWSL
 0.  Edit `/etc/pacman.d/mirrorlist`, uncomment all mirrors you want to enable. E.g.:
     ```
     mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
-    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist.bak \
+    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist~ \
       >>/etc/pacman.d/mirrorlist
-    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist.bak \
+    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 1);}' /etc/pacman.d/mirrorlist~ \
       >>/etc/pacman.d/mirrorlist
     ```
 
