@@ -109,7 +109,7 @@ export default defineConfig({
     viteExternalsPlugin(extPlugs),
     MyPostProcessorOnBuild(async p => {
       if (/\.(\w?js|css)$/.test(p)) {
-        let content = await (await readFile(p)).toString()
+        let content = (await readFile(p)).toString()
         const commentRegex = /\/\*[\s\S]*?\*\//g
         if (commentRegex.test(content)) {
           content = content.replace(commentRegex, '')
