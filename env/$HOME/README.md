@@ -54,7 +54,13 @@ Use at your **OWN** risk.
   - Your `~/.jerryc05.zinit.sh` file should be very similar to [`.jerryc05.zinit.sh` in the repo](https://github.com/jerryc05/MyTemplate/blob/env/.jerryc05.zinit.sh).
   - Append these lines to `~/.zshrc` to enable it:
     ```sh
-    for f in $HOME/.jerryc05.*.sh; do . $f; done
+    (
+      cd $HOME &&\
+      curl -JOL https://raw.githubusercontent.com/jerryc05/MyConfig/master/env/%24HOME/.jerryc05.aliases.sh &&\
+      curl -JOL https://raw.githubusercontent.com/jerryc05/MyConfig/master/env/%24HOME/.jerryc05.env.sh &&\
+      curl -JOL https://raw.githubusercontent.com/jerryc05/MyConfig/master/env/%24HOME/.jerryc05.zinit.sh
+    ) &&\
+    echo 'for f in $HOME/.jerryc05.*.sh; do . $f; done' >> $HOME/.zshrc
     ```
 
 #### Summary
