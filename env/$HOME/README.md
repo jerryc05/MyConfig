@@ -47,7 +47,8 @@ Use at your **OWN** risk.
 
 - Installation:
   ```sh
-  sh -c "$(curl -fsSL https://git.io/zinit-install)"
+  curl -fsSL https://git.io/zinit-install -o /tmp/zinit.sh &&\
+  . /tmp/zinit.sh
   ```
 
 - Configuration
