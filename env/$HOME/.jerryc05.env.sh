@@ -81,4 +81,6 @@ if [ ! -z "$ZSH_VERSION" ]; then
     bindkey "^[[1;5C" forward-word;
     bindkey "^[[1;5D" backward-word;
   }
+  # Activate bash-like comment in interactive mode
+  setopt interactivecomments 
 fi
