@@ -10,6 +10,7 @@ git config --global core.fileMode   true
 git config --global core.fsmonitor  true
 git config --global core.longpaths  true
 git config --global core.safecrlf   warn
+git config --global core.fscache    true
 #git config --global core.sshcommand "C:/Windows/System32/OpenSSH/ssh.exe"
 #  [core.sshcommand] will be overridden by [GIT_SSH_COMMAND] env var
 
