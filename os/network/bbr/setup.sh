@@ -10,6 +10,7 @@ lsmod | fgrep bbr
 sysctl net.ipv4.tcp_available_congestion_control | fgrep bbr
 
 tee_if_not_exists 'net.ipv4.tcp_congestion_control = bbr' '/etc/sysctl.conf'
-tee_if_not_exists 'net.core.default_qdisc = fq  # BBR must be used with fq qdisc' '/etc/sysctl.conf'
+tee_if_not_exists '# BBR must be used with fq qdisc'      '/etc/sysctl.conf'
+tee_if_not_exists 'net.core.default_qdisc = fq'           '/etc/sysctl.conf'
 sudo sysctl -p
 sysctl net.ipv4.tcp_congestion_control | fgrep bbr
