@@ -36,7 +36,8 @@ mkdir -p $DOT_SSH
 
 # If using security key under WSL, with Putty in Windows
 PIPERELAY="$DOT_SSH/npiperelay.exe"
-if command -v socat >/dev/null 2>&1 && grep -qEi "(Microsoft|WSL)" /proc/version &>/dev/null && [ -f "$PIPERELAY" ]; then
+if grep -qi "_NT" /proc/version &>/dev/null; then
+elif command -v socat >/dev/null 2>&1 && grep -qEi "(Microsoft|WSL)" /proc/version &>/dev/null && [ -f "$PIPERELAY" ]; then
   # Download from [https://github.com/jstarks/npiperelay/releases]
   # Copy [npiperelay.exe] to ~/.ssh/
   # [chmod +x ~/.ssh/npiperelay.exe]
