@@ -50,5 +50,5 @@ git config --global alias.slf 'fetch --depth=1'
 #                         └ [S]ha[l]low [F]etch
 git config --global alias.hrr '!git reset `git remote | head -n 1`/HEAD --hard'
 #                         └ [H]ard [R]eset to [R]emote branch
-git config --global alias.fsz '!git rev-list --objects --all | git cat-file --batch-check="%(objecttype) %(objectsize) %(rest)" | sed -n "s/^blob //p" | sort -n'
+git config --global alias.fsz '!git rev-list --objects --all | git cat-file --batch-check="%(objecttype) %(objectname) %(objectsize) %(rest)" | sed -n "s/^blob //p" | sort -n --key=2'
 #                         └ [F]ile [S]i[Z]e
