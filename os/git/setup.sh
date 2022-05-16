@@ -39,8 +39,11 @@ git config --global gpg.ssh.defaultKeyCommand 'ssh-add -L'
 
 
 git config --global alias.c 'commit'
-git config --global alias.p '!git pull && git push'
 git config --global alias.s 'status'
+
+git config --global alias.p   'push'
+git config --global alias.pp  '!git pull && git push'
+git config --global alias.ppp 'pull'
 
 git config --global alias.adog  'log --all --decorate --oneline --graph'
 git config --global alias.ls    'ls-files -s'
