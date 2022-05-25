@@ -2,21 +2,20 @@
 
 set -eou pipefail
 
-read -p 'Enter email address: ' YOUR_EMAIL_ADDR
-read -p 'Enter domain, separated by " -d ": ' YOUR_DOMAIN
+[ "$EUID" -ne 0 ] && echo "Please run as root" && exit
+
+read -p 'Enter email address: '                        YOUR_EMAIL_ADDR
+read -p 'Enter domain, unquoted and separated by [-d]: ' YOUR_DOMAIN
 
 # Install `git`
 sudo apt install git || \
 sudo pacman -S   git
 
-DEPLOY_PATH='/etc/acme.sh'
-INSTALL_PATH="${XDG_CONFIG_HOME:="$HOME/.config"}/acme.sh"
-KEY_LEN='ec-256'
-
 # Pre-install
+KEY_LEN='ec-256'
+DEPLOY_PATH='/etc/acme.sh' 
 sudo mkdir -p "$DEPLOY_PATH"
-sudo chmod -R 755 "$DEPLOY_PATH"
-mkdir -p "$INSTALL_PATH"
+sudo chmod -R 766 "$DEPLOY_PATH"
 
 REPO_NAME='acme.sh'
 (
@@ -27,7 +26,7 @@ REPO_NAME='acme.sh'
   git reset --hard origin/HEAD
 
   # Install
-  ./acme.sh --install --cert-home "$INSTALL_PATH" --keylength "$KEY_LEN" -m "$YOUR_EMAIL_ADDR"
+  ./acme.sh --install --cert-home "$DEPLOY_PATH" --keylength "$KEY_LEN" -m "$YOUR_EMAIL_ADDR"
 )
 
 # Reload shell
@@ -37,7 +36,7 @@ REPO_NAME='acme.sh'
 WWW_ROOT='/var/wwwroot'  # also change in [nginx.conf]
 sudo mkdir -p "$WWW_ROOT"
 sudo chmod -R 777 "$WWW_ROOT"
-acme.sh --issue --keylength $KEY_LEN -d $YOUR_DOMAIN -w "$WWW_ROOT"
+acme.sh --issue --keylength "$KEY_LEN" -d $YOUR_DOMAIN -w "$WWW_ROOT"
 
 # Deploy
 chmod -R +r "$INSTALL_PATH"
