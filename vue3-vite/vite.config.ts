@@ -59,7 +59,7 @@ const tags: HtmlTagDescriptor[] = [{
   },
 },
 ]
-const extPlugs = {}
+let extPlug = undefined
 if (process.env.NODE_ENV === 'production') {
   tags.push(
     {
@@ -82,9 +82,20 @@ if (process.env.NODE_ENV === 'production') {
       attrs: {
         src: 'https://cdn.jsdelivr.net/npm/pinia',
       },
-    })
-  extPlugs['vue'] = 'Vue'
-  extPlugs['pinia'] = 'Pinia'
+    },
+    // {
+    //   injectTo: 'head',
+    //   tag: 'script',
+    //   attrs: {
+    //     src: 'https://cdn.jsdelivr.net/npm/@vueuse/core',
+    //   },
+    // }
+  )
+  extPlug = viteExternalsPlugin({
+    vue: 'Vue',
+    pinia: 'Pinia',
+    // '@vueuse/core': 'VueUse'
+  })
 }
 export default defineConfig({
   plugins: [
@@ -106,7 +117,7 @@ export default defineConfig({
         }
       ]
     }),
-    viteExternalsPlugin(extPlugs),
+    extPlug,
     MyPostProcessorOnBuild(async p => {
       if (/\.(\w?js|css)$/.test(p)) {
         let content = (await readFile(p)).toString()
