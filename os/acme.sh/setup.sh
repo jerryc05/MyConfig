@@ -6,10 +6,12 @@ set -eou pipefail
 
 command -v git &>/dev/null && echo 'ERR: git not found!' && false
 
-read -p 'Enter email address: '                               EMAIL_ADDR
+read -p 'Enter email address: ' EMAIL_ADDR
+
 read -p 'Enter main domain (only one): '                      MAIN_DOMAIN
 read -p 'Enter SAN domains, unquoted and separated by [-d]: ' SAN_DOMAINS
-read -p 'Enter hook commands to be exec after renew: '        HOOK_CMD
+
+read -p 'Enter hook commands to be exec after renew (e.g. `systemctl restart nginx`): ' HOOK_CMD
 
 [[ "$MAIN_DOMAIN" =~ ' ' ]] && echo 'ERR: main domain cannot contain SPACE!' && false
 
