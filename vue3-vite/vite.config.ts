@@ -66,6 +66,7 @@ if (process.env.NODE_ENV === 'production') {
       injectTo: 'head',
       tag: 'script',
       attrs: {
+        defer: true,
         src: 'https://cdn.jsdelivr.net/npm/vue@3/dist/vue.runtime.global.prod.js',
       },
     },
@@ -73,6 +74,7 @@ if (process.env.NODE_ENV === 'production') {
       injectTo: 'head',
       tag: 'script',
       attrs: {
+        defer: true,
         src: 'https://cdn.jsdelivr.net/npm/vue-demi',
       },
     },
@@ -80,6 +82,7 @@ if (process.env.NODE_ENV === 'production') {
       injectTo: 'head',
       tag: 'script',
       attrs: {
+        defer: true,
         src: 'https://cdn.jsdelivr.net/npm/pinia',
       },
     },
@@ -87,6 +90,7 @@ if (process.env.NODE_ENV === 'production') {
     //   injectTo: 'head',
     //   tag: 'script',
     //   attrs: {
+    //     defer: true,
     //     src: 'https://cdn.jsdelivr.net/npm/@vueuse/core',
     //   },
     // }
