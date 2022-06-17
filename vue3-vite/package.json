@@ -10,7 +10,6 @@
     "serve": "npm run s"
   },
   "dependencies": {
-    // "@vueuse/core": "latest",
     // "pinia": "latest",
     // "throttle-debounce-ts": "latest",
     "vue": "latest"
@@ -20,20 +19,19 @@
     "@types/ejs": "latest",
     "@types/html-minifier-terser": "latest",
     "@types/node": "latest",
-    // "@types/tailwindcss": "latest",
     "@vitejs/plugin-vue": "latest",
-    // "sass": "latest",
     // "autoprefixer": "latest",
     // "cssnano": "latest",
     // "cssnano-preset-advanced": "latest",
     // "postcss": "latest",
-    // "tailwindcss": "latest",
     "typescript": "next",
     "vite": "latest",
     "vite-plugin-externals": "latest",
     "vite-plugin-html": "3.1.0",
     "vite-plugin-remove-console": "latest",
+    // "vite-plugin-windicss": "^1.8.4",
     "vue-tsc": "latest"
+    // "windicss": "^3.5.4"
   },
   "browserslist": [
     "last 2 versions",

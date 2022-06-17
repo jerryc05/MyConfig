@@ -8,6 +8,7 @@ import { defineConfig, normalizePath, HtmlTagDescriptor, Plugin } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteExternalsPlugin } from 'vite-plugin-externals'
 import removeConsole from 'vite-plugin-remove-console'
+import WindiCSS from 'vite-plugin-windicss'
 
 
 // https://vitejs.dev/config/
@@ -59,7 +60,7 @@ const tags: HtmlTagDescriptor[] = [{
   },
 },
 ]
-let extPlug = undefined
+const extPlugs: Plugin[] = []
 if (process.env.NODE_ENV === 'production') {
   tags.push(
     {
@@ -95,16 +96,16 @@ if (process.env.NODE_ENV === 'production') {
     //   },
     // }
   )
-  extPlug = viteExternalsPlugin({
+  extPlugs.push(viteExternalsPlugin({
     vue: 'Vue',
     pinia: 'Pinia',
     // '@vueuse/core': 'VueUse'
-  })
+  }))
+  extPlugs.push(removeConsole())
 }
 export default defineConfig({
   plugins: [
     vue(),
-    removeConsole(),
     createHtmlPlugin({
       minify: true,
       pages: [
@@ -121,7 +122,8 @@ export default defineConfig({
         }
       ]
     }),
-    extPlug,
+    // WindiCSS(),
+    ...extPlugs,
     MyPostProcessorOnBuild(async p => {
       if (/\.(\w?js|css)$/.test(p)) {
         let content = (await readFile(p)).toString()
