@@ -29,9 +29,9 @@
     "vite-plugin-externals": "latest",
     "vite-plugin-html": "3.1.0",
     "vite-plugin-remove-console": "latest",
-    // "vite-plugin-windicss": "^1.8.4",
+    // "vite-plugin-windicss": "latest",
     "vue-tsc": "latest"
-    // "windicss": "^3.5.4"
+    // "windicss": "latest"
   },
   "browserslist": [
     "last 2 versions",
