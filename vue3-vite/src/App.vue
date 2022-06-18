@@ -7,5 +7,7 @@
 
 
 <template>
-  <div>Hello, World!</div>
+  <div class="w-full min-w-80 min-h-screen">
+    Hello, World!
+  </div>
 </template>
