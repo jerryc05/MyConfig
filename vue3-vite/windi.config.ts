@@ -1,6 +1,6 @@
 import { defineConfig } from 'windicss/helpers'
 // import colors from 'windicss/colors'
-import plugin from 'windicss/plugin'
+// import plugin from 'windicss/plugin'
 
 export default defineConfig({
   content: [
@@ -11,21 +11,12 @@ export default defineConfig({
   theme: {
     extend: {},
   },
-  plugins: [plugin(({ addUtilities }) => {
-    addUtilities({
-      '.h-inherit': {
-        height: 'inherit',
-      },
-      '.w-inherit': {
-        width: 'inherit',
-      },
-    })
-  }),
-  require('windicss/plugin/aspect-ratio'),
-  require('windicss/plugin/filters'),
-  require('windicss/plugin/forms'),
-  require('windicss/plugin/line-clamp'),
-  require('windicss/plugin/scroll-snap'),
-  require('windicss/plugin/typography'),
+  plugins: [
+    require('windicss/plugin/aspect-ratio'),
+    require('windicss/plugin/filters'),
+    require('windicss/plugin/forms'),
+    require('windicss/plugin/line-clamp'),
+    require('windicss/plugin/scroll-snap'),
+    require('windicss/plugin/typography'),
   ],
 })
