@@ -1,13 +1,4 @@
-<script setup lang="ts">
-import { dev } from '@/utils/constants'
-</script>
-
-
-
-
-
-
-<template v-if="dev">
+<template>
   <span class="sm:hidden">xs</span>
   <span class="hidden sm:inline-block md:hidden">sm</span>
   <span class="hidden md:inline-block lg:hidden">md</span>
