@@ -53,6 +53,8 @@ module.exports = {
     'lines-between-class-members': 'off',
     'max-classes-per-file': 'off',
     'max-len': 'off',
+    'max-lines': 'off',
+    'max-params': 'off',
     'multiline-comment-style': 'off',
     'no-magic-numbers': 'off',
     'object-curly-spacing': 'off',
