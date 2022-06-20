@@ -59,6 +59,7 @@ module.exports = {
       'error', 'all', {'nestedBinaryExpressions': false,
         'enforceForArrowConditionals': false }
     ],
+    'no-multiple-empty-lines': ['error', {'max': 6}],
     'padded-blocks': ['error', 'never'],
     'sort-imports': ['error', { 'ignoreCase': true }],
 
