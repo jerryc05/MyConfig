@@ -3,8 +3,7 @@ import 'virtual:windi-devtools'
 
 import App from './App.vue'
 import { createApp } from 'vue'
-// import { createPinia } from 'pinia'
-import { detectDarkMode } from './utils/dark_mode'
+import { createPinia } from 'pinia'
 
 
 createApp(App)
@@ -13,4 +12,4 @@ createApp(App)
   .mount(document.body.firstElementChild!)
 
 
-detectDarkMode()
+// Dark mode set inside pinia

@@ -1,37 +1,40 @@
-const c = document.documentElement.classList
+const bodyClasses = document.body.classList
 
-function d() {
-  c.add('dark')
+function setDark () {
+  bodyClasses.add('dark')
 }
 
-function l() {
-  c.remove('dark')
+function setLight () {
+  bodyClasses.remove('dark')
 }
 
-function a() {
+function isSystemDark () {
   return window.matchMedia('(prefers-color-scheme:dark)').matches
 }
 
-export function detectDarkMode() {
-  const s: '1' | '0' | null = localStorage['dark']
-  if (s == '1' || (s == null && a())) {
-    d()
+export function detectAndSetDarkMode () {
+  const userSettingIsDark = localStorage.getItem('dark')
+  if (userSettingIsDark === '1' || (userSettingIsDark === null && isSystemDark())) {
+    setDark()
     return true
-  } else {
-    l()
-    return false
   }
+  setLight()
+  return false
 }
 
-export function setDarkMode(isDark?: boolean) {
-  if (isDark == null) {
-    a() ? d() : l()
+export function setDarkMode (isDark?: boolean) {
+  if (isDark === null) {
+    if (isSystemDark()) {
+      setDark()
+    } else {
+      setLight()
+    }
     localStorage.removeItem('dark')
   } else if (isDark) {
-    d()
-    localStorage['dark'] = 1
+    setDark()
+    localStorage.dark = 1
   } else {
-    l()
-    localStorage['dark'] = 0
+    setLight()
+    localStorage.dark = 0
   }
 }

@@ -1,20 +1,21 @@
-/*
+import { detectAndSetDarkMode, setDarkMode } from '@/utils/dark_mode'
+
 import { defineStore } from 'pinia'
-*/
 
 
 // Declare like this:
-/*
 export const useStore = defineStore('x', {
-  state: () => ({ x: 'example' }),
+  state: () => ({ isDark: detectAndSetDarkMode(), }),
   getters: {  // Same as computed
-    isEmpty(state) { return !state.x }
+    isLight(state) { return !state.isDark }
   },
   actions: {  // Same as methods
-    clear() { this.x = '' }
+    toggleLightDarkMode () {
+      this.isDark = !this.isDark
+      setDarkMode(this.isDark)
+    },
   }
 })
-*/
 
 
 // use like this:
@@ -22,5 +23,5 @@ export const useStore = defineStore('x', {
 import { useStore } from @/stores
 
 const store = useStore()
-store.x == 'example'
+store.isDark  // true or false
 */
