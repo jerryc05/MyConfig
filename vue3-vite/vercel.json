@@ -10,7 +10,16 @@
       ]
     } //,
     // {
-    //   "source": "/assets/(.*).(js|css|html)",
+    //   "source": "/assets/(.*).(js|css|html|svg)",
+    //   "headers": [
+    //     {
+    //       "key": "Content-Encoding",
+    //       "value": "br"
+    //     }
+    //   ]
+    // },
+    // {
+    //   "source": "/",
     //   "headers": [
     //     {
     //       "key": "Content-Encoding",

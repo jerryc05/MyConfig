@@ -164,7 +164,7 @@ export default defineConfig({
     }),
     buildPostProcessor(async p => {
       // p = p.split(path.sep).join(path.posix.sep)
-      /* if (/\.(\w?js|css|\w?html)$/.test(p)) { */
+      /* if (/\.(js|css|html|svg)$/.test(p)) { */
       const newFileName = `${p}.br`,
         orig = await readFile(p),
         compressed: Buffer = await new Promise((acc, rej) => {
