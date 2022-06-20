@@ -55,5 +55,5 @@ module.exports = {
     'sort-keys': 'off',
     'sort-vars': 'off',
   },
-  ignorePatterns: ['node_modules/**', 'dist/**'],
+  ignorePatterns: ['**/*.d.ts', 'node_modules/**', 'dist/**'],
 }
