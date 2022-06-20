@@ -54,5 +54,6 @@ module.exports = {
     'quote-props': 'off',
     'sort-keys': 'off',
     'sort-vars': 'off',
-  }
+  },
+  ignorePatterns: ['node_modules/**', 'dist/**'],
 }
