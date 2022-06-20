@@ -1,12 +1,11 @@
-import { defineStore } from 'pinia'
-
-
-// useX could be anything like useUser, useCart
-// the first argument is a unique id of the store across your application
-
-// declare like this:
 /*
-export const useX = defineStore('x', {
+import { defineStore } from 'pinia'
+*/
+
+
+// Declare like this:
+/*
+export const useStore = defineStore('x', {
   state: () => ({ x: 'example' }),
   getters: {  // Same as computed
     isEmpty(state) { return !state.x }
@@ -15,12 +14,13 @@ export const useX = defineStore('x', {
     clear() { this.x = '' }
   }
 })
- */
+*/
+
 
 // use like this:
 /*
-import { useX } from @/stores
+import { useStore } from @/stores
 
-const x_ = useX()
-x_.x == 'example'
- */
+const store = useStore()
+store.x == 'example'
+*/
