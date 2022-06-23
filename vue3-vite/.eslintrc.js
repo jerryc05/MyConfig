@@ -78,6 +78,7 @@ module.exports = {
     'no-console': 'off',
     'no-inline-comments': 'off',
     'no-magic-numbers': 'off',
+    'no-non-null-assertion': 'off',
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'quote-props': 'off',
