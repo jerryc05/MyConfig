@@ -74,6 +74,7 @@ module.exports = {
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
+    'curly': ['error', 'multi'],
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
@@ -87,7 +88,8 @@ module.exports = {
       'error', 'all', {'nestedBinaryExpressions': false,
         'enforceForArrowConditionals': false }
     ],
-    'no-multiple-empty-lines': ['error', {'max': 6}],
+    'no-multiple-empty-lines': ['error', { 'max': 6 }],
+    'no-warning-comments': 'warn',
     'padded-blocks': ['error', 'never'],
     'sort-imports': ['error', { 'ignoreCase': true }],
     'space-before-function-paren': ['error', 'never'],
