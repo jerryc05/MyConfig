@@ -23,4 +23,10 @@
      echo netsh interface portproxy add v4tov4 listenport=5353 listenaddress=0.0.0.0 connectport=5353 connectaddress=$WSL_IP
      echo netsh interface portproxy add v4tov4 listenport=$TCP_PORT listenaddress=0.0.0.0 connectport=$TCP_PORT connectaddress=$WSL_IP
      echo netsh interface portproxy show all)
+     
+     
+     # Also save config if necessary
+     echo 'homekit:'                       >> ~/.homeassistant/configuration.yaml
+     echo '  - name: HomeAssistant Bridge' >> ~/.homeassistant/configuration.yaml
+     echo "    port: $TCP_PORT"            >> ~/.homeassistant/configuration.yaml
      ```
