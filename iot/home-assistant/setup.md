@@ -11,3 +11,7 @@
 0. Run as `hass --open-ui`
 
 0. Add `hacs` as new integration
+
+0. If running under WSL, allow inbound HASS Bridge (HomeKit) port.
+
+0. If running under WSL, forward HASS Bridge (HomeKit) port, consider https://github.com/zmjack/PortProxyGUI.
