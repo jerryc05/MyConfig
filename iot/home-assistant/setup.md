@@ -1,6 +1,4 @@
-0. `cd ~ && python3 -mvenv hass && python3 -mvenv hass`
-
-0. `. ~/hass/bin/activate`
+0. `cd ~ && python3 -mvenv hass && python3 -mvenv hass && . ~/hass/bin/activate`, or use `conda`
 
 0. `pip install --pre -U homeassistant`
 
