@@ -10,4 +10,4 @@
 
 0. Add `hacs` as new integration
 
-0. If running under WSL, allow inbound HASS Bridge (HomeKit) TCP port in Windows Firewall, and forward HASS Bridge (HomeKit) port. See https://community.home-assistant.io/t/guide-hass-io-on-windows-10-wsl2-no-more-vms/166298
+0. If running under WSL, allow inbound HASS Bridge (HomeKit) TCP port (check dashboard notification) and UDP port 5353 in Windows Firewall, and forward them. See https://community.home-assistant.io/t/guide-hass-io-on-windows-10-wsl2-no-more-vms/166298 and https://www.home-assistant.io/integrations/homekit/#firewall
