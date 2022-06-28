@@ -1,5 +1,7 @@
 0. `cd ~ && python3 -mvenv hass && python3 -mvenv hass && . ~/hass/bin/activate`. Do not use `conda`
 
+0. `pip install --pre -U wheel`
+
 0. `pip install --pre -U homeassistant`
 
 0. Install `ffmpeg`, `unzip`
