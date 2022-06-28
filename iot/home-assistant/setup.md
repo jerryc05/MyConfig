@@ -20,8 +20,8 @@
      export WSL_IP=$(ip addr show eth0 | fgrep 'inet ' | egrep -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | head -n1)
 
      (
-     echo netsh advfirewall firewall add rule name="WSL - HASS HomeKit UDP Port" dir=in action=allow protocol=UDP localport=5353
-     echo netsh advfirewall firewall add rule name="WSL - HASS HomeKit TCP Port" dir=in action=allow protocol=TCP localport=$TCP_PORT
+     echo netsh advfirewall firewall add rule name="WSL - HASS Allow UDP 5353" dir=in action=allow protocol=UDP localport=5353
+     echo netsh advfirewall firewall add rule name="WSL - HASS Allow TCP $TCP_PORT" dir=in action=allow protocol=TCP localport=$TCP_PORT
      echo netsh interface portproxy add v4tov4 listenport=5353 listenaddress=0.0.0.0 connectport=5353 connectaddress=$WSL_IP
      echo netsh interface portproxy add v4tov4 listenport=$TCP_PORT listenaddress=0.0.0.0 connectport=$TCP_PORT connectaddress=$WSL_IP
      echo netsh interface portproxy show all)
