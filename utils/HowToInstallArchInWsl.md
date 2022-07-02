@@ -48,13 +48,13 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
     ```
-    sed s/^#Color/Color/ /etc/pacman.conf -i
-    sed s/^#ParallelDownloads/ParallelDownloads/ /etc/pacman.conf -i
+    sed -i s/^#Color/Color/ /etc/pacman.conf
+    sed -i s/^#ParallelDownloads/ParallelDownloads/ /etc/pacman.conf
     ```
 
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
     ```
-    sed s/^#en_US.UTF-8/en_US.UTF-8/ /etc/locale.gen -i
+    sed -i s/^#en_US.UTF-8/en_US.UTF-8/ /etc/locale.gen
     locale-gen
     ```
 
@@ -107,10 +107,10 @@ See https://github.com/yuk7/ArchWSL
                 LxRunOffline.exe su -n <distro_name> -v <uid>
                 ```
 
-0.  Login with user other than `root` and install `yay`:
+0.  Login with user other than `root` and install `paru` (used to be `yay`):
     ```
     cd /tmp
-    curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin
+    curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=paru-bin
     sudo pacman -S binutils
     makepkg -si
     ```
