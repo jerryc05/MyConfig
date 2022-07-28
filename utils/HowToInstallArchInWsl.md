@@ -112,7 +112,6 @@ See https://github.com/yuk7/ArchWSL
                 $ id -u <username>
                 <uid>
                 ```
-                In this case, `uid` is `1000`
             2.  `LxRunOffline`:
                 ```
                 LxRunOffline.exe su -n <distro_name> -v <uid>
@@ -120,7 +119,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Login with user other than `root` and install `paru` (used to be `yay`):
     ```
-    cd /tmp
+    cd `mktemp -d`
     curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=paru-bin
     sudo pacman -S binutils
     makepkg -si
