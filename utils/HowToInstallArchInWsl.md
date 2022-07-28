@@ -66,7 +66,9 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Rank mirrors by `pacman -S pacman-contrib` ([Wiki](https://wiki.archlinux.org/title/Mirrors#List_by_speed)), then
     ```
-    rankmirrors -n 9 /etc/pacman.d/mirrorlist > /etc/pacman.d/mirrorlist
+    TMP=`mktemp`
+    mv /etc/pacman.d/mirrorlist $TMP
+    rankmirrors -n 9 $TMP > /etc/pacman.d/mirrorlist
     ```
 
 0.  Set password for `root` user: `passwd`
