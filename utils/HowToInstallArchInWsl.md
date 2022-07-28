@@ -32,6 +32,15 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Launch `Arch Linux`
 
+0.  Fix `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link`
+    ```
+    cd /mnt/c/Windows/System32/lxss/lib/
+    mv libcuda.so.1 ~libcuda.so.1
+    mv libcuda.so   ~libcuda.so
+    ln -s libcuda.so.1.1 libcuda.so.1
+    ln -s libcuda.so.1.1 libcuda.so
+    ```
+
 0.  ```
     pacman-key --init
     pacman-key --populate
@@ -68,7 +77,7 @@ See https://github.com/yuk7/ArchWSL
     ```
     TMP=`mktemp`
     mv /etc/pacman.d/mirrorlist $TMP
-    rankmirrors -n 9 $TMP > /etc/pacman.d/mirrorlist
+    rankmirrors -v $TMP | tee /etc/pacman.d/mirrorlist
     ```
 
 0.  Set password for `root` user: `passwd`
