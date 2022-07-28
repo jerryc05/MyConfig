@@ -117,10 +117,10 @@ See https://github.com/yuk7/ArchWSL
                 LxRunOffline.exe su -n <distro_name> -v <uid>
                 ```
 
-0.  Login with user other than `root` and install `paru` (used to be `yay`):
+0.  Login with user other than `root` and install `yay` (or `paru`):
     ```
     cd `mktemp -d`
-    curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=paru-bin
+    curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin
     sudo pacman -S binutils
     makepkg -si
     ```
