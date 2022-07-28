@@ -69,7 +69,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  ```
     pacman -Sy archlinux-keyring
-    pacman -Syyu
+    pacman -Syu
     gpgconf --kill all
     ```
 
