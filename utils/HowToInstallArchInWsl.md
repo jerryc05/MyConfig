@@ -22,7 +22,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Download latest bootstrap iso `archlinux-bootstrap-????.??.??-x86_64.tar.gz` from https://archlinux.org/download/
 
-0.  Run `LxRunOffline.exe i -r root.x86_64 -n <any_distro_name_you_want> -d <install_location> -f <bootstrap_iso>`
+0.  Run `LxRunOffline.exe i -r root.x86_64 -n <any_distro_name_you_want> -d <install_location> -f <bootstrap_file>`
 
 # 2. Configure `Arch Linux`
 
