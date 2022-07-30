@@ -85,14 +85,14 @@ See https://github.com/yuk7/ArchWSL
 
 0.  `sudo`:
     1.  `pacman -S sudo`
-    2.  Edit `/etc/sudoers`, uncomment the following lines and save:
+    2.  Edit `/etc/sudoers`, uncomment the `# %sudo ALL=(ALL) ALL` and save:
         ```
-        # %sudo ALL=(ALL) ALL
+        sed -i "s/^# %sudo$(printf '\t')ALL/%sudo$(printf '\t')ALL/" /etc/sudoers
         ```
-        or:
+        or uncomment below to allow any user to run sudo if they know the password:
         ```
         # Defaults targetpw  # Ask for the password of the target user
-        # ALL ALL=(ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
+        # ALL ALL=(ALL:ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
         ```
 
 0.  Add new user:
