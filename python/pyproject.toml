@@ -32,8 +32,8 @@ max-line-length = 95 # Also remember to change this in [black]
 
 [tool.pylint.message_control]
 disable = [
-  'bad-continuation',           # C0330, suggested by [black]
-  'bad-whitespace',             # C0326, suggested by [black]
+  # 'bad-continuation',           # C0330, suggested by [black], recently removed
+  # 'bad-whitespace',             # C0326, suggested by [black], recently removed
   'import-outside-toplevel',
   'invalid-name',               # Requires snake case of at least 3 characters
   'missing-class-docstring',
