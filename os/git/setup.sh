@@ -35,7 +35,7 @@ git config --global gpg.format ssh
 #git config --global gpg.ssh.defaultKeyCommand 'ssh-add -L'  # not working with sec keys! use [signingkey] instead
 # If sign using pgp
 #git config --global gpg.program "/path/to/gpg_executable"
-git config --global user.signingkey GPG_KEY_ID_OR_SSH_PUBKEY_PATH_HERE
+git config --global user.signingkey $HOME/.ssh/id_ed25519.pub  # or GPG_KEY_ID or SSH_PUBKEY_PATH
 
 
 git config --global alias.c 'commit'
