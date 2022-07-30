@@ -67,8 +67,9 @@ See https://github.com/yuk7/ArchWSL
     locale-gen
     ```
 
-0.  Rank mirrors by `pacman -S pacman-contrib` ([Wiki](https://wiki.archlinux.org/title/Mirrors#List_by_speed)), then
+0.  Rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
     ```
+    pacman -S pacman-contrib
     TMP=`mktemp`
     mv /etc/pacman.d/mirrorlist $TMP
     rankmirrors -v $TMP | tee /etc/pacman.d/mirrorlist
