@@ -67,12 +67,6 @@ See https://github.com/yuk7/ArchWSL
     locale-gen
     ```
 
-0.  ```
-    pacman -Sy archlinux-keyring
-    pacman -Syu
-    gpgconf --kill all
-    ```
-
 0.  Rank mirrors by `pacman -S pacman-contrib` ([Wiki](https://wiki.archlinux.org/title/Mirrors#List_by_speed)), then
     ```
     TMP=`mktemp`
@@ -80,7 +74,13 @@ See https://github.com/yuk7/ArchWSL
     rankmirrors -v $TMP | tee /etc/pacman.d/mirrorlist
     ```
 
-0.  Set password for `root` user: `passwd`
+0.  ```
+    pacman -Sy archlinux-keyring
+    pacman -Syu
+    gpgconf --kill all
+    ```
+
+0.  *Optional:* Set password for `root` user: `passwd`
 
 0.  `sudo`:
     1.  `pacman -S sudo`
