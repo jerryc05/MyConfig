@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # Color! More color! But not all on MacOS!
 [ "$(uname -s)" = "Linux" ] && alias dir='dir --color=auto'
@@ -25,14 +25,14 @@ alias show-256-colors='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::
 alias vg="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes"
 
 # install rpm here
-command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio $1 | cpio -iduv; }
+command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$1" | cpio -iduv; }
 
 # git-delta w/ exit code
 # install git-delta via one of these:
 #   1) brew install git-delta
 #   2) cargo install --git https://github.com/dandavison/delta.git
 command -v delta >/dev/null && xdelta() {
-  out__=$(delta --width $(tput cols) -ns $*) && echo $out__ && [ -z $out__ ]
+  out__=$(delta --width $(tput cols) -ns $*) && echo "$out__" && [ -z "$out__" ]
 }
 
 # Show hidden files in iFinder
@@ -41,11 +41,11 @@ command -v delta >/dev/null && xdelta() {
 # More helpful tar/untar
 command -v tar >/dev/null && xtar() {
   str="XZ_OPT=-9 tar acvf \"$*\""
-  echo "$str\n"
+  printf '%s\n' "$str"
   eval "$str"
 } && xuntar() {
   str="tar xvf \"$*\""
-  echo "$str\n"
+  printf '%s\n' "$str"
   eval "$str"
 }
 
@@ -57,7 +57,7 @@ xrsync(){ rsync -ahLPvvz --delete-during --no-whole-file --info=progress2 $*;}  
 #               ||└-----> transform symlink into referent file/dir
 #               |└------> output numbers in a human-readable format
 #               └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
-drsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude=$(git -C $1 ls-files --exclude-standard -oi --directory) $*; else xrsync $*; fi;}
+drsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude="$(git -C "$1" ls-files --exclude-standard -oi --directory)" $*; else xrsync $*; fi;}
 
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
