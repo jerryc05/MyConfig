@@ -46,15 +46,6 @@ See https://github.com/yuk7/ArchWSL
     pacman-key --populate
     ```
 
-0.  Edit `/etc/pacman.d/mirrorlist`, uncomment all mirrors you want to enable. E.g.:
-    ```
-    mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
-    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
-      >>/etc/pacman.d/mirrorlist
-    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
-      >>/etc/pacman.d/mirrorlist
-    ```
-
 0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
     ```
     sed -i s/^#Color/Color/ /etc/pacman.conf
@@ -67,11 +58,22 @@ See https://github.com/yuk7/ArchWSL
     locale-gen
     ```
 
-0.  Rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
+0.  Backup `/etc/pacman.d/mirrorlist`:
     ```
-    pacman -S pacman-contrib
+    mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
+    #awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
+      >>/etc/pacman.d/mirrorlist
+    #awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
+      >>/etc/pacman.d/mirrorlist
+    ```
+
+0.  Update mirrors with [`reflector`](https://wiki.archlinux.org/title/Reflector), and then rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
+    ```
+    pacman -S reflector rsync
     TMP=`mktemp`
-    mv /etc/pacman.d/mirrorlist $TMP
+    reflector --sort score -c ",United States" --save "$TMP" --verbose --connection-timeout 1 --download-timeout 1
+
+    pacman -S pacman-contrib
     rankmirrors -v $TMP | tee /etc/pacman.d/mirrorlist
     ```
 
