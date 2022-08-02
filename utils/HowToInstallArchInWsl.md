@@ -49,6 +49,7 @@ See https://github.com/yuk7/ArchWSL
 0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
     ```
     sed -i s/^#Color/Color/ /etc/pacman.conf
+    sed -i s/^#VerbosePkgLists/VerbosePkgLists/ /etc/pacman.conf
     sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 16\nILoveCandy/' /etc/pacman.conf
     ```
 
