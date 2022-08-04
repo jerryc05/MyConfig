@@ -104,8 +104,8 @@ See https://github.com/yuk7/ArchWSL
     printf '#!/bin/sh\nmount -o remount,lazytime,noatime /'       >/etc/mount_root_noatime.sh
     printf '#!/bin/sh\nmount -o remount,commit=60,barrier=0 /'   >>/etc/mount_root_noatime.sh  # Only for Ext4
     //                                            └ Turn this off only when using battery-backed cache
-    chmod +x /etc/mount_root_noatime.sh  # Only for Ext4
-    tune2fs -O "^has_journal" $(df /|head -2|tail -1|cut -d ' ' -f1)
+    chmod +x /etc/mount_root_noatime.sh
+    tune2fs -O "^has_journal" $(df /|head -2|tail -1|cut -d ' ' -f1)  # Only for Ext4
     echo 'sudo /etc/mount_root_noatime.sh'                        >/etc/profile.d/mount_root_noatime.sh
     ```
 
