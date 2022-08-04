@@ -95,6 +95,16 @@ See https://github.com/yuk7/ArchWSL
     find /usr/share/nano-syntax-highlighting/ -iname "*.nanorc" -exec echo include {} \; >>/etc/nanorc
     ```
 
+0.  *Optional:* Install `dnsmasq` to use `DNSSEC`:
+    ```
+    pacman -S dnsmasq
+    printf "nameserver 1.1.1.1\nnameserver 8.8.8.8\n\n\n$(cat /etc/resolv.conf)" >/etc/resolv.conf
+    for x in domain-needed bogus-priv conf-file= dnssec dnssec-check-unsigned strict-order; do
+      sed -i s/^#$x/$x/ /etc/dnsmasq.conf
+    done
+    sed -i s/^#cache-size=.*/cache-size=1024/ /etc/dnsmasq.conf
+    ```
+
 0.  `sudo`:
     1.  `pacman -S sudo`
     2.  Edit `/etc/sudoers`, uncomment the `# %sudo ALL=(ALL) ALL` and save:
