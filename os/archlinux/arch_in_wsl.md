@@ -95,30 +95,20 @@ See https://github.com/yuk7/ArchWSL
     find /usr/share/nano-syntax-highlighting/ -iname "*.nanorc" -exec echo include {} \; >>/etc/nanorc
     ```
 
-0.  *[Use `dnscrypt-proxy` instead!!!] Optional:* Install `dnsmasq` to use `DNSSEC`:
-    ```
-    pacman -S dnsmasq
-    printf "nameserver 1.1.1.1\nnameserver 8.8.8.8\n\n\n$(cat /etc/resolv.conf)" >/etc/resolv.dnsmasq.conf
-    for x in domain-needed bogus-priv conf-file= dnssec dnssec-check-unsigned strict-order; do
-      sed -i s/^#$x/$x/ /etc/dnsmasq.conf
-    done
-    sed -i s/^#resolv-file=/resolv-file=/etc/resolv.dnsmasq.conf/ /etc/dnsmasq.conf
-    sed -i s/^#cache-size=.*/cache-size=1024/                     /etc/dnsmasq.conf
-    ```
-
 0.  *Optional:* Install `dnscrypt-proxy` to use `DNS over TLS/HTTPS/QUIC/...`:
     ```
     pacman -S dnscrypt-proxy
-    sysctl -w net.core.rmem_max=2500000
+    sysctl -w net.core.rmem_max=2500000  # For non-BSD systems
     sed -i s/^#server_names =.*/server_names = ['cloudflare', 'google', 'yandex']/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     sed -i s/^#http3 =.*/http3 = true/                                             /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     
     systemctl enable --now dnscrypt-proxy.service  # Start the service
+    journalctl -u dnscrypt-proxy.service  # Check logs and resolve any warnings/errors
     ```
     Now make sure your `/etc/resolv.conf` has `nameserver 127.0.0.1` as default.
     
 
-0.  `sudo`:
+0.  Get `sudo`:
     1.  `pacman -S sudo`
     2.  Edit `/etc/sudoers`, uncomment the `# %sudo ALL=(ALL) ALL` and save:
         ```
@@ -137,14 +127,15 @@ See https://github.com/yuk7/ArchWSL
     printf 'mount -o remount,commit=60,barrier=0 /'   >>/etc/mount_root_optim.sh  # Only for Ext4
     //                                            └ Turn this off only when using battery-backed cache
     chmod +x /etc/mount_root_optim.sh
+    echo 'sudo /etc/mount_root_optim.sh' >/etc/profile.d/mount_root_optim.sh
+    
     ROOT_DEVICE=$(df /|head -2|tail -1|cut -d ' ' -f1)
     tune2fs -O "^has_journal"         $ROOT_DEVICE  # Only for Ext4
     tune2fs -o journal_data_writeback $ROOT_DEVICE  # Only for Ext4
     tune2fs -o discard                $ROOT_DEVICE  # Only for SSD
-    echo 'sudo /etc/mount_root_optim.sh'                        >/etc/profile.d/mount_root_optim.sh
     ```
 
-    Append the following to `%userprofile%/.wslconfig` in Windows:
+    Append the following to `%userprofile%/.wslconfig` in Windows if using WSL:
     ```
     [wsl2]
     kernelCommandLine = "noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off tsx=on tsx_async_abort=off mitigations=off"'
