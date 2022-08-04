@@ -105,7 +105,8 @@ See https://github.com/yuk7/ArchWSL
     printf '#!/bin/sh\nmount -o remount,commit=60,barrier=0 /'   >>/etc/mount_root_optim.sh  # Only for Ext4
     //                                            └ Turn this off only when using battery-backed cache
     chmod +x /etc/mount_root_optim.sh
-    tune2fs -O "^has_journal" $(df /|head -2|tail -1|cut -d ' ' -f1)  # Only for Ext4
+    ROOT_DEVICE=$(df /|head -2|tail -1|cut -d ' ' -f1)
+    tune2fs -o "^has_journal,journal_data_writeback" $ROOT_DEVICE  # Only for Ext4
     echo 'sudo /etc/mount_root_optim.sh'                        >/etc/profile.d/mount_root_optim.sh
     ```
 
