@@ -102,8 +102,12 @@ See https://github.com/yuk7/ArchWSL
     sed -i s/^#server_names =.*/server_names = ['cloudflare', 'google', 'yandex']/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     sed -i s/^#http3 =.*/http3 = true/                                             /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     
-    systemctl enable --now dnscrypt-proxy.service  # Start the service
-    journalctl -u dnscrypt-proxy.service  # Check logs and resolve any warnings/errors
+    ## Enable and start the service
+    systemctl enable --now dnscrypt-proxy.service
+    journalctl -u dnscrypt-proxy.service -f  # Check logs and resolve any warnings/errors
+    
+    ## Or test it with
+    printf "nameserver 127.0.0.1\n$(cat /etc/resolv.conf)"|sudo tee /etc/resolv.conf&&printf '\n\n\n'&&sudo dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     ```
     Now make sure your `/etc/resolv.conf` has `nameserver 127.0.0.1` as default.
     
