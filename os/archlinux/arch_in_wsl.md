@@ -98,9 +98,9 @@ See https://github.com/yuk7/ArchWSL
 0.  *Optional:* Install `dnscrypt-proxy` to use `DNS over TLS/HTTPS/QUIC/...`:
     ```
     pacman -S dnscrypt-proxy
-    sysctl -w net.core.rmem_max=2500000  # For non-BSD systems
-    sed -i s/^#server_names =.*/server_names = ['cloudflare', 'google', 'yandex']/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-    sed -i s/^#http3 =.*/http3 = true/                                             /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    echo 'net.core.rmem_max=2500000' >>/etc/sysctl.conf && sysctl -p  # For non-BSD systems    
+    sed -i s/^#server_names =.*/server_names = ['cloudflare','google','yandex','adguard-dns-doh','alidns-doh','dnspod-doh']/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    sed -i s/^#http3 =.*/http3 = true/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     
     ## Enable and start the service
     systemctl enable --now dnscrypt-proxy.service
