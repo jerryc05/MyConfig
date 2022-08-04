@@ -97,6 +97,14 @@ See https://github.com/yuk7/ArchWSL
         # Defaults targetpw  # Ask for the password of the target user
         # ALL ALL=(ALL:ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
         ```
+    
+0.  Setup performance optimizations
+    ```
+    echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_noatime.sh'        >/etc/sudoers.d/mount_root_noatime
+    printf '#!/bin/sh\n[ $(id -u)="0" ]&&mount -o remount,noatime /' >/etc/mount_root_noatime.sh
+    chmod +x /etc/mount_root_noatime.sh
+    echo 'sudo /etc/mount_root_noatime.sh'                           >/etc/profile.d/mount_root_noatime.sh
+    ```
 
 0.  Add new user:
     1.  Add:
