@@ -99,8 +99,8 @@ See https://github.com/yuk7/ArchWSL
     ```
     pacman -S dnscrypt-proxy
     echo 'net.core.rmem_max=2500000' >>/etc/sysctl.conf && sysctl -p  # For non-BSD systems    
-    sed -i s/^#server_names =.*/server_names = ['cloudflare','google','yandex','adguard-dns-doh','alidns-doh','dnspod-doh']/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-    sed -i s/^#http3 =.*/http3 = true/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    sed -i 's/^#server_names =.*/server_names = ['cloudflare','google','yandex','adguard-dns-doh','alidns-doh','dnspod-doh']/' /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    sed -i 's/^#http3 =.*/http3 = true/' /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     printf '[network]\ngenerateResolvConf = false' >/etc/wsl.conf
     printf 'nameserver 127.0.0.1\nnameserver 1.1.1.1\nnameserver 8.8.8.8' >/etc/resolv.conf
     chattr +i /etc/resolv.conf
@@ -110,7 +110,7 @@ See https://github.com/yuk7/ArchWSL
     journalctl -u dnscrypt-proxy.service -f  # Check logs and resolve any warnings/errors
     
     ## Or test it with
-    printf "nameserver 127.0.0.1\n$(cat /etc/resolv.conf)"|sudo tee /etc/resolv.conf&&printf '\n\n\n'&&sudo dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     ```    
 
 0.  Get `sudo`:
