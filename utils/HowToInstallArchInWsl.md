@@ -109,6 +109,12 @@ See https://github.com/yuk7/ArchWSL
     echo 'sudo /etc/mount_root_noatime.sh'                        >/etc/profile.d/mount_root_noatime.sh
     ```
 
+    Append the following to `%userprofile%/.wslconfig` in Windows:
+    ```
+    [wsl2]
+    kernelCommandLine = "noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off tsx=on tsx_async_abort=off mitigations=off"'
+    ```
+
 0.  Add new user:
     1.  Add:
         1.  admin user: `groupadd sudo; useradd -G sudo -m <username>`
