@@ -133,7 +133,7 @@ See https://github.com/yuk7/ArchWSL
     chmod +x /etc/mount_root_optim.sh
     echo 'sudo /etc/mount_root_optim.sh' >/etc/profile.d/mount_root_optim.sh
     
-    ROOT_DEVICE=$(df /|head -2|tail -1|cut -d ' ' -f1)
+    ROOT_DEVICE=$(findmnt -n -o SOURCE /||df /|head -2|tail -1|cut -d ' ' -f1)
     tune2fs -O "^has_journal"         $ROOT_DEVICE  # Only for Ext4
     tune2fs -o journal_data_writeback $ROOT_DEVICE  # Only for Ext4
     tune2fs -o discard                $ROOT_DEVICE  # Only for SSD
