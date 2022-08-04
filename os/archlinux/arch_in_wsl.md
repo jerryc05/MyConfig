@@ -101,6 +101,8 @@ See https://github.com/yuk7/ArchWSL
     echo 'net.core.rmem_max=2500000' >>/etc/sysctl.conf && sysctl -p  # For non-BSD systems    
     sed -i s/^#server_names =.*/server_names = ['cloudflare','google','yandex','adguard-dns-doh','alidns-doh','dnspod-doh']/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     sed -i s/^#http3 =.*/http3 = true/ /etc/dnscrypt-proxy/dnscrypt-proxy.toml
+    printf '[network]\ngenerateResolvConf = false' >/etc/wsl.conf
+    printf 'nameserver 127.0.0.1\nnameserver 1.1.1.1\nnameserver 8.8.8.8' >/etc/resolv.conf
     
     ## Enable and start the service
     systemctl enable --now dnscrypt-proxy.service
@@ -108,9 +110,7 @@ See https://github.com/yuk7/ArchWSL
     
     ## Or test it with
     printf "nameserver 127.0.0.1\n$(cat /etc/resolv.conf)"|sudo tee /etc/resolv.conf&&printf '\n\n\n'&&sudo dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-    ```
-    Now make sure your `/etc/resolv.conf` has `nameserver 127.0.0.1` as default.
-    
+    ```    
 
 0.  Get `sudo`:
     1.  `pacman -S sudo`
