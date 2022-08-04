@@ -100,10 +100,13 @@ See https://github.com/yuk7/ArchWSL
     
 0.  Setup performance optimizations
     ```
-    echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_noatime.sh' >/etc/sudoers.d/mount_root_noatime
-    printf '#!/bin/sh\nmount -o remount,lazytime,noatime /'   >/etc/mount_root_noatime.sh
-    chmod +x /etc/mount_root_noatime.sh
-    echo 'sudo /etc/mount_root_noatime.sh'                    >/etc/profile.d/mount_root_noatime.sh
+    echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_noatime.sh'     >/etc/sudoers.d/mount_root_noatime
+    printf '#!/bin/sh\nmount -o remount,lazytime,noatime /'       >/etc/mount_root_noatime.sh
+    printf '#!/bin/sh\nmount -o remount,commit=60,barrier=0 /'   >>/etc/mount_root_noatime.sh  # Only for Ext4
+    //                                            └ Turn this off only when using battery-backed cache
+    chmod +x /etc/mount_root_noatime.sh  # Only for Ext4
+    tune2fs -O "^has_journal" $(df /|head -2|tail -1|cut -d ' ' -f1)
+    echo 'sudo /etc/mount_root_noatime.sh'                        >/etc/profile.d/mount_root_noatime.sh
     ```
 
 0.  Add new user:
