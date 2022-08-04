@@ -70,7 +70,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Update mirrors with [`reflector`](https://wiki.archlinux.org/title/Reflector), and then rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
     ```
-    pacman -S reflector rsync
+    pacman -S reflector
     TMP=`mktemp`
     reflector --sort score -p http,https -c ",United States" --save "$TMP" --verbose --connection-timeout 1 --download-timeout 1
 
@@ -85,6 +85,15 @@ See https://github.com/yuk7/ArchWSL
     ```
 
 0.  *Optional:* Set password for `root` user: `passwd`
+
+0.  *Optional:* Install `nano`:
+    ```
+    pacman -S nano nano-syntax-highlighting
+    printf '\n\n\n## Builtin nanorc\n'   >>/etc/nanorc
+    find /usr/share/nano/                     -iname "*.nanorc" -exec echo include {} \; >>/etc/nanorc
+    printf '\n\n\n## 3rd party nanorc\n' >>/etc/nanorc
+    find /usr/share/nano-syntax-highlighting/ -iname "*.nanorc" -exec echo include {} \; >>/etc/nanorc
+    ```
 
 0.  `sudo`:
     1.  `pacman -S sudo`
