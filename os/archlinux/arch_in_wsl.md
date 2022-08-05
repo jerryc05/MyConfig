@@ -127,9 +127,9 @@ See https://github.com/yuk7/ArchWSL
     
 0.  Setup performance optimizations
     ```
-    echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_optim.sh'       >/etc/sudoers.d/mount_root_optim
-    printf '#!/bin/sh\nmount -o remount,lazytime,noatime /'       >/etc/mount_root_optim.sh
-    printf 'mount -o remount,commit=60,barrier=0 /'   >>/etc/mount_root_optim.sh  # Only for Ext4
+    echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_optim.sh' >/etc/sudoers.d/mount_root_optim
+    printf '#!/bin/sh\nmount -o remount,lazytime,noatime /' >/etc/mount_root_optim.sh
+    printf 'mount -o remount,commit=60,barrier=0 /'        >>/etc/mount_root_optim.sh  # Only for Ext4
     //                                 └ Turn this off only when using battery-backed cache
     chmod +x /etc/mount_root_optim.sh
     echo 'sudo /etc/mount_root_optim.sh' >/etc/profile.d/mount_root_optim.sh
