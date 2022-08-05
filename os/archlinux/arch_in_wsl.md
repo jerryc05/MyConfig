@@ -137,7 +137,7 @@ See https://github.com/yuk7/ArchWSL
     ROOT_DEVICE=$(findmnt -n -o SOURCE /||df /|head -2|tail -1|cut -d ' ' -f1)
     tune2fs -O "^has_journal"         $ROOT_DEVICE  # Only for Ext4
     tune2fs -o journal_data_writeback $ROOT_DEVICE  # Only for Ext4
-    tune2fs -o discard                $ROOT_DEVICE  # Only for SSD
+    tune2fs -o discard                $ROOT_DEVICE;mount -o remount,discard /  # Only for SSD
     ```
 
     Append the following to `%userprofile%/.wslconfig` in Windows if using WSL:
