@@ -157,6 +157,8 @@ See https://github.com/yuk7/ArchWSL
         sed -i 's/-fstack-clash-protection//'  /etc/makepkg.conf
         sed -i 's/-fcf-protection//'           /etc/makepkg.conf
         sed -i 's/-D_GLIBCXX_ASSERTIONS//'     /etc/makepkg.conf
+        sed -i 's/,-z,relro//'     /etc/makepkg.conf
+        sed -i 's/,-z,now//'     /etc/makepkg.conf
         
         sed -i 's/DEBUG_CFLAGS="-g"/DEBUG_CFLAGS="-g -D_FORTIFY_SOURCE=2 -fstack-clash-protection -fcf-protection -D_GLIBCXX_ASSERTIONS"/' /etc/makepkg.conf
 
