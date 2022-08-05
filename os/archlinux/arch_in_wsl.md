@@ -126,25 +126,50 @@ See https://github.com/yuk7/ArchWSL
         ```
     
 0.  Setup performance optimizations
-    ```
-    echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_optim.sh' >/etc/sudoers.d/mount_root_optim
-    printf '#!/bin/sh\nmount -o remount,lazytime,noatime /' >/etc/mount_root_optim.sh
-    printf 'mount -o remount,commit=60,barrier=0 /'        >>/etc/mount_root_optim.sh  # Only for Ext4
-    //                                 └ Turn this off only when using battery-backed cache
-    chmod +x /etc/mount_root_optim.sh
-    echo 'sudo /etc/mount_root_optim.sh' >/etc/profile.d/mount_root_optim.sh
-    
-    ROOT_DEVICE=$(findmnt -n -o SOURCE /||df /|head -2|tail -1|cut -d ' ' -f1)
-    tune2fs -O "^has_journal"         $ROOT_DEVICE  # Only for Ext4
-    tune2fs -o journal_data_writeback $ROOT_DEVICE  # Only for Ext4
-    tune2fs -o discard                $ROOT_DEVICE;mount -o remount,discard /  # Only for SSD
-    ```
+    -   Filesystem
+        ```
+        echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_optim.sh' >/etc/sudoers.d/mount_root_optim
+        printf '#!/bin/sh\nmount -o remount,lazytime,noatime /' >/etc/mount_root_optim.sh
+        printf 'mount -o remount,commit=60,barrier=0 /'        >>/etc/mount_root_optim.sh  # Only for Ext4
+        //                                 └ Turn this off only when using battery-backed cache
+        chmod +x /etc/mount_root_optim.sh
+        echo 'sudo /etc/mount_root_optim.sh' >/etc/profile.d/mount_root_optim.sh
 
-    Append the following to `%userprofile%/.wslconfig` in Windows if using WSL:
-    ```
-    [wsl2]
-    kernelCommandLine = "noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off tsx=on tsx_async_abort=off mitigations=off"'
-    ```
+        ROOT_DEVICE=$(findmnt -n -o SOURCE /||df /|head -2|tail -1|cut -d ' ' -f1)
+        tune2fs -O "^has_journal"         $ROOT_DEVICE  # Only for Ext4
+        tune2fs -o journal_data_writeback $ROOT_DEVICE  # Only for Ext4
+        tune2fs -o discard                $ROOT_DEVICE;mount -o remount,discard /  # Only for SSD
+        ```
+    -   Kernel
+        Append the following to `%userprofile%/.wslconfig` in Windows if using WSL:
+        ```
+        [wsl2]
+        kernelCommandLine = "noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off tsx=on tsx_async_abort=off mitigations=off"'
+        ```
+    -   `makepkg`
+        ```
+        sed -i 's/-march=[^ ]*/-march=native/' /etc/makepkg.conf
+        sed -i 's/-mtune=[^ ]*//'              /etc/makepkg.conf
+        sed -i 's/-O2/-Ofast/'                 /etc/makepkg.conf
+        sed -i 's/-D_FORTIFY_SOURCE=2//'       /etc/makepkg.conf
+        sed -i 's/-fstack-clash-protection//'  /etc/makepkg.conf
+        sed -i 's/-fcf-protection//'           /etc/makepkg.conf
+        sed -i 's/-D_GLIBCXX_ASSERTIONS//'     /etc/makepkg.conf
+        
+        sed -i 's/DEBUG_CFLAGS="-g"/DEBUG_CFLAGS="-g -D_FORTIFY_SOURCE=2 -fstack-clash-protection -fcf-protection -D_GLIBCXX_ASSERTIONS"/ /etc/makepkg.conf
+
+        sed -i 's/#RUSTFLAGS.*/RUSTFLAGS="-C opt-level=3 -C target-cpu=native"/' /etc/makepkg.conf
+        sed -i 's/#DEBUG_RUSTFLAGS/DEBUG_RUSTFLAGS/'                             /etc/makepkg.conf
+        
+        sed -i 's/#MAKEFLAGS.*/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
+        
+        pacman -S ccache && sed -i 's/!ccache/ccache/' /etc/makepkg.conf
+        
+        sed -i 's/!lto/lto/' /etc/makepkg.conf
+        
+        sed -i 's/xz -c -z -/xz -c -z --threads=0 -/'           /etc/makepkg.conf
+        sed -i 's/zstd -c -z -q -/zstd -c -z -q --threads=0 -/' /etc/makepkg.conf
+        ```
 
 0.  Add new user:
     1.  Add:
