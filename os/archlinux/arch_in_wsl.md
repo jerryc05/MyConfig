@@ -169,6 +169,9 @@ See https://github.com/yuk7/ArchWSL
         
         sed -i 's/xz -c -z -/xz -c -z --threads=0 -/'           /etc/makepkg.conf
         sed -i 's/zstd -c -z -q -/zstd -c -z -q --threads=0 -/' /etc/makepkg.conf
+        
+        sed -i "s/PKGEXT='.pkg.tar.zst'/PKGEXT='.pkg.tar.xz'/" /etc/makepkg.conf
+        sed -i "s/SRCEXT='.src.tar.gz'/SRCEXT='.src.tar.xz'/"  /etc/makepkg.conf
         ```
 
 0.  Add new user:
