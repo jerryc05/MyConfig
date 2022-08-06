@@ -201,6 +201,10 @@ See https://github.com/yuk7/ArchWSL
                 ```
                 LxRunOffline.exe su -n <distro_name> -v <uid>
                 ```
+0.  Allow non-root user to `ping`
+    ```
+    echo 'net.ipv4.ping_group_range=0 2147483647' >>/etc/sysctl.conf && sysctl -p
+    ```
 
 0.  Login with user other than `root` and install `yay` (or `paru`):
     ```
