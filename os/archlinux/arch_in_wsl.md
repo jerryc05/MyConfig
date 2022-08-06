@@ -41,16 +41,26 @@ See https://github.com/yuk7/ArchWSL
     ln -s libcuda.so.1.1 libcuda.so
     ```
 
-0.  ```
-    pacman-key --init
-    pacman-key --populate
-    ```
-
 0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
     ```
     sed -i s/^#Color/Color/ /etc/pacman.conf
     sed -i s/^#VerbosePkgLists/VerbosePkgLists/ /etc/pacman.conf
     sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 16\nILoveCandy/' /etc/pacman.conf
+    ```
+
+0.  ```
+    pacman-key --init
+    
+    # KEYRING=`mktemp` && curl -L https://github.com/archlinuxarm/archlinuxarm-keyring/raw/master/archlinuxarm.gpg -o $KEYRING && pacman-key --add $KEYRING && pacman-key --lsign-key builder@archlinuxarm.org
+
+    pacman -Sy archlinux-keyring
+    # pacman -Sy archlinuxarm-keyring
+
+    pacman-key --populate
+    # pacman-key --populate archlinuxarm
+
+    pacman -Syu
+    gpgconf --kill all
     ```
 
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
@@ -59,16 +69,16 @@ See https://github.com/yuk7/ArchWSL
     locale-gen
     ```
 
-0.  Backup `/etc/pacman.d/mirrorlist`:
+0.  *Note: Only do this under amd64!* Backup `/etc/pacman.d/mirrorlist`:
     ```
-    mv /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
+    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
     #awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
       >>/etc/pacman.d/mirrorlist
     #awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
       >>/etc/pacman.d/mirrorlist
     ```
 
-0.  Update mirrors with [`reflector`](https://wiki.archlinux.org/title/Reflector), and then rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
+    Update mirrors with [`reflector`](https://wiki.archlinux.org/title/Reflector), and then rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
     ```
     pacman -S reflector
     TMP=`mktemp`
@@ -76,12 +86,6 @@ See https://github.com/yuk7/ArchWSL
 
     pacman -S pacman-contrib
     rankmirrors -v $TMP | tee /etc/pacman.d/mirrorlist
-    ```
-
-0.  ```
-    pacman -Sy archlinux-keyring
-    pacman -Syu
-    gpgconf --kill all
     ```
 
 0.  *Optional:* Set password for `root` user: `passwd`
