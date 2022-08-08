@@ -2,6 +2,7 @@ channels:
   - conda-forge
   - nvidia
   - pytorch
+  - fastai
   - pyg  # Graph Neural Network Library for PyTorch
   - bioconda
   - defaults
