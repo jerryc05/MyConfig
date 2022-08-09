@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 
-from pynvml import *
+try:
+    from pynvml import *
+except ImportError:
+    print('Missing [nvidia-ml-py], install with [pip install nvidia-ml-py]!')
+    exit(1)
+
 from typing import cast, Callable, Any
 import ctypes, sys
 
@@ -14,6 +19,13 @@ def is_admin():
 
 if __name__ == '__main__':
     nvmlInit()
+
+    has_psutil = False
+    try:
+        import psutil as ps
+        has_psutil=True 
+    except ImportError:
+        ...
 
     print("Driver Version:", nvmlSystemGetDriverVersion())
     print("Device Count: %i\n" % nvmlDeviceGetCount())
@@ -114,7 +126,12 @@ if __name__ == '__main__':
         ):
             print("    %s:" % s)
             for x in f(handle):
-                print("        PID=%i,\tMEM=%s" % (x.pid, x.usedGpuMemory))
+                print(end="        PID=%i" % x.pid)
+                if x.usedGpuMemory is not None:
+                    print(end="\tMEM=%s" % x.usedGpuMemory)
+                if has_psutil:
+                    print(end='\t%s'%ps.Process(x.pid).name())
+                print()
 
         target_power = float(input('Change power limit (in Watt, 0 to quit)? '))
         if target_power == 0:
