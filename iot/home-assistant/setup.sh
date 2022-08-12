@@ -28,7 +28,7 @@ pip install -U --pre wheel homeassistant sqlalchemy fnvhash tzdata
 
 ## Patches
 if [[ "$(uname -a)" = *"MINGW64_NT"* ]]; then
-  SITE_PKGS_DIR=$(pip show homeassistant | fgrep Location | awk '{print $2}')
+  SITE_PKGS_DIR=$(pip show homeassistant | fgrep Location | cut -d ' ' -f 2)
   ## Using [python] below since Bash does not recognize Windows paths
 
   ## Patch 1 - homeassistant/util/file.py
