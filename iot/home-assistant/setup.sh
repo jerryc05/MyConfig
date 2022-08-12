@@ -22,6 +22,10 @@ command -v ffmpeg
 command -v unzip
 
 
+## Use utf8
+export PYTHONIOENCODING=utf8
+
+
 ## Install
 pip install -U --pre wheel homeassistant sqlalchemy fnvhash tzdata
 
@@ -41,10 +45,6 @@ if [[ "$(uname -a)" = *"MINGW64_NT"* ]]; then
   python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/components/onboarding/views.py','r+b') as f:d=f.read().replace(b'onboard_integrations = ["\""met"\"", "\""radio_browser"\""]',b"\""import os;onboard_integrations=['met','radio_browser'] if os.name!='nt' else ['met']"\"");f.seek(0);f.truncate();f.write(d)"
   ## Explain: [aiodns], a dependency of [radio_browser], is currently not compatible with Windows. See https://github.com/saghul/aiodns/issues/86
 fi
-
-## homeassistant/util/file.py
-python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/util/file.py','r+b') as f:d=f.read().replace(b'AtomicWriter(filename, overwrite=True',b'AtomicWriter(filename,overwrite=True,encoding=\'utf-8\'');f.seek(0);f.truncate();f.write(d)"
-
 
 
 ## Recommended: Get [HACS] from [https://github.com/hacs/get] or [https://github.com/hacs/integration/releases]
