@@ -12,7 +12,7 @@ read -n 1 -r -p 'Looking good?'
 ## If running under Windows
 if [[ "$(uname -a)" = *"MINGW64_NT"* ]]; then
   echo Make sure you have these installed:
-  printf '\tMS C++ 14.0+ Build Tools\n\tWin 10+ SDK\n\tWinPcap/Npcap (https://npcap.com/#download)'
+  printf '\tMS C++ 14.0+ Build Tools\n\tWin 10+ SDK\n\tWinPcap/Npcap (https://npcap.com/#download)\n\n'
   read -n 1 -r -p '(press ENTER ...)'
 fi
 
