@@ -6,14 +6,14 @@ set -euo pipefail
 [ -z "${VIRTUAL_ENV}" ] && echo "Not in a python [venv]" && exit 1
 echo "python: $(which python)"
 echo "pip   : $(which pip)"
-read -p 'Looking good?' -n 1 -r
+read -n 1 -r -p 'Looking good?'
 
 
 ## If running under Windows
 if [[ "$(uname -a)" = *"MINGW64_NT"* ]]; then
-   ## Make sure you have MS C++ 14.0+ Build Tools
-   ## Make sure you have Win 10+ SDK
-   ## Make sure you have WinPcap/Npcap (https://npcap.com/#download)
+  echo Make sure you have these installed:
+  printf '\tMS C++ 14.0+ Build Tools\n\tWin 10+ SDK\n\tWinPcap/Npcap (https://npcap.com/#download)'
+  read -n 1 -r -p '(press ENTER ...)'
 fi
 
 
