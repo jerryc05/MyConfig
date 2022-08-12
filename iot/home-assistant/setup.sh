@@ -26,29 +26,28 @@ command -v unzip
 pip install -U --pre wheel homeassistant sqlalchemy fnvhash tzdata
 
 
-## Patch
+## Patches
 if [[ "$(uname -a)" = *"MINGW64_NT"* ]]; then
-   ## Patch 1 - lib/site-packages/homeassistant/util/file.py
-   ## Replace
-   'os.fchmod(fdesc.fileno(), 0o644)'
-   'os.fchmod(fdesc.fileno(), 0o644) if os.name != "nt" else os.chmod(fdesc.name, 0o644)'
+  SITE_PKGS_DIR=$(pip show homeassistant | fgrep Location | awk '{print $2}')
+  ## Using [python] below since Bash does not recognize Windows paths
 
-   ## Patch 2 - lib/site-packages/homeassistant/runner.py
-   ## Replace
-   'return await hass.async_run()'
-   'import os;return await hass.async_run(attach_signals=os.name != "nt")'
+  ## Patch 1 - homeassistant/util/file.py
+  python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/util/file.py','r+b') as f:d=f.read().replace(b'os.fchmod(fdesc.fileno(), 0o644)',b'os.fchmod(fdesc.fileno(),0o644) if os.name != \'nt\' else os.chmod(fdesc.name, 0o644)');f.seek(0);f.truncate();f.write(d)"
 
-   ## Patch 2 - lib/site-packages/homeassistant/components/onboarding/views.py
-   ## Replace
-   'onboard_integrations = ["met", "radio_browser"]'
-   'import os;onboard_integrations = ["met","radio_browser"] if os.name!="nt" else ["met"]'
-   ## Explain: [aiodns], a dependency of [radio_browser], is currently not compatible with Windows, see https://github.com/saghul/aiodns/issues/86
+  ## Patch 2 - homeassistant/runner.py
+  python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/runner.py','r+b') as f:d=f.read().replace(b'return await hass.async_run()',b'import os;return await hass.async_run(attach_signals=os.name!=\'nt\')');f.seek(0);f.truncate();f.write(d)"
+
+  ## Patch 3 - homeassistant/components/onboarding/views.py
+  python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/components/onboarding/views.py','r+b') as f:d=f.read().replace(b'onboard_integrations = ["\""met"\"", "\""radio_browser"\""]',b"\""import os;onboard_integrations=['met','radio_browser'] if os.name!='nt' else ['met']"\"");f.seek(0);f.truncate();f.write(d)"
+  ## Explain: [aiodns], a dependency of [radio_browser], is currently not compatible with Windows. See https://github.com/saghul/aiodns/issues/86
 fi
 
 
 ## Recommended: Get [HACS] from [https://github.com/hacs/get]
 
+
 ## Run
 hass --ignore-os-check --open-ui
+
 
 ## Add `hacs` as new integration
