@@ -36,7 +36,7 @@ if [[ "$(uname -a)" = *"MINGW64_NT"* ]]; then
   ## Using [python] below since Bash does not recognize Windows paths
 
   ## homeassistant/util/file.py
-  python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/util/file.py','r+b') as f:d=f.read().replace(b'os.fchmod(fdesc.fileno(), 0o644)',b'os.fchmod(fdesc.fileno(),0o644) if os.name != \'nt\' else os.chmod(fdesc.name, 0o644)');f.seek(0);f.truncate();f.write(d)"
+  python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/util/file.py','r+b') as f:d=f.read().replace(b'os.fchmod(fdesc.fileno(), 0o644)',b'os.fchmod(fdesc.fileno(),0o644) if os.name != \'nt\' else os.fchmod(fdesc.fileno(),0o644)');f.seek(0);f.truncate();f.write(d)"
 
   ## homeassistant/runner.py
   python <<< "with open(R'$SITE_PKGS_DIR/homeassistant/runner.py','r+b') as f:d=f.read().replace(b'return await hass.async_run()',b'import os;return await hass.async_run(attach_signals=os.name!=\'nt\')');f.seek(0);f.truncate();f.write(d)"
