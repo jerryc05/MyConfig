@@ -2,23 +2,25 @@
 
 #include <avr/pgmspace.h>
 
+#include <type_traits>
+
 /*
     This is a type-safe wrapper class for PROGMEM/Flash arrays.
 Usage:
     static const char  hello[] PROGMEM = "Hello";
     static const char  world[] PROGMEM = "World";
     static const char* myArr[] PROGMEM = {hello, world};
-    ProgmemArr  myProgmemArr(myArr);
-    bool        isTrue = myProgmemArr.size() == 2;
+    auto               myProgmemArr    = makeProgmemArr(myArr);
+    bool               isTrue          = myProgmemArr.size() == 2;
 */
-template <class _T, size_t LEN>
+template <class _T, size_t N>
 struct ProgmemArr {
   using T   = _T;
-  using Len = decltype(LEN);
+  using Len = decltype(N);
 
-  ProgmemArr(const T (&progmem_arr)[LEN]): _ptr {progmem_arr} {}
+  ProgmemArr(const T* progmem_ptr): _ptr(progmem_ptr) {}
 
-  auto length() const { return LEN; }
+  auto length() const { return N; }
 
   auto len() const { return length(); }
 
@@ -103,23 +105,33 @@ struct ProgmemArr {
   const T* _ptr;
 };
 
-#define PROGMEM_STR(s)                   \
-  (__extension__({                       \
-    static const char c[] PROGMEM = (s); \
-    ProgmemStr        p(c);              \
-    p;                                   \
-  }))
+template <class T, size_t N>
+auto makeProgmemArr(const T (&progmem_arr)[N]) {
+  return ProgmemArr<T, N>(progmem_arr);
+}
 
 /*
     This is a type-safe wrapper class for PROGMEM/dFlash strings.
 Usage:
     Serial.print(PROGMEM_STR("Hello World!"));
 */
-template <size_t LEN>
-struct ProgmemStr: public ProgmemArr<char, LEN> {
+template <size_t N>
+struct ProgmemStr: public ProgmemArr<char, N> {
   using FlashStrConstPtr = const __FlashStringHelper*;
 
   operator FlashStrConstPtr() const { return FPSTR(this->_ptr); }
 
   auto allocToString() const { return String(*this); }
 };
+
+template <size_t N>
+auto makeProgmemStr(const char (&progmem_str)[N]) {
+  return ProgmemStr<N>(progmem_str);
+}
+
+#define PROGMEM_STR(s)                   \
+  (__extension__({                       \
+    static const char c[] PROGMEM = (s); \
+    ProgmemStr        p(c);              \
+    p;                                   \
+  }))
