@@ -13,13 +13,10 @@ Usage:
 */
 template <class _T, size_t LEN>
 struct ProgmemArr {
-  using T                = _T;
-  using Len              = decltype(LEN);
-  using FlashStrConstPtr = const __FlashStringHelper*;
+  using T   = _T;
+  using Len = decltype(LEN);
 
-  ProgmemArr(const T* progmem_ptr): _ptr(progmem_ptr) {}
-
-  ProgmemArr(const T (&progmem_arr)[LEN]): ProgmemArr(progmem_arr) {}
+  ProgmemArr(const T (&progmem_arr)[LEN]): _ptr {progmem_arr} {}
 
   auto length() const { return LEN; }
 
@@ -103,7 +100,7 @@ struct ProgmemArr {
 
 
  private:
-  T* _ptr;
+  const T* _ptr;
 };
 
 #define PROGMEM_STR(s)                   \
@@ -120,7 +117,9 @@ Usage:
 */
 template <size_t LEN>
 struct ProgmemStr: public ProgmemArr<char, LEN> {
-  operator FlashStrConstPtr() const { return FPSTR(_str); }
+  using FlashStrConstPtr = const __FlashStringHelper*;
+
+  operator FlashStrConstPtr() const { return FPSTR(this->_ptr); }
 
   auto allocToString() const { return String(*this); }
 };
