@@ -122,5 +122,5 @@ template <size_t LEN>
 struct ProgmemStr: public ProgmemArr<char, LEN> {
   operator FlashStrConstPtr() const { return FPSTR(_str); }
 
- auto toString() const { return String(*this); }
+  auto allocToString() const { return String(*this); }
 };
