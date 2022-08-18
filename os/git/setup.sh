@@ -17,7 +17,6 @@ git config --global core.fscache    true
 
 git config --global core.symlinks            true
 git config --global help.autoCorrect         prompt
-git config --global push.recursesubmodules   check
 git config --global pull.rebase              false
 git config --global rebase.autoStash         true
 git config --global merge.autoStash          true
