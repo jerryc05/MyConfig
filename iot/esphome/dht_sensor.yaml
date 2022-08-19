@@ -53,10 +53,10 @@ sensor:
     state_class: "measurement"
     accuracy_decimals: 1
     lambda: |-
-      // Taken directly from [DHT::computeHeatIndex()] library 
       auto temperature = (id(t).state * 9.0) / 5.0 + 32;
       auto percentHumidity = id(h).state;
 
+      // Taken directly from [DHT::computeHeatIndex()] library 
       auto hi = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) +
                   (percentHumidity * 0.094));
 
