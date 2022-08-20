@@ -31,6 +31,13 @@ sensor:
   - platform: wifi_signal
     name: "WiFi Signal Sensor"
     update_interval: 10s
+    
+  - platform: gpio
+    pin: D1
+    name: "PIR Sensor"
+    device_class: motion
+    filters:
+      - delayed_off: 4500ms
 
   - platform: dht
     update_interval: 5s
