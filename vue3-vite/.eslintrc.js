@@ -109,6 +109,7 @@ module.exports = {
     'multiline-comment-style': 'off',
     'multiline-ternary': 'off',
     'no-console': 'off',
+    'no-continue': 'off',
     'no-inline-comments': 'off',
     'no-magic-numbers': 'off',
     'no-ternary': 'off',
