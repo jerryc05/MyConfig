@@ -111,6 +111,7 @@ module.exports = {
     'no-magic-numbers': 'off',
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
+    'one-var': 'off',
     'quote-props': 'off',
     'sort-keys': 'off',
     'sort-vars': 'off',
