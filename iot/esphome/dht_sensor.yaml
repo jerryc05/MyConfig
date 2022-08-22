@@ -33,7 +33,7 @@ sensor:
     update_interval: 10s
     
   - platform: gpio
-    pin: D1
+    pin:
     name: "PIR Sensor"
     device_class: motion
     filters:
