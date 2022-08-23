@@ -40,6 +40,8 @@ See https://github.com/yuk7/ArchWSL
     ln -s libcuda.so.1.1 libcuda.so.1
     ln -s libcuda.so.1.1 libcuda.so
     ```
+    
+0.  Shutdown WSL and restart.
 
 0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
     ```
