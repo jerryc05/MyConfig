@@ -57,9 +57,9 @@ See https://github.com/yuk7/ArchWSL
 0.  *Note: Only do this under amd64!* Backup `/etc/pacman.d/mirrorlist`:
     ```
     cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
-    #awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
+    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
       >>/etc/pacman.d/mirrorlist
-    #awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
+    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
       >>/etc/pacman.d/mirrorlist
     ```
 
