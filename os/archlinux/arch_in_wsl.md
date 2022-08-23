@@ -32,7 +32,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Launch `Arch Linux`
 
-0.  Fix `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link`
+0.  Fix `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link` (the terminal under Windows needs admin permission)
     ```
     cd /mnt/c/Windows/System32/lxss/lib/
     mv libcuda.so.1 ~libcuda.so.1
