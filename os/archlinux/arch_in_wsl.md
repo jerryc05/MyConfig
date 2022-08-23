@@ -48,21 +48,6 @@ See https://github.com/yuk7/ArchWSL
     sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 16\nILoveCandy/' /etc/pacman.conf
     ```
 
-0.  ```
-    pacman-key --init
-    
-    # KEYRING=`mktemp` && curl -L https://github.com/archlinuxarm/archlinuxarm-keyring/raw/master/archlinuxarm.gpg -o $KEYRING && pacman-key --add $KEYRING && pacman-key --lsign-key builder@archlinuxarm.org
-
-    pacman -Sy archlinux-keyring
-    # pacman -Sy archlinuxarm-keyring
-
-    pacman-key --populate
-    # pacman-key --populate archlinuxarm
-
-    pacman -Syu
-    gpgconf --kill all
-    ```
-
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
     ```
     sed -i s/^#en_US.UTF-8/en_US.UTF-8/ /etc/locale.gen
@@ -76,6 +61,21 @@ See https://github.com/yuk7/ArchWSL
       >>/etc/pacman.d/mirrorlist
     #awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
       >>/etc/pacman.d/mirrorlist
+    ```
+
+    ```
+    pacman-key --init
+    
+    # KEYRING=`mktemp` && curl -L https://github.com/archlinuxarm/archlinuxarm-keyring/raw/master/archlinuxarm.gpg -o $KEYRING && pacman-key --add $KEYRING && pacman-key --lsign-key builder@archlinuxarm.org
+
+    pacman -Sy archlinux-keyring
+    # pacman -Sy archlinuxarm-keyring
+
+    pacman-key --populate
+    # pacman-key --populate archlinuxarm
+
+    pacman -Syu
+    gpgconf --kill all
     ```
 
     Update mirrors with [`reflector`](https://wiki.archlinux.org/title/Reflector), and then rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
