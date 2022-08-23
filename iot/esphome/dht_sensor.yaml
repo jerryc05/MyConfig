@@ -45,9 +45,11 @@ sensor:
     temperature:
       id: t
       name: "Temp Sensor"
+      accuracy_decimals: 3
     humidity:
       id: h
       name: "Humid Sensor"
+      accuracy_decimals: 2
     model: DHT22_TYPE2
 
   - platform: template
@@ -58,7 +60,7 @@ sensor:
     icon: "mdi:thermometer"
     device_class: "temperature"
     state_class: "measurement"
-    accuracy_decimals: 1
+    accuracy_decimals: 3
     lambda: |-
       auto temperature = (id(t).state * 9.0) / 5.0 + 32;
       auto percentHumidity = id(h).state;
