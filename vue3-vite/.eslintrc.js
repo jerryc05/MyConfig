@@ -111,7 +111,6 @@ module.exports = {
     'no-console': 'off',
     'no-continue': 'off',
     'no-inline-comments': 'off',
-    'no-magic-numbers': 'off',
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'one-var': 'off',
