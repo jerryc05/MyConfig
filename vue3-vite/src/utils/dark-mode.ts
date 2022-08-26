@@ -1,18 +1,18 @@
 const bodyClasses = document.body.classList
 
-function setDark () {
+function setDark() {
   bodyClasses.add('dark')
 }
 
-function setLight () {
+function setLight() {
   bodyClasses.remove('dark')
 }
 
-function isSystemDark () {
+function isSystemDark() {
   return window.matchMedia('(prefers-color-scheme:dark)').matches
 }
 
-export function detectAndSetDarkMode () {
+export function detectAndSetDarkMode() {
   const userSettingIsDark = localStorage.getItem('dark')
   if (userSettingIsDark === '1' || (userSettingIsDark === null && isSystemDark())) {
     setDark()
@@ -22,7 +22,7 @@ export function detectAndSetDarkMode () {
   return false
 }
 
-export function setDarkMode (isDark?: boolean) {
+export function setDarkMode(isDark?: boolean) {
   if (isDark === null) {
     if (isSystemDark()) {
       setDark()

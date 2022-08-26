@@ -1,4 +1,4 @@
-import { detectAndSetDarkMode, setDarkMode } from '@/utils/dark_mode'
+import { detectAndSetDarkMode, setDarkMode } from '@/utils/dark-mode'
 
 import { defineStore } from 'pinia'
 
