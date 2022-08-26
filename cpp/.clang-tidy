@@ -1,7 +1,6 @@
 # clang-tidy -Xclang -analyzer-config -Xclang aggressive-binary-operation-simplification=true,c++-shared_ptr-inlining=true,unroll-loops=true,widen-loops=true
 
-Checks: >-
-  *,
+Checks: '*,
   -android-*,
   -altera-*,
   -clang-analyzer-alpha.fuchsia.*,
@@ -28,5 +27,6 @@ Checks: >-
   -readability-function-cognitive-complexity,
   -readability-isolate-declaration,
   -zircon-*,
+  '
 
 UseColor: true
