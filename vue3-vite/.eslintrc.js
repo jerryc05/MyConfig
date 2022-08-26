@@ -144,7 +144,6 @@ module.exports = {
     'n/no-unsupported-features/es-syntax': 'off',
     'no-console': 'off',
     'no-inline-comments': 'off',
-    'no-magic-numbers': 'off',
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'quote-props': 'off',
