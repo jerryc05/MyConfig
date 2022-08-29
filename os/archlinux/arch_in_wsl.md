@@ -84,7 +84,7 @@ See https://github.com/yuk7/ArchWSL
     ```
     pacman -S reflector
     TMP=`mktemp`
-    reflector --sort score -p http,https -c ",United States" --save "$TMP" --verbose --connection-timeout 1 --download-timeout 1
+    reflector --sort score -p http,https -c "United States" --save "$TMP" --verbose --connection-timeout 1 --download-timeout 1
 
     pacman -S pacman-contrib
     rankmirrors -v $TMP | tee /etc/pacman.d/mirrorlist
