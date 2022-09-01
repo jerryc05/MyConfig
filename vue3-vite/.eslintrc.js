@@ -122,7 +122,6 @@ module.exports = {
     'no-multiple-empty-lines': ['error', { 'max': 6 }],
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
-    'padded-blocks': ['error', 'never'],
     'sort-imports': ['error', { 'ignoreCase': true }],
     'space-before-function-paren': ['error', 'never'],
 
