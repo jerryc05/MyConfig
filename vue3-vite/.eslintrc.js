@@ -145,6 +145,7 @@ module.exports = {
     'no-inline-comments': 'off',
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
+    'object-property-newline': 'off',
     'one-var': 'off',
     'padded-blocks': 'off',
     'quote-props': 'off',
