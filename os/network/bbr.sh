@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-. `dirname "$0"`/../util.sh
+. `dirname "$0"`/util.sh
 
 sudo modprobe tcp_bbr
 tee_if_not_exists 'tcp_bbr' '/etc/modules-load.d/bbr.conf'

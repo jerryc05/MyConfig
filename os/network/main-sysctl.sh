@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-. `dirname "$0"`/../util.sh
+. `dirname "$0"`/util.sh
 
 tee_if_not_exists 'net.ipv4.tcp_keepalive_time = 1200' '/etc/sysctl.conf'
 tee_if_not_exists 'net.ipv4.tcp_fastopen = 3'          '/etc/sysctl.conf'
