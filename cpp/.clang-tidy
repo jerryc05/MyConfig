@@ -25,6 +25,7 @@ Checks: '*,
   -objc-*,
   -readability-braces-around-statements,
   -readability-function-cognitive-complexity,
+  -readability-identifier-length,
   -readability-isolate-declaration,
   -zircon-*,
   '
