@@ -144,6 +144,7 @@ module.exports = {
     'no-console': 'off',
     'no-inline-comments': 'off',
     'no-ternary': 'off',
+    'nonblock-statement-body-position': 'off',
     'object-curly-spacing': 'off',
     'object-property-newline': 'off',
     'one-var': 'off',
