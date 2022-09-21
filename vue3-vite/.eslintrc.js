@@ -122,6 +122,7 @@ module.exports = {
     'no-multiple-empty-lines': ['error', { 'max': 6 }],
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
+    'nonblock-statement-body-position': ['warn', 'below'],
     'sort-imports': ['error', { 'ignoreCase': true }],
     'space-before-function-paren': ['error', 'never'],
 
@@ -144,7 +145,6 @@ module.exports = {
     'no-console': 'off',
     'no-inline-comments': 'off',
     'no-ternary': 'off',
-    'nonblock-statement-body-position': 'off',
     'object-curly-spacing': 'off',
     'object-property-newline': 'off',
     'one-var': 'off',
