@@ -199,21 +199,8 @@ See https://github.com/yuk7/ArchWSL
 
     2.  Set password: `passwd <username>`
 
-    3.  Set default login user (windows):
-        1.  `wsldl`:
-            ```
-            <Arch.exe> config --default-user <username>
-            ```
-        2.  `LxRunOffline`:
-            1.  Get `uid` of user:
-                ```
-                $ id -u <username>
-                <uid>
-                ```
-            2.  `LxRunOffline`:
-                ```
-                LxRunOffline.exe su -n <distro_name> -v <uid>
-                ```
+    3.  Set default login user: `printf "\n[user]\ndefault=$whoami\n" >> /etc/wsl.conf`
+
 0.  Allow non-root user to `ping`
     ```
     echo 'net.ipv4.ping_group_range=0 2147483647' >>/etc/sysctl.conf && sysctl -p
