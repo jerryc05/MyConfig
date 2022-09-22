@@ -119,7 +119,11 @@ See https://github.com/yuk7/ArchWSL
     
     ## Or test it with
     dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
-    ```    
+    ```
+
+0. Enable `systemd` for WSL:
+    1.  `wsl --update` running 0.67.6+
+    2.  `printf "[boot]\nsystemd=true\n" >> /etc/wsl.conf`
 
 0.  Get `sudo`:
     1.  `pacman -S sudo`
