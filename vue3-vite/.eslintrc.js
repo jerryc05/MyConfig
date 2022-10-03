@@ -120,7 +120,6 @@ module.exports = {
     'promise',
     'sonarjs',
   ],
-  ignorePatterns: ['**/*.d.ts', 'node_modules/**', 'dist/**'],
   settings: {
     'html/indent': INDENT,
   },

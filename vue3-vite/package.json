@@ -10,7 +10,7 @@
     "dev": "npm run d",
     "build": "npm run b",
     "serve": "npm run s",
-    "lint": "eslint src"
+    "lint": "DEBUG=eslint:cli-engine eslint src/"
   },
   "dependencies": {
     // "pinia": "latest",
