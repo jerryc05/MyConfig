@@ -163,7 +163,6 @@ module.exports = {
     'nonblock-statement-body-position': ['warn', 'below'],
     'sort-imports': ['warn', { allowSeparatedGroups: true }],
     'space-before-function-paren': ['error', 'never'],
-    'unicorn/no-keyword-prefix':['error', { checkProperties: false }],
 
     // disabled
     '@typescript-eslint/no-non-null-assertion': 'off',
@@ -202,6 +201,7 @@ module.exports = {
         }
       }
     ],
+    'unicorn/no-keyword-prefix': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'wrap-regex': 'off',
