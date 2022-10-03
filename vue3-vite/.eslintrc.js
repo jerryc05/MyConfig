@@ -67,7 +67,8 @@ const react = {
   },
   rules: {
     'react/jsx-indent': ['error', INDENT],
-    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
+    'react/jsx-indent-props': ['error', INDENT],
+    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
   }
 }
 
@@ -86,6 +87,7 @@ module.exports = {
     'eslint:all',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:@typescript-eslint/strict',
 
     'plugin:optimize-regex/all',
     'plugin:json/recommended',
@@ -130,13 +132,16 @@ module.exports = {
     ...vue.rules,
 
     // enabled built-in
-    'indent': ['error', INDENT],
+    'indent': ['warn', INDENT],
     'jsx-quotes': ['error', 'prefer-single'],
     'linebreak-style': ['error', 'unix'],
     'quotes': ['error', 'single', { 'avoidEscape': true }],
-    'semi': ['error', 'never'],
+    'semi': ['warn', 'never'],
 
     // enabled plugin
+    "@typescript-eslint/no-redundant-type-constituents": "error",
+    "@typescript-eslint/prefer-readonly": "warn",
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
@@ -159,17 +164,21 @@ module.exports = {
     'nonblock-statement-body-position': ['warn', 'below'],
     'sort-imports': ['error', { 'ignoreCase': true }],
     'space-before-function-paren': ['error', 'never'],
+    'unicorn/no-keyword-prefix':['error', { checkProperties: false }],
 
     // disabled
     '@typescript-eslint/no-non-null-assertion': 'off',
     'capitalized-comments': 'off',
+    'default-case': 'off',  // only typescript
     'function-call-argument-newline': 'off',
     'id-length': 'off',
     'lines-between-class-members': 'off',
     'line-comment-position': 'off',
     'max-classes-per-file': 'off',
     'max-lines': 'off',
+    'max-lines-per-function': 'off',
     'max-params': 'off',
+    'max-statements': 'off',
     'multiline-comment-style': 'off',
     'multiline-ternary': 'off',
     'n/no-missing-import': 'off',  // Only vite
@@ -177,6 +186,7 @@ module.exports = {
     'n/no-unsupported-features/es-syntax': 'off',
     'no-console': 'off',
     'no-inline-comments': 'off',
+    'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'object-property-newline': 'off',
