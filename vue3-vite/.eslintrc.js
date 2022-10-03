@@ -85,9 +85,6 @@ module.exports = {
     ...vue.extends,
 
     'eslint:all',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:@typescript-eslint/strict',
 
     'plugin:optimize-regex/all',
     'plugin:json/recommended',
@@ -105,16 +102,12 @@ module.exports = {
     ecmaFeatures: {
       jsx: true
     },
-    parser: '@typescript-eslint/parser',
     sourceType: 'module',
     tsconfigRootDir: __dirname,
-    project: ['./tsconfig.json'],
     extraFileExtensions: [...vue.parserOptions_extraFileExtensions],
   },
   plugins: [
     ...vue.plugins,
-
-    '@typescript-eslint',
 
     'html',
     'json',
@@ -124,14 +117,14 @@ module.exports = {
     'promise',
     'sonarjs',
   ],
-  ignorePatterns: ['**/*.d.ts', 'node_modules/**', 'dist/**', '**/vite.config.*', '**/.eslintrc.js'],
+  ignorePatterns: ['**/*.d.ts', 'node_modules/**', 'dist/**'],
   settings: {
     'html/indent': INDENT,
   },
   rules: {
     ...vue.rules,
 
-    // enabled built-in
+    // enabled
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
@@ -156,21 +149,17 @@ module.exports = {
     'nonblock-statement-body-position': ['warn', 'below'],
     'quotes': ['error', 'single', { avoidEscape: true }],
     'semi': ['warn', 'never'],
-    'sort-imports': ['warn', {
-      allowSeparatedGroups: true,
-      memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
-    }],
+    'sort-imports': [
+      'warn', {
+        allowSeparatedGroups: true,
+        memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
+      }
+    ],
     'space-before-function-paren': ['error', 'never'],
-
-    // enabled plugin
-    "@typescript-eslint/no-redundant-type-constituents": "error",
-    "@typescript-eslint/prefer-readonly": "warn",
-    "@typescript-eslint/switch-exhaustiveness-check": "error",
 
     // disabled
     '@typescript-eslint/no-non-null-assertion': 'off',
     'capitalized-comments': 'off',
-    'default-case': 'off',  // only typescript
     'function-call-argument-newline': 'off',
     'id-length': 'off',
     'lines-between-class-members': 'off',
@@ -187,7 +176,6 @@ module.exports = {
     'n/no-unsupported-features/es-syntax': 'off',
     'no-console': 'off',
     'no-inline-comments': 'off',
-    'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'object-property-newline': 'off',
@@ -209,4 +197,27 @@ module.exports = {
     'unicorn/prevent-abbreviations': 'off',
     'wrap-regex': 'off',
   },
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:@typescript-eslint/strict',
+      ],
+      plugins: ['@typescript-eslint'],
+      parserOptions: {
+        parser: '@typescript-eslint/parser',
+        project: ['./tsconfig.json'],
+      }, rules: {
+        'default-case': 'off',  // only typescript
+        'no-shadow': 'off',  // only typescript
+
+        "@typescript-eslint/consistent-type-definitions": ["error", "type"],
+        "@typescript-eslint/no-redundant-type-constituents": "error",
+        "@typescript-eslint/prefer-readonly": "warn",
+        "@typescript-eslint/switch-exhaustiveness-check": "error",
+      }
+    },
+  ],
 }
