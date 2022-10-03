@@ -1,3 +1,8 @@
+/* eslint-disable unicorn/prefer-module, unicorn/prefer-module */
+const MAX_LEN = 115
+const INDENT = 2
+
+
 const vue = {
   extends: [
     'plugin:vue/base',
@@ -49,14 +54,21 @@ const vue = {
 
 const react = {
   extends: [
-    "plugin:react/all"
-  ], rules: {
+    "plugin:react/all",
+    "plugin:react/jsx-runtime"
+  ],
+  parser: "@typescript-eslint/parser",
+  plugins: ['react'],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
+  rules: {
+    'react/jsx-indent': ['error', INDENT],
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx', '.ts', '.tsx'] }],
   }
 }
-
-/* eslint-disable unicorn/prefer-module, unicorn/prefer-module */
-const MAX_LEN = 115
-const INDENT = 2
 
 
 /** @type {import('eslint').Linter.Config} */
@@ -87,6 +99,9 @@ module.exports = {
   parser: vue.parser,
   parserOptions: {
     ecmaVersion: 'latest',
+    ecmaFeatures: {
+      jsx: true
+    },
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
     tsconfigRootDir: __dirname,
@@ -106,7 +121,7 @@ module.exports = {
     'promise',
     'sonarjs',
   ],
-  ignorePatterns: ['**/*.d.ts', 'node_modules/**', 'dist/**', '**/vite.config.*'],
+  ignorePatterns: ['**/*.d.ts', 'node_modules/**', 'dist/**', '**/vite.config.*', '**/.eslintrc.js'],
   settings: {
     'html/indent': INDENT,
   },
