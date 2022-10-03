@@ -1,3 +1,9 @@
+import {
+  vue_extends, vue_parser,
+  vue_parserOptions_extraFileExtensions, vue_plugins,
+  vue_rules
+} from './.eslintrc.vue.js'
+
 /* eslint-disable unicorn/prefer-module, unicorn/prefer-module */
 const MAX_LEN = 115
 const INDENT = 2
@@ -12,15 +18,13 @@ module.exports = {
     node: true
   },
   extends: [
+    ...vue_extends,
+
     'eslint:all',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:vue/base',
-    'plugin:vue/vue3-recommended',
 
     'plugin:optimize-regex/all',
-    'plugin:import/recommended',
-    'plugin:import/typescript',
     'plugin:json/recommended',
     'plugin:markdown/recommended',
     'plugin:n/recommended',
@@ -29,23 +33,22 @@ module.exports = {
     'plugin:security/recommended',
     'plugin:sonarjs/recommended',
     'plugin:unicorn/all',
-    'standard',
   ],
-  parser: 'vue-eslint-parser', // must use for vue SFC
+  parser: vue_parser,
   parserOptions: {
     ecmaVersion: 'latest',
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
-    extraFileExtensions: ['.vue'],
+    extraFileExtensions: [...vue_parserOptions_extraFileExtensions],
   },
   plugins: [
-    'vue',
+    ...vue_plugins,
+
     '@typescript-eslint',
 
     'html',
-    'import',
     'json',
     'markdown',
     'n',
@@ -58,47 +61,16 @@ module.exports = {
     'html/indent': INDENT,
   },
   rules: {
+    ...vue_rules,
+
+    // enabled built-in
     'indent': ['error', INDENT],
+    'jsx-quotes': ['error', 'prefer-single'],
     'linebreak-style': ['error', 'unix'],
-    'quotes': ['error', 'single', {'avoidEscape': true}],
+    'quotes': ['error', 'single', { 'avoidEscape': true }],
     'semi': ['error', 'never'],
 
-
-    'vue/component-api-style': 'error',
-    'vue/first-attribute-linebreak': [
-      'error', {
-        'singleline': 'beside',
-        'multiline': 'beside'
-      }
-    ],
-    'vue/html-button-has-type': 'error',
-    'vue/html-closing-bracket-newline': [
-      'error', {
-        'singleline': 'never',
-        'multiline': 'never'
-      }
-    ],
-    'vue/html-indent': [
-      'error', 2, {
-        'attribute': 1,
-        'alignAttributesVertically': false
-      }
-    ],
-    'vue/max-len': [
-      'error', {
-        'code': MAX_LEN,
-        'ignoreStrings': true,
-        'ignoreComments': true,
-      }
-    ],
-    'vue/next-tick-style': 'error',
-    'vue/no-this-in-before-route-enter': 'error',
-    'vue/no-useless-mustaches': 'error',
-    'vue/no-useless-v-bind': 'error',
-    'vue/prefer-prop-type-boolean-first': 'warn',
-    'vue/v-on-function-call': ['error', 'never'],
-
-
+    // enabled plugin
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
@@ -126,12 +98,11 @@ module.exports = {
     'sort-imports': ['error', { 'ignoreCase': true }],
     'space-before-function-paren': ['error', 'never'],
 
-
+    // disabled
     '@typescript-eslint/no-non-null-assertion': 'off',
     'capitalized-comments': 'off',
     'function-call-argument-newline': 'off',
-    'id-length': 'off',
-    'import/no-unresolved': 'off',  // Only vite
+    'id-length': 'off', 
     'lines-between-class-members': 'off',
     'line-comment-position': 'off',
     'max-classes-per-file': 'off',
@@ -162,6 +133,5 @@ module.exports = {
     ],
     'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
-    'vue/max-attributes-per-line': 'off',
   },
 }
