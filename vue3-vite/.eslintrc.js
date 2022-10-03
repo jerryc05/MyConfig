@@ -1,5 +1,12 @@
 /* eslint-disable unicorn/prefer-module, unicorn/prefer-module */
-const MAX_LEN = 115
+const MAX_LEN = [
+  'error', {
+    code: 100,
+    ignoreComments: true,
+    ignoreStrings: true,
+    ignoreRegExpLiterals: true,
+  }
+]
 const INDENT = 2
 
 
@@ -32,13 +39,7 @@ const vue = {
         'alignAttributesVertically': false
       }
     ],
-    'vue/max-len': [
-      'error', {
-        'code': MAX_LEN,
-        'ignoreStrings': true,
-        'ignoreComments': true,
-      }
-    ],
+    'vue/max-len': MAX_LEN,
     'vue/next-tick-style': 'error',
     'vue/no-this-in-before-route-enter': 'error',
     'vue/no-useless-mustaches': 'error',
@@ -143,16 +144,12 @@ module.exports = {
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
-    'max-len': [
-      'error', {
-        'code': MAX_LEN,
-        'ignoreComments': true
-      }
-    ],
+    'max-len': MAX_LEN,
     'no-extra-parens': [
       'error', 'all', {
-        'nestedBinaryExpressions': false,
-        'enforceForArrowConditionals': false
+        enforceForArrowConditionals: false,
+        ignoreJSX: 'all',
+        nestedBinaryExpressions: false,
       }
     ],
     'no-multi-spaces': ['error', { ignoreEOLComments: true }],
@@ -198,5 +195,6 @@ module.exports = {
     ],
     'unicorn/no-null': 'off',
     'unicorn/prevent-abbreviations': 'off',
+    'wrap-regex': 'off',
   },
 }
