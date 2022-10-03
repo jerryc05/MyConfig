@@ -132,16 +132,6 @@ module.exports = {
     ...vue.rules,
 
     // enabled built-in
-    'indent': ['warn', INDENT],
-    'jsx-quotes': ['error', 'prefer-single'],
-    'linebreak-style': ['error', 'unix'],
-    'quotes': ['error', 'single', { avoidEscape: true }],
-    'semi': ['warn', 'never'],
-
-    // enabled plugin
-    "@typescript-eslint/no-redundant-type-constituents": "error",
-    "@typescript-eslint/prefer-readonly": "warn",
-    "@typescript-eslint/switch-exhaustiveness-check": "error",
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
@@ -149,6 +139,9 @@ module.exports = {
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
+    'indent': ['warn', INDENT],
+    'jsx-quotes': ['error', 'prefer-single'],
+    'linebreak-style': ['error', 'unix'],
     'max-len': MAX_LEN,
     'no-extra-parens': [
       'error', 'all', {
@@ -161,8 +154,18 @@ module.exports = {
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
     'nonblock-statement-body-position': ['warn', 'below'],
-    'sort-imports': ['warn', { allowSeparatedGroups: true }],
+    'quotes': ['error', 'single', { avoidEscape: true }],
+    'semi': ['warn', 'never'],
+    'sort-imports': ['warn', {
+      allowSeparatedGroups: true,
+      memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
+    }],
     'space-before-function-paren': ['error', 'never'],
+
+    // enabled plugin
+    "@typescript-eslint/no-redundant-type-constituents": "error",
+    "@typescript-eslint/prefer-readonly": "warn",
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
 
     // disabled
     '@typescript-eslint/no-non-null-assertion': 'off',
