@@ -8,6 +8,7 @@ const MAX_LEN = [
   }
 ]
 const INDENT = 2
+const QUOTE = 'single'
 
 
 const vue = {
@@ -69,6 +70,8 @@ const react = {
     'react/jsx-indent': ['error', INDENT],
     'react/jsx-indent-props': ['error', INDENT],
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+
+    'react/jsx-sort-props': 'off'
   }
 }
 
@@ -128,14 +131,15 @@ module.exports = {
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
-    'curly': ['error', 'multi'],
+    curly: ['error', 'multi'],
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
-    'indent': ['warn', INDENT],
-    'jsx-quotes': ['error', 'prefer-single'],
+    indent: ['warn', INDENT],
+    'jsx-quotes': ['warn', `prefer-${QUOTE}`],
     'linebreak-style': ['error', 'unix'],
     'max-len': MAX_LEN,
+    'no-console': ['warn', { allow: ['error'] }],
     'no-extra-parens': [
       'error', 'all', {
         enforceForArrowConditionals: false,
@@ -147,8 +151,9 @@ module.exports = {
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
     'nonblock-statement-body-position': ['warn', 'below'],
-    'quotes': ['error', 'single', { avoidEscape: true }],
-    'semi': ['warn', 'never'],
+    'quote-props': ['warn', 'as-needed'],
+    quotes: ['warn', QUOTE, { avoidEscape: true }],
+    semi: ['warn', 'never'],
     'sort-imports': [
       'warn', {
         allowSeparatedGroups: true,
@@ -174,14 +179,13 @@ module.exports = {
     'n/no-missing-import': 'off',  // Only vite
     'n/no-unpublished-import': 'off',  // Only vite
     'n/no-unsupported-features/es-syntax': 'off',
-    'no-console': 'off',
     'no-inline-comments': 'off',
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'object-property-newline': 'off',
     'one-var': 'off',
     'padded-blocks': 'off',
-    'quote-props': 'off',
+    'sonarjs/cognitive-complexity': 'off',
     'sort-keys': 'off',
     'sort-vars': 'off',
     'unicorn/filename-case': [

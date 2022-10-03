@@ -10,7 +10,7 @@
     "dev": "npm run d",
     "build": "npm run b",
     "serve": "npm run s",
-    "lint": "npx eslint --ext .ts,.js,.vue ."
+    "lint": "eslint src"
   },
   "dependencies": {
     // "pinia": "latest",
@@ -27,7 +27,7 @@
     // "cssnano": "latest",
     // "cssnano-preset-advanced": "latest",
     "eslint": "latest",
-    "eslint-plugin-html": "latest", 
+    "eslint-plugin-html": "latest",
     "eslint-plugin-json": "latest",
     "eslint-plugin-markdown": "latest",
     "eslint-plugin-n": "latest",
