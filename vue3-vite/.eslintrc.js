@@ -194,6 +194,7 @@ module.exports = {
     ],
     'unicorn/no-keyword-prefix': 'off',
     'unicorn/no-null': 'off',
+    'unicorn/prefer-query-selector': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'wrap-regex': 'off',
   },
@@ -213,6 +214,7 @@ module.exports = {
         'default-case': 'off',  // only typescript
         'no-shadow': 'off',  // only typescript
 
+        '@typescript-eslint/consistent-type-assertions': 'error',
         "@typescript-eslint/consistent-type-definitions": ["error", "type"],
         "@typescript-eslint/no-redundant-type-constituents": "error",
         "@typescript-eslint/prefer-readonly": "warn",
