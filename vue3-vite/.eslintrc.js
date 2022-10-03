@@ -1,8 +1,58 @@
-import {
-  vue_extends, vue_parser,
-  vue_parserOptions_extraFileExtensions, vue_plugins,
-  vue_rules
-} from './.eslintrc.vue.js'
+const vue = {
+  extends: [
+    'plugin:vue/base',
+    'plugin:vue/vue3-recommended',
+  ],
+  parser: 'vue-eslint-parser', // must use for vue SFC
+  parserOptions_extraFileExtensions: ['.vue'],
+  plugins: ['vue'],
+  rules: {
+    'vue/component-api-style': 'error',
+    'vue/first-attribute-linebreak': [
+      'error', {
+        'singleline': 'beside',
+        'multiline': 'beside'
+      }
+    ],
+    'vue/html-button-has-type': 'error',
+    'vue/html-closing-bracket-newline': [
+      'error', {
+        'singleline': 'never',
+        'multiline': 'never'
+      }
+    ],
+    'vue/html-indent': [
+      'error', 2, {
+        'attribute': 1,
+        'alignAttributesVertically': false
+      }
+    ],
+    'vue/max-len': [
+      'error', {
+        'code': MAX_LEN,
+        'ignoreStrings': true,
+        'ignoreComments': true,
+      }
+    ],
+    'vue/next-tick-style': 'error',
+    'vue/no-this-in-before-route-enter': 'error',
+    'vue/no-useless-mustaches': 'error',
+    'vue/no-useless-v-bind': 'error',
+    'vue/prefer-prop-type-boolean-first': 'warn',
+    'vue/v-on-function-call': ['error', 'never'],
+
+
+    'vue/max-attributes-per-line': 'off',
+  }
+
+}
+
+const react = {
+  extends: [
+    "plugin:react/all"
+  ], rules: {
+  }
+}
 
 /* eslint-disable unicorn/prefer-module, unicorn/prefer-module */
 const MAX_LEN = 115
@@ -18,7 +68,7 @@ module.exports = {
     node: true
   },
   extends: [
-    ...vue_extends,
+    ...vue.extends,
 
     'eslint:all',
     'plugin:@typescript-eslint/recommended',
@@ -34,17 +84,17 @@ module.exports = {
     'plugin:sonarjs/recommended',
     'plugin:unicorn/all',
   ],
-  parser: vue_parser,
+  parser: vue.parser,
   parserOptions: {
     ecmaVersion: 'latest',
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
     tsconfigRootDir: __dirname,
     project: ['./tsconfig.json'],
-    extraFileExtensions: [...vue_parserOptions_extraFileExtensions],
+    extraFileExtensions: [...vue.parserOptions_extraFileExtensions],
   },
   plugins: [
-    ...vue_plugins,
+    ...vue.plugins,
 
     '@typescript-eslint',
 
@@ -61,7 +111,7 @@ module.exports = {
     'html/indent': INDENT,
   },
   rules: {
-    ...vue_rules,
+    ...vue.rules,
 
     // enabled built-in
     'indent': ['error', INDENT],
@@ -102,7 +152,7 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     'capitalized-comments': 'off',
     'function-call-argument-newline': 'off',
-    'id-length': 'off', 
+    'id-length': 'off',
     'lines-between-class-members': 'off',
     'line-comment-position': 'off',
     'max-classes-per-file': 'off',
