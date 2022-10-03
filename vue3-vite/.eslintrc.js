@@ -135,7 +135,7 @@ module.exports = {
     'indent': ['warn', INDENT],
     'jsx-quotes': ['error', 'prefer-single'],
     'linebreak-style': ['error', 'unix'],
-    'quotes': ['error', 'single', { 'avoidEscape': true }],
+    'quotes': ['error', 'single', { avoidEscape: true }],
     'semi': ['warn', 'never'],
 
     // enabled plugin
@@ -158,11 +158,10 @@ module.exports = {
       }
     ],
     'no-multi-spaces': ['error', { ignoreEOLComments: true }],
-    'no-multiple-empty-lines': ['error', { 'max': 6 }],
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
     'nonblock-statement-body-position': ['warn', 'below'],
-    'sort-imports': ['error', { 'ignoreCase': true }],
+    'sort-imports': ['warn', { allowSeparatedGroups: true }],
     'space-before-function-paren': ['error', 'never'],
     'unicorn/no-keyword-prefix':['error', { checkProperties: false }],
 
