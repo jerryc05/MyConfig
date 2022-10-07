@@ -10,6 +10,7 @@ read -p 'Enter email address: ' EMAIL_ADDR
 
 read -p 'Enter main domain (only one): '                      MAIN_DOMAIN
 read -p 'Enter SAN domains, unquoted and separated by [-d]: ' SAN_DOMAINS
+[ -n "$SAN_DOMAINS" ] && D_SAN_DOMAINS="-d $SAN_DOMAINS" || D_SAN_DOMAINS="$SAN_DOMAINS"
 
 read -p 'Enter hook commands to be exec after renew (e.g. `systemctl restart nginx`): ' HOOK_CMD
 
@@ -50,9 +51,20 @@ REPO_NAME='acme.sh'
   mkdir -p "$WWW_ROOT"
   chmod -R 777 "$WWW_ROOT"
   chcon -Rt httpd_sys_content_t "$WWW_ROOT" || true
-  ./acme.sh --issue --days 170 --keylength "$KEY_LEN" -d "$MAIN_DOMAIN" -d $SAN_DOMAINS -w "$WWW_ROOT"
+  ./acme.sh --issue --days 170 --keylength "$KEY_LEN" -d "$MAIN_DOMAIN" $D_SAN_DOMAINS -w "$WWW_ROOT"
   #                        └ buypass cert has 180 days
 
+  # Install
+  INSTALL_CMD=`
+  echo \
+  acme.sh --install-cert -d "$MAIN_DOMAIN" \
+          --cert-file      "$DEPLOY_PATH/cert.pem" \
+          --key-file       "$DEPLOY_PATH/key.pem" \
+          --fullchain-file "$DEPLOY_PATH/fullchain.pem"
+  `
+
+  $INSTALL_CMD
+  
   # Auto renew
-  crontab <<< "0 0 * * 0 `pwd`/acme.sh --cron && ${HOOK_CMD:-true}"
+  crontab <<< "0 0 * * * `pwd`/acme.sh --cron && { ${INSTALL_CMD:-true} ; } && ${HOOK_CMD:-true}"
 )
