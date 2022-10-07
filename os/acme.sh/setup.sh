@@ -32,8 +32,8 @@ REPO_NAME='acme.sh'
   git reset --hard origin/HEAD
 
   # Fake install
-  ln -s "`PWD`" "$ACME_HOME"
-  [ `readlink -f "$ACME_HOME"` != "`pwd`" ] && echo "ERR: Fake install to [$ACME_HOME] failed!" && false
+  ln -s "`pwd`" "$ACME_HOME"
+  [ `readlink -f "$ACME_HOME"` != "`pwd`" ] && echo "ERR: Fake install to [$ACME_HOME] failed\!" && false
 )
 
 (
@@ -49,6 +49,7 @@ REPO_NAME='acme.sh'
   WWW_ROOT='/var/wwwroot'  # also change in [nginx.conf]
   mkdir -p "$WWW_ROOT"
   chmod -R 777 "$WWW_ROOT"
+  chcon -Rt httpd_sys_content_t "$WWW_ROOT" || true
   ./acme.sh --issue --days 170 --keylength "$KEY_LEN" -d "$MAIN_DOMAIN" -d $SAN_DOMAINS -w "$WWW_ROOT"
   #                        └ buypass cert has 180 days
 
