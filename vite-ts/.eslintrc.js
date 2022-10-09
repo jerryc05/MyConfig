@@ -1,10 +1,10 @@
-/* eslint-disable unicorn/prefer-module, unicorn/prefer-module */
+/* eslint-disable unicorn/prefer-module */
 const MAX_LEN = [
   'error', {
     code: 100,
     ignoreComments: true,
-    ignoreStrings: true,
     ignoreRegExpLiterals: true,
+    ignoreStrings: true,
   }
 ]
 const INDENT = 2
@@ -66,10 +66,11 @@ const react = {
       version: "detect",
     },
   },
+
   rules: {
+    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-indent': ['error', INDENT],
     'react/jsx-indent-props': ['error', INDENT],
-    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
 
     'react/jsx-sort-props': 'off'
   }
@@ -79,6 +80,7 @@ const react = {
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
   root: true,
+
   env: {
     browser: true,
     es2022: true, // TODO: check new version
@@ -101,10 +103,10 @@ module.exports = {
   ],
   parser: vue.parser,
   parserOptions: {
-    ecmaVersion: 'latest',
     ecmaFeatures: {
       jsx: true
     },
+    ecmaVersion: 'latest',
     sourceType: 'module',
     tsconfigRootDir: __dirname,
     extraFileExtensions: [...vue.parserOptions_extraFileExtensions],
@@ -123,6 +125,7 @@ module.exports = {
   settings: {
     'html/indent': INDENT,
   },
+
   rules: {
     ...vue.rules,
 
@@ -134,7 +137,7 @@ module.exports = {
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
-    indent: ['warn', INDENT],
+    indent: ['warn', INDENT, { SwitchCase: 1 }],
     'jsx-quotes': ['warn', `prefer-${QUOTE}`],
     'linebreak-style': ['error', 'unix'],
     'max-len': MAX_LEN,
@@ -159,7 +162,18 @@ module.exports = {
         memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
       }
     ],
+    'sort-keys': ['error', 'asc', { allowLineSeparatedGroups: true, natural: true }],
     'space-before-function-paren': ['error', 'never'],
+
+    // enabled plugin
+    'unicorn/filename-case': [
+      'warn', {
+        cases: {
+          camelCase: true,
+          pascalCase: true,
+        }
+      }
+    ],
 
     // disabled
     '@typescript-eslint/no-non-null-assertion': 'off',
@@ -179,37 +193,33 @@ module.exports = {
     'n/no-unpublished-import': 'off',  // Only vite
     'n/no-unsupported-features/es-syntax': 'off',
     'no-inline-comments': 'off',
+    'no-magic-numbers': 'off',
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'object-property-newline': 'off',
     'one-var': 'off',
     'padded-blocks': 'off',
     'sonarjs/cognitive-complexity': 'off',
-    'sort-keys': 'off',
     'sort-vars': 'off',
-    'unicorn/filename-case': [
-      'error', {
-        cases: {
-          kebabCase: true,
-          pascalCase: true,
-        }
-      }
-    ],
+    'unicorn/switch-case-braces': 'off',
     'unicorn/no-keyword-prefix': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prefer-query-selector': 'off',
     'unicorn/prevent-abbreviations': 'off',
     'wrap-regex': 'off',
   },
+
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
+
       extends: [
         'plugin:@typescript-eslint/recommended',
         'plugin:@typescript-eslint/recommended-requiring-type-checking',
         'plugin:@typescript-eslint/strict',
       ],
       plugins: ['@typescript-eslint'],
+
       parserOptions: {
         parser: '@typescript-eslint/parser',
         project: ['./tsconfig.json'],
@@ -218,10 +228,10 @@ module.exports = {
         'no-shadow': 'off',  // only typescript
 
         '@typescript-eslint/consistent-type-assertions': 'error',
-        "@typescript-eslint/consistent-type-definitions": ["error", "type"],
-        "@typescript-eslint/no-redundant-type-constituents": "error",
-        "@typescript-eslint/prefer-readonly": "warn",
-        "@typescript-eslint/switch-exhaustiveness-check": "error",
+        '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+        '@typescript-eslint/no-redundant-type-constituents': 'error',
+        '@typescript-eslint/prefer-readonly': 'warn',
+        '@typescript-eslint/switch-exhaustiveness-check': 'error',
       }
     },
   ],
