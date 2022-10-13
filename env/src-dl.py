@@ -38,7 +38,29 @@ def __dl_file(url: str, dest: Path):
 def __untar_file(file_p: Path, untar_p: Path):
     with tarfile.open(file_p) as f:
         print(f'Untarring     {file_p}')
-        f.extractall(untar_p)
+        
+        import os
+        
+        def is_within_directory(directory, target):
+            
+            abs_directory = os.path.abspath(directory)
+            abs_target = os.path.abspath(target)
+        
+            prefix = os.path.commonprefix([abs_directory, abs_target])
+            
+            return prefix == abs_directory
+        
+        def safe_extract(tar, path=".", members=None, *, numeric_owner=False):
+        
+            for member in tar.getmembers():
+                member_path = os.path.join(path, member.name)
+                if not is_within_directory(path, member_path):
+                    raise Exception("Attempted Path Traversal in Tar File")
+        
+            tar.extractall(path, members, numeric_owner=numeric_owner) 
+            
+        
+        safe_extract(f, untar_p)
         print(f'Untarred to   {untar_p}')
 
 
