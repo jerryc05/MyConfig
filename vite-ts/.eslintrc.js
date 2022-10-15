@@ -50,8 +50,9 @@ const vue = {
     'vue/prefer-prop-type-boolean-first': 'warn',
     'vue/v-on-function-call': ['error', 'never'],
 
-
     'vue/max-attributes-per-line': 'off',
+
+    'max-len': 'off',
   }
 
 }
@@ -130,8 +131,6 @@ module.exports = {
   },
 
   rules: {
-    ...vue.rules,
-
     // enabled
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
@@ -210,6 +209,8 @@ module.exports = {
     'unicorn/prevent-abbreviations': 'off',
     'unicorn/switch-case-braces': 'off',
     'wrap-regex': 'off',
+
+    ...vue.rules,
   },
 
   overrides: [
