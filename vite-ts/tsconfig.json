@@ -5,7 +5,7 @@
     "useDefineForClassFields": true,
     "moduleResolution": "node",
     "strict": true,
-    "jsx": "preserve",
+    "jsx": "preserve",  // `react-jsx` for React.js
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
