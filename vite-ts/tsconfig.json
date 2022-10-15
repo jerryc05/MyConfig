@@ -29,15 +29,17 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/**/*.d.ts",
     "src/**/*.tsx",
+    "src/**/*.d.ts",
+    "src/**/*.js",
+    "src/**/*.jsx",
     "src/**/*.vue",
-    "./*.config.*",
-    "**/.eslintrc.js",
+    "*.js",
+    "*.ts"
   ],
   "exclude": [
     "node_modules",
-    "**/vite.config.*",
+    "**/*.spec.ts"
   ],
   "references": [
     {
