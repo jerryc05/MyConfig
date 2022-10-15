@@ -12,7 +12,8 @@
     "esModuleInterop": false,
     "lib": [
       "ESNext",
-      "DOM"
+      "DOM",
+      "DOM.Iterable"
     ],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
