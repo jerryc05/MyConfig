@@ -1,11 +1,15 @@
 name: ESLint
 
 on:
-  push:
+  pull_request:
     branches:
       - main
       - master
-  pull_request:
+    paths:
+      - '**.js'
+      - '**.jsx'
+      - '**.ts'
+      - '**.tsx'
 
 jobs:
   ESLint:
