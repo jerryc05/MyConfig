@@ -1,4 +1,4 @@
-/* eslint-disable camelcase, unicorn/prefer-module */
+/* eslint-disable unicorn/prefer-module */
 const MAX_LEN = [
   'error', {
     code: 100,
@@ -9,16 +9,21 @@ const MAX_LEN = [
 ]
 const INDENT = 2
 const QUOTE = ['warn', 'single', { avoidEscape: true }]
+const ESLINT_PARSER = '@typescript-eslint/parser'
 
 
-// eslint-disable-next-line no-unused-vars
+/** @type {import('eslint').Linter.Config} */
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 const vue = {
   extends: [
     'plugin:vue/base',
     'plugin:vue/vue3-recommended',
   ],
   parser: 'vue-eslint-parser', // must use for vue SFC
-  parserOptions_extraFileExtensions: ['.vue'],
+  parserOptions: {
+    extraFileExtensions: ['.vue'],
+    parser: ESLINT_PARSER,
+  },
   plugins: ['vue'],
   rules: {
     'vue/component-api-style': 'error',
@@ -54,16 +59,16 @@ const vue = {
 
     'max-len': 'off',
   }
-
 }
 
-// eslint-disable-next-line no-unused-vars
+/** @type {import('eslint').Linter.Config} */
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 const react = {
   extends: [
     'plugin:react/all',
     'plugin:react/jsx-runtime'
   ],
-  parser: '@typescript-eslint/parser',
+  parser: ESLINT_PARSER,
   plugins: ['react'],
   settings: {
     react: {
@@ -80,20 +85,38 @@ const react = {
   }
 }
 
+const framework = vue
+
+const plugins = [
+  ...framework.plugins,
+
+  '@typescript-eslint',
+
+  'json',
+  'markdown',
+  'n',
+  'no-secrets',
+  'promise',
+  'sonarjs',
+]
+if (!plugins.includes('vue')) plugins.push('html')
+
 
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  root: true,
-
   env: {
     browser: true,
     es2022: true,
     node: true
   },
   extends: [
-    ...vue.extends,
+    ...framework.extends,
 
     'eslint:all',
+
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+    'plugin:@typescript-eslint/strict',
 
     'plugin:optimize-regex/all',
     'plugin:json/recommended',
@@ -105,33 +128,31 @@ module.exports = {
     'plugin:sonarjs/recommended',
     'plugin:unicorn/all',
   ],
-  parser: vue.parser,
+  parser: framework.parser ?? ESLINT_PARSER,
   parserOptions: {
-    ecmaFeatures: {
-      jsx: true
-    },
+    ecmaFeatures: { impliedStrict: true, jsx: true },
     ecmaVersion: 'latest',
-    extraFileExtensions: [...vue.parserOptions_extraFileExtensions],
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    extraFileExtensions: framework.parserOptions?.extraFileExtensions,
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    parser: framework.parserOptions?.parser,
+    project: ['./tsconfig.json'],
     sourceType: 'module',
     tsconfigRootDir: __dirname,
   },
-  plugins: [
-    ...vue.plugins,
-
-    'html',
-    'json',
-    'markdown',
-    'n',
-    'no-secrets',
-    'promise',
-    'sonarjs',
-  ],
+  plugins,
+  root: true,
   settings: {
     'html/indent': INDENT,
   },
 
   rules: {
     // enabled
+    '@typescript-eslint/consistent-type-assertions': 'error',
+    '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+    '@typescript-eslint/no-redundant-type-constituents': 'error',
+    '@typescript-eslint/prefer-readonly': 'warn',
+    '@typescript-eslint/switch-exhaustiveness-check': 'error',
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'only-multiline'],
@@ -140,6 +161,7 @@ module.exports = {
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
     indent: ['warn', INDENT, { SwitchCase: 1 }],
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
     'jsx-quotes': ['warn', `prefer-${QUOTE[1]}`],
     'linebreak-style': ['error', 'unix'],
     'max-len': MAX_LEN,
@@ -154,7 +176,6 @@ module.exports = {
     'no-multi-spaces': ['error', { ignoreEOLComments: true }],
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
-    'nonblock-statement-body-position': ['warn', 'below'],
     'quote-props': ['warn', 'as-needed'],
     quotes: QUOTE,
     semi: ['warn', 'never'],
@@ -180,6 +201,7 @@ module.exports = {
     // disabled
     '@typescript-eslint/no-non-null-assertion': 'off',
     'capitalized-comments': 'off',
+    'default-case': 'off',  // only typescript
     'function-call-argument-newline': 'off',
     'id-length': 'off',
     'line-comment-position': 'off',
@@ -196,6 +218,7 @@ module.exports = {
     'n/no-unsupported-features/es-syntax': 'off',
     'no-inline-comments': 'off',
     'no-magic-numbers': 'off',
+    'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
     'object-curly-spacing': 'off',
     'object-property-newline': 'off',
@@ -210,33 +233,6 @@ module.exports = {
     'unicorn/switch-case-braces': 'off',
     'wrap-regex': 'off',
 
-    ...vue.rules,
-  },
-
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-
-      extends: [
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'plugin:@typescript-eslint/strict',
-      ],
-      plugins: ['@typescript-eslint'],
-
-      parserOptions: {
-        parser: '@typescript-eslint/parser',
-        project: ['./tsconfig.json'],
-      }, rules: {
-        'default-case': 'off',  // only typescript
-        'no-shadow': 'off',  // only typescript
-
-        '@typescript-eslint/consistent-type-assertions': 'error',
-        '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
-        '@typescript-eslint/no-redundant-type-constituents': 'error',
-        '@typescript-eslint/prefer-readonly': 'warn',
-        '@typescript-eslint/switch-exhaustiveness-check': 'error',
-      }
-    },
-  ],
+    ...framework.rules,
+  }
 }
