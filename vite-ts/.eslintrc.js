@@ -1,6 +1,6 @@
 /* eslint-disable unicorn/prefer-module */
 const MAX_LEN = [
-  'error', {
+  'warn', {
     code: 100,
     ignoreComments: true,
     ignoreRegExpLiterals: true,
@@ -8,7 +8,7 @@ const MAX_LEN = [
   }
 ]
 const INDENT = 2
-const QUOTE = ['warn', 'single', { avoidEscape: true }]
+const QUOTE = ['warn', 'single', {avoidEscape: true}]
 const ESLINT_PARSER = '@typescript-eslint/parser'
 
 
@@ -27,12 +27,6 @@ const vue = {
   plugins: ['vue'],
   rules: {
     'vue/component-api-style': 'error',
-    'vue/first-attribute-linebreak': [
-      'error', {
-        multiline: 'beside',
-        singleline: 'beside'
-      }
-    ],
     'vue/html-button-has-type': 'error',
     'vue/html-closing-bracket-newline': [
       'error', {
@@ -47,7 +41,8 @@ const vue = {
       }
     ],
     'vue/html-quotes': QUOTE,
-    'vue/max-len': MAX_LEN,
+    'vue/html-self-closing': ['error', {html: {normal: 'never'}}],
+    'vue/max-len': [MAX_LEN[0], {...MAX_LEN[1], ignoreHTMLAttributeValues: true}],
     'vue/next-tick-style': 'error',
     'vue/no-this-in-before-route-enter': 'error',
     'vue/no-useless-mustaches': 'error',
@@ -77,7 +72,7 @@ const react = {
   },
 
   rules: {
-    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+    'react/jsx-filename-extension': ['error', {extensions: ['.jsx', '.tsx']}],
     'react/jsx-indent': ['error', INDENT],
     'react/jsx-indent-props': ['error', INDENT],
 
@@ -130,7 +125,7 @@ module.exports = {
   ],
   parser: framework.parser ?? ESLINT_PARSER,
   parserOptions: {
-    ecmaFeatures: { impliedStrict: true, jsx: true },
+    ecmaFeatures: {impliedStrict: true, jsx: true},
     ecmaVersion: 'latest',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     extraFileExtensions: framework.parserOptions?.extraFileExtensions,
@@ -160,20 +155,21 @@ module.exports = {
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
-    indent: ['warn', INDENT, { SwitchCase: 1 }],
+    indent: ['warn', INDENT, {SwitchCase: 1}],
     // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
     'jsx-quotes': ['warn', `prefer-${QUOTE[1]}`],
     'linebreak-style': ['error', 'unix'],
     'max-len': MAX_LEN,
-    'no-console': ['warn', { allow: ['error'] }],
+    'multiline-ternary': ['warn', 'always-multiline'],
+    'no-console': ['warn', {allow: ['error']}],
     'no-extra-parens': [
-      'error', 'all', {
+      'warn', 'all', {
         enforceForArrowConditionals: false,
         ignoreJSX: 'all',
         nestedBinaryExpressions: false,
       }
     ],
-    'no-multi-spaces': ['error', { ignoreEOLComments: true }],
+    'no-multi-spaces': ['error', {ignoreEOLComments: true}],
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
     'quote-props': ['warn', 'as-needed'],
@@ -185,7 +181,7 @@ module.exports = {
         memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
       }
     ],
-    'sort-keys': ['error', 'asc', { allowLineSeparatedGroups: true, natural: true }],
+    'sort-keys': ['error', 'asc', {allowLineSeparatedGroups: true, natural: true}],
     'space-before-function-paren': ['error', 'never'],
 
     // enabled plugin
@@ -199,7 +195,6 @@ module.exports = {
     ],
 
     // disabled
-    '@typescript-eslint/no-non-null-assertion': 'off',
     'capitalized-comments': 'off',
     'default-case': 'off',  // only typescript
     'function-call-argument-newline': 'off',
@@ -212,15 +207,13 @@ module.exports = {
     'max-params': 'off',
     'max-statements': 'off',
     'multiline-comment-style': 'off',
-    'multiline-ternary': 'off',
-    'n/no-missing-import': 'off',  // Only vite
-    'n/no-unpublished-import': 'off',  // Only vite
+    'n/no-missing-import': 'off',  // only vite
+    'n/no-unpublished-import': 'off',  // only vite
     'n/no-unsupported-features/es-syntax': 'off',
     'no-inline-comments': 'off',
     'no-magic-numbers': 'off',
     'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
-    'object-curly-spacing': 'off',
     'object-property-newline': 'off',
     'one-var': 'off',
     'padded-blocks': 'off',
