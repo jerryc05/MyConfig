@@ -47,7 +47,9 @@ See https://github.com/yuk7/ArchWSL
     ```
     sed -i s/^#Color/Color/ /etc/pacman.conf
     sed -i s/^#VerbosePkgLists/VerbosePkgLists/ /etc/pacman.conf
-    sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 16\nILoveCandy/' /etc/pacman.conf
+    sed -i "s/^#ParallelDownloads.*/ParallelDownloads = `nproc`\nILoveCandy/" /etc/pacman.conf
+    sed -i -z 's/#\[testing]\n#/[testing]\n/' /etc/pacman.conf
+    sed -i -z 's/#\[community-testing]\n#/[community-testing]\n/' /etc/pacman.conf
     ```
 
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
