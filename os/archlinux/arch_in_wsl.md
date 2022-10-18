@@ -40,7 +40,7 @@ See https://github.com/yuk7/ArchWSL
     ln -s libcuda.so.1.1 libcuda.so.1
     ln -s libcuda.so.1.1 libcuda.so
     ```
-    
+
 0.  Shutdown WSL and restart.
 
 0.  Edit `/etc/pacman.conf`, uncomment the line `Color` and `ParallelDownloads` under `# Misc options` and save. E.g.:
@@ -67,7 +67,7 @@ See https://github.com/yuk7/ArchWSL
 
     ```
     pacman-key --init
-    
+
     # KEYRING=`mktemp` && curl -L https://github.com/archlinuxarm/archlinuxarm-keyring/raw/master/archlinuxarm.gpg -o $KEYRING && pacman-key --add $KEYRING && pacman-key --lsign-key builder@archlinuxarm.org
 
     pacman -Sy archlinux-keyring
@@ -104,7 +104,7 @@ See https://github.com/yuk7/ArchWSL
 0.  *Optional:* Install `dnscrypt-proxy` to use `DNS over TLS/HTTPS/QUIC/...`:
     ```
     pacman -S dnscrypt-proxy
-    echo 'net.core.rmem_max=2500000' >>/etc/sysctl.conf && sysctl -p  # For non-BSD systems    
+    echo 'net.core.rmem_max=2500000' >>/etc/sysctl.conf && sysctl -p  # For non-BSD systems
     sed -i "s/^# server_names =.*/server_names = ['cloudflare','google','yandex','adguard-dns-doh','alidns-doh','dnspod-doh']/" /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     sed -i 's/^# http3 =.*/http3 = true/' /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     if [[ "`uname -a`" = *'microsoft'* ]]; then  # Only required for WSL
@@ -116,7 +116,7 @@ See https://github.com/yuk7/ArchWSL
     ## Enable and start the service
     systemctl enable --now dnscrypt-proxy.service
     journalctl -u dnscrypt-proxy.service -f  # Check logs and resolve any warnings/errors
-    
+
     ## Or test it with
     dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml
     ```
@@ -136,7 +136,7 @@ See https://github.com/yuk7/ArchWSL
         # Defaults targetpw  # Ask for the password of the target user
         # ALL ALL=(ALL:ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
         ```
-    
+
 0.  Setup performance optimizations
     -   Filesystem
         ```
@@ -161,7 +161,7 @@ See https://github.com/yuk7/ArchWSL
     -   `makepkg`
         ```
         cp /etc/makepkg.conf /etc/makepkg.conf~
-        
+
         sed -i 's/-march=[^ ]*/-march=native/' /etc/makepkg.conf
         sed -i 's/-mtune=[^ ]*//'              /etc/makepkg.conf
         sed -i 's/-O2/-Ofast/'                 /etc/makepkg.conf
@@ -172,22 +172,22 @@ See https://github.com/yuk7/ArchWSL
         sed -i 's/-D_GLIBCXX_ASSERTIONS//'     /etc/makepkg.conf
         sed -i 's/,-z,relro//'                 /etc/makepkg.conf
         sed -i 's/,-z,now//'                   /etc/makepkg.conf
-        
+
         sed -i 's/DEBUG_CFLAGS="-g"/DEBUG_CFLAGS="-g -D_FORTIFY_SOURCE=2 -fstack-clash-protection -fcf-protection -D_GLIBCXX_ASSERTIONS"/' /etc/makepkg.conf
 
         sed -i 's/#RUSTFLAGS.*/RUSTFLAGS="-C opt-level=3 -C target-cpu=native"/' /etc/makepkg.conf
         sed -i 's/#DEBUG_RUSTFLAGS/DEBUG_RUSTFLAGS/'                             /etc/makepkg.conf
-        
+
         sed -i 's/#MAKEFLAGS.*/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
 
         pacman -S ccache && sed -i 's/!ccache/ccache/' /etc/makepkg.conf
 
         sed -i 's/^OPTIONS=(!strip/OPTIONS=(strip/' /etc/makepkg.conf
         sed -i 's/!lto/lto/' /etc/makepkg.conf
-        
+
         sed -i 's/xz -c -z -/xz -c -z --threads=0 -/'           /etc/makepkg.conf
         sed -i 's/zstd -c -z -q -/zstd -c -z -q --threads=0 -/' /etc/makepkg.conf
-        
+
         sed -i "s/PKGEXT='.pkg.tar.zst'/PKGEXT='.pkg.tar.xz'/" /etc/makepkg.conf
         sed -i "s/SRCEXT='.src.tar.gz'/SRCEXT='.src.tar.xz'/"  /etc/makepkg.conf
         ```
