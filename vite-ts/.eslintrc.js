@@ -196,6 +196,7 @@ module.exports = {
 
     // disabled
     'capitalized-comments': 'off',
+    'consistent-return': 'off',
     'default-case': 'off',  // only typescript
     'function-call-argument-newline': 'off',
     'id-length': 'off',
