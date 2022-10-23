@@ -76,7 +76,8 @@ const react = {
     'react/jsx-indent': ['error', INDENT],
     'react/jsx-indent-props': ['error', INDENT],
 
-    'react/jsx-sort-props': 'off'
+    'react/jsx-sort-props': 'off',
+    'react/require-default-props': 'off',
   }
 }
 

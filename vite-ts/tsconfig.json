@@ -20,8 +20,6 @@
     "noEmit": true,
     "noImplicitAny": true,
     "noImplicitOverride": true,
-    "noImplicitReturns": true,
-    "noUnusedParameters": true,
     "baseUrl": ".",
     "paths": {
       "@/*": [ // check vite.config.ts => resolve => alias
