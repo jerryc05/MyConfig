@@ -56,4 +56,6 @@ git config --global alias.hrr '!git reset `git remote | head -n 1`/HEAD --hard'
 git config --global alias.fsz '!git rev-list --objects --all | git cat-file --batch-check="%(objecttype) %(objectname) %(objectsize) %(rest)" | sed -n "s/^blob //p" | sort -n --key=2'
 #                         └ [F]ile [S]i[Z]e
 git config --global alias.rh '!git rev-list HEAD | tail -n 1'
-#                         └ [R]oot [H]ash
+#                         └ [R]oot [H]ashgit config --global alias.rh '!git rev-list HEAD | tail -n 1'
+git config --global alias.lit 'ls-files --cached -i --exclude-standard'
+#                         └ [L]ist [I]gnored but [T]racked files
