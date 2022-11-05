@@ -72,11 +72,17 @@ const react = {
   },
 
   rules: {
+    'react/forbid-component-props': 'off',
     'react/jsx-filename-extension': ['error', {extensions: ['.jsx', '.tsx']}],
-    'react/jsx-indent': ['error', INDENT],
-    'react/jsx-indent-props': ['error', INDENT],
-
+    'react/jsx-indent': ['warn', INDENT],
+    'react/jsx-indent-props': ['warn', INDENT],
+    'react/jsx-max-depth': 'off',
+    'react/jsx-newline': 'off',
+    'react/jsx-no-bind': 'error',
+    'react/jsx-no-literals': 'off',
     'react/jsx-sort-props': 'off',
+    'react/no-multi-comp': 'off',
+    'react/no-unescaped-entities': 'off',
     'react/require-default-props': 'off',
   }
 }
@@ -123,6 +129,8 @@ module.exports = {
     'plugin:security/recommended',
     'plugin:sonarjs/recommended',
     'plugin:unicorn/all',
+    
+    //'prettier',
   ],
   parser: framework.parser ?? ESLINT_PARSER,
   parserOptions: {
