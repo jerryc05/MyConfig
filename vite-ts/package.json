@@ -35,6 +35,8 @@
     "eslint-plugin-no-unsanitized": "latest",
     "eslint-plugin-optimize-regex": "latest",
     "eslint-plugin-promise": "latest",
+    // "eslint-plugin-react": "^7.31.10",
+    // "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-security": "latest",
     "eslint-plugin-sonarjs": "latest",
     "eslint-plugin-unicorn": "latest",

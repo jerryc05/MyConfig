@@ -61,7 +61,8 @@ const vue = {
 const react = {
   extends: [
     'plugin:react/all',
-    'plugin:react/jsx-runtime'
+    'plugin:react/jsx-runtime',
+    'plugin:react-hooks/recommended'
   ],
   parser: ESLINT_PARSER,
   plugins: ['react'],
