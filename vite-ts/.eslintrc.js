@@ -157,6 +157,11 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     '@typescript-eslint/no-redundant-type-constituents': 'error',
     '@typescript-eslint/prefer-readonly': 'warn',
+    '@typescript-eslint/restrict-template-expressions': ['warn', {
+      allowBoolean: true,
+      allowNullish: true,
+      allowNumber: true,
+    }],
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
