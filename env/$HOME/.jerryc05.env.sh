@@ -86,4 +86,5 @@ if [ -n "$ZSH_VERSION" ]; then
 fi
 
 
+command -v code          &>/dev/null && export VISUAL=code
 command -v code-insiders &>/dev/null && export VISUAL=code-insiders
