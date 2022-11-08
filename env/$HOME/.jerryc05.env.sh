@@ -84,3 +84,6 @@ if [ -n "$ZSH_VERSION" ]; then
   # Activate bash-like comment in interactive mode
   setopt interactivecomments
 fi
+
+
+command -v code-insiders &>/dev/null && export VISUAL=code-insiders
