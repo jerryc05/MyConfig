@@ -42,3 +42,11 @@ render(() => <App />, mount)
     f.truncate(0)
     f.seek(0)
     f.write(content)
+
+
+with open("index.html", "r+", encoding="utf-8") as f:
+    content = f.read()
+    content = content.replace('<div id="root"></div>\n','')
+    f.truncate(0)
+    f.seek(0)
+    f.write(content)
