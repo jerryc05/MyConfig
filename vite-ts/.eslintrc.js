@@ -1,5 +1,5 @@
 /*
-pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-optimize-regex eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-promise eslint-plugin-security eslint-plugin-sonarjs eslint-plugin-unicorn eslint-plugin-no-secrets
+pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-optimize-regex eslint-plugin-promise eslint-plugin-security eslint-plugin-sonarjs eslint-plugin-typescript-sort-keys eslint-plugin-unicorn eslint-plugin-no-secrets
 */
 
 /* eslint-disable unicorn/prefer-module */
@@ -107,6 +107,7 @@ const plugins = [
   'no-secrets',
   'promise',
   'sonarjs',
+  'typescript-sort-keys'
 ]
 
 
@@ -134,6 +135,7 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:security/recommended',
     'plugin:sonarjs/recommended',
+    'plugin:typescript-sort-keys/recommended',
     'plugin:unicorn/all',
   ],
   parser: framework.parser ?? ESLINT_PARSER,
