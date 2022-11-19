@@ -1,5 +1,5 @@
 /*
-pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-optimize-regex eslint-plugin-promise eslint-plugin-security eslint-plugin-sonarjs eslint-plugin-typescript-sort-keys eslint-plugin-unicorn eslint-plugin-no-secrets
+pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-optimize-regex eslint-plugin-promise eslint-plugin-security eslint-plugin-simple-import-sort eslint-plugin-sonarjs eslint-plugin-typescript-sort-keys eslint-plugin-unicorn eslint-plugin-no-secrets
 */
 
 /* eslint-disable unicorn/prefer-module */
@@ -106,6 +106,7 @@ const plugins = [
   'n',
   'no-secrets',
   'promise',
+  'simple-import-sort',
   'sonarjs',
   'typescript-sort-keys'
 ]
@@ -192,16 +193,14 @@ module.exports = {
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
     'object-curly-spacing': ['warn', 'always'],
+    'object-property-newline': ['warn', { allowAllPropertiesOnSameLine: true }],
     'promise/always-return': ['warn', { ignoreLastCallback: true }],
     'quote-props': ['warn', 'as-needed'],
     quotes: QUOTE,
     semi: ['warn', 'never'],
-    'sort-imports': [
-      'warn', {
-        allowSeparatedGroups: true,
-        memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
-      }
-    ],
+    'simple-import-sort/exports': 'warn',
+    'simple-import-sort/imports': 'warn',
+    'sort-imports': ['warn', { allowSeparatedGroups: true }],
     'sort-keys': ['warn', 'asc', { allowLineSeparatedGroups: true, natural: true }],
     'space-before-function-paren': ['warn', 'never'],
 
@@ -235,7 +234,6 @@ module.exports = {
     'no-magic-numbers': 'off',
     'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
-    'object-property-newline': 'off',
     'one-var': 'off',
     'padded-blocks': 'off',
     'sonarjs/cognitive-complexity': 'off',
