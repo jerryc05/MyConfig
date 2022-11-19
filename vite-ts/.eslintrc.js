@@ -12,7 +12,7 @@ const MAX_LEN = [
   }
 ]
 const INDENT = 2
-const QUOTE = ['warn', 'single', {avoidEscape: true}]
+const QUOTE = ['warn', 'single', { avoidEscape: true }]
 const ESLINT_PARSER = '@typescript-eslint/parser'
 
 
@@ -45,8 +45,8 @@ const vue = {
       }
     ],
     'vue/html-quotes': QUOTE,
-    'vue/html-self-closing': ['error', {html: {normal: 'never'}}],
-    'vue/max-len': [MAX_LEN[0], {...MAX_LEN[1], ignoreHTMLAttributeValues: true}],
+    'vue/html-self-closing': ['error', { html: { normal: 'never' } }],
+    'vue/max-len': [MAX_LEN[0], { ...MAX_LEN[1], ignoreHTMLAttributeValues: true }],
     'vue/next-tick-style': 'error',
     'vue/no-this-in-before-route-enter': 'error',
     'vue/no-useless-mustaches': 'error',
@@ -76,7 +76,7 @@ const react = {
   },
 
   rules: {
-    'react/jsx-filename-extension': ['error', {extensions: ['.jsx', '.tsx']}],
+    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-indent': ['warn', INDENT],
     'react/jsx-indent-props': ['warn', INDENT],
     // disabled
@@ -140,7 +140,7 @@ module.exports = {
   ],
   parser: framework.parser ?? ESLINT_PARSER,
   parserOptions: {
-    ecmaFeatures: {impliedStrict: true, jsx: true},
+    ecmaFeatures: { impliedStrict: true, jsx: true },
     ecmaVersion: 'latest',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     extraFileExtensions: framework.parserOptions?.extraFileExtensions,
@@ -174,13 +174,13 @@ module.exports = {
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration'],
     'function-paren-newline': ['error', 'consistent'],
-    indent: ['warn', INDENT, {SwitchCase: 1}],
+    indent: ['warn', INDENT, { SwitchCase: 1 }],
     // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
     'jsx-quotes': ['warn', `prefer-${QUOTE[1]}`],
     'linebreak-style': ['error', 'unix'],
     'max-len': MAX_LEN,
     'multiline-ternary': ['warn', 'always-multiline'],
-    'no-console': ['warn', {allow: ['error']}],
+    'no-console': ['warn', { allow: ['error'] }],
     'no-extra-parens': [
       'warn', 'all', {
         enforceForArrowConditionals: false,
@@ -188,10 +188,11 @@ module.exports = {
         nestedBinaryExpressions: false,
       }
     ],
-    'no-multi-spaces': ['error', {ignoreEOLComments: true}],
+    'no-multi-spaces': ['error', { ignoreEOLComments: true }],
     'no-secrets/no-secrets': 'error',
     'no-warning-comments': 'warn',
-    'promise/always-return': ['warn', {ignoreLastCallback: true}],
+    'object-curly-spacing': ['warn', 'always'],
+    'promise/always-return': ['warn', { ignoreLastCallback: true }],
     'quote-props': ['warn', 'as-needed'],
     quotes: QUOTE,
     semi: ['warn', 'never'],
@@ -201,10 +202,10 @@ module.exports = {
         memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
       }
     ],
-    'sort-keys': ['warn', 'asc', {allowLineSeparatedGroups: true, natural: true}],
+    'sort-keys': ['warn', 'asc', { allowLineSeparatedGroups: true, natural: true }],
     'space-before-function-paren': ['warn', 'never'],
 
-    // enabled plugin
+    // enabled plugins
     'unicorn/filename-case': [
       'warn', {
         cases: {
