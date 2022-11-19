@@ -27,7 +27,7 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
 
     opt = content["compilerOptions"]
-    opt["lib"] = ["ESNext", "DOM.Iterable"]
+    opt["lib"] = ["ESNext", "DOM", "DOM.Iterable"]
     opt["forceConsistentCasingInFileNames"] = True
     opt["resolveJsonModule"] = True
     opt["useDefineForClassFields"] = True
