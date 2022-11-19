@@ -116,4 +116,19 @@ render(() =>
     f.write(content)
 
 with open("src/index.css", "w", encoding="utf-8") as f:
-    f.write("body { margin: 0; }")
+    f.write(
+        """
+body { margin: 0; }
+
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border: .2rem solid transparent;
+  border-radius: 1rem;
+  background-clip: content-box;
+  background-color: #282c34;
+}
+"""
+    )
