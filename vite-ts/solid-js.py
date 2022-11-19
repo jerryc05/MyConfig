@@ -12,7 +12,7 @@ sp.check_call("pnpm up -Lri".split(" "))
 #                       └-- update to latest version
 
 sp.check_call(
-    "pnpm i -D @babel/core @babel/preset-env babel-preset-solid eslint eslint-plugin-solid".split(
+    "pnpm i -D @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint eslint-plugin-solid".split(
         " "
     )
 )
@@ -30,6 +30,7 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     opt["lib"] = ["ESNext", "DOM", "DOM.Iterable"]
     opt["forceConsistentCasingInFileNames"] = True
     opt["resolveJsonModule"] = True
+    opt["skipLibCheck"] = True
     opt["useDefineForClassFields"] = True
 
     opt["baseUrl"] = "./"
@@ -53,6 +54,20 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     f.seek(0)
     f.write(json.dumps(content, indent=2))
 
+with open("vite.config.ts", "r+", encoding="utf-8") as f:
+    content = f.read()
+    content = content.replace(
+        "import {", "import { babel } from '@rollup/plugin-babel'\nimport {"
+    )
+    PLUGINS_STR = "[solidPlugin()]"
+    assert PLUGINS_STR in content
+    content = content.replace(
+        PLUGINS_STR, '[solidPlugin(), babel({ babelHelpers: "bundled" })]'
+    )
+    f.truncate(0)
+    f.seek(0)
+    f.write(content)
+
 with open(".browserslistrc", "w", encoding="utf-8") as f:
     f.write(
         """
@@ -66,7 +81,9 @@ last 1 ios_saf version
 
 with open("index.html", "r+", encoding="utf-8") as f:
     content = f.read()
-    content = content.replace('<div id="root"></div>\n', "")
+    ROOT_DIV = '<div id="root"></div>\n'
+    assert ROOT_DIV in content
+    content = content.replace(ROOT_DIV, "")
     f.truncate(0)
     f.seek(0)
     f.write(content)
