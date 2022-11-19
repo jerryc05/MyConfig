@@ -11,13 +11,47 @@ sp.check_call("pnpm up -Lri".split(" "))
 #                       |└- recursive
 #                       └-- update to latest version
 
-sp.check_call("pnpm i @babel/core @babel/preset-env babel-preset-solid -D".split(" "))
+sp.check_call(
+    "pnpm i -D @babel/core @babel/preset-env babel-preset-solid eslint eslint-plugin-solid".split(
+        " "
+    )
+)
 
 
 with open(".bablerc", "w", encoding="utf-8") as f:
     f.write(
         json.dumps({"presets": ["solid", ["@babel/preset-env", {"bugfixes": True}]]})
     )
+
+with open("tsconfig.json", "r+", encoding="utf-8") as f:
+    content = json.load(f)
+
+    opt = content["compilerOptions"]
+    opt["lib"] = ["ESNext", "DOM.Iterable"]
+    opt["forceConsistentCasingInFileNames"] = True
+    opt["resolveJsonModule"] = True
+    opt["useDefineForClassFields"] = True
+
+    opt["baseUrl"] = './'
+    opt["paths"] = {
+        "@/*": ["src/*"],
+    }
+
+    content["include"] = [
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "src/**/*.d.ts",
+        "src/**/*.js",
+        "src/**/*.jsx",
+        "src/**/*.vue",
+        ".*.js",
+        "*.js",
+        "*.ts",
+    ]
+    content["exclude"] = ["node_modules", "dist", "**/*.spec.ts"]
+    f.truncate(0)
+    f.seek(0)
+    f.write(json.dumps(content, indent=2))
 
 with open(".browserslistrc", "w", encoding="utf-8") as f:
     f.write(
@@ -60,4 +94,4 @@ render(() =>
     f.write(content)
 
 with open("src/index.css", "w", encoding="utf-8") as f:
-    f.write('body { margin: 0; }')
+    f.write("body { margin: 0; }")
