@@ -32,7 +32,7 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     opt["resolveJsonModule"] = True
     opt["useDefineForClassFields"] = True
 
-    opt["baseUrl"] = './'
+    opt["baseUrl"] = "./"
     opt["paths"] = {
         "@/*": ["src/*"],
     }
@@ -74,6 +74,9 @@ with open("index.html", "r+", encoding="utf-8") as f:
 
 with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = f.read()
+    content = content.replace(
+        "import {", 'import { ErrorBoundary } from "solid-js"\nimport {'
+    )
     content = (
         content[: content.find("render(() => <App />, document.getElementById('root')")]
         + """
