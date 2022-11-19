@@ -51,10 +51,6 @@
     "vue-tsc": "latest"
     // "windicss": "latest"
   },
-  "browserslist": [
-    "last 2 versions",
-    "chrome>0 or firefox>0 or and_chr>0 or and_ff>0"
-  ],
   // "cssnano": {
   //   "preset": "advanced"
   // },

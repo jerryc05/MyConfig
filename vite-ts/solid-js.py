@@ -3,6 +3,8 @@
 import subprocess as sp
 import json
 
+# Copy .browserslistrc and .eslintrc.js
+
 sp.check_call("npx degit solidjs/templates/ts ./".split(" "))
 
 
@@ -67,17 +69,6 @@ with open("vite.config.ts", "r+", encoding="utf-8") as f:
     f.truncate(0)
     f.seek(0)
     f.write(content)
-
-with open(".browserslistrc", "w", encoding="utf-8") as f:
-    f.write(
-        """
-last 2 chrome version
-last 2 firefox version
-last 2 and_chr version
-last 1 and_ff version
-last 1 ios_saf version
-"""
-    )
 
 with open("index.html", "r+", encoding="utf-8") as f:
     content = f.read()
