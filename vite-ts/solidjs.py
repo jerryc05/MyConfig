@@ -59,7 +59,5 @@ render(() =>
     f.seek(0)
     f.write(content)
 
-with open("src/index.css", "r+", encoding="utf-8") as f:
-    f.truncate(0)
-    f.seek(0)
+with open("src/index.css", "w", encoding="utf-8") as f:
     f.write('body { margin: 0; }')
