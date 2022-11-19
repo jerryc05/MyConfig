@@ -94,8 +94,10 @@ with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = content.replace(
         "import {", 'import { ErrorBoundary } from "solid-js"\nimport {'
     )
+    ORIG_RENDER = "render(() => <App />, document.getElementById('root')"
+    assert ORIG_RENDER in content
     content = (
-        content[: content.find("render(() => <App />, document.getElementById('root')")]
+        content[: content.find(ORIG_RENDER)]
         + """
 const mount = document.createElement('div')
 document.body.insertBefore(mount, document.body.firstChild)
