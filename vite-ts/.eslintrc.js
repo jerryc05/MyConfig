@@ -1,3 +1,7 @@
+/*
+pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-optimize-regex eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-promise eslint-plugin-security eslint-plugin-sonarjs eslint-plugin-unicorn eslint-plugin-no-secrets
+*/
+
 /* eslint-disable unicorn/prefer-module */
 const MAX_LEN = [
   'warn', {
@@ -64,7 +68,6 @@ const react = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended'
   ],
-  parser: ESLINT_PARSER,
   plugins: ['react'],
   settings: {
     react: {
@@ -73,25 +76,28 @@ const react = {
   },
 
   rules: {
-    'react/forbid-component-props': 'off',
     'react/jsx-filename-extension': ['error', {extensions: ['.jsx', '.tsx']}],
     'react/jsx-indent': ['warn', INDENT],
     'react/jsx-indent-props': ['warn', INDENT],
+    // disabled
     'react/jsx-max-depth': 'off',
     'react/jsx-newline': 'off',
-    'react/jsx-no-bind': 'error',
     'react/jsx-no-literals': 'off',
     'react/jsx-sort-props': 'off',
     'react/no-multi-comp': 'off',
-    'react/no-unescaped-entities': 'off',
     'react/require-default-props': 'off',
   }
 }
 
-const framework = vue
+/** @type {import('eslint').Linter.Config} */
+// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+const solidjs = {}
+
+/** @type {import('eslint').Linter.Config} */
+const framework = solidjs
 
 const plugins = [
-  ...framework.plugins,
+  ...framework.plugins ?? [],
 
   '@typescript-eslint',
 
@@ -102,7 +108,6 @@ const plugins = [
   'promise',
   'sonarjs',
 ]
-if (!plugins.includes('vue')) plugins.push('html')
 
 
 /** @type {import('eslint').Linter.Config} */
@@ -113,7 +118,7 @@ module.exports = {
     node: true
   },
   extends: [
-    ...framework.extends,
+    ...framework.extends ?? [],
 
     'eslint:all',
 
@@ -130,8 +135,6 @@ module.exports = {
     'plugin:security/recommended',
     'plugin:sonarjs/recommended',
     'plugin:unicorn/all',
-    
-    //'prettier',
   ],
   parser: framework.parser ?? ESLINT_PARSER,
   parserOptions: {
@@ -147,9 +150,6 @@ module.exports = {
   },
   plugins,
   root: true,
-  settings: {
-    'html/indent': INDENT,
-  },
 
   rules: {
     // enabled
@@ -157,11 +157,13 @@ module.exports = {
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     '@typescript-eslint/no-redundant-type-constituents': 'error',
     '@typescript-eslint/prefer-readonly': 'warn',
-    '@typescript-eslint/restrict-template-expressions': ['warn', {
-      allowBoolean: true,
-      allowNullish: true,
-      allowNumber: true,
-    }],
+    '@typescript-eslint/restrict-template-expressions': [
+      'warn', {
+        allowBoolean: true,
+        allowNullish: true,
+        allowNumber: true,
+      }
+    ],
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
@@ -186,8 +188,8 @@ module.exports = {
     ],
     'no-multi-spaces': ['error', {ignoreEOLComments: true}],
     'no-secrets/no-secrets': 'error',
-    'no-warning-comments': 'warn',    
-    'promise/always-return':['warn', {ignoreLastCallback: true }],
+    'no-warning-comments': 'warn',
+    'promise/always-return': ['warn', {ignoreLastCallback: true}],
     'quote-props': ['warn', 'as-needed'],
     quotes: QUOTE,
     semi: ['warn', 'never'],
@@ -197,8 +199,8 @@ module.exports = {
         memberSyntaxSortOrder: ['all', 'multiple', 'single', 'none']
       }
     ],
-    'sort-keys': ['error', 'asc', {allowLineSeparatedGroups: true, natural: true}],
-    'space-before-function-paren': ['error', 'never'],
+    'sort-keys': ['warn', 'asc', {allowLineSeparatedGroups: true, natural: true}],
+    'space-before-function-paren': ['warn', 'never'],
 
     // enabled plugin
     'unicorn/filename-case': [
@@ -212,7 +214,6 @@ module.exports = {
 
     // disabled
     'capitalized-comments': 'off',
-    'consistent-return': 'off',
     'default-case': 'off',  // only typescript
     'function-call-argument-newline': 'off',
     'id-length': 'off',
@@ -235,8 +236,8 @@ module.exports = {
     'one-var': 'off',
     'padded-blocks': 'off',
     'sonarjs/cognitive-complexity': 'off',
-    'sort-vars': 'off',    
-    'unicorn/catch-error-name':'off',
+    'sort-vars': 'off',
+    'unicorn/catch-error-name': 'off',
     'unicorn/no-keyword-prefix': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prefer-query-selector': 'off',
@@ -244,6 +245,6 @@ module.exports = {
     'unicorn/switch-case-braces': 'off',
     'wrap-regex': 'off',
 
-    ...framework.rules,
+    ...framework.rules ?? [],
   }
 }
