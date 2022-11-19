@@ -13,6 +13,7 @@ sp.check_call("pnpm up -Lri".split(" "))
 
 sp.check_call("pnpm i @babel/core @babel/preset-env babel-preset-solid -D".split(" "))
 
+
 with open(".bablerc", "w", encoding="utf-8") as f:
     f.write(
         json.dumps({"presets": ["solid", ["@babel/preset-env", {"bugfixes": True}]]})
@@ -29,6 +30,14 @@ last 1 ios_saf version
 """
     )
 
+with open("index.html", "r+", encoding="utf-8") as f:
+    content = f.read()
+    content = content.replace('<div id="root"></div>\n', "")
+    f.truncate(0)
+    f.seek(0)
+    f.write(content)
+
+
 with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = f.read()
     content = (
@@ -36,17 +45,21 @@ with open("src/index.tsx", "r+", encoding="utf-8") as f:
         + """
 const mount = document.createElement('div')
 document.body.insertBefore(mount, document.body.firstChild)
-render(() => <App />, mount)
+render(() =>
+  <ErrorBoundary fallback={(err, reset) =>
+    <div style={{ 'text-align': 'center' }}>
+      <div>{err}</div>
+      <button onClick={reset}>Reset</button>
+    </div>}>
+    <App />
+  </ErrorBoundary>, mount)
 """
     )
     f.truncate(0)
     f.seek(0)
     f.write(content)
 
-
-with open("index.html", "r+", encoding="utf-8") as f:
-    content = f.read()
-    content = content.replace('<div id="root"></div>\n','')
+with open("src/index.css", "r+", encoding="utf-8") as f:
     f.truncate(0)
     f.seek(0)
-    f.write(content)
+    f.write('body { margin: 0; }')
