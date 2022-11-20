@@ -235,6 +235,7 @@ module.exports = {
     'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
     'no-undefined': 'off',
+    'nonblock-statement-body-position': 'off',
     'one-var': 'off',
     'padded-blocks': 'off',
     'sonarjs/cognitive-complexity': 'off',
