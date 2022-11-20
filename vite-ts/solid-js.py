@@ -58,13 +58,33 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
 with open("vite.config.ts", "r+", encoding="utf-8") as f:
     content = f.read()
     content = content.replace(
-        "import {", "import { babel } from '@rollup/plugin-babel'\nimport {"
+        "import {",
+        """
+import * as path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { babel } from '@rollup/plugin-babel'\nimport {
+""",
     )
+
     PLUGINS_STR = "[solidPlugin()]"
     assert PLUGINS_STR in content
     content = content.replace(
         PLUGINS_STR, '[solidPlugin(), babel({ babelHelpers: "bundled" })]'
     )
+
+    BUILD_STR = "build: { target: 'esnext' },"
+    assert BUILD_STR in content
+    content = content.replace(
+        BUILD_STR,
+        """
+  build: { target: 'esnext' },
+  resolve: {
+    alias: { '@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src'), // check tsconfig.json => paths
+    },
+  }
+""",
+    )
+
     f.truncate(0)
     f.seek(0)
     f.write(content)
