@@ -234,6 +234,7 @@ module.exports = {
     'no-magic-numbers': 'off',
     'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
+    'no-undefined': 'off',
     'one-var': 'off',
     'padded-blocks': 'off',
     'sonarjs/cognitive-complexity': 'off',

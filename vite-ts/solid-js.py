@@ -7,7 +7,6 @@ import json
 
 sp.check_call("npx degit solidjs/templates/ts ./".split(" "))
 
-
 sp.check_call("pnpm up -Lri".split(" "))
 #                       ||└ interactive
 #                       |└- recursive
