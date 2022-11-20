@@ -30,6 +30,7 @@ const vue = {
   },
   plugins: ['vue'],
   rules: {
+    'max-len': 'off',
     'vue/component-api-style': 'error',
     'vue/html-button-has-type': 'error',
     'vue/html-closing-bracket-newline': [
@@ -46,6 +47,7 @@ const vue = {
     ],
     'vue/html-quotes': QUOTE,
     'vue/html-self-closing': ['error', { html: { normal: 'never' } }],
+    'vue/max-attributes-per-line': 'off',
     'vue/max-len': [MAX_LEN[0], { ...MAX_LEN[1], ignoreHTMLAttributeValues: true }],
     'vue/next-tick-style': 'error',
     'vue/no-this-in-before-route-enter': 'error',
@@ -53,10 +55,6 @@ const vue = {
     'vue/no-useless-v-bind': 'error',
     'vue/prefer-prop-type-boolean-first': 'warn',
     'vue/v-on-function-call': ['error', 'never'],
-
-    'vue/max-attributes-per-line': 'off',
-
-    'max-len': 'off',
   }
 }
 
@@ -69,8 +67,6 @@ const react = {
     'plugin:react-hooks/recommended'
   ],
   plugins: ['react'],
-  settings: { react: { version: 'detect' } },
-
   rules: {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-indent': ['warn', INDENT],
@@ -82,15 +78,17 @@ const react = {
     'react/jsx-sort-props': 'off',
     'react/no-multi-comp': 'off',
     'react/require-default-props': 'off',
-  }
+  },
+
+  settings: { react: { version: 'detect' } }
 }
 
 /** @type {import('eslint').Linter.Config} */
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
 const solidjs = {
-  plugins: ['solid'],
+  extends: ['plugin:solid/typescript'],
 
-  extends: ['plugin:solid/typescript']
+  plugins: ['solid']
 }
 
 /** @type {import('eslint').Linter.Config} */
@@ -154,7 +152,6 @@ module.exports = {
   root: true,
 
   rules: {
-    // enabled
     '@typescript-eslint/consistent-type-assertions': 'error',
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     '@typescript-eslint/no-redundant-type-constituents': 'error',
@@ -169,17 +166,32 @@ module.exports = {
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
+    'capitalized-comments': 'off',
     'comma-dangle': ['error', 'only-multiline'],
     curly: ['error', 'multi'],
+    'default-case': 'off',  // only typescript
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
+    'function-call-argument-newline': 'off',
     'function-paren-newline': ['error', 'consistent'],
+    'id-length': 'off',
     indent: ['warn', INDENT, { SwitchCase: 1 }],
     // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
     'jsx-quotes': ['warn', `prefer-${QUOTE[1]}`],
+    'line-comment-position': 'off',
     'linebreak-style': ['error', 'unix'],
+    'lines-between-class-members': 'off',
+    'max-classes-per-file': 'off',
     'max-len': MAX_LEN,
+    'max-lines': 'off',
+    'max-lines-per-function': 'off',
+    'max-params': 'off',
+    'max-statements': 'off',
+    'multiline-comment-style': 'off',
     'multiline-ternary': ['warn', 'always-multiline'],
+    'n/no-missing-import': 'off',  // only vite
+    'n/no-unpublished-import': 'off',  // only vite
+    'n/no-unsupported-features/es-syntax': 'off',
     'no-console': ['warn', { allow: ['error'] }],
     'no-extra-parens': [
       'warn', 'all', {
@@ -188,23 +200,33 @@ module.exports = {
         nestedBinaryExpressions: false,
       }
     ],
+    'no-inline-comments': 'off',
+    'no-magic-numbers': 'off',
     'no-multi-spaces': ['warn', { ignoreEOLComments: true }],
+    'no-secrets/no-secrets': 'warn',
+    'no-shadow': 'off',  // only typescript
+    'no-ternary': 'off',
+    'no-undefined': 'off',
     'no-warning-comments': 'warn',
+    'nonblock-statement-body-position': 'off',
     'object-curly-newline': ['warn', { multiline: true }],
     'object-curly-spacing': ['warn', 'always'],
     'object-property-newline': ['warn', { allowAllPropertiesOnSameLine: true }],
+    'one-var': 'off',
+    'padded-blocks': 'off',
+    'promise/always-return': ['warn', { ignoreLastCallback: true }],
     'quote-props': ['warn', 'as-needed'],
     quotes: QUOTE,
     semi: ['warn', 'never'],
-    'sort-keys': ['warn', 'asc', { allowLineSeparatedGroups: true, natural: true }],
-    'space-before-function-paren': ['warn', 'never'],
-
-    // enabled plugins
-    'no-secrets/no-secrets': 'warn',
-    'promise/always-return': ['warn', { ignoreLastCallback: true }],
     'simple-import-sort/exports': 'warn',
     'simple-import-sort/imports': 'warn',
+    'sonarjs/cognitive-complexity': 'off',
+    'sort-imports': 'off',  // use eslint-plugin-simple-import-sort
+    'sort-keys': ['warn', 'asc', { allowLineSeparatedGroups: true, natural: true }],
     'sort-keys/sort-keys-fix': 'warn',
+    'sort-vars': 'off',
+    'space-before-function-paren': ['warn', 'never'],
+    'unicorn/catch-error-name': 'off',
     'unicorn/filename-case': [
       'warn', {
         cases: {
@@ -213,35 +235,6 @@ module.exports = {
         }
       }
     ],
-
-    // disabled
-    'capitalized-comments': 'off',
-    'default-case': 'off',  // only typescript
-    'function-call-argument-newline': 'off',
-    'id-length': 'off',
-    'line-comment-position': 'off',
-    'lines-between-class-members': 'off',
-    'max-classes-per-file': 'off',
-    'max-lines': 'off',
-    'max-lines-per-function': 'off',
-    'max-params': 'off',
-    'max-statements': 'off',
-    'multiline-comment-style': 'off',
-    'n/no-missing-import': 'off',  // only vite
-    'n/no-unpublished-import': 'off',  // only vite
-    'n/no-unsupported-features/es-syntax': 'off',
-    'no-inline-comments': 'off',
-    'no-magic-numbers': 'off',
-    'no-shadow': 'off',  // only typescript
-    'no-ternary': 'off',
-    'no-undefined': 'off',
-    'nonblock-statement-body-position': 'off',
-    'one-var': 'off',
-    'padded-blocks': 'off',
-    'sonarjs/cognitive-complexity': 'off',
-    'sort-imports': 'off',  // use eslint-plugin-simple-import-sort
-    'sort-vars': 'off',
-    'unicorn/catch-error-name': 'off',
     'unicorn/no-keyword-prefix': 'off',
     'unicorn/no-null': 'off',
     'unicorn/prefer-query-selector': 'off',
