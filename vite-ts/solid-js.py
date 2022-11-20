@@ -27,7 +27,7 @@ with open(".bablerc", "w", encoding="utf-8") as f:
 with open("tsconfig.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
 
-    opt  = content["compilerOptions"]
+    opt = content["compilerOptions"]
     opt["lib"] = ["ESNext", "DOM", "DOM.Iterable"]
     opt["forceConsistentCasingInFileNames"] = True
     opt["plugins"] = opt.get("plugins", []) + [
