@@ -9,6 +9,7 @@ const MAX_LEN = [
     ignoreComments: true,
     ignoreRegExpLiterals: true,
     ignoreStrings: true,
+    ignoreTemplateLiterals: true,
   }
 ]
 const INDENT = 2
@@ -68,6 +69,7 @@ const react = {
   ],
   plugins: ['react'],
   rules: {
+    'react/display-name': 'off',
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-indent': ['warn', INDENT],
     'react/jsx-indent-props': ['warn', INDENT],
@@ -226,6 +228,7 @@ module.exports = {
     'sort-keys/sort-keys-fix': 'warn',
     'sort-vars': 'off',
     'space-before-function-paren': ['warn', 'never'],
+    'space-in-parens': ['warn', 'never'],
     'unicorn/catch-error-name': 'off',
     'unicorn/filename-case': [
       'warn', {
