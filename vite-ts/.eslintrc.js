@@ -69,11 +69,7 @@ const react = {
     'plugin:react-hooks/recommended'
   ],
   plugins: ['react'],
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
+  settings: { react: { version: 'detect' } },
 
   rules: {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
@@ -91,7 +87,11 @@ const react = {
 
 /** @type {import('eslint').Linter.Config} */
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-const solidjs = {}
+const solidjs = {
+  plugins: ['solid'],
+
+  extends: ['plugin:solid/typescript']
+}
 
 /** @type {import('eslint').Linter.Config} */
 const framework = solidjs
@@ -173,7 +173,7 @@ module.exports = {
     'comma-dangle': ['error', 'only-multiline'],
     curly: ['error', 'multi'],
     'dot-location': ['error', 'property'],
-    'func-style': ['error', 'declaration'],
+    'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
     'function-paren-newline': ['error', 'consistent'],
     indent: ['warn', INDENT, { SwitchCase: 1 }],
     // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
@@ -189,9 +189,10 @@ module.exports = {
         nestedBinaryExpressions: false,
       }
     ],
-    'no-multi-spaces': ['error', { ignoreEOLComments: true }],
-    'no-secrets/no-secrets': 'error',
+    'no-multi-spaces': ['warn', { ignoreEOLComments: true }],
+    'no-secrets/no-secrets': 'warn',
     'no-warning-comments': 'warn',
+    'object-curly-newline': ['warn', { multiline: true }],
     'object-curly-spacing': ['warn', 'always'],
     'object-property-newline': ['warn', { allowAllPropertiesOnSameLine: true }],
     'promise/always-return': ['warn', { ignoreLastCallback: true }],
@@ -200,7 +201,6 @@ module.exports = {
     semi: ['warn', 'never'],
     'simple-import-sort/exports': 'warn',
     'simple-import-sort/imports': 'warn',
-    'sort-imports': ['warn', { allowSeparatedGroups: true }],
     'sort-keys': ['warn', 'asc', { allowLineSeparatedGroups: true, natural: true }],
     'space-before-function-paren': ['warn', 'never'],
 
@@ -237,6 +237,7 @@ module.exports = {
     'one-var': 'off',
     'padded-blocks': 'off',
     'sonarjs/cognitive-complexity': 'off',
+    'sort-imports': 'off',  // use eslint-plugin-simple-import-sort
     'sort-vars': 'off',
     'unicorn/catch-error-name': 'off',
     'unicorn/no-keyword-prefix': 'off',
