@@ -1,5 +1,5 @@
 /*
-pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-optimize-regex eslint-plugin-promise eslint-plugin-security eslint-plugin-simple-import-sort eslint-plugin-sonarjs eslint-plugin-typescript-sort-keys eslint-plugin-unicorn eslint-plugin-no-secrets
+pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-optimize-regex eslint-plugin-promise eslint-plugin-security eslint-plugin-simple-import-sort eslint-plugin-sonarjs  eslint-plugin-sort-keys eslint-plugin-unicorn eslint-plugin-no-secrets
 */
 
 /* eslint-disable unicorn/prefer-module */
@@ -108,7 +108,7 @@ const plugins = [
   'promise',
   'simple-import-sort',
   'sonarjs',
-  'typescript-sort-keys'
+  'sort-keys'
 ]
 
 
@@ -136,7 +136,6 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:security/recommended',
     'plugin:sonarjs/recommended',
-    'plugin:typescript-sort-keys/recommended',
     'plugin:unicorn/all',
   ],
   parser: framework.parser ?? ESLINT_PARSER,
@@ -190,21 +189,22 @@ module.exports = {
       }
     ],
     'no-multi-spaces': ['warn', { ignoreEOLComments: true }],
-    'no-secrets/no-secrets': 'warn',
     'no-warning-comments': 'warn',
     'object-curly-newline': ['warn', { multiline: true }],
     'object-curly-spacing': ['warn', 'always'],
     'object-property-newline': ['warn', { allowAllPropertiesOnSameLine: true }],
-    'promise/always-return': ['warn', { ignoreLastCallback: true }],
     'quote-props': ['warn', 'as-needed'],
     quotes: QUOTE,
     semi: ['warn', 'never'],
-    'simple-import-sort/exports': 'warn',
-    'simple-import-sort/imports': 'warn',
     'sort-keys': ['warn', 'asc', { allowLineSeparatedGroups: true, natural: true }],
     'space-before-function-paren': ['warn', 'never'],
 
     // enabled plugins
+    'no-secrets/no-secrets': 'warn',
+    'promise/always-return': ['warn', { ignoreLastCallback: true }],
+    'simple-import-sort/exports': 'warn',
+    'simple-import-sort/imports': 'warn',
+    'sort-keys/sort-keys-fix': 'warn',
     'unicorn/filename-case': [
       'warn', {
         cases: {
