@@ -13,7 +13,7 @@ sp.check_call("pnpm up -Lri".split(" "))
 #                       └-- update to latest version
 
 sp.check_call(
-    "pnpm i -D @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
+    "pnpm i -D typescript-plugin-css-modules @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
         " "
     )
 )
@@ -27,9 +27,15 @@ with open(".bablerc", "w", encoding="utf-8") as f:
 with open("tsconfig.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
 
-    opt = content["compilerOptions"]
+    opt  = content["compilerOptions"]
     opt["lib"] = ["ESNext", "DOM", "DOM.Iterable"]
     opt["forceConsistentCasingInFileNames"] = True
+    opt["plugins"] = opt.get("plugins", []) + [
+        {
+            "name": "typescript-plugin-css-modules",
+            "options": {"classnameTransform": "asIs", "jumpToDefinition": True},
+        }
+    ]
     opt["resolveJsonModule"] = True
     opt["skipLibCheck"] = True
     opt["useDefineForClassFields"] = True
