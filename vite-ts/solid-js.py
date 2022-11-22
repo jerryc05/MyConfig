@@ -3,7 +3,7 @@
 import subprocess as sp
 import json
 
-# Copy .browserslistrc, .eslintrc.js, postcss.config.js
+# Copy .bablerc, .browserslistrc, .eslintrc.js, postcss.config.js
 
 sp.check_call("npx degit solidjs/templates/ts ./".split(" "))
 
@@ -18,11 +18,6 @@ sp.check_call(
     )
 )
 
-
-with open(".bablerc", "w", encoding="utf-8") as f:
-    f.write(
-        json.dumps({"presets": ["solid", ["@babel/preset-env", {"bugfixes": True}]]})
-    )
 
 with open("package.json", "r+", encoding="utf-8") as f:
     content = json.load(f)

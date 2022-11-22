@@ -1,0 +1,12 @@
+{
+    "presets": [
+      "solid",
+      [
+        "@babel/preset-env",
+        {
+          "bugfixes": true
+        }
+      ]
+    ]
+  }
+  
