@@ -169,7 +169,8 @@ module.exports = {
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'capitalized-comments': 'off',
-    'comma-dangle': ['error', 'only-multiline'],
+    'comma-dangle': ['warn', 'only-multiline'],
+    'comma-spacing': 'warn',
     curly: ['error', 'multi'],
     'default-case': 'off',  // only typescript
     'dot-location': ['error', 'property'],
