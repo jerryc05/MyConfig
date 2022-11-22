@@ -3,7 +3,7 @@
 import subprocess as sp
 import json
 
-# Copy .browserslistrc and .eslintrc.js
+# Copy .browserslistrc, .eslintrc.js, postcss.config.js
 
 sp.check_call("npx degit solidjs/templates/ts ./".split(" "))
 
@@ -23,6 +23,13 @@ with open(".bablerc", "w", encoding="utf-8") as f:
     f.write(
         json.dumps({"presets": ["solid", ["@babel/preset-env", {"bugfixes": True}]]})
     )
+
+with open("package.json", "r+", encoding="utf-8") as f:
+    content = json.load(f)
+    content["engines"] = {"node": ">=14"}
+    f.seek(0)
+    f.truncate(0)
+    f.write(json.dumps(content, indent=2))
 
 with open("tsconfig.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
