@@ -77,6 +77,7 @@ with open("vite.config.ts", "r+", encoding="utf-8") as f:
         R"""
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
+// @ts-expect-error: no type declaration file
 import incstr from 'incstr'
 import { babel } from '@rollup/plugin-babel'
 
