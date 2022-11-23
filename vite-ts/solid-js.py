@@ -169,7 +169,13 @@ render(() =>
 with open("src/index.css", "w", encoding="utf-8") as f:
     f.write(
         """
-body { margin: 0; }
+body {
+  margin: 0;
+}
+
+body * {
+  box-sizing: border-box;
+}
 
 ::-webkit-scrollbar {
   width: 1rem;
