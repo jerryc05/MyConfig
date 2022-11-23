@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-import subprocess as sp
 import json
+import re
+import subprocess as sp
 
 # Copy .bablerc, .browserslistrc, .eslintrc.js, postcss.config.js
 
@@ -95,12 +96,14 @@ import {
         PLUGINS_STR, '[solidPlugin(), babel({ babelHelpers: "bundled" })]'
     )
 
-    BUILD_STR = "build: { target: 'esnext' },"
-    assert BUILD_STR in content
-    content = content.replace(
-        BUILD_STR,
+    BUILD_REGEX = re.compile(r"build:\s*{\s*target:\s*'esnext'\s*}")
+    assert BUILD_REGEX.search(content)
+    content = BUILD_REGEX.sub(
         R"""
-  build: { target: 'esnext' },
+  build: {
+    reportCompressedSize: false, // improve speed,
+    target: 'esnext'
+  },
   css: {
     modules: {
       generateScopedName: process.env.NODE_ENV === 'production'
@@ -118,8 +121,9 @@ import {
         : undefined,
     }
   },
-  resolve: { alias: { '@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src') /* check tsconfig.json => paths */ } },
+  resolve: { alias: { '@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src') /* check tsconfig.json => paths */ } }
 """,
+        content,
     )
 
     f.truncate(0)
