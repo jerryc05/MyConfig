@@ -1,5 +1,5 @@
 /*
-pnpm i -D postcss postcss-at-rules-variables postcss-csso postcss-preset-env postcss-variable-compress
+pnpm i -D modern-normalize postcss postcss-at-rules-variables postcss-csso postcss-preset-env postcss-variable-compress
 */
 
 /* eslint-disable unicorn/prefer-module, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-assignment */

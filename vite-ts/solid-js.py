@@ -143,7 +143,12 @@ with open("index.html", "r+", encoding="utf-8") as f:
 with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = f.read()
     content = content.replace(
-        "import {", 'import { ErrorBoundary } from "solid-js"\nimport {'
+        "import {",
+        """
+import { ErrorBoundary } from "solid-js"
+import 'modern-normalize/modern-normalize.css'
+import {
+""",
     )
     ORIG_RENDER = "render(() => <App />, document.getElementById('root')"
     assert ORIG_RENDER in content
@@ -169,12 +174,8 @@ render(() =>
 with open("src/index.css", "w", encoding="utf-8") as f:
     f.write(
         """
-body {
-  margin: 0;
-}
-
-body * {
-  box-sizing: border-box;
+button {
+  cursor: pointer; /* But do NOT make buttons look like links */
 }
 
 ::-webkit-scrollbar {
