@@ -13,7 +13,7 @@ sp.check_call("pnpm up -Lri".split(" "))
 #                       └-- update to latest version
 
 sp.check_call(
-    "pnpm i -D typescript-plugin-css-modules @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
+    "pnpm i -D incstr typescript-plugin-css-modules @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
         " "
     )
 )
@@ -71,10 +71,17 @@ with open("vite.config.ts", "r+", encoding="utf-8") as f:
     content = f.read()
     content = content.replace(
         "import {",
-        """
+        R"""
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { babel } from '@rollup/plugin-babel'\nimport {
+import incstr from 'incstr'
+import { babel } from '@rollup/plugin-babel'
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/restrict-template-expressions
+const nextId = incstr.idGenerator({ alphabet: `${incstr.alphabet}-_` }) as ()=>string
+const cssClassMap = new Map<string, string>()
+
+import {
 """,
     )
 
@@ -88,12 +95,24 @@ import { babel } from '@rollup/plugin-babel'\nimport {
     assert BUILD_STR in content
     content = content.replace(
         BUILD_STR,
-        """
+        R"""
   build: { target: 'esnext' },
-  resolve: {
-    alias: { '@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src'), // check tsconfig.json => paths
-    },
-  }
+  css: {
+    modules: {
+      generateScopedName(name, filename/* , css */) {
+        const key = [name, filename].toString()
+        if (!cssClassMap.get(key)) {
+          let id = ''
+          while (!/(?:-?[A-Z_a-z]+|--)[\w-]*/u.test(id))
+            id = nextId()
+          cssClassMap.set(key, id)
+        }
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        return cssClassMap.get(key)!
+      },
+    }
+  },
+  resolve: { alias: { '@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src') /* check tsconfig.json => paths */ } },
 """,
     )
 
