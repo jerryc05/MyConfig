@@ -165,11 +165,6 @@ export default defineConfig({
     //     }]
     // }
   },
-  optimizeDeps: {
-    esbuildOptions: {
-      target
-    }
-  },
   plugins: [
     vue(),
     createHtmlPlugin({
