@@ -6,6 +6,9 @@ pnpm i -D postcss postcss-at-rules-variables postcss-csso postcss-preset-env pos
 module.exports = {
   plugins: [
     require('postcss-at-rules-variables'),
+    require('postcss-preset-env')({ stage: 0 }),
+
+
     ...process.env.NODE_ENV === 'production'
       ? [
         require('postcss-csso')({
@@ -15,6 +18,5 @@ module.exports = {
         require('postcss-variable-compress'),
       ]
       : [],
-    require('postcss-preset-env')({ stage: 0 }),
   ]
 }
