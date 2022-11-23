@@ -100,7 +100,7 @@ import {
   css: {
     modules: {
       generateScopedName(name, filename/* , css */) {
-        const key = [name, filename].toString()
+        const key = `${name}@${filename}`
         if (!cssClassMap.get(key)) {
           let id = ''
           while (!/(?:-?[A-Z_a-z]+|--)[\w-]*/u.test(id))
