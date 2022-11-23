@@ -35,7 +35,11 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     opt["plugins"] = opt.get("plugins", []) + [
         {
             "name": "typescript-plugin-css-modules",
-            "options": {"classnameTransform": "asIs", "jumpToDefinition": True},
+            "options": {
+                "classnameTransform": "asIs",
+                "customMatcher": "\\.module\\.(c|le|sa|sc|pc)ss$",
+                "jumpToDefinition": True,
+            },
         }
     ]
     opt["resolveJsonModule"] = True
