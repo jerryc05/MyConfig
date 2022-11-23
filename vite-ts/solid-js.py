@@ -22,6 +22,9 @@ sp.check_call(
 with open("package.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
     content["engines"] = {"node": ">=14"}
+    build: str = content["scripts"]["build"]
+    if not build.startswith("tsc"):
+        content["scripts"]["build"] = f"tsc && {build}"
     f.seek(0)
     f.truncate(0)
     f.write(json.dumps(content, indent=2))
@@ -99,17 +102,19 @@ import {
   build: { target: 'esnext' },
   css: {
     modules: {
-      generateScopedName(name, filename/* , css */) {
-        const key = `${name}@${filename}`
-        if (!cssClassMap.get(key)) {
-          let id = ''
-          while (!/(?:-?[A-Z_a-z]+|--)[\w-]*/u.test(id))
-            id = nextId()
-          cssClassMap.set(key, id)
+      generateScopedName: process.env.NODE_ENV === 'production'
+        ? (name, filename/* , css */) => {
+          const key = `${name}@${filename}`
+          if (!cssClassMap.get(key)) {
+            let id = ''
+            while (!/(?:-?[A-Z_a-z]+|--)[\w-]*/u.test(id))
+              id = nextId()
+            cssClassMap.set(key, id)
+          }
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          return cssClassMap.get(key)!
         }
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return cssClassMap.get(key)!
-      },
+        : undefined,
     }
   },
   resolve: { alias: { '@': path.resolve(path.dirname(fileURLToPath(import.meta.url)), './src') /* check tsconfig.json => paths */ } },
