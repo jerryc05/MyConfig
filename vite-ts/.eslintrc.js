@@ -70,6 +70,7 @@ const react = {
   plugins: ['react'],
   rules: {
     'react/display-name': 'off',
+    'react/jsx-curly-newline': ['warn', { multiline: 'consistent', singleline: 'forbid' }],
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
     'react/jsx-indent': ['warn', INDENT],
     'react/jsx-indent-props': ['warn', INDENT],
