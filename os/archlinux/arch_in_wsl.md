@@ -196,10 +196,10 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Add new user:
     1.  Add:
-        1.  admin user: `groupadd sudo; useradd -G sudo -m <username>`
-        2.  normal user: `useradd -m <username>`
+        1.  admin user: `groupadd sudo; useradd -G sudo -m $USERNAME`
+        2.  normal user: `useradd -m $USERNAME`
 
-    2.  Set password: `passwd <username>`
+    2.  Set password: `passwd $USERNAME`
 
     3.  Set default login user: `printf "\n[user]\ndefault=$whoami\n" >> /etc/wsl.conf`
 
