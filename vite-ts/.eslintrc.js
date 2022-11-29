@@ -69,7 +69,7 @@ function includeJsx(cfg) {
     extends: [...cfg.extends ?? [], 'plugin:react/jsx-runtime'],
     rules: {
       ...cfg.rules ?? [],
-      'react/jsx-closing-bracket-location': ['warn', { nonEmpty: 'after-props', selfClosing: 'after-props' }],
+      'react/jsx-closing-bracket-location': ['warn', { nonEmpty: 'tag-aligned', selfClosing: 'after-props' }],
       'react/jsx-closing-tag-location': 'warn',
       'react/jsx-curly-newline': ['warn', { multiline: 'consistent', singleline: 'forbid' }],
       'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
