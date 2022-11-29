@@ -76,7 +76,7 @@ function includeJsx(cfg) {
       'react/jsx-indent': ['warn', INDENT],
       'react/jsx-indent-props': ['warn', 'first'],
       'react/jsx-max-depth': 'off',
-      'react/jsx-newline': ['warn', { allowMultilines: true, prevent: true }],
+      'react/jsx-newline': 'off',
       'react/jsx-no-literals': 'off',
       'react/jsx-sort-props': 'off',
     }
