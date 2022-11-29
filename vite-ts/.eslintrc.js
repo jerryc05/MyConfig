@@ -59,41 +59,49 @@ const vue = {
   }
 }
 
-/** @type {import('eslint').Linter.Config} */
+/**
+ * @param {import('eslint').Linter.Config} cfg
+ * @return {import('eslint').Linter.Config}
+ */
+function includeJsx(cfg) {
+  return {
+    ...cfg,
+    extends: [...cfg.extends ?? [], 'plugin:react/jsx-runtime'],
+    rules: {
+      ...cfg.rules ?? [],
+      'react/jsx-closing-bracket-location': ['warn', { nonEmpty: 'after-props', selfClosing: 'after-props' }],
+      'react/jsx-closing-tag-location': 'warn',
+      'react/jsx-curly-newline': ['warn', { multiline: 'consistent', singleline: 'forbid' }],
+      'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
+      'react/jsx-indent': ['warn', INDENT],
+      'react/jsx-indent-props': ['warn', 'first'],
+      'react/jsx-max-depth': 'off',
+      'react/jsx-newline': ['warn', { allowMultilines: true, prevent: true }],
+      'react/jsx-no-literals': 'off',
+      'react/jsx-sort-props': 'off',
+    }
+  }
+}
+
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-const react = {
+const react = includeJsx({
   extends: [
     'plugin:react/all',
-    'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended'
   ],
-  plugins: ['react'],
   rules: {
     'react/display-name': 'off',
-    'react/jsx-closing-bracket-location': ['warn', { nonEmpty: 'after-props', selfClosing: 'after-props' }],
-    'react/jsx-closing-tag-location': 'warn',
-    'react/jsx-curly-newline': ['warn', { multiline: 'consistent', singleline: 'forbid' }],
-    'react/jsx-filename-extension': ['error', { extensions: ['.jsx', '.tsx'] }],
-    'react/jsx-indent': ['warn', INDENT],
-    'react/jsx-indent-props': ['warn', INDENT],
-    'react/jsx-max-depth': 'off',
-    'react/jsx-newline': ['warn', { allowMultilines: true, prevent: true }],
-    'react/jsx-no-literals': 'off',
-    'react/jsx-sort-props': 'off',
     'react/no-multi-comp': 'off',
     'react/require-default-props': 'off',
   },
+  settings: { react: { version: 'detect' } },
+})
 
-  settings: { react: { version: 'detect' } }
-}
-
-/** @type {import('eslint').Linter.Config} */
 // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
-const solidjs = {
+const solidjs = includeJsx({
   extends: ['plugin:solid/typescript'],
-
   plugins: ['solid']
-}
+})
 
 /** @type {import('eslint').Linter.Config} */
 const framework = solidjs
