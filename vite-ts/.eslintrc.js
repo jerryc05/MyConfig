@@ -183,6 +183,7 @@ module.exports = {
     'function-call-argument-newline': 'off',
     'function-paren-newline': ['error', 'consistent'],
     'id-length': 'off',
+    'implicit-arrow-linebreak': 'warn',
     indent: ['warn', INDENT, { SwitchCase: 1 }],
     // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
     'jsx-quotes': ['warn', `prefer-${QUOTE[1]}`],
@@ -217,6 +218,7 @@ module.exports = {
     'no-secrets/no-secrets': 'warn',
     'no-shadow': 'off',  // only typescript
     'no-ternary': 'off',
+    'no-trailing-spaces': 'warn',
     'no-undefined': 'off',
     'no-warning-comments': 'warn',
     'nonblock-statement-body-position': 'off',
