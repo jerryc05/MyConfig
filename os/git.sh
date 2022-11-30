@@ -14,6 +14,10 @@ git config --global core.fscache    true
 #git config --global core.sshcommand "C:/Windows/System32/OpenSSH/ssh.exe"
 #  [core.sshcommand] will be overridden by [GIT_SSH_COMMAND] env var
 
+if  [ "$(uname)" = "Linux" ] && [ "$(git config --get  credential.helper)" = '' ]; then
+  git config --global credential.helper store
+fi
+
 
 git config --global core.symlinks            true
 git config --global help.autoCorrect         prompt
