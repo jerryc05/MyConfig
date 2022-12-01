@@ -161,6 +161,7 @@ render(() =>
   <ErrorBoundary fallback={(err, reset) =>
     <div style={{ 'text-align': 'center' }}>
       <div>{err}</div>
+      <div>{JSON.stringify(err)}</div>
       <button onClick={reset}>Reset</button>
     </div>}>
     <App />
@@ -176,6 +177,7 @@ with open("src/index.css", "w", encoding="utf-8") as f:
         """
 button {
   cursor: pointer; /* But do NOT make buttons look like links */
+  background-color: unset;
 }
 
 ::-webkit-scrollbar {
