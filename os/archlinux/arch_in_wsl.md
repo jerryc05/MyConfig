@@ -155,10 +155,12 @@ See https://github.com/yuk7/ArchWSL
         tune2fs -o discard                $ROOT_DEVICE;mount -o remount,discard /  # Only for SSD
         ```
     -   Kernel
-        Append the following to `%userprofile%/.wslconfig` in Windows if using WSL:
+        Append the following to `%userprofile%/.wslconfig` in Windows if using WSL (`WSL_Swap_No_Compress` directory must __NOT__ be "compressed"):
         ```
         [wsl2]
         kernelCommandLine = "noibrs noibpb nopti nospectre_v2 nospectre_v1 l1tf=off nospec_store_bypass_disable no_stf_barrier mds=off tsx=on tsx_async_abort=off mitigations=off"
+        # swap     = 16GB
+        # swapFile = C:\\WSL_Swap_No_Compress\\swap.vhdx
         ```
     -   `makepkg`
         ```
