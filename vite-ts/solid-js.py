@@ -122,9 +122,7 @@ import {
           },
           {
             attrs: {
-            // [*-elem] doesn't work in Safari/iOS, fvck Safari
-              content: `upgrade-insecure-requests;default-src 'self';script-src 'self' ${jsdelivr};` +
-              `style-src 'self' 'unsafe-inline' ${jsdelivr}`,
+              content: `upgrade-insecure-requests;default-src 'self';script-src 'self' ${jsdelivr};style-src 'self' 'unsafe-inline' ${jsdelivr}`,  // [*-elem] doesn't work in Safari/iOS, fvck Safari
               'http-equiv': 'Content-Security-Policy',
             },
             injectTo: 'head-prepend',
