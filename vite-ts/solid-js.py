@@ -14,7 +14,7 @@ sp.check_call("pnpm up -Lri".split(" "))
 #                       └-- update to latest version
 
 sp.check_call(
-    "pnpm i -D incstr typescript-plugin-css-modules @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
+    "pnpm i -D vite-plugin-html incstr typescript-plugin-css-modules @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
         " "
     )
 )
@@ -81,10 +81,12 @@ import { fileURLToPath } from 'node:url'
 // @ts-expect-error: no type declaration file
 import incstr from 'incstr'
 import { babel } from '@rollup/plugin-babel'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/restrict-template-expressions
 const nextId = incstr.idGenerator({ alphabet: `${incstr.alphabet}-_` }) as ()=>string
 const cssClassMap = new Map<string, string>()
+const jsdelivr = 'https://cdn.jsdelivr.net'
 
 import {
 """,
@@ -93,7 +95,68 @@ import {
     PLUGINS_STR = "[solidPlugin()]"
     assert PLUGINS_STR in content
     content = content.replace(
-        PLUGINS_STR, '[solidPlugin(), babel({ babelHelpers: "bundled" })]'
+        PLUGINS_STR, '''
+[
+    solidPlugin(), babel({ babelHelpers: 'bundled' }), createHtmlPlugin({
+      entry: 'src/index.tsx',
+      inject: {
+        tags: [
+          {
+            attrs: { content: 'width=device-width,initial-scale=1', name: 'viewport' },
+            // eslint-disable-next-line sonarjs/no-duplicate-string
+            injectTo: 'head-prepend',
+            tag: 'meta',
+          },
+          {
+            attrs: { charset: 'utf8' },
+            injectTo: 'head-prepend',
+            tag: 'meta',
+          },
+          {
+            attrs: {
+              content: 'max-age=9999999;includeSubDomains',
+              'http-equiv': 'Strict-Transport-Security'
+            },
+            injectTo: 'head-prepend',
+            tag: 'meta',
+          },
+          {
+            attrs: {
+            // [*-elem] doesn't work in Safari/iOS, fvck Safari
+              content: `upgrade-insecure-requests;default-src 'self';script-src 'self' ${jsdelivr};` +
+              `style-src 'self' 'unsafe-inline' ${jsdelivr}`,
+              'http-equiv': 'Content-Security-Policy',
+            },
+            injectTo: 'head-prepend',
+            tag: 'meta',
+          },
+          {
+            attrs: {
+              content: 'nosniff',
+              'http-equiv': 'X-Content-Type-Options',
+            },
+            injectTo: 'head-prepend',
+            tag: 'meta',
+          },
+        // {
+        //   injectTo: 'head-prepend',
+        //   tag: 'title',
+        //   children: 'Title'
+        // },
+        // {
+        //   injectTo: 'head-prepend',
+        //   tag: 'link',
+        //   attrs: {
+        //     rel: 'icon',
+        //     href: '/favicon.ico',
+        //   },
+        // },
+        ]
+      },
+      minify: true
+    })
+  ]
+'''
     )
 
     BUILD_REGEX = re.compile(r"build:\s*{\s*target:\s*'esnext'\s*}")
