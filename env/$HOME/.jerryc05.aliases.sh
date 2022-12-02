@@ -38,13 +38,13 @@ command -v delta >/dev/null && xdelta() {
 # Show hidden files in iFinder
 [ "$(uname -s)" = "Darwin" ] && defaults write com.apple.finder AppleShowAllFiles YES
 
-# More helpful tar/untar
+# More helpful tar/untar (DO NOT QUOTE $*)
 command -v tar >/dev/null && xtar() {
-  str="XZ_OPT=-9 tar acvf \"$*\""
+  str="XZ_OPT=-9 tar acvf $*"
   printf '%s\n' "$str"
   eval "$str"
 } && xuntar() {
-  str="tar xvf \"$*\""
+  str="tar xvf $*"
   printf '%s\n' "$str"
   eval "$str"
 }
