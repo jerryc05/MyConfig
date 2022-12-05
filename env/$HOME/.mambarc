@@ -1,3 +1,5 @@
+# or '.condarc'
+
 channels:
   - conda-forge
   - nvidia
@@ -6,8 +8,9 @@ channels:
   - pyg  # Graph Neural Network Library for PyTorch
   - bioconda
   - defaults
-show_channel_urls: true
-auto_activate_base: true
 
-# Disable this to speed up resolving package version
-#channel_priority: disabled
+show_channel_urls: true
+
+#auto_update_conda: False
+
+#auto_activate_base: true
