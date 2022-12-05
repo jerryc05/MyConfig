@@ -256,6 +256,12 @@ button {
   background-clip: content-box;
   background-color: #282c34;
 }
+
+@mixin flex-and-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 """
     )
 
