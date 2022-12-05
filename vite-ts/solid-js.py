@@ -14,7 +14,7 @@ sp.check_call("pnpm up -Lri".split(" "))
 #                       └-- update to latest version
 
 sp.check_call(
-    "pnpm i -D vite-plugin-html incstr typescript-plugin-css-modules @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
+    "pnpm i -D only-allow vite-plugin-html incstr typescript-plugin-css-modules @types/node @rollup/plugin-babel @babel/core @babel/preset-env babel-preset-solid eslint-plugin-solid".split(
         " "
     )
 )
@@ -23,6 +23,7 @@ sp.check_call(
 with open("package.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
     content["engines"] = {"node": ">=14"}
+    content["scripts"]["preinstall"] = 'npx only-allow pnpm'
     build: str = content["scripts"]["build"]
     if not build.startswith("tsc"):
         content["scripts"]["build"] = f"tsc && {build}"
