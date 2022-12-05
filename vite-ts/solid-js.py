@@ -204,6 +204,10 @@ with open("index.html", "r+", encoding="utf-8") as f:
 
 with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = f.read()
+    css="import './index.css'"
+    assert css in content
+    content = content.replace(css, "import './index.scss'")
+
     content = content.replace(
         "import {",
         """
@@ -234,7 +238,7 @@ render(() =>
     f.seek(0)
     f.write(content)
 
-with open("src/index.css", "w", encoding="utf-8") as f:
+with open("src/index.scss", "w", encoding="utf-8") as f:
     f.write(
         """
 button {
@@ -254,3 +258,7 @@ button {
 }
 """
     )
+
+from pathlib import Path
+
+Path('src/index.css').unlink()
