@@ -26,8 +26,8 @@ Port 2222  # Port 22
 #RekeyLimit default none
 
 # Logging
-#SyslogFacility AUTH
-#LogLevel INFO
+SyslogFacility AUTHPRIV  #SyslogFacility AUTH
+LogLevel VERBOSE  #LogLevel INFO
 
 # Authentication:
 
