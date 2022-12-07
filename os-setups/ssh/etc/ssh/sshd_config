@@ -124,3 +124,13 @@ Subsystem       sftp    /usr/lib/openssh/sftp-server  # Or /usr/libexec/sftp-ser
 AcceptEnv LANG LC_*
 
 # Reference https://github.com/openssh/openssh-portable/blob/master/sshd_config
+
+
+
+
+
+
+
+
+Match Group ssh-allow-password
+    PasswordAuthentication yes
