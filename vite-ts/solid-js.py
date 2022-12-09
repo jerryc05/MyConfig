@@ -23,7 +23,7 @@ sp.check_call(
 with open("package.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
     content["engines"] = {"node": ">=14"}
-    content["scripts"]["preinstall"] = 'npx only-allow pnpm'
+    content["scripts"]["preinstall"] = "npx only-allow pnpm"
     build: str = content["scripts"]["build"]
     if not build.startswith("tsc"):
         content["scripts"]["build"] = f"tsc && {build}"
@@ -96,7 +96,8 @@ import {
     PLUGINS_STR = "[solidPlugin()]"
     assert PLUGINS_STR in content
     content = content.replace(
-        PLUGINS_STR, '''
+        PLUGINS_STR,
+        """
 [
     solidPlugin(), babel({ babelHelpers: 'bundled' }), createHtmlPlugin({
       entry: 'src/index.tsx',
@@ -155,7 +156,7 @@ import {
       minify: true
     })
   ]
-'''
+""",
     )
 
     BUILD_REGEX = re.compile(r"build:\s*{\s*target:\s*'esnext'\s*}")
@@ -188,6 +189,10 @@ import {
         content,
     )
 
+    SERVER_REGEX = re.compile(r"server:\s*{\s*port:\s*\d+\s*}")
+    assert SERVER_REGEX.search(content)
+    content = SERVER_REGEX.sub(R"server: { host: true }", content)
+
     f.truncate(0)
     f.seek(0)
     f.write(content)
@@ -204,7 +209,7 @@ with open("index.html", "r+", encoding="utf-8") as f:
 
 with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = f.read()
-    css="import './index.css'"
+    css = "import './index.css'"
     assert css in content
     content = content.replace(css, "import './index.scss'")
 
@@ -267,4 +272,4 @@ button {
 
 from pathlib import Path
 
-Path('src/index.css').unlink()
+Path("src/index.css").unlink()
