@@ -249,6 +249,8 @@ with open("src/index.scss", "w", encoding="utf-8") as f:
 button {
   cursor: pointer; /* But do NOT make buttons look like links */
   background-color: unset;
+
+  border-style: none;
 }
 
 ::-webkit-scrollbar {
