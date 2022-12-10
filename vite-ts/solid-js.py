@@ -228,15 +228,16 @@ import {
         + """
 const mount = document.createElement('div')
 document.body.insertBefore(mount, document.body.firstChild)
-render(() =>
-  <ErrorBoundary fallback={(err, reset) =>
+render(() => (
+  <ErrorBoundary fallback={(err, reset) => (
     <div style={{ 'text-align': 'center' }}>
       <div>{err}</div>
       <div>{JSON.stringify(err)}</div>
-      <button onClick={reset}>Reset</button>
-    </div>}>
+      <button type='button' onClick={reset}>Reset</button>
+    </div>)}
+  >
     <App />
-  </ErrorBoundary>, mount)
+  </ErrorBoundary>), mount)
 """
     )
     f.truncate(0)
@@ -246,7 +247,7 @@ render(() =>
 with open("src/index.scss", "w", encoding="utf-8") as f:
     f.write(
         """
-button {
+@mixin button {
   cursor: pointer; /* But do NOT make buttons look like links */
   background-color: unset;
 
