@@ -4,7 +4,7 @@ import json
 import re
 import subprocess as sp
 
-# Copy .bablerc, .browserslistrc, .eslintrc.js, postcss.config.js
+# Copy .bablerc, .browserslistrc, .eslintrc.js, postcss.config.js, .prettierrc.js
 
 sp.check_call("npx degit solidjs/templates/ts ./".split(" "))
 
