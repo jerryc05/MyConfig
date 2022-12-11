@@ -216,7 +216,6 @@ with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = content.replace(
         "import {",
         """
-import { ErrorBoundary } from "solid-js"
 import 'modern-normalize/modern-normalize.css'
 import {
 """,
@@ -228,16 +227,7 @@ import {
         + """
 const mount = document.createElement('div')
 document.body.insertBefore(mount, document.body.firstChild)
-render(() => (
-  <ErrorBoundary fallback={(err, reset) => (
-    <div style={{ 'text-align': 'center' }}>
-      <div>{err}</div>
-      <div>{JSON.stringify(err)}</div>
-      <button type='button' onClick={reset}>Reset</button>
-    </div>)}
-  >
-    <App />
-  </ErrorBoundary>), mount)
+render(() => <App />, mount)
 """
     )
     f.truncate(0)
