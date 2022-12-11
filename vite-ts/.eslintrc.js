@@ -1,5 +1,5 @@
 /*
-pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-optimize-regex eslint-plugin-promise eslint-plugin-security eslint-plugin-sonarjs  eslint-plugin-sort-keys eslint-plugin-unicorn eslint-plugin-no-secrets
+pnpm i -D eslint @types/eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier eslint-plugin-json eslint-plugin-markdown eslint-plugin-n eslint-plugin-no-unsanitized eslint-plugin-optimize-regex eslint-plugin-promise eslint-plugin-security eslint-plugin-sonarjs  eslint-plugin-sort-keys eslint-plugin-unicorn eslint-plugin-no-secrets
 */
 
 /* eslint-disable unicorn/prefer-module */
@@ -227,6 +227,14 @@ module.exports = {
     'n/no-unpublished-import': 'off', // only vite
     'n/no-unpublished-require': 'off',
     'no-console': ['warn', { allow: ['error'] }],
+    /*
+    'no-extra-parens': [
+      'warn', 'all', {
+        enforceForArrowConditionals: false,
+        ignoreJSX: 'all',
+        nestedBinaryExpressions: false,
+      }
+    ], */
     'no-inline-comments': 'off',
     'no-magic-numbers': 'off',
     'no-mixed-operators': 'warn',
