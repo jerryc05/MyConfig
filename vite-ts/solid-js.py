@@ -41,7 +41,6 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
         {
             "name": "typescript-plugin-css-modules",
             "options": {
-                "classnameTransform": "asIs",
                 "customMatcher": "\\.module\\.(c|le|sa|sc|pc)ss$",
                 # "goToDefinition": True,
                 # "postcssOptions": { "useConfig": True }
