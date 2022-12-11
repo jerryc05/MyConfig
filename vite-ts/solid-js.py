@@ -43,7 +43,8 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
             "options": {
                 "classnameTransform": "asIs",
                 "customMatcher": "\\.module\\.(c|le|sa|sc|pc)ss$",
-                "jumpToDefinition": True,
+                # "goToDefinition": True,
+                # "postcssOptions": { "useConfig": True }
             },
         }
     ]
