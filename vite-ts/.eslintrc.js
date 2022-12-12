@@ -201,9 +201,9 @@ module.exports = {
     'dot-location': ['error', 'property'],
     'func-style': ['error', 'declaration', { allowArrowFunctions: true }],
     'function-call-argument-newline': 'off',
-    'function-paren-newline': ['warn', 'consistent'],
+    // 'function-paren-newline': ['warn', 'consistent'],
     'id-length': 'off',
-    'implicit-arrow-linebreak': 'warn',
+    // 'implicit-arrow-linebreak': 'warn',
     indent: [
       'warn',
       INDENT,
