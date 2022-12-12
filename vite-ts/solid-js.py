@@ -209,10 +209,6 @@ with open("index.html", "r+", encoding="utf-8") as f:
 
 with open("src/index.tsx", "r+", encoding="utf-8") as f:
     content = f.read()
-    css = "import './index.css'"
-    assert css in content
-    content = content.replace(css, "import './index.scss'")
-
     content = content.replace(
         "import {",
         """
@@ -234,7 +230,27 @@ render(() => <App />, mount)
     f.seek(0)
     f.write(content)
 
-with open("src/index.scss", "w", encoding="utf-8") as f:
+with open("src/index.css", "w", encoding="utf-8") as f:
+    f.write(
+        """
+html {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 1rem;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 0.2rem solid transparent;
+  border-radius: 1rem;
+  background-clip: content-box;
+  background-color: #282c34;
+}
+"""
+    )
+
+with open("src/mixins.scss", "w", encoding="utf-8") as f:
     f.write(
         """
 @mixin button {
@@ -244,17 +260,6 @@ with open("src/index.scss", "w", encoding="utf-8") as f:
   border-style: none;
 }
 
-::-webkit-scrollbar {
-  width: 1rem;
-}
-
-::-webkit-scrollbar-thumb {
-  border: .2rem solid transparent;
-  border-radius: 1rem;
-  background-clip: content-box;
-  background-color: #282c34;
-}
-
 @mixin flex-and-center {
   display: flex;
   justify-content: center;
@@ -262,7 +267,3 @@ with open("src/index.scss", "w", encoding="utf-8") as f:
 }
 """
     )
-
-from pathlib import Path
-
-Path("src/index.css").unlink()
