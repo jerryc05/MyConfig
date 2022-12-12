@@ -265,5 +265,27 @@ with open("src/mixins.scss", "w", encoding="utf-8") as f:
   justify-content: center;
   align-items: center;
 }
+
+$phone: 768px;
+$tablet: 1280px;
+$pc: 1600px;
+
+@mixin tablet {
+  @media screen and (min-width: #{$phone}) and (max-width: #{$tablet}) {
+    @content;
+  }
+}
+
+@mixin pc {
+  @media screen and (min-width: #{$tablet}) and (max-width: #{$pc}) {
+    @content;
+  }
+}
+
+@mixin pc-wide {
+  @media screen and (min-width: #{$pc}) {
+    @content;
+  }
+}
 """
     )
