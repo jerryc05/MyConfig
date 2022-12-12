@@ -36,7 +36,7 @@ git config --global tag.forceSignAnnotated true
 # If sign using ssh
 git config --global gpg.format ssh
 #git config --global gpg.ssh.defaultKeyCommand 'ssh-add -L'  # not working with security keys! use [signingkey] instead
-git config --global user.signingkey $SSH_PUBKEY_PATH
+git config --global user.signingkey $SSH_KEY_PATH
 # If sign using pgp
 #git config --global gpg.program "/path/to/gpg_executable"
 git config --global user.signingkey $GPG_KEY_ID
