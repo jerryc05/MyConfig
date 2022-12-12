@@ -73,10 +73,10 @@ function includeJsx(cfg) {
     rules: {
       ...(cfg.rules ?? []),
       'react/button-has-type': 'warn',
-      'react/jsx-closing-bracket-location': [
-        'warn',
-        { nonEmpty: 'tag-aligned', selfClosing: 'after-props' },
-      ],
+      // 'react/jsx-closing-bracket-location': [
+      //   'warn',
+      //   { nonEmpty: 'tag-aligned', selfClosing: 'after-props' },
+      // ],
       'react/jsx-closing-tag-location': 'warn',
       'react/jsx-curly-newline': [
         'warn',
