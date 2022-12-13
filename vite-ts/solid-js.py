@@ -266,6 +266,10 @@ with open("src/mixins.scss", "w", encoding="utf-8") as f:
   align-items: center;
 }
 
+@mixin timing-fast-in-slow-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 $phone: 768px;
 $tablet: 1280px;
 $pc: 1600px;
