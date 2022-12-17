@@ -88,3 +88,6 @@ fi
 
 command -v code          &>/dev/null && export VISUAL=code
 command -v code-insiders &>/dev/null && export VISUAL=code-insiders
+
+# # gnu utils from brew
+# PATH="$(fd -IL -t d gnubin "$(brew --prefix)/opt" | tr '\n' ':' ):$PATH"
