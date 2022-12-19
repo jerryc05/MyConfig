@@ -52,7 +52,7 @@ command -v tar >/dev/null && xtar() {
 }
 
 # Handy rsync command
-xrsync(){ rsync -ahLPvvz --safe-links --perms --delete-during --no-whole-file --info=progress2 $*;}  # --no-links
+xrsync(){ rsync -ahLPvvz --safe-links --perms --preallocate --sparse --delete-during --skip-compress=gz/jpg/jpeg/png/zip/mp[34]/7z/bz2 --no-whole-file --info=progress2 $*;}  # --no-links
 #               ||||| └-> compress file data during the transfer
 #               ||||└---> increase verbosity
 #               |||└----> keep partially transferred files + show progress during transfer
