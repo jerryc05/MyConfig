@@ -8,10 +8,12 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # More on [ls]
-[ "$(uname -s)" = "Linux" ] && ls_color='--color=auto' || ls_color='-G'
-alias ls="ls $ls_color"
-alias  l="ls $ls_color -F"
-alias ll="ls $ls_color -alF"
+if [[ $(ls --version 2>&1) == *"GNU coreutil"* ]]; then
+  ls_color='--color=auto'
+  alias ls="ls $ls_color"
+  alias  l="ls $ls_color -F"
+  alias ll="ls $ls_color -alFHZ"
+fi
 
 alias cp="cp -i --sparse=auto --reflink=auto"
 #             |   |             └-> Copy On Write
