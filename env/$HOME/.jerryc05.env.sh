@@ -8,7 +8,7 @@
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
 
 # LLVM Clang for Mac
-if [ "$(uname -s)" = "Darwin" ] && [ -d "$(brew --prefix llvm)" ]; then
+if [[ "$OSTYPE" == "darwin"* ]] && [ -d "$(brew --prefix llvm)" ]; then
   export PATH="$(brew --prefix llvm)/bin:$PATH"
       __lib="-L$(brew --prefix llvm)/lib"     && { [[ ! "$LFDLAGS"  == *"$__lib"*     ]] && export  LDFLAGS="$LDFLAGS $__lib";      unset __lib;}
   __include="-I$(brew --prefix llvm)/include" && { [[ ! "$CPPFLAGS" == *"$__include"* ]] && export CPPFLAGS="$CPPFLAGS $__include"; unset __include;}
@@ -28,6 +28,10 @@ for USR in "$HOME" $USR_DIRS; do
     [ -d "$DIR" ] && export PATH="$PATH:$DIR"
   done
 done
+
+
+# # gnu utils from brew
+# PATH="$(fd -IL -t d gnubin "$(brew --prefix)/opt" | tr '\n' ':' ):$PATH"
 
 
 # SSH Agent
