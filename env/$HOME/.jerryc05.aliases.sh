@@ -52,13 +52,14 @@ command -v tar >/dev/null && xtar() {
 }
 
 # Handy rsync command
-xrsync(){ rsync -ahLPvvz --safe-links --perms --preallocate --sparse --delete-during --skip-compress=gz/jpg/jpeg/png/zip/mp[34]/7z/bz2 --no-whole-file --info=progress2 $*;}  # --no-links
-#               ||||| └-> compress file data during the transfer
-#               ||||└---> increase verbosity
-#               |||└----> keep partially transferred files + show progress during transfer
-#               ||└-----> transform symlink into referent file/dir
-#               |└------> output numbers in a human-readable format
-#               └-------> archive mode; equals -rlptgoD (no -H,-A,-X)
+xrsync() {
+  { [[ "$OSTYPE" == "linux-gnu" ]] || [[ "$OSTYPE" == "cygwin" ]] } && PREALLOCATE_ARG='--preallocate' || PREALLOCATE_ARG=''
+  rsync -ahPvvz --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 $*; }
+  #      |||| └-> compress file data during the transfer
+  #      |||└---> increase verbosity
+  #      ||└----> keep partially transferred files + show progress during transfer
+  #      |└-----> output numbers in a human-readable format
+  #      └------> archive mode; equals -rlptgoD (no -H,-A,-X)
 drsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude="$(git -C "$1" ls-files --exclude-standard -oi --directory)" $*; else xrsync $*; fi;}
 
 # VSCode, if only insiders is installed, alias to it
