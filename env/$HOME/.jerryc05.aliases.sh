@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# Color! More color! But not all on MacOS!
+# Color! More color!
 [ "$OSTYPE" = "linux-gnu" ] && alias dir='dir --color=auto'
 [ "$OSTYPE" = "linux-gnu" ] && alias vdir='vdir --color=auto'
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+grep() { grep --color=auto $*; }
+fgrep() { grep -F $*; }
+egrep() { grep -E $*; }
 
 # More on [ls]
 if [[ $(ls --version 2>&1) == *"GNU coreutil"* ]]; then
@@ -15,7 +15,7 @@ if [[ $(ls --version 2>&1) == *"GNU coreutil"* ]]; then
   alias ll="ls $ls_color -alFHZ"
 fi
 
-alias cp="cp -i --sparse=always --reflink=auto"
+alias cp='cp -i --sparse=always --reflink=auto'
 #             |   |             └-> Copy On Write
 #             |   └---------------> Sparse Files
 #             └-------------------> Prevent unintended file overwrite
@@ -24,10 +24,10 @@ alias cp="cp -i --sparse=always --reflink=auto"
 alias show-256-colors='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done'
 
 # valgrind
-alias vg="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes"
+alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes'
 
 # install rpm here
-command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$1" | cpio -iduv; }
+command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio $* | cpio -iduv; }
 
 # Show hidden files in iFinder
 [[ "$OSTYPE" == "darwin"* ]] && defaults write com.apple.finder AppleShowAllFiles YES
@@ -35,11 +35,11 @@ command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$1" | cpio -iduv; }
 # More helpful tar/untar (DO NOT QUOTE $*)
 command -v tar >/dev/null && xtar() {
   str="XZ_OPT=-9 tar acvf $*"
-  printf '%s\n' "$str"
+  echo "$str\n===================\n"
   eval "$str"
 } && xuntar() {
   str="tar xvf $*"
-  printf '%s\n' "$str"
+  echo "$str\n=======\n"
   eval "$str"
 }
 
