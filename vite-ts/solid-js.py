@@ -202,7 +202,7 @@ function buildPostProcessor(
         }),
         newSz = compressed.byteLength,
         origSz = await stat(p).then(s => s.size),
-        willSave = newSz < origSz * 0.95
+        willSave = newSz < origSz * 0.99
       if (willSave)
         await open(newFileName, 'wx').then(async f => f.write(compressed))
       // if alredy exist then err out
