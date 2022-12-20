@@ -194,7 +194,7 @@ function buildPostProcessor(
       minify: true
     }), buildPostProcessor(async p => {
       // p = p.split(path.sep).join(path.posix.sep)
-      /* if (/\.(js|css|html|svg)$/.test(p)) { */
+      if (/\.(?:js|css|html|svg)$/u.test(p)) return
       const newFileName = `${p}.br`,
         orig = await readFile(p),
         compressed: Buffer = await new Promise((resolve, reject) => {
@@ -211,8 +211,6 @@ function buildPostProcessor(
         `${p}\n\t${origSz} \t-> ${newSz} bytes \t` +
           `${(newSz / origSz).toFixed(4)}x ${willSave ? '✅' : '❌'}`
       )
-
-      /* } */
     }),
   ]
 """,
