@@ -111,7 +111,11 @@ function buildPostProcessor(
         xs.map(async x_ => {
           const x = path.resolve(dir, x_)
           const statRes = await stat(x)
-          await (statRes.isDirectory() ? iterDir(x) : fn(x))
+          await (statRes.isDirectory()
+            ? iterDir(x)
+            : fn(
+                path.relative(path.dirname(fileURLToPath(import.meta.url)), x)
+              ))
         })
       )
     )
@@ -194,7 +198,7 @@ function buildPostProcessor(
       minify: true
     }), buildPostProcessor(async p => {
       // p = p.split(path.sep).join(path.posix.sep)
-      if (/\.(?:js|css|html|svg)$/u.test(p)) return
+      if (!/\.(?:js|css|html|svg)$/u.test(p)) return
       const newFileName = `${p}.br`,
         orig = await readFile(p),
         compressed: Buffer = await new Promise((resolve, reject) => {
@@ -204,7 +208,7 @@ function buildPostProcessor(
         origSz = await stat(p).then(s => s.size),
         willSave = newSz < origSz * 0.99
       if (willSave)
-        await open(newFileName, 'wx').then(async f => f.write(compressed))
+        await open(newFileName, 'w').then(async f => f.write(compressed))
       // if alredy exist then err out
       // eslint-disable-next-line no-console
       console.log(
