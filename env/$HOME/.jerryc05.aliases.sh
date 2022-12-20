@@ -46,7 +46,7 @@ command -v tar >/dev/null && xtar() {
 # Handy rsync command
 xrsync() {
   { [ "$OSTYPE" = "linux-gnu" ] || [ "$OSTYPE" = "cygwin" ] } && PREALLOCATE_ARG='--preallocate' || PREALLOCATE_ARG=''
-  rsync -ahPvvz --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 $*; }
+  rsync -ahPvvz --relative --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 $*; }
   #      |||| └-> compress file data during the transfer
   #      |||└---> increase verbosity
   #      ||└----> keep partially transferred files + show progress during transfer
