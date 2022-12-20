@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Color! More color! But not all on MacOS!
-[ "$(uname -s)" = "Linux" ] && alias dir='dir --color=auto'
-[ "$(uname -s)" = "Linux" ] && alias vdir='vdir --color=auto'
+[ "$OSTYPE" = "linux-gnu" ] && alias dir='dir --color=auto'
+[ "$OSTYPE" = "linux-gnu" ] && alias vdir='vdir --color=auto'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
@@ -15,7 +15,7 @@ if [[ $(ls --version 2>&1) == *"GNU coreutil"* ]]; then
   alias ll="ls $ls_color -alFHZ"
 fi
 
-alias cp="cp -i --sparse=auto --reflink=auto"
+alias cp="cp -i --sparse=always --reflink=auto"
 #             |   |             └-> Copy On Write
 #             |   └---------------> Sparse Files
 #             └-------------------> Prevent unintended file overwrite
@@ -29,16 +29,8 @@ alias vg="valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes"
 # install rpm here
 command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$1" | cpio -iduv; }
 
-# git-delta w/ exit code
-# install git-delta via one of these:
-#   1) brew install git-delta
-#   2) cargo install --git https://github.com/dandavison/delta.git
-command -v delta >/dev/null && xdelta() {
-  out__=$(delta --width $(tput cols) -ns $*) && echo "$out__" && [ -z "$out__" ]
-}
-
 # Show hidden files in iFinder
-[ "$(uname -s)" = "Darwin" ] && defaults write com.apple.finder AppleShowAllFiles YES
+[[ "$OSTYPE" == "darwin"* ]] && defaults write com.apple.finder AppleShowAllFiles YES
 
 # More helpful tar/untar (DO NOT QUOTE $*)
 command -v tar >/dev/null && xtar() {
@@ -53,7 +45,7 @@ command -v tar >/dev/null && xtar() {
 
 # Handy rsync command
 xrsync() {
-  { [[ "$OSTYPE" == "linux-gnu" ]] || [[ "$OSTYPE" == "cygwin" ]] } && PREALLOCATE_ARG='--preallocate' || PREALLOCATE_ARG=''
+  { [ "$OSTYPE" = "linux-gnu" ] || [ "$OSTYPE" = "cygwin" ] } && PREALLOCATE_ARG='--preallocate' || PREALLOCATE_ARG=''
   rsync -ahPvvz --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 $*; }
   #      |||| └-> compress file data during the transfer
   #      |||└---> increase verbosity
