@@ -74,24 +74,62 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
 
 with open("vite.config.ts", "r+", encoding="utf-8") as f:
     content = f.read()
-    content = content.replace(
-        "import {",
-        R"""
+
+    VITE_IMPORT = re.compile(R'import { *defineConfig *} from [\'"]vite[\'"]')
+    assert VITE_IMPORT.search(content)
+    content = VITE_IMPORT.sub("import { PluginOption, defineConfig, normalizePath } from 'vite'", content)
+
+    content = R"""
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 // @ts-expect-error: no type declaration file
 import incstr from 'incstr'
 import { babel } from '@rollup/plugin-babel'
 import { createHtmlPlugin } from 'vite-plugin-html'
+import { constants } from 'node:fs'
+import { access, open, readFile, readdir, stat } from 'node:fs/promises'
+import * as path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { brotliCompress } from 'node:zlib'
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/restrict-template-expressions
-const nextId = incstr.idGenerator({ alphabet: `${incstr.alphabet}-_` }) as ()=>string
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+const nextId = incstr.idGenerator({
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call, @typescript-eslint/restrict-template-expressions
+  alphabet: `${incstr.alphabet}-_`,
+}) as () => string
 const cssClassMap = new Map<string, string>()
 const jsdelivr = 'https://cdn.jsdelivr.net'
 
-import {
-""",
+
+function buildPostProcessor(
+  fn: (p: string) => Promise<void> | void
+): PluginOption {
+  let outRoot = ''
+  async function iterDir(dir: string) {
+    await readdir(dir).then(xs =>
+      Promise.all(
+        xs.map(async x_ => {
+          const x = path.resolve(dir, x_)
+          const statRes = await stat(x)
+          await (statRes.isDirectory() ? iterDir(x) : fn(x))
+        })
+      )
     )
+  }
+  return {
+    apply: 'build',
+    async closeBundle() {
+      await access(outRoot, constants.F_OK).then(() => iterDir(outRoot))
+    },
+    configResolved(conf) {
+      outRoot = normalizePath(path.resolve(conf.root, conf.build.outDir))
+    },
+    enforce: 'post',
+    name: buildPostProcessor.name,
+  }
+}
+
+""" + content
 
     PLUGINS_STR = "[solidPlugin()]"
     assert PLUGINS_STR in content
@@ -154,7 +192,28 @@ import {
         ]
       },
       minify: true
-    })
+    }), buildPostProcessor(async p => {
+      // p = p.split(path.sep).join(path.posix.sep)
+      /* if (/\.(js|css|html|svg)$/.test(p)) { */
+      const newFileName = `${p}.br`,
+        orig = await readFile(p),
+        compressed: Buffer = await new Promise((resolve, reject) => {
+          brotliCompress(orig, (e, b) => (e ? reject(e) : resolve(b)))
+        }),
+        newSz = compressed.byteLength,
+        origSz = await stat(p).then(s => s.size),
+        willSave = newSz < origSz * 0.95
+      if (willSave)
+        await open(newFileName, 'wx').then(async f => f.write(compressed))
+      // if alredy exist then err out
+      // eslint-disable-next-line no-console
+      console.log(
+        `${p}\n\t${origSz} \t-> ${newSz} bytes \t` +
+          `${(newSz / origSz).toFixed(4)}x ${willSave ? '✅' : '❌'}`
+      )
+
+      /* } */
+    }),
   ]
 """,
     )
