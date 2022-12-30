@@ -3,9 +3,9 @@
 # Color! More color!
 [ "$OSTYPE" = "linux-gnu" ] && alias dir='dir --color=auto'
 [ "$OSTYPE" = "linux-gnu" ] && alias vdir='vdir --color=auto'
-grep() { grep --color=auto $*; }
-fgrep() { grep -F $*; }
-egrep() { grep -E $*; }
+alias  grep='grep --color=auto'
+alias fgrep='grep -F'
+alias egrep='grep -E'
 
 # More on [ls]
 if [[ $(ls --version 2>&1) == *"GNU coreutil"* ]]; then
