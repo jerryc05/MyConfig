@@ -253,6 +253,7 @@ module.exports = {
     'one-var': 'off',
     'padded-blocks': 'off',
     'promise/always-return': ['warn', { ignoreLastCallback: true }],
+    'promise/catch-or-return': ['warn', { allowFinally: true }],
     'quote-props': ['warn', 'as-needed'],
     quotes: QUOTE,
     semi: ['warn', 'never'],
