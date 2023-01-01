@@ -187,7 +187,7 @@ module.exports = {
       },
     ],
     '@typescript-eslint/switch-exhaustiveness-check': 'error',
-    'array-bracket-newline': 'warn',
+    // 'array-bracket-newline': 'warn',
     'array-element-newline': ['error', 'consistent'],
     'arrow-parens': ['error', 'as-needed'],
     'arrow-spacing': 'warn',
