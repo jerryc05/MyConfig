@@ -47,7 +47,7 @@ See https://github.com/yuk7/ArchWSL
     ```
     sed -i s/^#Color/Color/ /etc/pacman.conf
     sed -i s/^#VerbosePkgLists/VerbosePkgLists/ /etc/pacman.conf
-    sed -i "s/^#ParallelDownloads.*/ParallelDownloads = `nproc`\nILoveCandy/" /etc/pacman.conf
+    sed -i "s/^#ParallelDownloads.*/ParallelDownloads = $((2*$(nproc)))\nILoveCandy/" /etc/pacman.conf
     sed -i -z 's/#\[testing]\n#/[testing]\n/' /etc/pacman.conf
     sed -i -z 's/#\[community-testing]\n#/[community-testing]\n/' /etc/pacman.conf
     ```
@@ -168,15 +168,14 @@ See https://github.com/yuk7/ArchWSL
         sed -i 's/-march=[^ ]*/-march=native/' /etc/makepkg.conf
         sed -i 's/-mtune=[^ ]*//'              /etc/makepkg.conf
         sed -i 's/-O2/-Ofast/'                 /etc/makepkg.conf
-        sed -i 's/-D_FORTIFY_SOURCE=2//'       /etc/makepkg.conf
-        sed -i 's/-Wp, //'                     /etc/makepkg.conf
+        sed -i 's/-Wp,-D_FORTIFY_SOURCE=2//'   /etc/makepkg.conf
+        sed -i 's/-Wp,-D_GLIBCXX_ASSERTIONS//' /etc/makepkg.conf
         sed -i 's/-fstack-clash-protection//'  /etc/makepkg.conf
-        sed -i 's/-fcf-protection//'           /etc/makepkg.conf
-        sed -i 's/-D_GLIBCXX_ASSERTIONS//'     /etc/makepkg.conf
+        sed -i 's/-fcf-protection//'           /etc/makepkg.conf 
         sed -i 's/,-z,relro//'                 /etc/makepkg.conf
         sed -i 's/,-z,now//'                   /etc/makepkg.conf
 
-        sed -i 's/DEBUG_CFLAGS="-g"/DEBUG_CFLAGS="-g -D_FORTIFY_SOURCE=2 -fstack-clash-protection -fcf-protection -D_GLIBCXX_ASSERTIONS"/' /etc/makepkg.conf
+        sed -i 's/DEBUG_CFLAGS="-g"/DEBUG_CFLAGS="-g -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-clash-protection -fcf-protection"/' /etc/makepkg.conf
 
         sed -i 's/#RUSTFLAGS.*/RUSTFLAGS="-C opt-level=3 -C target-cpu=native"/' /etc/makepkg.conf
         sed -i 's/#DEBUG_RUSTFLAGS/DEBUG_RUSTFLAGS/'                             /etc/makepkg.conf
