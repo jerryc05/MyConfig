@@ -54,6 +54,9 @@ See https://github.com/yuk7/ArchWSL
     cat <<EOF >>/etc/pacman.conf
     [kde-unstable]
     Include = /etc/pacman.d/mirrorlist
+
+    [gnome-unstable]
+    Include = /etc/pacman.d/mirrorlist
     EOF
     ```
 
