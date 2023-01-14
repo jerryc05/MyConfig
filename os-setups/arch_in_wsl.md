@@ -50,6 +50,11 @@ See https://github.com/yuk7/ArchWSL
     sed -i "s/^#ParallelDownloads.*/ParallelDownloads = $((2*$(nproc)))\nILoveCandy/" /etc/pacman.conf
     sed -i -z 's/#\[testing]\n#/[testing]\n/' /etc/pacman.conf
     sed -i -z 's/#\[community-testing]\n#/[community-testing]\n/' /etc/pacman.conf
+
+    cat <<EOF >>/etc/pacman.conf
+    [kde-unstable]
+    Include = /etc/pacman.d/mirrorlist
+    EOF
     ```
 
 0.  Edit `/etc/locale.gen`, uncomment the line of locale you want to use, save it, and run `locale-gen`. E.g.:
