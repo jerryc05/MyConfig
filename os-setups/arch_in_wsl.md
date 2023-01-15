@@ -57,6 +57,12 @@ See https://github.com/yuk7/ArchWSL
 
     [gnome-unstable]
     Include = /etc/pacman.d/mirrorlist
+
+    [community-staging]
+    Include = /etc/pacman.d/mirrorlist
+
+    [staging]
+    Include = /etc/pacman.d/mirrorlist
     EOF
     ```
 
