@@ -33,19 +33,22 @@ command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio $* | cpio -iduv; }
 [[ "$OSTYPE" == "darwin"* ]] && defaults write com.apple.finder AppleShowAllFiles YES
 
 # More helpful tar/untar (DO NOT QUOTE $*)
-command -v tar >/dev/null && xtar() {
-  str="XZ_OPT=-9 tar acvf $*"
-  echo "$str\n===================\n"
-  eval "$str"
-} && xuntar() {
-  str="tar xvf $*"
-  echo "$str\n=======\n"
-  eval "$str"
-}
+if command -v tar >/dev/null; then
+  xtar() {
+    str="XZ_OPT=-9 tar acvf $*"
+    echo "$str\n===================\n"
+    eval "$str"
+  }
+  xuntar() {
+    str="tar xvf $*"
+    echo "$str\n=======\n"
+    eval "$str"
+  }
+fi
 
 # Handy rsync command
 xrsync() {
-  { [ "$OSTYPE" = "linux-gnu" ] || [ "$OSTYPE" = "cygwin" ] } && PREALLOCATE_ARG='--preallocate' || PREALLOCATE_ARG=''
+  if [ "$OSTYPE" = "linux-gnu" ] || [ "$OSTYPE" = "cygwin" ] ; then PREALLOCATE_ARG='--preallocate'; else PREALLOCATE_ARG=''; fi
   rsync -ahPvvz --relative --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 $*; }
   #      |||| └-> compress file data during the transfer
   #      |||└---> increase verbosity
