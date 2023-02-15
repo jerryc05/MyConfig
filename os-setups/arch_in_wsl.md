@@ -117,7 +117,7 @@ See https://github.com/yuk7/ArchWSL
     find /usr/share/nano-syntax-highlighting/ -iname "*.nanorc" -exec echo include {} \; >>/etc/nanorc
     ```
 
-0.  *Optional:* Install `dnscrypt-proxy` to use `DNS over TLS/HTTPS/QUIC/...`:
+0.  *Optional:* (IGNORE THIS, use `systemd-resolved`) Install `dnscrypt-proxy` to use `DNS over TLS/HTTPS/QUIC/...`:
     ```
     pacman -S dnscrypt-proxy
     echo 'net.core.rmem_max=2500000' >>/etc/sysctl.conf && sysctl -p  # For non-BSD systems
