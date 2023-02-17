@@ -16,7 +16,7 @@ export CXXFLAGS="$CFLAGS"
 
 echo -e '\n\n' >>~/.bashrc
 
-echo "export BOOST_ROOT=`pwd`" >>~/.bashrc  # for cmake
+echo "export BOOST_ROOT=`pwd`  # for cmake" >>~/.bashrc
 
 echo "export CPATH=`pwd`:\$CPATH" >>~/.bashrc
 echo "export LIBRARY_PATH=`pwd`/stage/lib:\$LIBRARY_PATH" >>~/.bashrc
