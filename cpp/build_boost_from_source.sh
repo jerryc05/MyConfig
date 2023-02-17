@@ -14,7 +14,9 @@ export CXXFLAGS="$CFLAGS"
 ./b2 -j`nproc` cflags="$CFLAGS" cxxflags="$CXXFLAGS"
 
 
+echo -e '\n\n' >>~/.bashrc
+
 echo "export BOOST_ROOT=`pwd`" >>~/.bashrc  # for cmake
 
-echo "export CPATH=`pwd`:${CPATH}" >>~/.bashrc
-echo "export LIBRARY_PATH=`pwd`/stage/lib:${LIBRARY_PATH}" >>~/.bashrc
+echo "export CPATH=`pwd`:\$CPATH" >>~/.bashrc
+echo "export LIBRARY_PATH=`pwd`/stage/lib:\$LIBRARY_PATH" >>~/.bashrc
