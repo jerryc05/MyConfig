@@ -8,7 +8,7 @@ cd boost
 # git submodule update --init --recursive --remote --no-fetch --depth=1
 
 
-export CFLAGS="-march=native -Ofast"
+export CFLAGS="-w -march=native -Ofast"
 export CXXFLAGS="$CFLAGS"
 ./bootstrap.sh --with-python=`which python3`
 ./b2 -j`nproc` cflags="$CFLAGS" cxxflags="$CXXFLAGS"
