@@ -11,7 +11,7 @@ cd boost
 export CFLAGS="-march=native -Ofast"
 export CXXFLAGS="$CFLAGS"
 ./bootstrap.sh --with-python=`which python3`
-./b2 -j`nproc` 
+./b2 -j`nproc` cflags="$CFLAGS" cxxflags="$CXXFLAGS"
 
 
 echo "export BOOST_ROOT=`pwd`" >>~/.bashrc  # for cmake
