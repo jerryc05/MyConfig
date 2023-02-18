@@ -10,8 +10,7 @@ cd boost
 
 export CFLAGS="-w -march=native -Ofast"
 export CXXFLAGS="$CFLAGS"
-# ./bootstrap.sh --with-python=`which python3` --with-icu
-./bootstrap.sh --with-icu --without-libraries=python,mpi
+./bootstrap.sh --with-python=`which python3` --with-icu --without-libraries=mpi
 ./b2 -j`nproc` cflags="$CFLAGS" cxxflags="$CXXFLAGS"
 
 
