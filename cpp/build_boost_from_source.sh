@@ -11,7 +11,7 @@ build() {
 
 
 
-###### THIS IS FOR NEW INSTALLATION
+###### THIS IS FOR NEW INSTALLATION ######
 git clone --single-branch --branch master --depth=1 --recurse-submodules --shallow-submodules https://github.com/boostorg/boost.git
 cd boost
 
@@ -29,7 +29,7 @@ EOF
 
 
 
-###### THIS IS FOR UPDATE
+###### THIS IS FOR UPDATE ######
 cd boost
 git submodule foreach | cut -d ' ' -f 2 | xargs -I@ -P `nproc` sh -c 'cd @ && git fetch --depth 1 && git reset --hard FETCH_HEAD'    
 
