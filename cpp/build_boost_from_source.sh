@@ -9,7 +9,7 @@ if [ -d boost ]; then
     # git submodule update --init --recursive --remote --no-fetch --depth=1
 else
     cd boost
-    git submodule foreach 'git fetch --depth 1 && git reset --hard FETCH_HEAD'
+    git submodule foreach | cut -d ' ' -f 2 | xargs -I@ -P `nproc` sh -c 'cd @ && git fetch --depth 1 && git reset --hard FETCH_HEAD'    
 fi
 
 export CFLAGS="-w -march=native -Ofast"
