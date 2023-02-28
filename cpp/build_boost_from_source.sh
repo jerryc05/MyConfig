@@ -2,11 +2,15 @@
 
 set -euxo pipefail
 
-# git clone --single-branch --branch master --depth=1 https://github.com/boostorg/boost.git
-git clone --single-branch --branch master --depth=1 --recurse-submodules --shallow-submodules https://github.com/boostorg/boost.git
-cd boost
-# git submodule update --init --recursive --remote --no-fetch --depth=1
-
+if [ -d boost ]; then
+    # git clone --single-branch --branch master --depth=1 https://github.com/boostorg/boost.git
+    git clone --single-branch --branch master --depth=1 --recurse-submodules --shallow-submodules https://github.com/boostorg/boost.git
+    cd boost
+    # git submodule update --init --recursive --remote --no-fetch --depth=1
+else
+    cd boost
+    git submodule foreach 'git fetch --depth 1 && git reset --hard FETCH_HEAD'
+fi
 
 export CFLAGS="-w -march=native -Ofast"
 export CXXFLAGS="$CFLAGS"
