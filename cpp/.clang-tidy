@@ -2,6 +2,7 @@
 
 Checks: '*,
   -android-*,
+  -abseil-*,
   -altera-*,
   -clang-analyzer-alpha.fuchsia.*,
   -clang-analyzer-alpha.llvm.*,
