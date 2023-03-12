@@ -95,3 +95,7 @@ command -v code-insiders &>/dev/null && export VISUAL=code-insiders
 
 # # gnu utils from brew
 # PATH="$(fd -IL -t d gnubin "$(brew --prefix)/opt" | tr '\n' ':' ):$PATH"
+
+command -v ninja &>/dev/null && export CMAKE_GENERATOR=Ninja
+command -v ccache &>/dev/null && export CMAKE_CXX_COMPILER_LAUNCHER=ccache
+export CMAKE_EXPORT_COMPILE_COMMANDS=ON
