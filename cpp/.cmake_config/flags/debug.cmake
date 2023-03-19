@@ -7,7 +7,7 @@ include(${__CFG__}/try-add-flag.cmake)
 try_add_flag(CMAKE_CXX_FLAGS_DEBUG -Og)
 try_add_flag(CMAKE_CXX_FLAGS_DEBUG -g3)
 
-add_compile_definitions(-D_FORTIFY_SOURCE=3 -D_GLIBCXX_DEBUG)
+add_compile_definitions(_FORTIFY_SOURCE=3 _GLIBCXX_DEBUG __STL_ASSERTIONS)
 
 try_add_flag(CMAKE_CXX_FLAGS_DEBUG -fcf-protection=full)
 try_add_flag(CMAKE_CXX_FLAGS_DEBUG -fharden-compares)
