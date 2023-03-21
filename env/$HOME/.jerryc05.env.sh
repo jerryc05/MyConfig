@@ -98,4 +98,5 @@ command -v code-insiders &>/dev/null && export VISUAL=code-insiders
 
 command -v ninja &>/dev/null && export CMAKE_GENERATOR=Ninja
 command -v ccache &>/dev/null && export CMAKE_CXX_COMPILER_LAUNCHER=ccache
+command -v lld &>/dev/null && export CXXFLAGS="-fuse-ld=lld $CXXFLAGS"
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
