@@ -92,6 +92,7 @@ fi
 
 command -v code          &>/dev/null && export VISUAL=code
 command -v code-insiders &>/dev/null && export VISUAL=code-insiders
+export MAKEFLAGS="-j$(nproc)"
 
 # # gnu utils from brew
 # PATH="$(fd -IL -t d gnubin "$(brew --prefix)/opt" | tr '\n' ':' ):$PATH"
