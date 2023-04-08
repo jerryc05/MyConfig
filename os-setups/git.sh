@@ -44,6 +44,8 @@ git config --global core.quotePath false
 
 git config --global alias.c 'commit'
 git config --global alias.s 'status'
+git config --global alias.ss 'git status --porcelain | cut -d ' ' -f 3 | xargs -I@ ls -hs @'
+#                         └ [S]tatus [S]ize
 
 git config --global alias.p   'push'
 git config --global alias.pp  '!git pull && git push'
