@@ -1,7 +1,7 @@
 # ===== INSTALL =====
 # `npm i -g pyright`  # or search for Pylance VSCode extension
 # `pip install -U black pylint isort`
-# ===== HOW TO USE =====
+# ===== HOW TO USE IN TERMINAL (or just use vscode instead) =====
 # ```
 # isort .;black .;
 # pyright
@@ -65,7 +65,7 @@ skip-string-normalization = true
 
 line-length = 95 # Also remember to change this in [pylint]
 
-fast = true
+#fast = true
 
 
 # import sorting
