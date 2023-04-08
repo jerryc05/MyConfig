@@ -39,6 +39,7 @@ git config --global user.signingkey $SSH_KEY_PATH
 # If sign using pgp
 #git config --global gpg.program "/path/to/gpg_executable"
 git config --global user.signingkey $GPG_KEY_ID
+git config --global core.quotePath false
 
 
 git config --global alias.c 'commit'
