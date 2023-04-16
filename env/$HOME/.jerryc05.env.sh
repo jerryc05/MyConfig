@@ -97,7 +97,8 @@ export MAKEFLAGS="-j$(nproc)"
 # # gnu utils from brew
 # PATH="$(fd -IL -t d gnubin "$(brew --prefix)/opt" | tr '\n' ':' ):$PATH"
 
-command -v ninja &>/dev/null && export CMAKE_GENERATOR=Ninja
-command -v ccache &>/dev/null && export CMAKE_CXX_COMPILER_LAUNCHER=ccache
-command -v lld &>/dev/null && export CXXFLAGS="-fuse-ld=lld $CXXFLAGS"
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+command -v ninja &>/dev/null && export CMAKE_GENERATOR=Ninja
+#command -v ccache &>/dev/null && export CMAKE_CXX_COMPILER_LAUNCHER=ccache
+command -v lld &>/dev/null && export CXXFLAGS="-fuse-ld=lld $CXXFLAGS"
