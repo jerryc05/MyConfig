@@ -32,6 +32,13 @@ git config --global rerere.enabled    true
 git config --global commit.gpgsign         true
 git config --global tag.gpgsign            true
 git config --global tag.forceSignAnnotated true
+git config --global pull.rebase            true
+git config --global fetch.prune            true
+
+# Maybe unwanted
+git config --global core.quotePath  false
+git config --global core.ignorecase false
+
 # If sign using ssh
 git config --global gpg.format ssh
 #git config --global gpg.ssh.defaultKeyCommand 'ssh-add -L'  # not working with security keys! use [signingkey] instead
@@ -39,8 +46,6 @@ git config --global user.signingkey $SSH_KEY_PATH
 # If sign using pgp
 #git config --global gpg.program "/path/to/gpg_executable"
 git config --global user.signingkey $GPG_KEY_ID
-git config --global core.quotePath false
-git config --global core.ignorecase false
 
 
 git config --global alias.c 'commit'
@@ -50,7 +55,7 @@ git config --global alias.ss 'git status --porcelain | cut -d ' ' -f 3 | xargs -
 
 git config --global alias.p   'push'
 git config --global alias.pp  '!git pull && git push'
-git config --global alias.ppp 'pull'
+#git config --global alias.ppp 'pull'
 
 git config --global alias.adog  'log --all --decorate --oneline --graph'
 git config --global alias.ls    'ls-files -s'
