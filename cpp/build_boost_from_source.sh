@@ -24,15 +24,15 @@ export LIBRARY_PATH=`pwd`/stage/lib:\$LIBRARY_PATH
 
 EOF
 
-export BOOST_VER=$(grep 'Boost VERSION' CMakeLists.txt | grep -oE '[0-9.]+')
+export __VERSION=$(grep 'Boost VERSION' CMakeLists.txt | grep -oE '[0-9.]+')
 if command -v makepkg &>/dev/null; then
     export _TMPDIR=$(mktemp -d)
     cat <<EOF >"$_TMPDIR/PKGBUILD"
     pkgname='boost_dummy'
-    pkgver=$BOOST_VER
+    pkgver=$__VERSION
     pkgrel=1
     arch=(any)
-    provides=('boost=$BOOST_VER')
+    provides=('boost=$__VERSION')
 EOF
     (cd $_TMPDIR && makepkg -si)
 fi
