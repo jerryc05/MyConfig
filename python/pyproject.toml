@@ -61,7 +61,7 @@ disable = [
 # code formatter
 [tool.black]
 preview = true
-skip-string-normalization = true
+#skip-string-normalization = true
 
 line-length = 95 # Also remember to change this in [pylint]
 
