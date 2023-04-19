@@ -18,9 +18,9 @@ build
 cat <<EOF >>~/.bashrc
 
 # boost
-export BOOST_ROOT=`pwd`  # for cmake's FindBoost
-export CPATH=`pwd`:\$CPATH
-export LIBRARY_PATH=`pwd`/stage/lib:\$LIBRARY_PATH
+export BOOST_ROOT=$(pwd)  # for cmake 
+export CPATH=\$BOOST_ROOT:\$CPATH
+export LIBRARY_PATH=\$BOOST_ROOT/stage/lib:\$LIBRARY_PATH
 
 EOF
 
