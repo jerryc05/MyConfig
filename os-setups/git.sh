@@ -3,13 +3,15 @@
 git config --global user.name   'Ziyan "Jerry" Chen'
 git config --global user.email  'jerryc443@gmail.com'
 
+# Must-haves
+git config --global core.autocrlf     input
+git config --global core.eol          lf
+git config --global core.fileMode     true
+git config --global core.longpaths    true
+git config --global core.safecrlf     warn
+git config --global core.fscache      true
+git config --global help.autoCorrect  prompt
 
-git config --global core.autocrlf   input
-git config --global core.eol        lf
-git config --global core.fileMode   true
-git config --global core.longpaths  true
-git config --global core.safecrlf   warn
-git config --global core.fscache    true
 #git config --global core.sshcommand "C:/Windows/System32/OpenSSH/ssh.exe"
 #  [core.sshcommand] will be overridden by [GIT_SSH_COMMAND] env var
 
@@ -17,12 +19,12 @@ if  [ "$(uname)" = "Linux" ] && [ "$(git config --get  credential.helper)" = '' 
   git config --global credential.helper store
 fi
 
-
-git config --global core.symlinks            true
-git config --global help.autoCorrect         prompt
-git config --global pull.rebase              false
-git config --global rebase.autoStash         true
-git config --global merge.autoStash          true
+# Changes that might change behavior
+git config --global push.autoSetupRemote  true
+git config --global core.symlinks         true
+git config --global pull.rebase           true
+git config --global rebase.autoStash      true
+git config --global merge.autoStash       true
 
 
 git config --global rerere.enabled    true
