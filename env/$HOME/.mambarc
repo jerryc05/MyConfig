@@ -1,9 +1,9 @@
 # or '.condarc'
 
 channels:
-  - conda-forge
   - nvidia
   - pytorch
+  - conda-forge
   - fastai
   - pyg  # Graph Neural Network Library for PyTorch
   - bioconda
