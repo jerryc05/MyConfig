@@ -189,14 +189,14 @@ See https://github.com/yuk7/ArchWSL
         sed -i 's/,-z,relro//'                 /etc/makepkg.conf
         sed -i 's/,-z,now//'                   /etc/makepkg.conf
 
-        sed -i 's/DEBUG_CFLAGS="-g"/DEBUG_CFLAGS="-g -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fstack-clash-protection -fcf-protection"/' /etc/makepkg.conf
+        sed -i 's/DEBUG_CFLAGS="-g"/DEBUG_CFLAGS="-g -D_FORTIFY_SOURCE=3 -D_GLIBCXX_DEBUG -fstack-protector-strong -fstack-clash-protection -fcf-protection"/' /etc/makepkg.conf
 
         sed -i 's/#RUSTFLAGS.*/RUSTFLAGS="-C opt-level=3 -C target-cpu=native"/' /etc/makepkg.conf
         sed -i 's/#DEBUG_RUSTFLAGS/DEBUG_RUSTFLAGS/'                             /etc/makepkg.conf
 
         sed -i 's/#MAKEFLAGS.*/MAKEFLAGS="-j$(nproc)"/' /etc/makepkg.conf
 
-        pacman -S ccache && sed -i 's/!ccache/ccache/' /etc/makepkg.conf
+        #pacman -S ccache && sed -i 's/!ccache/ccache/' /etc/makepkg.conf
 
         sed -i 's/^OPTIONS=(!strip/OPTIONS=(strip/' /etc/makepkg.conf
         sed -i 's/!lto/lto/' /etc/makepkg.conf
