@@ -101,4 +101,14 @@ export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 
 command -v ninja &>/dev/null && export CMAKE_GENERATOR=Ninja
 #command -v ccache &>/dev/null && export CMAKE_CXX_COMPILER_LAUNCHER=ccache
-command -v lld &>/dev/null && export CXXFLAGS="-fuse-ld=lld $CXXFLAGS"
+command -v lld &>/dev/null && export FLAGS="-fuse-ld=lld $FLAGS"
+
+
+
+# Collect flags
+FLAGS='-pipe'
+CFLAGS="$FLAGS $CFLAGS"
+CXXFLAGS="$FLAGS $CXXFLAGS"
+
+DEBUG_FLAGS="-g -D_FORTIFY_SOURCE=3 -D-D_GLIBCXX_ASSERTIONS -D_GLIBCXX_DEBUG -fstack-protector-strong -fstack-clash-protection -fcf-protection -Wl,-z,defs -Wl,-z,now -Wl,-z,relro -fpie"
+RELEASE_FLAGS='-Ofast -march=native -fno-plt -fomit-frame-pointer '
