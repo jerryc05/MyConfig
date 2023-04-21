@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+GIT_EXE=$(which -a git | uniq | sed -n '2 p')
+
+{ [ "$1" != "clone" ] && [ "$1" != "fetch" ]; } && $GIT_EXE $* && exit 0
+
+echo ========================
+echo $(pwd)
+echo ------------------------
+echo $GIT_EXE $*
+
+CMD="$GIT_EXE $1 --depth 1"
+REST="${@:2}"
+
+[ "$1" = "fetch" ] && REST=${REST/'--all'/}
+[ "$1" = "clone" ] && CMD="$CMD --single-branch"
+CMD="$CMD $REST"
+
+echo $CMD
+$CMD
+echo ========================
