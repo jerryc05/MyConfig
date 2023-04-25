@@ -56,6 +56,7 @@ build
 cat <<EOF >>~/.bashrc
 
 # afl++
+export AFL_PATH=$(pwd)
 export PATH=\$PATH:$(pwd)/bin
 
 EOF
