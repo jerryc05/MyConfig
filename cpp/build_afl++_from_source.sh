@@ -24,7 +24,7 @@ Build Summary:
 [+] gcc_mode successfully built
 EOF
 
-    mkdir -p bin && find . -maxdepth 1 -executable -type f | xargs -I @ -P $(nproc) bash -c "{ file @ | grep executable &>/dev/null; } && ln -sf {,bin/}@"
+    mkdir -p bin && find . -maxdepth 1 -executable | xargs -I @ -P $(nproc) bash -c "{ file @ | grep -E 'executable|symbolic' &>/dev/null; } && cd bin &&  ln -sf {../,}@"
 
 
     export __VERSION=$(grep '#define VERSION' include/config.h | grep -oE '[0-9.]+\w*')
