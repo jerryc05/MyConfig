@@ -24,6 +24,8 @@ Build Summary:
 [+] gcc_mode successfully built
 EOF
 
+    mkdir -p bin && find . -maxdepth 1 -executable -type f | xargs -I @ -P $(nproc) bash -c "{ file @ | grep executable &>/dev/null; } && ln -sf {,bin/}@"
+
 
     export __VERSION=$(grep '#define VERSION' include/config.h | grep -oE '[0-9.]+\w*')
     if command -v makepkg &>/dev/null; then
@@ -54,7 +56,7 @@ build
 cat <<EOF >>~/.bashrc
 
 # afl++
-export PATH=$(pwd):\$PATH
+export PATH=\$PATH:$(pwd)/bin
 
 EOF
 
