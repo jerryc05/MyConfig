@@ -15,7 +15,7 @@ git config --global help.autoCorrect  prompt
 #git config --global core.sshcommand "C:/Windows/System32/OpenSSH/ssh.exe"
 #  [core.sshcommand] will be overridden by [GIT_SSH_COMMAND] env var
 
-if  [ "$(uname)" = "Linux" ] && [ "$(git config --get  credential.helper)" = '' ]; then
+if { [ "$(uname)" = "Linux" ] && [ "$(git config --get  credential.helper)" = '' ] ; }; then
   git config --global credential.helper store
 fi
 
@@ -77,9 +77,9 @@ git config --global alias.lit 'ls-files --cached -i --exclude-standard'
 
 
 v_leq() {
-    [  "$1" = "`echo -e "$1\n$2" | sort -V | head -n1`" ]
+    [  "$1" = "$(echo -e "$1\n$2" | sort -V | head -n1)" ]
 }
 
-if [[ `uname` == "MINGW64_NT"* ]] || ( [[ `uname` == "Linux" ]] && v_leq 2.37 $(git --version | cut -d ' ' -f 3) ); then
+if { [[ `uname` == "MINGW64_NT"* ]] || [[ `uname` == "Darwin"* ]] || ( [[ `uname` == "Linux" ]] && v_leq 2.37 $(git --version | cut -d ' ' -f 3) ); }; then
   git config --global core.fsmonitor  true
 fi
