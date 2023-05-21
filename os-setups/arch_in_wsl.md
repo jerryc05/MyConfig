@@ -153,6 +153,10 @@ See https://github.com/yuk7/ArchWSL
         # Defaults targetpw  # Ask for the password of the target user
         # ALL ALL=(ALL:ALL) ALL  # WARNING: only use this together with 'Defaults targetpw'
         ```
+    3.  Keep env vars:
+        ```sh
+        echo 'Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET     ftp_proxy http_proxy https_proxy no_proxy all_proxy ALL_PROXY"' >/etc/sudoers.d/jerryc05_env_keep.cfg
+        ```
 
 0.  Setup performance optimizations
     -   Filesystem

@@ -115,5 +115,11 @@ RELEASE_FLAGS='-Ofast -march=native -fno-plt -fomit-frame-pointer'
 
 LDFLAGS="-Wl,--sort-common,--as-needed $LDFLAGS"
 
-# WSL2 uses CFW
-#export HOSTIP=$(cat /etc/resolv.conf | grep -oP '(?<=nameserver\ ).*');export https_proxy=http://$HOSTIP:7890;export http_proxy=http://$HOSTIP:7890;export all_proxy=socks5://$HOSTIP:7890
+## WSL2 uses CFW
+# export HOSTIP=$(cat /etc/resolv.conf | grep -oP '(?<=nameserver\ ).*')
+# if curl -v $HOSTIP:7890 -m .05 &>/dev/null; then
+#         export https_proxy=http://$HOSTIP:7890
+#         export http_proxy=http://$HOSTIP:7890
+#         export all_proxy=socks5://$HOSTIP:7890
+#         export ALL_PROXY=$all_proxy
+# fi
