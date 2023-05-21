@@ -114,3 +114,6 @@ DEBUG_FLAGS="-g -D_FORTIFY_SOURCE=3 -D-D_GLIBCXX_ASSERTIONS -D_GLIBCXX_DEBUG -fs
 RELEASE_FLAGS='-Ofast -march=native -fno-plt -fomit-frame-pointer'
 
 LDFLAGS="-Wl,--sort-common,--as-needed $LDFLAGS"
+
+# WSL2 uses CFW
+#export HOSTIP=$(cat /etc/resolv.conf | grep -oP '(?<=nameserver\ ).*');export https_proxy=http://$HOSTIP:7890;export http_proxy=http://$HOSTIP:7890;export all_proxy=socks5://$HOSTIP:7890
