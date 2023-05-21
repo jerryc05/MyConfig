@@ -182,7 +182,7 @@ See https://github.com/yuk7/ArchWSL
         ```
     3.  Keep env vars:
         ```sh
-        echo 'Defaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET     ftp_proxy http_proxy https_proxy no_proxy all_proxy ALL_PROXY"' >/etc/sudoers.d/jerryc05_env_keep.cfg
+        printf '\n\n## Proxy\nDefaults env_keep += "LANG LANGUAGE LINGUAS LC_* _XKB_CHARSET     ftp_proxy http_proxy https_proxy no_proxy all_proxy ALL_PROXY"\n' >>/etc/sudoers
         ```
 
 0.  Setup performance optimizations
