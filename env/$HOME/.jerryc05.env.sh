@@ -115,11 +115,17 @@ RELEASE_FLAGS='-Ofast -march=native -fno-plt -fomit-frame-pointer'
 
 LDFLAGS="-Wl,--sort-common,--as-needed $LDFLAGS"
 
+
+## DEBUGINFOD_URLS
+export DEBUGINFOD_URLS="https://debuginfod.archlinux.org https://mirrors.cloud.tencent.com/archlinuxcn"
+
+
+
 ## WSL2 uses CFW
-# export HOSTIP=$(cat /etc/resolv.conf | grep -oP '(?<=nameserver\ ).*')
-# if curl -v $HOSTIP:7890 -m .05 &>/dev/null; then
-#         export https_proxy=http://$HOSTIP:7890
-#         export http_proxy=http://$HOSTIP:7890
-#         export all_proxy=socks5://$HOSTIP:7890
+# export __HOSTIP=$(cat /etc/resolv.conf | grep -oP '(?<=nameserver\ ).*')
+# if curl -v $__HOSTIP:7890 -m .05 &>/dev/null; then
+#         export https_proxy=http://$__HOSTIP:7890
+#         export http_proxy=http://$__HOSTIP:7890
+#         export all_proxy=socks5://$__HOSTIP:7890
 #         export ALL_PROXY=$all_proxy
 # fi

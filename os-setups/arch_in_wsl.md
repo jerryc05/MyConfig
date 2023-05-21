@@ -32,13 +32,14 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Launch `Arch Linux`
 
-0.  <del>Fix `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link` (the terminal under Windows needs admin permission)</del>
+0.  Fix `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link` (the terminal needs to be exactly `cmd` and needs admin permission)
     ```
-    cd /mnt/c/Windows/System32/lxss/lib/
-    mv libcuda.so.1 ~libcuda.so.1
-    mv libcuda.so   ~libcuda.so
-    ln -s libcuda.so.1.1 libcuda.so.1
-    ln -s libcuda.so.1.1 libcuda.so
+    C:
+    cd C:\Windows\System32\lxss\lib
+    del libcuda.so
+    del libcuda.so.1
+    mklink libcuda.so libcuda.so.1.1
+    mklink libcuda.so.1 libcuda.so.1.1
     ```
 
 0.  Shutdown WSL and restart.
@@ -64,6 +65,9 @@ See https://github.com/yuk7/ArchWSL
 
     [staging]
     Include = /etc/pacman.d/mirrorlist
+
+    [extra-testing]
+    Include = /etc/pacman.d/mirrorlist
     EOF
     ```
 
@@ -76,10 +80,10 @@ See https://github.com/yuk7/ArchWSL
 0.  Backup `/etc/pacman.d/mirrorlist`:
     ```
     cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
-    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
-      >>/etc/pacman.d/mirrorlist
-    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ \
-      >>/etc/pacman.d/mirrorlist
+    ## Run only one of these!!!
+    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}'     /etc/pacman.d/mirrorlist~ >>/etc/pacman.d/mirrorlist
+    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ >>/etc/pacman.d/mirrorlist
+    awk '/^## China$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}'         /etc/pacman.d/mirrorlist~ >>/etc/pacman.d/mirrorlist
     ```
 
     ```
