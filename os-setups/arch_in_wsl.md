@@ -66,8 +66,8 @@ See https://github.com/yuk7/ArchWSL
     [staging]
     Include = /etc/pacman.d/mirrorlist
 
-    [extra-testing]
-    Include = /etc/pacman.d/mirrorlist
+    #[extra-testing]
+    #Include = /etc/pacman.d/mirrorlist
     EOF
     ```
 
@@ -97,18 +97,41 @@ See https://github.com/yuk7/ArchWSL
     pacman-key --populate
     # pacman-key --populate archlinuxarm
 
-    pacman -Syu
     gpgconf --kill all
     ```
 
-    Update mirrors with [`reflector`](https://wiki.archlinux.org/title/Reflector), and then rank mirrors with [`rankmirrors`](https://wiki.archlinux.org/title/Mirrors#List_by_speed), by
+    Update and rate mirrors with [`reflector`](https://wiki.archlinux.org/title/Reflector)
     ```
     pacman -S reflector
     TMP=`mktemp`
-    reflector --sort score -p http,https -c "United States" --save "$TMP" --verbose --connection-timeout 1 --download-timeout 1
 
-    pacman -S pacman-contrib
-    rankmirrors -v $TMP | tee /etc/pacman.d/mirrorlist
+    reflector --sort rate -p http,https -c "United States,China," --save "$TMP" --verbose --connection-timeout 1 -n 4
+    cp "$TMP" /etc/pacman.d/mirrorlist
+    ```
+    ```
+    pacman -Syu
+    ```
+    
+0.  Add new user:
+    1.  Add:
+        1.  admin user: `groupadd sudo; useradd -G sudo -m $USERNAME`
+        2.  normal user: `useradd -m $USERNAME`
+
+    2.  Set password: `passwd $USERNAME`
+
+    3.  Set default login user: `printf "\n[user]\ndefault=$USERNAME\n" >> /etc/wsl.conf`
+
+    4.  Allow non-root user to `ping`
+        ```sh
+        echo 'net.ipv4.ping_group_range=0 2147483647' >>/etc/sysctl.conf && sysctl -p
+        ```
+
+0.  Install `yay` (or `paru`):
+    ```
+    cd `mktemp -d`
+    curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin
+    pacman -S binutils fakeroot
+    sudo -u jerryc05 makepkg -si
     ```
 
 0.  *Optional:* Set password for `root` user: `passwd`
@@ -149,7 +172,7 @@ See https://github.com/yuk7/ArchWSL
 0.  Get `sudo`:
     1.  `pacman -S sudo`
     2.  Edit `/etc/sudoers`, uncomment the `# %sudo ALL=(ALL) ALL` and save:
-        ```
+        ```sh
         sed -i "s/^# %sudo$(printf '\t')ALL/%sudo$(printf '\t')ALL/" /etc/sudoers
         ```
         or uncomment below to allow any user to run sudo if they know the password:
@@ -216,25 +239,3 @@ See https://github.com/yuk7/ArchWSL
         sed -i "s/PKGEXT='.pkg.tar.zst'/PKGEXT='.pkg.tar.xz'/" /etc/makepkg.conf
         sed -i "s/SRCEXT='.src.tar.gz'/SRCEXT='.src.tar.xz'/"  /etc/makepkg.conf
         ```
-
-0.  Add new user:
-    1.  Add:
-        1.  admin user: `groupadd sudo; useradd -G sudo -m $USERNAME`
-        2.  normal user: `useradd -m $USERNAME`
-
-    2.  Set password: `passwd $USERNAME`
-
-    3.  Set default login user: `printf "\n[user]\ndefault=$whoami\n" >> /etc/wsl.conf`
-
-0.  Allow non-root user to `ping`
-    ```
-    echo 'net.ipv4.ping_group_range=0 2147483647' >>/etc/sysctl.conf && sysctl -p
-    ```
-
-0.  Login with user other than `root` and install `yay` (or `paru`):
-    ```
-    cd `mktemp -d`
-    curl -JOL https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay-bin
-    sudo pacman -S binutils
-    makepkg -si
-    ```
