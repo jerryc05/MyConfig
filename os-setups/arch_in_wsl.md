@@ -52,6 +52,7 @@ See https://github.com/yuk7/ArchWSL
     sed -i -z 's/#\[community-testing]\n#/[community-testing]\n/' /etc/pacman.conf
 
     cat <<EOF >>/etc/pacman.conf
+
     [kde-unstable]
     Include = /etc/pacman.d/mirrorlist
 
