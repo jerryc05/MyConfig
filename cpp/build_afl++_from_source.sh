@@ -12,6 +12,7 @@ build() {
     export LLVM_CONFIG=$(which llvm-config)
     export BIN_PATH=$(dirname $LLVM_CONFIG)
 
+    make clean
     make NO_NYX=1 -j$(nproc) source-only  #cc=
 
     cat <<EOF
