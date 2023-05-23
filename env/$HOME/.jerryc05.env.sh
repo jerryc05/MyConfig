@@ -4,8 +4,10 @@
 [ -d "$HOME/bin" ]        && export PATH="$HOME/bin:$PATH"
 [ -d "$HOME/.local/bin" ] && export PATH="$HOME/.local/bin:$PATH"
 
+
 # Cargo
 [ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+
 
 # LLVM Clang for Mac
 if [[ "$OSTYPE" == "darwin"* ]] && [ -d "$(brew --prefix llvm)" ]; then
@@ -13,6 +15,14 @@ if [[ "$OSTYPE" == "darwin"* ]] && [ -d "$(brew --prefix llvm)" ]; then
       __lib="-L$(brew --prefix llvm)/lib"     && { [[ ! "$LFDLAGS"  == *"$__lib"*     ]] && export  LDFLAGS="$LDFLAGS $__lib";      unset __lib;}
   __include="-I$(brew --prefix llvm)/include" && { [[ ! "$CPPFLAGS" == *"$__include"* ]] && export CPPFLAGS="$CPPFLAGS $__include"; unset __include;}
 fi
+
+
+# Arch's CUDA
+if [ -d /opt/cuda ]; then
+  export PATH=$PATH:/opt/cuda/bin
+  export CPATH=/opt/cuda/include:$CPATH 
+fi
+
 
 # VSCode's LLVM tools
 USR_DIRS=''
@@ -75,6 +85,7 @@ fi
 test "${XDG_CONFIG_HOME:="$HOME/.config"}"
 test "${XDG_DATA_HOME:="$HOME/.local/share"}"
 
+
 # Zsh tweaks
 if [ -n "$ZSH_VERSION" ]; then
   # Fix button functionality for zsh
@@ -90,19 +101,21 @@ if [ -n "$ZSH_VERSION" ]; then
 fi
 
 
+# VSCode
 command -v code          &>/dev/null && export VISUAL=code
 command -v code-insiders &>/dev/null && export VISUAL=code-insiders
 export MAKEFLAGS="-j$(nproc)"
 
-# # gnu utils from brew
-# PATH="$(fd -IL -t d gnubin "$(brew --prefix)/opt" | tr '\n' ':' ):$PATH"
 
+## gnu utils from brew
+#PATH="$(fd -IL -t d gnubin "$(brew --prefix)/opt" | tr '\n' ':' ):$PATH"
+
+
+# CMake
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
-
 command -v ninja &>/dev/null && export CMAKE_GENERATOR=Ninja
 #command -v ccache &>/dev/null && export CMAKE_CXX_COMPILER_LAUNCHER=ccache
 command -v lld &>/dev/null && export FLAGS="-fuse-ld=lld $FLAGS"
-
 
 
 # Collect flags
@@ -118,7 +131,6 @@ LDFLAGS="-Wl,--sort-common,--as-needed $LDFLAGS"
 
 ## DEBUGINFOD_URLS
 export DEBUGINFOD_URLS="https://debuginfod.archlinux.org https://mirrors.cloud.tencent.com/archlinuxcn"
-
 
 
 ## WSL2 uses CFW
