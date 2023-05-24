@@ -31,6 +31,8 @@ if command -v makepkg &>/dev/null; then
     pkgrel=1
     arch=(any)
     provides=('openmpi=$__VERSION')
+    depends=(make)
+    optdepends=(gcc)
 EOF
     (cd $_TMPDIR && makepkg -si)
 fi
