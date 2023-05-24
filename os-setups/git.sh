@@ -15,9 +15,9 @@ git config --global help.autoCorrect  prompt
 #git config --global core.sshcommand "C:/Windows/System32/OpenSSH/ssh.exe"
 #  [core.sshcommand] will be overridden by [GIT_SSH_COMMAND] env var
 
-if { [ "$(uname)" = "Linux" ] && [ "$(git config --get  credential.helper)" = '' ] ; }; then
-  git config --global credential.helper store
-fi
+# if { [ "$(uname)" = "Linux" ] && [ "$(git config --get credential.helper)" = '' ] ; }; then
+#   git config --global credential.helper store
+# fi
 
 # Changes that might change behavior
 git config --global push.autoSetupRemote  true
