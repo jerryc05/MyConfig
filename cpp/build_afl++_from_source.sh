@@ -13,8 +13,8 @@ build() {
     export BIN_PATH=$(dirname $LLVM_CONFIG)
 
     make clean
-    # make NO_NYX=1 -j$(nproc) source-only  #cc=
-    make -j$(nproc) all
+    # make NO_NYX=1 -j$(nproc) source-only  #CC=g++
+    make -j$(nproc) all  #CC=g++
 
     cat <<EOF
 ===== You should see the following output some where in the middle: ====
