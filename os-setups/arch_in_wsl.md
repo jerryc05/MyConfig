@@ -32,7 +32,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Launch `Arch Linux`
 
-0.  Fix `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link` (the terminal needs to be exactly `cmd` and needs admin permission)
+0.  Fix `/usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link` (Run a `cmd` with admin permission, must be `cmd`!）
     ```
     C:
     cd C:\Windows\System32\lxss\lib
@@ -80,10 +80,14 @@ See https://github.com/yuk7/ArchWSL
 0.  Backup `/etc/pacman.d/mirrorlist`:
     ```
     cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist~
-    ## Run only one of these!!!
-    awk '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}'     /etc/pacman.d/mirrorlist~ >>/etc/pacman.d/mirrorlist
-    awk '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist~ >>/etc/pacman.d/mirrorlist
-    awk '/^## China$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}'         /etc/pacman.d/mirrorlist~ >>/etc/pacman.d/mirrorlist
+    gawk -i inplace '/^## Worldwide$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist
+    gawk -i inplace '/^## United States$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist
+    gawk -i inplace '/^## China$/{f=1; next}f==0{next}/^$/{exit}{print substr($0, 2);}' /etc/pacman.d/mirrorlist
+
+    #while IFS="" read -r line || [ -n "$line" ]
+    #do
+    #printf '%s\n' "$p"
+    #done </etc/pacman.d/mirrorlist
     ```
 
     ```
@@ -91,10 +95,9 @@ See https://github.com/yuk7/ArchWSL
 
     # KEYRING=`mktemp` && curl -L https://github.com/archlinuxarm/archlinuxarm-keyring/raw/master/archlinuxarm.gpg -o $KEYRING && pacman-key --add $KEYRING && pacman-key --lsign-key builder@archlinuxarm.org
 
-    pacman -Sy archlinux-keyring
-    # pacman -Sy archlinuxarm-keyring
+    pacman-key --init
 
-    pacman-key --populate
+    pacman-key --populate archlinux
     # pacman-key --populate archlinuxarm
 
     gpgconf --kill all
@@ -104,12 +107,23 @@ See https://github.com/yuk7/ArchWSL
     ```
     pacman -S reflector
     TMP=`mktemp`
-
     reflector --sort rate -p http,https -c "United States,China," --save "$TMP" --verbose --connection-timeout 1 -n 4
     cp "$TMP" /etc/pacman.d/mirrorlist
     ```
     ```
     pacman -Syu
+    ```
+
+0.  archlinuxcn
+    ```sh
+    cat <<EOF >>/etc/pacman.conf
+
+    [archlinuxcn]
+    Server = https://mirrors.aliyun.com/archlinuxcn/\$arch
+    EOF
+
+    pacman -Sy archlinuxcn-keyring
+    pacman-key --populate archlinuxcn
     ```
     
 0.  Add new user:
@@ -187,7 +201,7 @@ See https://github.com/yuk7/ArchWSL
 
 0.  Setup performance optimizations
     -   Filesystem
-        ```
+        ```sh
         echo 'ALL ALL=(ALL) NOPASSWD: /etc/mount_root_optim.sh' >/etc/sudoers.d/mount_root_optim
         printf '#!/bin/sh\nmount -o remount,lazytime,noatime /' >/etc/mount_root_optim.sh
         printf 'mount -o remount,commit=60,barrier=0 /'        >>/etc/mount_root_optim.sh  # Only for Ext4
@@ -195,7 +209,7 @@ See https://github.com/yuk7/ArchWSL
         chmod +x /etc/mount_root_optim.sh
         echo 'sudo /etc/mount_root_optim.sh' >/etc/profile.d/mount_root_optim.sh
 
-        ROOT_DEVICE=$(findmnt -n -o SOURCE /||df /|head -2|tail -1|cut -d ' ' -f1)
+        ROOT_DEVICE=$(findmnt -n -o SOURCE / || df / | head -2 | tail -1 | cut -d ' ' -f1)
         tune2fs -O "^has_journal"         $ROOT_DEVICE  # Only for Ext4
         tune2fs -o journal_data_writeback $ROOT_DEVICE  # Only for Ext4
         tune2fs -o discard                $ROOT_DEVICE;mount -o remount,discard /  # Only for SSD
