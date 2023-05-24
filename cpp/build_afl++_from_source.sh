@@ -38,7 +38,7 @@ pkgver=$__VERSION
 pkgrel=1
 arch=(any)
 provides=('aflplusplus=$__VERSION')
-depends=(llvm which make diffutils python)
+depends=(llvm lld which make diffutils python)
 optdepends=(openmp clang)
 EOF
         (cd $_TMPDIR && makepkg -si)
