@@ -2,8 +2,9 @@
 ```sh
 wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.5.tar.bz2
 tar -xf openmpi-4.1.5.tar.bz2
-cd ompi-4.1.5
+cd openmpi-4.1.5
 ```
+
 
 # Install
 ```sh
@@ -19,10 +20,13 @@ export CPATH=\$MPI_HOME/../include:\$CPATH
 export LIBRARY_PATH=\$MPI_HOME/../lib:\$LIBRARY_PATH 
 
 EOF
+```
 
-export __VERSION=$(grep '#define OMPI_VERSION' ./ompi/include/ompi/version.h | grep -oE '[0-9.]+')
 
 # Arch Linux
+```sh
+export __VERSION=$(grep '#define OMPI_VERSION' ./ompi/include/ompi/version.h | grep -oE '[0-9.]+')
+
 if command -v makepkg &>/dev/null; then
     export _TMPDIR=$(mktemp -d)
     cat <<EOF >"$_TMPDIR/PKGBUILD"
