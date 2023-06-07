@@ -64,13 +64,12 @@ elif command -v socat >/dev/null 2>&1 && grep -qEi "(Microsoft|WSL)" /proc/versi
   fi
 
 else
-  if command -v ssh-agent >/dev/null 2>&1 && command -v ssh-add >/dev/null 2>&1; then
-    ssh-add -l >/dev/null 2>&1
+  if command -v ssh-agent &>/dev/null && command -v ssh-add &>/dev/null; then
+    ssh-add -l &>/dev/null
     if [ $? -eq 2 ]; then
       export SSH_AUTH_SOCK=$(cat "$DOT_SSH"/.SSH_AUTH_SOCK 2>/dev/null)
       export SSH_AGENT_PID=$(cat "$DOT_SSH"/.SSH_AGENT_PID 2>/dev/null)
-
-      ssh-add -l >/dev/null 2>&1
+      ssh-add -l &>/dev/null
       if [ $? -eq 2 ]; then
         eval "$(ssh-agent)" >/dev/null
         echo "$SSH_AUTH_SOCK" >"$DOT_SSH"/.SSH_AUTH_SOCK
