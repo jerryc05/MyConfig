@@ -23,7 +23,9 @@
       "@/*": [ // check vite.config.ts => resolve => alias
         "src/*"
       ]
-    }
+    },
+    "jsxImportSource": "solid-js",
+    "types": ["vite/client"]
   },
   "include": [
     "src/**/*.ts",
