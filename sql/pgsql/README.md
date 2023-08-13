@@ -6,9 +6,6 @@
     wal_compression = zstd
 
 
-    wal_level = minimal
-
-
     listen_addresses = '*'
     ```
 0.  Change password of user `postgres`:
@@ -28,3 +25,5 @@
     ```sql
     SELECT pg_reload_conf();
     ```
+    or restart:
+    sudo systemctl restart postgresql
