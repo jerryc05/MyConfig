@@ -6,6 +6,7 @@
     wal_compression = zstd
 
     listen_addresses = '*'
+    # port = 5432
 
     # If don't want WAL replication/archive/streaming
     max_wal_senders = 0
@@ -18,8 +19,11 @@
     ```sql
     \password postgres
     ```
-0.  Change auth method to password in `pg_hba.conf`:
+0.  Change auth method to password in `pg_hba.conf` (prepend text!):
     ```conf            
+    # Allow password login from local
+    local   all             all                                     scram-sha-256
+
     # Allow WAN connections
     host    all             all             0.0.0.0/0               scram-sha-256
     host    all             all             ::/0                    scram-sha-256
