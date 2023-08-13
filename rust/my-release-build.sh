@@ -1,0 +1,1 @@
+RUSTFLAGS="$RUSTFLAGS -C opt-level=3 -C inline-threshold=1000 -C target-cpu=native -C debug-assertions=false -C overflow-checks=false -C lto=true -C incremental=true -C codegen-units=256" cargo build --timings

@@ -24,7 +24,7 @@ panic = 'abort'
 rustflags = [
   '-Cinline-threshold=1000',
   '-Ctarget-cpu=native',
-  '-Zmutable-noalias',
+  # '-Zmutable-noalias',  # Buggy in older versions, let compiler choose it (https://github.com/rust-lang/rust/issues/84958)
 
   '-Clink-arg=-fuse-ld=lld', # requires lld from clang
   '-Clinker-plugin-lto',
