@@ -6,7 +6,7 @@
 
 
 # Cargo
-[ -d "$HOME/.cargo/bin" ] && export PATH="$HOME/.cargo/bin:$PATH"
+[ -d "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 
 # LLVM Clang for Mac
