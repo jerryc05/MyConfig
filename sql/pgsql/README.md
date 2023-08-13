@@ -5,8 +5,11 @@
     synchronous_commit = off 
     wal_compression = zstd
 
-
     listen_addresses = '*'
+
+    # If don't want WAL replication/archive/streaming
+    max_wal_senders = 0
+    wal_level = minimal
     ```
 0.  Change password of user `postgres`:
     ```sh
@@ -26,4 +29,6 @@
     SELECT pg_reload_conf();
     ```
     or restart:
+    ```sh
     sudo systemctl restart postgresql
+    ```
