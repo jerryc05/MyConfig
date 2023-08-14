@@ -1,7 +1,7 @@
 -- ONCE
 pragma synchronous = off;      -- off | normal | full; use [normal] when serious
 pragma journal_mode = memory;  -- off | memory | persist | truncate | wal | delete; use [wal] when serious
-PRAGMA wal_autocheckpoint = 10;   -- default is 1000
+PRAGMA wal_autocheckpoint = 100;   -- default is 1000
 pragma temp_store = memory;
 pragma auto_vacuum = incremental;
 pragma mmap_size = 17179869184; -- 16 GiB
