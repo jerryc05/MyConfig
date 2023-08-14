@@ -1,5 +1,6 @@
 ## Before build
 ```sh
+# Ubuntu/Debian
 sudo apt install pkg-config libudev-dev libpam0g
 ```
 
