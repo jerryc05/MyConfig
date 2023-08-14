@@ -4,6 +4,10 @@
 sudo apt install pkg-config libudev-dev libpam0g
 ```
 
+## Building (server)
+0.  Goto `server/daemon`
+0.  Built it!
+
 ## After build (server)
 0.  Goto `server/`
 0.  Create directory `./bin/data/` (or any other name), and go into `./bin/`
@@ -51,12 +55,16 @@ sudo apt install pkg-config libudev-dev libpam0g
     EOF
     ```
 
-### Start
+### Start (server)
 ```sh
 sudo systemctl enable kanidmd 
 sudo systemctl start kanidmd
 systemctl status kanidmd
 ```
+
+## Building (client)
+0.  Goto `tools/cli`
+0.  Built it!
 
 ## After build (client)
 ```sh
