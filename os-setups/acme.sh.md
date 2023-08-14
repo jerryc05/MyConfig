@@ -13,3 +13,8 @@ export CF_Token=""
 ```sh
 ./acme.sh --install-cronjob
 ```
+
+## Install
+```sh
+./acme.sh --install-cert -d jerryc05.icu --cert-file ~/cert.pem --fullchain-file ~/fullchain.pem --key-file ~/key.pem
+```
