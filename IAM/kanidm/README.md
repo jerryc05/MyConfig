@@ -5,9 +5,19 @@ sudo apt install pkg-config libudev-dev libpam0g
 ```
 
 ## After build
-0.  Create directory `./data/`
+0.  Goto `server/`
+0.  Create directory `./bin/data/` (or any other name), and go into `./bin/`
+0.  Symlink `kanidmd` here
 0.  Copy `examples/server.toml` to `./data/`
-0.  Edit `./server.toml`:
+0.  Directory looks like:
+    ```
+    $ tree
+    .
+    ├── data
+    │   └── server.toml
+    └── kanidmd -> ../../target/x86_64-unknown-linux-gnu/release/kanidmd
+    ```
+0.  Edit `./data/server.toml`:
     ```toml
     bindaddress = "[::]:8443"
     trust_x_forward_for = true
@@ -25,3 +35,8 @@ sudo apt install pkg-config libudev-dev libpam0g
     ```sh
     ./kanidmd configtest -c ./data/server.toml
     ```
+
+## Start
+```sh
+./kanidmd server -c ./data/server.toml
+```
