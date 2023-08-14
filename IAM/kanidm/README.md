@@ -51,7 +51,7 @@ sudo apt install pkg-config libudev-dev libpam0g
     EOF
     ```
 
-### Start (start)
+### Start
 ```sh
 sudo systemctl enable kanidmd 
 sudo systemctl start kanidmd
