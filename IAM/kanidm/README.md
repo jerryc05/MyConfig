@@ -5,7 +5,7 @@ sudo apt install pkg-config libudev-dev libpam0g
 ```
 
 ## After build
-0.  Create directory `data`
+0.  Create directory `./data/`
 0.  Copy `examples/server.toml` to `./data/`
 0.  Edit `./server.toml`:
     ```toml
