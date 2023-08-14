@@ -35,8 +35,23 @@ sudo apt install pkg-config libudev-dev libpam0g
     ```sh
     ./kanidmd configtest -c ./data/server.toml
     ```
+0.  Systemd:
+    ```sh
+    SYSTEMD_DIR_='/etc/systemd/system'
+    sudo mkdir -p $SYSTEMD_DIR_/kanidmd.service.d/
+    sudo cp ../../examples/systemd/kanidmd.service $SYSTEMD_DIR_/
+    cat <<EOF | sudo tee $SYSTEMD_DIR_/kanidmd.service.d/override.conf
+    [Service]
+    ExecStart=
+    ExecStart="$(pwd)/kanidmd" server -c "$(pwd)/data/server.toml"
+    RestartSec=1s
+    WorkingDirectory=$(pwd)
+    EOF
+    ```
 
 ## Start
 ```sh
-./kanidmd server -c ./data/server.toml
+sudo systemctl enable kanidmd 
+sudo systemctl start kanidmd
+systemctl status kanidmd
 ```
