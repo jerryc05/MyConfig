@@ -4,7 +4,7 @@
 sudo apt install pkg-config libudev-dev libpam0g
 ```
 
-## After build
+## After build (server)
 0.  Goto `server/`
 0.  Create directory `./bin/data/` (or any other name), and go into `./bin/`
 0.  Symlink `kanidmd` here
@@ -51,9 +51,17 @@ sudo apt install pkg-config libudev-dev libpam0g
     EOF
     ```
 
-## Start
+### Start (start)
 ```sh
 sudo systemctl enable kanidmd 
 sudo systemctl start kanidmd
 systemctl status kanidmd
+```
+
+## After build (client)
+```sh
+cat <<EOF >~/.config/kanidm
+uri="https://[::1]:????"
+verify_ca = false
+EOF
 ```
