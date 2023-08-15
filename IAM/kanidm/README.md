@@ -9,7 +9,7 @@ sudo apt install pkg-config libudev-dev libpam0g
 0.  Built it!
 
 ## After build (server)
-0.  Goto `server/`
+0.  Goto `server/` ###########!!!!!!!!!!!!CHANGE_THIS!!!!!WIP!!!!!!!
 0.  Create directory `./bin/data/` (or any other name), and go into `./bin/`
 0.  Symlink `kanidmd` here
 0.  Copy `examples/server.toml` to `./data/`
