@@ -3,7 +3,11 @@
 0.  Install `golang`, `pnpm`
 
 ## Building
-Refer to https://www.authelia.com/contributing/development/build-and-test/
+-   Refer to https://www.authelia.com/contributing/development/build-and-test/
+-   As per https://github.com/authelia/authelia/discussions/5800#discussioncomment-6695585, copy `api/` to `internal/server/public_html/`
+-   ```sh
+    CGO_ENABLED=1 CGO_CPPFLAGS="-Ofast -march=native" CGO_LDFLAGS="-Wl,-z,relro,-z,now" go build -ldflags "-linkmode=external -s -w" -trimpath -buildmode=pie -o authelia ./cmd/authelia
+    ```
 
 ## After build
 
