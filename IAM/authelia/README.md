@@ -1,3 +1,6 @@
+## Prebuilt binary (skip building)
+https://buildkite.com/authelia/authelia/
+
 ## Before build
 0.  Clone from `https://github.com/authelia/authelia`, and go into it
 0.  Install `golang`, `pnpm`
