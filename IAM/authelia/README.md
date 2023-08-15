@@ -88,7 +88,7 @@ cat <<EOF | sudo tee $SYSTEMD_DIR_/authelia.service.d/override.conf
 [Service]
 ExecStart=
 ExecStart="$(pwd)/authelia" --config "$(pwd)/configuration.yml"
-WorkingDirectory="$(pwd)"
+WorkingDirectory="$(pwd)/"
 DynamicUser=no
 User=$(whoami)
 EOF
