@@ -13,8 +13,9 @@ https://buildkite.com/authelia/authelia/
     ```
 
 ## After build
-
 ```sh
+EXAMPLE_COM='example.com'  # repelace `example.com` before using it!
+
 # Refer to  config.template.yml
 cat <<EOF >./configuration.yml
 theme: 'auto'
@@ -28,13 +29,13 @@ server:
 log:
   level: 'debug'
 totp:
-  issuer: '????example.com???'
+  issuer: '${EXAMPLE_COM}'
 authentication_backend:
   file:
     path: './__users.yml'
     watch: true
 webauthn:
-  display_name: '????example.com???'
+  display_name: '${EXAMPLE_COM}'
 #duo_api:  # do not define this to disable Duo
 password_policy:
   zxcvbn:
@@ -48,19 +49,17 @@ access_control:
   default_policy: 'deny'
   rules:
     - domain:
-      #- '*.jerryc05.icu'
-      #- jerryc05.icu
-      - auth.jerryc05.icu
-      policy: one_factor
+      - auth.${EXAMPLE_COM}
+      policy: bypass
     - domain:
-      - auth2.jerryc05.icu
-      policy: two_factor 
+      - '*.${EXAMPLE_COM}'
+      policy: one_factor  # two_factor
 session:
   secret: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
-  name: 'sso_sess'
+  name: '_auth'
   cookies:
-    - name: 'sso_sess'
-      domain: '?????example.com'
+    - name: '_auth'
+      domain: '${EXAMPLE_COM}'
 storage:
   encryption_key: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
   local:
