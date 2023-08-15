@@ -6,7 +6,7 @@ set -eou pipefail
 sudo apt install git mercurial cmake libunwind-dev libpcre3-dev || \
 sudo pacman -S   git mercurial cmake libunwind        pcre
 
-[ -z "$FLAGS" ] && echo "Run [`git root`/os/build_flags.sh] first!" && exit 1
+[ -z "$FLAGS" ] && echo "Run build_flags.sh first!" && exit 1
 
 ZLIB_NG_DIR="`pwd`/zlib-ng"
 (
