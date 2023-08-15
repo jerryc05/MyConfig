@@ -122,8 +122,10 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   --with-stream_ssl_preread_module \
   --with-stream_quic_module \
   --with-compat \
-  --add-dynamic-module="$NGX_BROTLI_DIR" \
-  --add-dynamic-module="$HEADERS_MORE_DIR"
+  --add-module="$NGX_BROTLI_DIR" \
+  --add-module="$HEADERS_MORE_DIR" \
+  --add-module="../ngx_devel_kit" \
+  --add-module="../set-misc-nginx-module" 
 
   make
   make modules
