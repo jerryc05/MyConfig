@@ -77,7 +77,7 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   REPO_NAME='nginx-quic'
 
   # Clone/update `nginx-quic`
-  [ -d "$REPO_NAME" ] || hg clone -b quic "https://hg.nginx.org/$REPO_NAME"
+  [ -d "$REPO_NAME" ] || hg clone -b default "https://hg.nginx.org/$REPO_NAME"
   cd "$REPO_NAME"
   hg update --clean -v
 
