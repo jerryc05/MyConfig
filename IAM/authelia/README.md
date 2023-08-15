@@ -44,9 +44,13 @@ access_control:
   default_policy: 'deny'
   rules:
     - domain:
-      - '*.????example.com'
-      - ????example.com
+      #- '*.jerryc05.icu'
+      #- jerryc05.icu
+      - auth.jerryc05.icu
       policy: one_factor
+    - domain:
+      - auth2.jerryc05.icu
+      policy: two_factor 
 session:
   name: 'sso_sess'
   cookies:
