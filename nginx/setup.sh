@@ -8,7 +8,7 @@ sudo pacman -S   git mercurial cmake libunwind        pcre
 
 [ -z "$FLAGS" ] && echo "Run build_flags.sh first!" && exit 1
 
-ZLIB_NG_DIR="`pwd`/zlib-ng"
+ZLIB_NG_DIR="$(pwd)/zlib-ng"
 (
   # Clone/update `zlib-ng`
   [ -d "$ZLIB_NG_DIR" ] || git clone --depth=1 https://github.com/zlib-ng/zlib-ng.git "$ZLIB_NG_DIR"
@@ -21,7 +21,7 @@ ZLIB_NG_DIR="`pwd`/zlib-ng"
   cmake --build build --config=Release
 )
 
-# BORINGSSL_DIR="`pwd`/boringssl"
+# BORINGSSL_DIR="$(pwd)/boringssl"
 # (
 #   # Clone/update `BoringSSL`
 #   [ -d "$BORINGSSL_DIR" ] || git clone --depth=1 https://github.com/google/boringssl.git "$BORINGSSL_DIR"
@@ -34,7 +34,7 @@ ZLIB_NG_DIR="`pwd`/zlib-ng"
 #   cmake --build build
 # )
 
-QUICTLS_DIR="`pwd`/quictls"
+QUICTLS_DIR="$(pwd)/quictls"
 (
   # Clone/update `quictls`
   [ -d "$QUICTLS_DIR" ] || git clone --depth=1 https://github.com/quictls/openssl.git "$QUICTLS_DIR"
@@ -53,7 +53,7 @@ QUICTLS_DIR="`pwd`/quictls"
   make
 )
 
-NGX_BROTLI_DIR="`pwd`/ngx_brotli"
+NGX_BROTLI_DIR="$(pwd)/ngx_brotli"
 (
   # Clone/update `ngx_brotli`
   [ -d "$NGX_BROTLI_DIR" ] || git clone --depth=1 https://github.com/google/ngx_brotli.git "$NGX_BROTLI_DIR"
@@ -63,7 +63,7 @@ NGX_BROTLI_DIR="`pwd`/ngx_brotli"
   git submodule update --init --depth=1
 )
 
-HEADERS_MORE_DIR="`pwd`/headers-more"
+HEADERS_MORE_DIR="$(pwd)/headers-more"
 (
   # Clone/update `ngx_brotli`
   [ -d "$HEADERS_MORE_DIR" ] || git clone --depth=1 https://github.com/openresty/headers-more-nginx-module.git "$HEADERS_MORE_DIR"
@@ -72,6 +72,23 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   git reset --hard origin/HEAD
   git submodule update --init --depth=1
 )
+
+NGX_DEVEL_KIT_DIR="$(pwd)/ngx_devel_kit"
+(
+  [ -d "$NGX_DEVEL_KIT_DIR" ] || git clone --depth 1 https://github.com/vision5/ngx_devel_kit.git "$NGX_DEVEL_KIT_DIR"
+  cd "$NGX_DEVEL_KIT_DIR"
+  git fetch --depth=1
+  git reset --hard origin/HEAD
+)
+
+SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
+(
+  [ -d "$SET_MISC_NGINX_MODULE" ] || git clone --depth 1 https://github.com/openresty/set-misc-nginx-module.git "$SET_MISC_NGINX_MODULE"
+  cd "$SET_MISC_NGINX_MODULE"
+  git fetch --depth=1
+  git reset --hard origin/HEAD
+)
+
 
 (
   REPO_NAME='nginx-quic'
@@ -124,8 +141,8 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   --with-compat \
   --add-module="$NGX_BROTLI_DIR" \
   --add-module="$HEADERS_MORE_DIR" \
-  --add-module="../ngx_devel_kit" \
-  --add-module="../set-misc-nginx-module" 
+  --add-module="$NGX_DEVEL_KIT_DIR" \
+  --add-module="$SET_MISC_NGINX_MODULE" 
 
   make
   make modules
