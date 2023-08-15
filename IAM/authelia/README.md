@@ -21,7 +21,7 @@ cat <<EOF >./configuration.yml
 theme: 'auto'
 jwt_secret: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
 server:
-  address: ':8443'
+  address: ':8443'  # './__unix.sock'
   disable_healthcheck: true
   tls:
     key: '???'
