@@ -1,11 +1,9 @@
 ## Before build
 0.  Clone from `https://github.com/authelia/authelia`, and go into it
-0.  Install `golang`
+0.  Install `golang`, `pnpm`
 
 ## Building
--   ```sh
-    go build -o authelia cmd/authelia/*.go
-    ```
+Refer to https://www.authelia.com/contributing/development/build-and-test/
 
 ## After build
 
