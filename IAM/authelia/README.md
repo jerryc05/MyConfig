@@ -29,6 +29,7 @@ totp:
 authentication_backend:
   file:
     path: './__users.yml'
+    watch: true
 webauthn:
   display_name: '????example.com???'
 #duo_api:  # do not define this to disable Duo
