@@ -49,7 +49,7 @@ sudo apt install pkg-config libudev-dev libpam0g
     ExecStart=
     ExecStart="$(pwd)/kanidmd" server -c "$(pwd)/data/server.toml"
     RestartSec=1s
-    WorkingDirectory=$(pwd)
+    WorkingDirectory="$(pwd)"
     DynamicUser=no
     User=$(whoami)
     EOF
