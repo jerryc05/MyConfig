@@ -26,7 +26,7 @@ totp:
   issuer: '????example.com???'
 authentication_backend:
   file:
-    path: './config_auth_backend.yml'
+    path: './__users.yml'
 webauthn:
   display_name: '????example.com???'
 #duo_api:  # do not define this to disable Duo
@@ -54,17 +54,20 @@ session:
 storage:
   encryption_key: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
   local:
-    path: ./config_db.sqlite3
+    path: ./__db.sqlite3
 notifier:
   filesystem:
-    filename: ./config_notification.txt
+    filename: ./__notification.txt
 #  smtp:
 #identity_providers:
 #  oidc:
 #    hmac_secret: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
 
-
 EOF
+```
+Validate config:
+```sh
+./authelia validate-config --config ./configuration.yml
 ```
 
 ### Systemd
