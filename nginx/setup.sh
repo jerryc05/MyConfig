@@ -96,14 +96,13 @@ HEADERS_MORE_DIR="`pwd`/headers-more"
   sed -i 's/= *\w\+BAD_REQUEST *;/=NGX_HTTP_CLOSE;/g' src/http/ngx_http_core_module.c
 
   # Build `nginx-quic`
-  PREFIX_PATH='/etc/nginx'
-  SBIN_PATH='/usr/local/sbin/nginx'
-  MODULE_PATH="$PREFIX_PATH/modules"
+  PREFIX_PATH="$(pwd)"  #'/etc/nginx'
+  SBIN_PATH="$PREFIX_PATH/sbin/nginx"
   ./auto/configure \
   --prefix="$PREFIX_PATH" \
   --sbin-path=$SBIN_PATH \
-  --modules-path="$MODULE_PATH" \
-  --conf-path='/etc/nginx/nginx.conf' \
+  --modules-path="$PREFIX_PATH/modules" \
+  --conf-path="$PREFIX_PATH/nginx.conf" \
   --with-cc-opt="-I$TLS_LIB/include $LINK_ARG $FLAGS" \
   --with-ld-opt="-L$TLS_LIB -L$TLS_LIB/build/ssl -L$TLS_LIB/build/crypto $LINK_ARG" \
   --with-threads \
