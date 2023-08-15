@@ -53,11 +53,11 @@ access_control:
       - auth2.jerryc05.icu
       policy: two_factor 
 session:
+  secret: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
   name: 'sso_sess'
   cookies:
     - name: 'sso_sess'
       domain: '?????example.com'
-      authelia_url: 'https://auth.??????example.com'
 storage:
   encryption_key: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
   local:
