@@ -147,8 +147,7 @@ SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
   #--with-http_v3_module \
   #--with-stream_quic_module \
 
-  make
-  make modules
+  make install
   sudo make install
 
   # setcap
