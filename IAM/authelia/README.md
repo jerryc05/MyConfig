@@ -100,3 +100,6 @@ sudo systemctl enable authelia
 sudo systemctl start authelia
 systemctl status authelia
 ```
+
+### Nginx
+see `nginx/` in this repo
