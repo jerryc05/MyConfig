@@ -3,8 +3,8 @@
 set -eou pipefail
 
 # Install `git`, `mercurial`, `cmake`, `libunwind`, `pcre`
-sudo apt install git mercurial cmake libunwind-dev libpcre3-dev || \
-sudo pacman -S   git mercurial cmake libunwind        pcre
+sudo apt install git mercurial cmake libunwind-dev libpcre3-dev zlib1g-dev || \
+sudo pacman -S   git mercurial cmake libunwind        pcre.     zlib
 
 [ -z "$FLAGS" ] && echo "Run build_flags.sh first!" && exit 1
 
@@ -138,7 +138,6 @@ SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
   --with-stream_ssl_preread_module \
   --with-stream_quic_module \
   --with-compat \
-  --with-zlib=$ZLIB_NG_DIR \
   --add-module="$NGX_BROTLI_DIR" \
   --add-module="$HEADERS_MORE_DIR" \
   --add-module="$NGX_DEVEL_KIT_DIR" \
