@@ -49,11 +49,11 @@ access_control:
   default_policy: 'deny'
   rules:
     - domain:
-      - auth.${EXAMPLE_COM}
+      - sso.${EXAMPLE_COM}
       policy: bypass
-    - domain:
-      - '*.${EXAMPLE_COM}'
-      policy: one_factor  # two_factor
+    # - domain:
+    #   - '*.${EXAMPLE_COM}'
+    #   policy: one_factor  # two_factor
 session:
   secret: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
   name: '_auth'
