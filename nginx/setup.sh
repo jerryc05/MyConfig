@@ -130,7 +130,6 @@ SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
   --with-http_v3_module \
   --with-http_gzip_static_module \
   --with-http_degradation_module \
-  --without-http_gzip_module \
   --without-http_auth_basic_module \
   --without-http_autoindex_module \
   --with-stream=dynamic \
@@ -139,6 +138,7 @@ SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
   --with-stream_ssl_preread_module \
   --with-stream_quic_module \
   --with-compat \
+  --with-zlib=$ZLIB_NG_DIR \
   --add-module="$NGX_BROTLI_DIR" \
   --add-module="$HEADERS_MORE_DIR" \
   --add-module="$NGX_DEVEL_KIT_DIR" \
