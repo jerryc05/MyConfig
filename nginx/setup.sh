@@ -8,50 +8,50 @@ sudo pacman -S   git mercurial cmake libunwind        pcre.     zlib
 
 [ -z "$FLAGS" ] && echo "Run build_flags.sh first!" && exit 1
 
-ZLIB_NG_DIR="$(pwd)/zlib-ng"
-(
-  # Clone/update `zlib-ng`
-  [ -d "$ZLIB_NG_DIR" ] || git clone --depth=1 https://github.com/zlib-ng/zlib-ng.git "$ZLIB_NG_DIR"
-  cd "$ZLIB_NG_DIR"
-  git fetch --depth=1
-  git reset --hard origin/HEAD
-
-  # Build `zlib-ng`
-  cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE="$FLAGS" -DCMAKE_BUILD_TYPE=Release -DZLIB_ENABLE_TESTS=OFF -DWITH_NATIVE_INSTRUCTIONS=ON
-  cmake --build build --config=Release
-)
-
-# BORINGSSL_DIR="$(pwd)/boringssl"
+# ZLIB_NG_DIR="$(pwd)/zlib-ng"
 # (
-#   # Clone/update `BoringSSL`
-#   [ -d "$BORINGSSL_DIR" ] || git clone --depth=1 https://github.com/google/boringssl.git "$BORINGSSL_DIR"
-#   cd "$BORINGSSL_DIR"
+#   # Clone/update `zlib-ng`
+#   [ -d "$ZLIB_NG_DIR" ] || git clone --depth=1 https://github.com/zlib-ng/zlib-ng.git "$ZLIB_NG_DIR"
+#   cd "$ZLIB_NG_DIR"
 #   git fetch --depth=1
 #   git reset --hard origin/HEAD
 
-#   # Build `BoringSSL`
-#   cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE="$FLAGS" -DCMAKE_BUILD_TYPE=Release
-#   cmake --build build
+#   # Build `zlib-ng`
+#   cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE="$FLAGS" -DCMAKE_BUILD_TYPE=Release -DZLIB_ENABLE_TESTS=OFF -DWITH_NATIVE_INSTRUCTIONS=ON
+#   cmake --build build --config=Release
 # )
 
-QUICTLS_DIR="$(pwd)/quictls"
-(
-  # Clone/update `quictls`
-  [ -d "$QUICTLS_DIR" ] || git clone --depth=1 https://github.com/quictls/openssl.git "$QUICTLS_DIR"
-  cd "$QUICTLS_DIR"
-  git fetch --depth=1
-  git reset --hard origin/HEAD
-  git submodule update --init --depth=1
+# # BORINGSSL_DIR="$(pwd)/boringssl"
+# # (
+# #   # Clone/update `BoringSSL`
+# #   [ -d "$BORINGSSL_DIR" ] || git clone --depth=1 https://github.com/google/boringssl.git "$BORINGSSL_DIR"
+# #   cd "$BORINGSSL_DIR"
+# #   git fetch --depth=1
+# #   git reset --hard origin/HEAD
 
-  # Build `quictls`
-  ./Configure \
-  --release \
-  --with-zlib-lib="$ZLIB_NG_DIR/build" \
-  enable-ktls enable-ec_nistp_64_gcc_128 \
-  no-ssl no-tls1-method no-tls1_1-method no-dtls1-method
+# #   # Build `BoringSSL`
+# #   cmake -S. -Bbuild -DCMAKE_CXX_FLAGS_RELEASE="$FLAGS" -DCMAKE_BUILD_TYPE=Release
+# #   cmake --build build
+# # )
 
-  make
-)
+# QUICTLS_DIR="$(pwd)/quictls"
+# (
+#   # Clone/update `quictls`
+#   [ -d "$QUICTLS_DIR" ] || git clone --depth=1 https://github.com/quictls/openssl.git "$QUICTLS_DIR"
+#   cd "$QUICTLS_DIR"
+#   git fetch --depth=1
+#   git reset --hard origin/HEAD
+#   git submodule update --init --depth=1
+
+#   # Build `quictls`
+#   ./Configure \
+#   --release \
+#   --with-zlib-lib="$ZLIB_NG_DIR/build" \
+#   enable-ktls enable-ec_nistp_64_gcc_128 \
+#   no-ssl no-tls1-method no-tls1_1-method no-dtls1-method
+
+#   make
+# )
 
 NGX_BROTLI_DIR="$(pwd)/ngx_brotli"
 (
@@ -120,28 +120,32 @@ SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
   --sbin-path="$SBIN_PATH" \
   --modules-path="$PREFIX_PATH/modules" \
   --conf-path="$PREFIX_PATH/nginx.conf" \
-  --with-cc-opt="-I$TLS_LIB/include $LINK_ARG $FLAGS" \
-  --with-ld-opt="-L$TLS_LIB -L$TLS_LIB/build/ssl -L$TLS_LIB/build/crypto $LINK_ARG" \
+  --with-cc-opt="$LINK_ARG $FLAGS" \
+  --with-ld-opt="$LINK_ARG" \
   --with-threads \
   --with-file-aio \
   --with-http_realip_module \
   --with-http_ssl_module \
   --with-http_v2_module \
-  --with-http_v3_module \
   --with-http_gzip_static_module \
   --with-http_degradation_module \
+  --with-http_auth_request_module \
   --without-http_auth_basic_module \
   --without-http_autoindex_module \
   --with-stream=dynamic \
   --with-stream_ssl_module \
   --with-stream_realip_module \
   --with-stream_ssl_preread_module \
-  --with-stream_quic_module \
   --with-compat \
   --add-module="$NGX_BROTLI_DIR" \
   --add-module="$HEADERS_MORE_DIR" \
   --add-module="$NGX_DEVEL_KIT_DIR" \
   --add-module="$SET_MISC_NGINX_MODULE" 
+  
+  # --with-cc-opt="-I$TLS_LIB/include $LINK_ARG $FLAGS" \
+  # --with-ld-opt="-L$TLS_LIB -L$TLS_LIB/build/ssl -L$TLS_LIB/build/crypto $LINK_ARG" \
+  #--with-http_v3_module \
+  #--with-stream_quic_module \
 
   make
   make modules
