@@ -21,7 +21,7 @@ cat <<EOF >./configuration.yml
 theme: 'auto'
 jwt_secret: '$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
 server:
-  address: ':8443'  # './__unix.sock'
+  address: ':8443'  # '$(pwd)/__unix.sock'
   disable_healthcheck: true
   tls:
     key: '???'
@@ -82,15 +82,20 @@ Validate config:
 ### Systemd
 ```sh
 SYSTEMD_DIR_='/etc/systemd/system'
-sudo mkdir -p $SYSTEMD_DIR_/authelia.service.d/
-sudo cp ./authelia.service $SYSTEMD_DIR_/
-cat <<EOF | sudo tee $SYSTEMD_DIR_/authelia.service.d/override.conf
+sudo tee $SYSTEMD_DIR_/authelia.service <<EOF
+[Unit]
+Description=Authelia authentication and authorization server
+After=multi-user.target
+
 [Service]
-ExecStart=
+Environment=AUTHELIA_SERVER_DISABLE_HEALTHCHECK=true
 ExecStart="$(pwd)/authelia" --config "$(pwd)/configuration.yml"
-WorkingDirectory="$(pwd)/"
-DynamicUser=no
+WorkingDirectory=$(pwd)
 User=$(whoami)
+Group=$(whoami)
+
+[Install]
+WantedBy=multi-user.target
 EOF
 ```
 

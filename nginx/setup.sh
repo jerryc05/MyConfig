@@ -162,13 +162,13 @@ ExecStartPre="$SBIN_PATH" -t
 ExecStart="$SBIN_PATH"
 ExecReload="$SBIN_PATH" -s reload
 ExecStop="$SBIN_PATH" -s stop
-WorkingDirectory="$(pwd)"
+WorkingDirectory=$(pwd)
 PrivateTmp=true
 
 # Only enable when not running as root
 User=$(whoami)
+Group=$(whoami)
 ProtectSystem=full
-ProtectHome=read-only
 
 [Install]
 WantedBy=multi-user.target
