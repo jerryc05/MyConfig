@@ -16,5 +16,5 @@ export CF_Token=""
 
 ## Install
 ```sh
-./acme.sh --install-cert -d jerryc05.icu --cert-file ~/cert.pem --fullchain-file ~/fullchain.pem --key-file ~/key.pem
+./acme.sh --install-cert -d ??????? --cert-file ~/cert.pem --fullchain-file ~/fullchain.pem --key-file ~/key.pem --ca-file ~/ca.pem
 ```
