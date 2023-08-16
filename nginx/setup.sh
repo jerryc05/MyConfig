@@ -117,7 +117,7 @@ SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
   SBIN_PATH="$PREFIX_PATH/sbin/nginx"
   ./auto/configure \
   --prefix="$PREFIX_PATH" \
-  --sbin-path=$SBIN_PATH \
+  --sbin-path="$SBIN_PATH" \
   --modules-path="$PREFIX_PATH/modules" \
   --conf-path="$PREFIX_PATH/nginx.conf" \
   --with-cc-opt="-I$TLS_LIB/include $LINK_ARG $FLAGS" \
@@ -148,6 +148,9 @@ SET_MISC_NGINX_MODULE="$(pwd)/set-misc-nginx-module"
   make modules
   sudo make install
 
+  # setcap
+  sudo setcap CAP_NET_BIND_SERVICE=+eip "$SBIN_PATH"
+
   sudo tee /etc/systemd/system/nginx.service <<EOF
 [Unit]
 Description=The NGINX HTTP and reverse proxy server
@@ -155,10 +158,18 @@ After=network-online.target remote-fs.target nss-lookup.target
 Wants=network-online.target
 
 [Service]
-ExecStartPre=$SBIN_PATH -t
-ExecStart=$SBIN_PATH
-ExecReload=$SBIN_PATH -s reload
-ExecStop=$SBIN_PATH -s stop
+#Type=forking  # If daemon_off, then Type=simple (default)
+ExecStartPre="$SBIN_PATH" -t
+ExecStart="$SBIN_PATH"
+ExecReload="$SBIN_PATH" -s reload
+ExecStop="$SBIN_PATH" -s stop
+WorkingDirectory="$(pwd)"
+PrivateTmp=true
+
+# Only enable when not running as root
+User=$(whoami)
+ProtectSystem=full
+ProtectHome=read-only
 
 [Install]
 WantedBy=multi-user.target
