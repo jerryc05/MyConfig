@@ -1,12 +1,20 @@
-dsn: sqlite://./__dsn.sqlite3  #memory
+dsn: sqlite://./__dsn.sqlite3?_fk=true&mode=rwc&_vacuum=incremental&_journal=wal&_sync=normal  #memory
 
 serve:
   public:
     base_url: http://127.0.0.1:4433/
     cors:
       enabled: true
+      allowed_origins:
+        - http://127.0.0.1
+        - https://jerryc05.icu
+        - https://*.jerryc05.icu
+      allowed_methods:
+        - POST
+      max_age: 300
+      debug: true
   admin:
-    base_url: http://kratos:4434/
+    base_url: http://127.0.0.1:4434/
     host: 127.0.0.1
 
 selfservice:
@@ -50,8 +58,7 @@ selfservice:
       after:
         password:
           hooks:
-            -
-              hook: session
+            - hook: session
 
 log:
   level: debug
@@ -59,13 +66,16 @@ log:
   leak_sensitive_values: true
 
 secrets:
-  cookie:
-    - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+  #cookie:
+  #  - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
+  default:
+    - #  TODO: 'echo $(head /dev/urandom | tr -dc A-Za-z0-9 | head -c64)'
 
 hashers:
+  algorithm: argon2
   argon2:
     #parallelism: 1
-    #memory: 128MB
+    memory: 4MB  #128MB
     #iterations: 2
     #salt_length: 16
     #key_length: 16
@@ -87,16 +97,11 @@ courier:
 
 
 cookies:
-  same_site: Strict
+  domain: "jerryc05.icu"
 
-  ## HTTP Cookie Domain ##
-  #
-  # Sets the cookie domain for session and CSRF cookies. Useful when dealing with subdomains. Use with care!
-  #
-  # Set this value using environment variables on
-  # - Linux/macOS:
-  #    $ export COOKIES_DOMAIN=<value>
-  # - Windows Command Line (CMD):
-  #    > set COOKIES_DOMAIN=<value>
-  #
-  domain: ""
+session:
+  cookie:
+    name: "sso_sess"
+  whoami:
+    required_aal: aal1
+sqa-opt-out: false
