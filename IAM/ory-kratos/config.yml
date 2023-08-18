@@ -75,21 +75,21 @@ hashers:
   algorithm: argon2
   argon2:
     #parallelism: 1
-    memory: 4MB  #128MB
+    memory: 4MB  #128MB （default）is much safer but slow
     #iterations: 2
     #salt_length: 16
     #key_length: 16
-    expected_duration: 0ms
-    expected_deviation: 0ms
+    expected_duration: 0ms  # 500m is much safer but slow
+    expected_deviation: 0ms  # 500m is much safer but slow
 
 identity:
   schemas:
     - id: default
       url: file://stub/identity.schema.json
 
-courier:
-  smtp:
-    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
+#courier:
+#  smtp:
+#    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
 
 
 
@@ -104,4 +104,5 @@ session:
     name: "sso_sess"
   whoami:
     required_aal: aal1
+
 sqa-opt-out: false
