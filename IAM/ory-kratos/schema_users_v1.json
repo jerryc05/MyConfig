@@ -1,0 +1,10 @@
+{
+    id: "6e9d3d30-f93e-4630-901f-c2096953723d",
+    traits: {
+      username: "some-username",
+      name: {
+        first: "Foo",
+        last: "Bar",
+      },
+    },
+}
