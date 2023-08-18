@@ -1,4 +1,4 @@
-dsn: memory
+dsn: sqlite://./__dsn.sqlite3  #memory
 
 serve:
   public:
@@ -64,11 +64,13 @@ secrets:
 
 hashers:
   argon2:
-    parallelism: 1
-    memory: 128MB
-    iterations: 2
-    salt_length: 16
-    key_length: 16
+    #parallelism: 1
+    #memory: 128MB
+    #iterations: 2
+    #salt_length: 16
+    #key_length: 16
+    expected_duration: 0ms
+    expected_deviation: 0ms
 
 identity:
   schemas:
@@ -78,3 +80,23 @@ identity:
 courier:
   smtp:
     connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
+
+
+
+
+
+
+cookies:
+  same_site: Strict
+
+  ## HTTP Cookie Domain ##
+  #
+  # Sets the cookie domain for session and CSRF cookies. Useful when dealing with subdomains. Use with care!
+  #
+  # Set this value using environment variables on
+  # - Linux/macOS:
+  #    $ export COOKIES_DOMAIN=<value>
+  # - Windows Command Line (CMD):
+  #    > set COOKIES_DOMAIN=<value>
+  #
+  domain: ""
