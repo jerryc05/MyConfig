@@ -5,6 +5,6 @@
       name: {
         first: "Foo",
         last: "Bar",
-      },
     },
+  },
 }
