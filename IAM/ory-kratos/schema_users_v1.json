@@ -1,10 +1,23 @@
 {
-    id: "6e9d3d30-f93e-4630-901f-c2096953723d",
-    traits: {
-      username: "some-username",
-      name: {
-        first: "Foo",
-        last: "Bar",
-    },
-  },
+  "$id": "schema_users_v1.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Person",
+  "type": "object",
+  "properties": {
+    "traits": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "ory.sh/kratos": {
+            "credentials": {
+              "password": {
+                "identifier": true
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
