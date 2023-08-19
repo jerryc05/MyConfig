@@ -6,6 +6,7 @@
       "type": "object",
       "properties": {
         "username": {
+          "title": "Username",
           "type": "string",
           "minLength": 3,
           "maxLength": 20,
@@ -17,10 +18,25 @@
               }
             }
           }
+        },
+        "name": {
+          "type": "object",
+          "properties": {
+            "first": {
+              "title": "First name",
+              "type": "string"
+            },
+            "last": {
+              "title": "Last name",
+              "type": "string"
+            }
+          }
         }
       }
     }
   },
-  "required": ["username"],
+  "required": [
+    "username"
+  ],
   "additionalProperties": false
 }
