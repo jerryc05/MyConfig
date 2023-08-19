@@ -27,5 +27,5 @@ EOF
 
 # Before start
 ```sh
-./kratos migrate sql 'PATH_TO_SQL_URI_WITH_PARAM' -c config.yml
+./kratos migrate sql 'SQL_URI_WITH_PARAM' -c config.yml
 ```

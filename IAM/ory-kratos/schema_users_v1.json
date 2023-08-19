@@ -1,7 +1,5 @@
 {
   "$id": "schema_users_v1.json",
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Person",
   "type": "object",
   "properties": {
     "traits": {

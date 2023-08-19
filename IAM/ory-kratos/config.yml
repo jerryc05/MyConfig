@@ -110,4 +110,4 @@ session:
   whoami:
     required_aal: aal1
 
-sqa-opt-out: false
+sqa-opt-out: true
