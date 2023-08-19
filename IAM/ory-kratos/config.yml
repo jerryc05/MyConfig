@@ -92,9 +92,9 @@ identity:
       url: file://./schema_users_v1.json
   default_schema_id: users_v1
 
-#courier:
-#  smtp:
-#    connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
+courier:
+ smtp:
+   connection_uri: smtps://  #test:test@mailslurper:1025/?skip_ssl_verify=true&legacy_ssl=true
 
 
 
