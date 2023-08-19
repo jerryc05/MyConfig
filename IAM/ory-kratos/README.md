@@ -6,6 +6,16 @@ https://github.com/ory/kratos/releases
 wget https://github.com/ory/kratos/raw/master/cmd/serve/stub/kratos.yml
 ```
 
+# Before start
+```sh
+./kratos migrate sql 'SQL_URI_WITH_PARAM' -c config.yml
+```
+
+# Test
+```sh
+./kratos serve -c ./config.yml --sqa-opt-out --dev
+```
+
 # Systemd
 ```sh
 SYSTEMD_DIR_='/etc/systemd/system'
@@ -15,7 +25,8 @@ Description=Kratos Service
 After=network.target
 
 [Service]
-ExecStart="$(pwd)/authelia" --config "$(pwd)/configuration.yml"
+ExecStart="$(pwd)/kratos" serve -c "$(pwd)/config.yml" --sqa-opt-out
+
 WorkingDirectory=$(pwd)
 User=$(whoami)
 Group=$(whoami)
@@ -23,9 +34,4 @@ Group=$(whoami)
 [Install]
 WantedBy=multi-user.target
 EOF
-```
-
-# Before start
-```sh
-./kratos migrate sql 'SQL_URI_WITH_PARAM' -c config.yml
 ```
