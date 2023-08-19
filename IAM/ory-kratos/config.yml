@@ -84,7 +84,7 @@ hashers:
 
 identity:
   schemas:
-    #- id: user_type_v0  # deprecated, keep for compatibility
+    #- id: user_type_v0  # if deprecated, keep it for compatibility 
     #  url: file://somewhere
     - id: users_v1
       url: file://./schema_users_v1.json
