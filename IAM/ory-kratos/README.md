@@ -16,6 +16,10 @@ wget https://github.com/ory/kratos/raw/master/cmd/serve/stub/kratos.yml
 ./kratos serve -c ./config.yml --sqa-opt-out --dev
 ```
 
+# Reference UI
+- Admin: https://github.com/dfoxg/kratos-admin-ui
+- Self-service: https://github.com/ory/kratos-selfservice-ui-node
+
 # Systemd
 ```sh
 SYSTEMD_DIR_='/etc/systemd/system'
