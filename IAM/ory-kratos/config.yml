@@ -24,6 +24,22 @@ selfservice:
 
   methods:
     password:
+      config:
+        min_password_length: 6
+      enabled: true
+    totp:
+      config:
+        issuer: "jerryc05.icu"
+      enabled: true
+    lookup_secret:
+      enabled: true
+    webauthn:
+      config:
+        rp:
+          id: jerryc05.icu
+          display_name: Jerryc05's Website
+          icon: https://jerryc05.icu/favicon.ico
+        passwordless: false
       enabled: true
 
   flows:
