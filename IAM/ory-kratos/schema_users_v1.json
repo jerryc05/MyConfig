@@ -38,11 +38,11 @@
             }
           }
         }
-      }
+      },
+      "required": [
+        "username"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "username"
-  ],
-  "additionalProperties": false
+  }
 }
