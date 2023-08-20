@@ -23,7 +23,7 @@ wget https://github.com/ory/kratos/raw/master/cmd/serve/stub/kratos.yml
 # Systemd
 ```sh
 SYSTEMD_DIR_='/etc/systemd/system'
-sudo tee $SYSTEMD_DIR_/authelia.service <<EOF
+sudo tee $SYSTEMD_DIR_/ory-kratos.service <<EOF
 [Unit]
 Description=Kratos Service
 After=network.target
