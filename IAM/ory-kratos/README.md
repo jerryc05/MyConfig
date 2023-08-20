@@ -13,6 +13,7 @@ wget https://github.com/ory/kratos/raw/master/cmd/serve/stub/kratos.yml
 
 # Test
 ```sh
+export SERVE_PUBLIC_CORS_DEBUG=true
 ./kratos serve -c ./config.yml --sqa-opt-out --dev
 ```
 
