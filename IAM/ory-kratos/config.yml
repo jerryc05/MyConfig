@@ -26,6 +26,8 @@ selfservice:
     password:
       config:
         min_password_length: 6
+        max_breaches: 100
+        identifier_similarity_check_enabled: false
       enabled: true
     totp:
       config:
