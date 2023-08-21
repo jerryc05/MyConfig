@@ -3,6 +3,7 @@ dsn: sqlite://./__dsn.sqlite3?_fk=true&mode=rwc&_vacuum=incremental&_journal=wal
 serve:
   public:
     base_url: https://sso.jerryc05.icu/
+    host: 127.0.0.1
     port: 4433
     cors:
       enabled: true
@@ -12,7 +13,7 @@ serve:
         - https://*.jerryc05.icu
       max_age: 300
   admin:
-    base_url: http://admin.jerryc05.icu/
+    base_url: http://127.0.0.1:4434/
     host: 127.0.0.1
     port: 4434
 
