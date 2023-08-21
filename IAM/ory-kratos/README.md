@@ -14,6 +14,8 @@ wget https://github.com/ory/kratos/raw/master/cmd/serve/stub/kratos.yml
 # Test
 ```sh
 export SERVE_PUBLIC_CORS_DEBUG=true
+export LOG_LEAK_SENSITIVE_VALUES=true
+export LOG_LEVEL=debug
 ./kratos serve -c ./config.yml --sqa-opt-out --dev
 ```
 
