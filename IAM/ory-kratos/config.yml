@@ -20,7 +20,8 @@ serve:
 selfservice:
   default_browser_return_url: https://sso.jerryc05.icu/
   allowed_return_urls:
-    - https://sso.jerryc05.icu
+    - https://jerryc05.icu
+    - https://*.jerryc05.icu
 
   methods:
     password:
