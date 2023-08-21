@@ -2,7 +2,7 @@ dsn: sqlite://./__dsn.sqlite3?_fk=true&mode=rwc&_vacuum=incremental&_journal=wal
 
 serve:
   public:
-    base_url: http://127.0.0.1:4433/
+    base_url: https://sso.jerryc05.icu/
     port: 4433
     cors:
       enabled: true
@@ -12,14 +12,14 @@ serve:
         - https://*.jerryc05.icu
       max_age: 300
   admin:
-    base_url: http://127.0.0.1:4434/
+    base_url: http://admin.jerryc05.icu/
     host: 127.0.0.1
     port: 4434
 
 selfservice:
-  default_browser_return_url: http://127.0.0.1:4455/
+  default_browser_return_url: https://sso.jerryc05.icu/
   allowed_return_urls:
-    - http://127.0.0.1:4455
+    - https://sso.jerryc05.icu
 
   methods:
     password:
@@ -45,33 +45,33 @@ selfservice:
 
   flows:
     error:
-      ui_url: http://127.0.0.1:4455/error
+      ui_url: https://sso.jerryc05.icu/error
 
     settings:
-      ui_url: http://127.0.0.1:4455/settings
+      ui_url: https://sso.jerryc05.icu/settings
       privileged_session_max_age: 15m
 
     recovery:
       enabled: true
-      ui_url: http://127.0.0.1:4455/recovery
+      ui_url: https://sso.jerryc05.icu/recovery
 
     verification:
       enabled: true
-      ui_url: http://127.0.0.1:4455/verification
+      ui_url: https://sso.jerryc05.icu/verification
       after:
-        default_browser_return_url: http://127.0.0.1:4455/
+        default_browser_return_url: https://sso.jerryc05.icu/
 
     logout:
       after:
-        default_browser_return_url: http://127.0.0.1:4455/login
+        default_browser_return_url: https://sso.jerryc05.icu/login
 
     login:
-      ui_url: http://127.0.0.1:4455/login
+      ui_url: https://sso.jerryc05.icu/login
       lifespan: 10m
 
     registration:
       lifespan: 10m
-      ui_url: http://127.0.0.1:4455/registration
+      ui_url: https://sso.jerryc05.icu/registration
       after:
         password:
           hooks:
