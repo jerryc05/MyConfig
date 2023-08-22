@@ -105,8 +105,6 @@ identity:
     #  url: file://somewhere
     - id: users_v1
       url: file://./schema_users_v1.json
-    - id: admins_v1
-      url: file://./schema_users_v1.json
   default_schema_id: users_v1
 
 courier:
