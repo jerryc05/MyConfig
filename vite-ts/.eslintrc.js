@@ -111,6 +111,9 @@ const react = includeJsx({
 const solidjs = includeJsx({
   extends: ['plugin:solid/typescript'],
   plugins: ['solid'],
+  rules: {
+    'solid/event-handlers': 'error',
+  },
 })
 
 /** @type {import('eslint').Linter.Config} */
