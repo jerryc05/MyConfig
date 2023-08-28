@@ -13,10 +13,7 @@
     "lib": [
       "ESNext",
       "DOM",
-      "DOM.Iterable",
-      "WebWorker",
-      "WebWorker.ImportScripts",
-      "Webworker.Iterable"
+      "DOM.Iterable"
     ],
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,

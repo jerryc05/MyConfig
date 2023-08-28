@@ -35,7 +35,7 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
 
     opt = content["compilerOptions"]
-    opt["lib"] = ["ESNext", "DOM", "DOM.Iterable","WebWorker","WebWorker.ImportScripts","Webworker.Iterable"]
+    opt["lib"] = ["ESNext", "DOM", "DOM.Iterable"]
     opt["forceConsistentCasingInFileNames"] = True
     opt["plugins"] = opt.get("plugins", []) + [
         {
