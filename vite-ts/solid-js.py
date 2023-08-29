@@ -50,6 +50,7 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     opt["resolveJsonModule"] = True
     opt["skipLibCheck"] = True
     opt["useDefineForClassFields"] = True
+    opt["removeComments"] = True
 
     opt["baseUrl"] = "./"
     opt["paths"] = {

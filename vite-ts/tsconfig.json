@@ -25,6 +25,7 @@
       ]
     },
     "jsxImportSource": "solid-js",
+    "removeComments": true,
     "types": ["vite/client"]
   },
   "include": [
