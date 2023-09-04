@@ -1,4 +1,4 @@
 MAKEFLAGS="$MAKEFLAGS -j $(nproc)"
-FLAGS='-DNDEBUG -Ofast -march=native -Werror=vla-parameter -w -Wfatal-errors'
-export CFLAGS="$CFLAGS $FLAGS -std=c2x"
-export CXXFLAGS="$CXXFLAGS $FLAGS -std=gnu++20"
+export CPPFLAGS="$CPPFLAGS -DNDEBUG -Ofast -march=native -Werror=vla-parameter -w -Wfatal-errors"
+export CFLAGS="$CFLAGS -std=c2x"
+export CXXFLAGS="$CXXFLAGS -std=gnu++20"
