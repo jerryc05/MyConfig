@@ -32,16 +32,16 @@ command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio $* | cpio -iduv; }
 # Show hidden files in iFinder
 [[ "$OSTYPE" == "darwin"* ]] && defaults write com.apple.finder AppleShowAllFiles YES
 
-# More helpful tar/untar (DO NOT QUOTE $*)
+# More helpful tar/untar
 if command -v tar >/dev/null; then
   xtar() {
-    str="XZ_OPT=-9 tar acvf $*"
-    echo "$str\n===================\n"
+    str="XZ_OPT=-9 tar acf $*"
+    echo -e "$str\n===================\n"
     eval "$str"
   }
   xuntar() {
-    str="tar xvf $*"
-    echo "$str\n=======\n"
+    str="tar xf $*"
+    echo -e "$str\n=======\n"
     eval "$str"
   }
 fi
