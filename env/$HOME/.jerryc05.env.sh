@@ -114,14 +114,11 @@ export MAKEFLAGS="-j$(nproc)"
 export CMAKE_EXPORT_COMPILE_COMMANDS=ON
 command -v ninja &>/dev/null && export CMAKE_GENERATOR=Ninja
 #command -v ccache &>/dev/null && export CMAKE_CXX_COMPILER_LAUNCHER=ccache
-command -v lld &>/dev/null && export FLAGS="-fuse-ld=lld $FLAGS"
+command -v lld &>/dev/null && export CPPFLAGS="-fuse-ld=lld $CPPFLAGS"
 
 
 # Collect flags
-CFLAGS="$FLAGS $CFLAGS"
-CXXFLAGS="$FLAGS $CXXFLAGS"
-
-DEBUG_FLAGS="-g -D_FORTIFY_SOURCE=3 -D-D_GLIBCXX_ASSERTIONS=1 -D_GLIBCXX_DEBUG=1 -fstack-protector-strong -fstack-clash-protection -fcf-protection -Wl,-z,defs -Wl,-z,now -Wl,-z,relro"
+DEBUG_FLAGS="-g3 -ftrapv -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS=1 -D_GLIBCXX_DEBUG=1 -fstack-protector-strong -fstack-clash-protection -fcf-protection -Wl,-z,defs -Wl,-z,now -Wl,-z,relro"
 RELEASE_FLAGS='-Ofast -march=native -fno-plt -fomit-frame-pointer'
 
 LDFLAGS="-Wl,--sort-common,--as-needed $LDFLAGS"
