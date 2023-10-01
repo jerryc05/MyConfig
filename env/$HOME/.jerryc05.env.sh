@@ -121,6 +121,8 @@ command -v lld &>/dev/null && export CPPFLAGS="-fuse-ld=lld $CPPFLAGS"
 DEBUG_FLAGS="-g3 -ftrapv -D_FORTIFY_SOURCE=3 -D_GLIBCXX_ASSERTIONS=1 -D_GLIBCXX_DEBUG=1 -fstack-protector-strong -fstack-clash-protection -fcf-protection -Wl,-z,defs -Wl,-z,now -Wl,-z,relro"
 RELEASE_FLAGS='-Ofast -march=native -fno-plt -fomit-frame-pointer'
 
+CFLAGS="$CPPFLAGS"
+CXXFLAGS="$CPPFLAGS"  # cmake won't pick up CPPFLAGS
 LDFLAGS="-Wl,--sort-common,--as-needed $LDFLAGS"
 
 
