@@ -5,7 +5,7 @@ BasedOnStyle: Chromium
 
 AlignAfterOpenBracket: Align
 AlignArrayOfStructures: Left  # clang-format 13
-AlignConsecutiveAssignments: AcrossComments
+#AlignConsecutiveAssignments: AcrossComments
 AlignConsecutiveBitFields: AcrossComments
 #AlignConsecutiveDeclarations: AcrossComments
 AlignConsecutiveMacros: AcrossComments
