@@ -2,6 +2,8 @@
 ```sql
 SET PERSIST slow_query_log  = 1;
 SET PERSIST long_query_time = .5;
+
+SET PERSIST performance_schema = 1;
 ```
 
 ## Common config
