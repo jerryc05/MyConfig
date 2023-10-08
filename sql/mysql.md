@@ -1,9 +1,10 @@
 ## For profiling, do not leave them on in prod
 ```sql
-SET PERSIST slow_query_log  = 1;
+SET PERSIST slow_query_log  = ON;
 SET PERSIST long_query_time = .5;
 
-SET PERSIST performance_schema = 1;
+SET PERSIST performance_schema = ON;
+-- SET PERSIST performance_schema = ON; -- Turn off for better performance
 ```
 
 ## Common config
@@ -15,4 +16,13 @@ SET PERSIST character_set_results    = 'utf8mb4';
 SET PERSIST character_set_server     = 'utf8mb4'; 
 
 SET PERSIST innodb_buffer_pool_size = 536870912; -- 50%~75% system memory
+```
+
+## Trade consistency for speed
+```sql
+-- 1 (default): flush to disk on every commit. Use it for critical transactions like money. 
+-- 2: flush to page cache only on every commit. Use it for non-critical transactions.
+SET PERSIST innodb_flush_log_at_trx_commit = 2;
+
+SET PERSIST innodb_use_fdatasync = ON;
 ```
