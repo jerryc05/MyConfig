@@ -1,18 +1,18 @@
-## Every connection
-```sql
-
-```
-
-## One time
+## For profiling, do not leave them on in prod
 ```sql
 SET PERSIST slow_query_log  = 1;
 SET PERSIST long_query_time = .5;
 SET PERSIST log_queries_not_using_indexes=1;  
 SET PERSIST log_throttle_queries_not_using_indexes=10;
+```
 
+## Common config
+```sql
 SET PERSIST character_set_client     = 'utf8mb4';
 SET PERSIST character_set_connection = 'utf8mb4';
 SET PERSIST character_set_database   = 'utf8mb4'; 
 SET PERSIST character_set_results    = 'utf8mb4';
 SET PERSIST character_set_server     = 'utf8mb4'; 
+
+SET PERSIST innodb_buffer_pool_size = 536870912; -- 50%~75% system memory
 ```
