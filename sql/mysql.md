@@ -21,8 +21,8 @@ SET PERSIST innodb_buffer_pool_size = 536870912; -- 50%~75% system memory
 ## Trade consistency for speed
 ```sql
 -- 1 (default): flush to disk on every commit. Use it for critical transactions like money. 
--- 2: flush to page cache only on every commit. Use it for non-critical transactions.
-SET PERSIST innodb_flush_log_at_trx_commit = 2;
+-- 0: flush to page cache only every second. Use it for non-critical transactions.
+SET PERSIST innodb_flush_log_at_trx_commit = 0;
 
 SET PERSIST innodb_use_fdatasync = ON;
 ```
