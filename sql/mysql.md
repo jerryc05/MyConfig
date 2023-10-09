@@ -16,6 +16,8 @@ SET PERSIST character_set_results    = 'utf8mb4';
 SET PERSIST character_set_server     = 'utf8mb4'; 
 
 SET PERSIST innodb_buffer_pool_size = 536870912; -- 50%~75% system memory
+
+SET PERSIST sql_safe_updates = 1;
 ```
 
 ## Trade consistency for speed
