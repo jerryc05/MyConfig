@@ -18,7 +18,6 @@ SET PERSIST character_set_server     = 'utf8mb4';
 SET PERSIST innodb_buffer_pool_size = 536870912; -- 50%~75% system memory
 
 SET PERSIST sql_safe_updates = 1;
-SET PERSIST binlog_format    = 'MIXED';
 ```
 
 ## Trade consistency for speed
@@ -28,4 +27,8 @@ SET PERSIST binlog_format    = 'MIXED';
 SET PERSIST innodb_flush_log_at_trx_commit = 0;
 
 SET PERSIST innodb_use_fdatasync = ON;
+
+SET GLOBAL  TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED;
+SET PERSIST binlog_format    = 'ROW'; -- RC isolation level with STATEMENT will cause inconsistency
 ```
