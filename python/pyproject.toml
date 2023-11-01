@@ -1,11 +1,11 @@
 # ===== INSTALL =====
 # `npm i -g pyright`  # or search for Pylance VSCode extension
-# `pip install -U black pylint isort`
+# `pip install -U ruff`
 # ===== HOW TO USE IN TERMINAL (or just use vscode instead) =====
 # ```
-# isort .;black .;
+# ruff check .   # Lint all files in the current directory.
+# ruff format .  # Format all files in the current directory.
 # pyright
-# find . -name "*.py"|xargs pylint
 # ```
 
 
@@ -26,48 +26,33 @@ reportUnusedFunction = 'none'
 reportPrivateUsage = 'warning'
 
 
-# linting
-[tool.pylint.format]
-max-line-length = 95 # Also remember to change this in [black]
-
-[tool.pylint.message_control]
-disable = [
-  # 'bad-continuation',           # C0330, suggested by [black], recently removed
-  # 'bad-whitespace',             # C0326, suggested by [black], recently removed
-  'import-outside-toplevel',
-  'invalid-name',               # Requires snake case of at least 3 characters
-  'missing-class-docstring',
-  'missing-function-docstring',
-  'missing-module-docstring',
-  'no-member',
-  'not-an-iterable',            # False positive
-  'too-few-public-methods',
-  'too-many-ancestors',
-  'too-many-arguments',
-  'too-many-boolean-expressions',
-  'too-many-branches',
-  'too-many-instance-attributes',
-  'too-many-locals',
-  'too-many-public-methods',
-  'too-many-return-statements',
-  'too-many-statements',
-  'too-many-lines',
-  'too-many-nested-blocks',
-  'unused-import'
-]
+# ruff
+[tool.ruff]
+# Same as Black.
+line-length = 100
+indent-width = 4
 
 
-
-# code formatter
-[tool.black]
+[tool.ruff.lint]
 preview = true
-#skip-string-normalization = true
 
-line-length = 95 # Also remember to change this in [pylint]
+ignore = ["E741"]
 
-#fast = true
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
 
 
-# import sorting
-[tool.isort]
-profile = "black"
+[tool.ruff.format]
+preview = true
+
+# Like Black, use double quotes for strings.
+quote-style = "single"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
