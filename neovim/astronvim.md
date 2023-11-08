@@ -28,18 +28,36 @@ return {
   --{ import = "astrocommunity.pack.rust" },
 }
 EOF
+
+
+mkdir -p ~/.config/nvim/lua/user/plugins/
+
+cat <<EOF >~/.config/nvim/lua/user/plugins/todo-comments.lua
+return {
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {
+        -- your configuration comes here
+        -- or leave it empty to use the default settings
+        -- refer to the configuration section below
+    }
+  }
+}
+EOF
+
+
+cat <<EOF >~/.config/nvim/lua/user/plugins/clangd_extensions.lua
+return {
+  "clangd_extensions.nvim"
+}
+EOF
 ```
 
 ## Setup Copilot
 Inside nvim, run:
 ```
 :Copilot auth
-```
-
-## Install in `lazy.nvim`
-Inside nvim, run:
-```
-:Lazy install clangd_extensions.nvim
 ```
 
 ## Update
