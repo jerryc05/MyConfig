@@ -18,6 +18,7 @@ return {
   -- { import = "astrocommunity.colorscheme.catppuccin" },
   { import = "astrocommunity.bars-and-lines.dropbar-nvim" },
   { import = "astrocommunity.bars-and-lines.vim-illuminate" },
+  { import = "astrocommunity.completion.copilot-lua-cmp" },
 
   { import = "astrocommunity.pack.python-ruff" },
   { import = "astrocommunity.pack.cpp" },
@@ -29,6 +30,18 @@ return {
 EOF
 ```
 
+## Setup Copilot
+Inside nvim, run:
+```
+:Copilot auth
+```
+
+## Install in `lazy.nvim`
+Inside nvim, run:
+```
+:Lazy install clangd_extensions.nvim
+```
+
 ## Update
 Inside nvim, run:
 ```
@@ -37,3 +50,4 @@ Inside nvim, run:
 :AstroUpdate
 :AstroUpdatePackages
 ```
+  { import = "clangd_extensions.nvim" },
