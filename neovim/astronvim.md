@@ -1,14 +1,18 @@
-## Install `neovim`
+## Install `neovim` and Set Config Path
+```sh
+export NVIM_CONFIG=~/.config/nvim/
+[[ "$(uname)" = *NT* ]] && export NVIM_CONFIG=~/AppData/Local/nvim/
+```
 
 ## Install Astronvim
 ```sh
-[ -d ~/.config/nvim ] && mv ~/.config/nvim ~/.config/nvim.bak~
-git clone --depth 1 https://github.com/AstroNvim/AstroNvim ~/.config/nvim
+[ -d $NVIM_CONFIG ] && mv $NVIM_CONFIG ~/.config/nvim.bak~
+git clone --depth 1 https://github.com/AstroNvim/AstroNvim $NVIM_CONFIG
 ```
 
 ## Install Astronvim Community Packages
 ```sh
-cat <<EOF >~/.config/nvim/lua/plugins/community.lua
+cat <<EOF >$NVIM_CONFIG/lua/plugins/community.lua
 return {
   -- Add the community repository of plugin specifications
   "AstroNvim/astrocommunity",
@@ -30,9 +34,9 @@ return {
 EOF
 
 
-mkdir -p ~/.config/nvim/lua/user/plugins/
+mkdir -p $NVIM_CONFIG/lua/user/plugins/
 
-cat <<EOF >~/.config/nvim/lua/user/plugins/todo-comments.lua
+cat <<EOF >$NVIM_CONFIG/lua/user/plugins/todo-comments.lua
 return {
   {
     "folke/todo-comments.nvim",
@@ -48,7 +52,7 @@ return {
 EOF
 
 
-cat <<EOF >~/.config/nvim/lua/user/plugins/clangd_extensions.lua
+cat <<EOF >$NVIM_CONFIG/lua/user/plugins/clangd_extensions.lua
 return {
   "clangd_extensions.nvim"
 }
