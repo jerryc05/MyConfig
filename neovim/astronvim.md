@@ -73,4 +73,3 @@ Inside nvim, run:
 :AstroUpdate
 :AstroUpdatePackages
 ```
-  { import = "clangd_extensions.nvim" },
