@@ -33,10 +33,19 @@ return {
 }
 EOF
 
+cat <<EOF >$NVIM_CONFIG/lua/user/options.lua
+return {
+  opt = {
+    relativenumber = false,
+    number = true,
+  }
+}
+EOF
+
 
 mkdir -p $NVIM_CONFIG/lua/user/plugins/
 
-cat <<EOF >$NVIM_CONFIG/lua/user/plugins/todo-comments.lua
+cat <<EOF >$NVIM_CONFIG/lua/user/plugins/init.lua
 return {
   {
     "folke/todo-comments.nvim",
@@ -47,14 +56,18 @@ return {
         -- refer to the configuration section below
     },
     event = "User AstroFile",
-  }
-}
-EOF
-
-
-cat <<EOF >$NVIM_CONFIG/lua/user/plugins/clangd_extensions.lua
-return {
-  "clangd_extensions.nvim"
+  },
+  {
+    "dnlhc/glance.nvim",
+    opts = {},
+    event = "User AstroLspSetup",
+  },
+  {
+    "rmagatti/goto-preview",
+    opts = {},
+    event = "User AstroLspSetup",
+  },
+  "clangd_extensions.nvim",
 }
 EOF
 ```
