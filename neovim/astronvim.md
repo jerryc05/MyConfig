@@ -63,6 +63,18 @@ return {
     event = "User AstroLspSetup",
   },
   {
+    -- Bracket Colorizer
+    "hiphish/rainbow-delimiters.nvim",
+    opts = {},
+    event = "User AstroFile",
+  },
+  {
+    -- Remember last open state
+    "ethanholz/nvim-lastplace",
+    opts = {},
+    event = "User AstroFile",
+  },
+  {
     "rmagatti/goto-preview",
     opts = {},
     event = "User AstroLspSetup",
