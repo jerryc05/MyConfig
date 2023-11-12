@@ -38,7 +38,10 @@ cat <<EOF >$NVIM_CONFIG/lua/user/options.lua
 return {
   opt = {
     relativenumber = false,
-    number = true,
+    number = true
+  },
+  g = {
+    icons_enable = false,
   }
 }
 EOF
