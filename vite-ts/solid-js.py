@@ -35,6 +35,9 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     content = json.load(f)
 
     opt = content["compilerOptions"]
+    opt["allowJs"] = False
+    opt["strict"] = True
+    opt["target"] = "ESNext"
     opt["lib"] = ["ESNext", "DOM", "DOM.Iterable"]
     opt["forceConsistentCasingInFileNames"] = True
     opt["plugins"] = opt.get("plugins", []) + [
@@ -52,12 +55,12 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
     opt["useDefineForClassFields"] = True
     opt["removeComments"] = True
 
-    opt["baseUrl"] = "./"
+    # opt["baseUrl"] = "./"
     opt["paths"] = {
-        "@/*": ["src/*"],
+        "@/*": ["./src/*"],
     }
 
-    opt["jsxImportSource"] = "solid-js",
+    # opt["jsxImportSource"] = "solid-js",
     opt["types"] = ["vite/client"]
 
     content["include"] = [
