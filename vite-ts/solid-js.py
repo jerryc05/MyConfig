@@ -57,6 +57,7 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
 
     # opt["baseUrl"] = "./"
     opt["paths"] = {
+        **opt.get("paths", {}),
         "@/*": ["./src/*"],
     }
 
