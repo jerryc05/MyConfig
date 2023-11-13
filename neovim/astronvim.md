@@ -40,9 +40,16 @@ return {
     relativenumber = false,
     number = true
   },
-  g = {
-    icons_enable = false,
-  }
+}
+EOF
+
+cat <<EOF >$NVIM_CONFIG/lua/user/init.lua
+return {
+  options = {
+    g = {
+      icons_enabled = false,
+    },
+  },
 }
 EOF
 
