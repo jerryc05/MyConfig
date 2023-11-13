@@ -56,17 +56,8 @@ return {
   {
     "folke/todo-comments.nvim",
     dependencies = { "nvim-lua/plenary.nvim" },
-    opts = {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-    },
-    event = "User AstroFile",
-  },
-  {
-    "dnlhc/glance.nvim",
     opts = {},
-    event = "User AstroLspSetup",
+    event = "User AstroFile",
   },
   {
     -- Bracket Colorizer
@@ -81,13 +72,9 @@ return {
     event = "User AstroFile",
   },
   {
-    "rmagatti/goto-preview",
-    opts = {},
-    event = "User AstroLspSetup",
-  },
-  {
     "ray-x/lsp_signature.nvim",
     opts = {},
+    -- config = function(_, opts) require'lsp_signature'.setup(opts) end
     event = "VeryLazy",
   },
   "clangd_extensions.nvim",
