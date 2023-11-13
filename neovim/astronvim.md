@@ -34,20 +34,15 @@ return {
 }
 EOF
 
-cat <<EOF >$NVIM_CONFIG/lua/user/options.lua
-return {
-  opt = {
-    relativenumber = false,
-    number = true
-  },
-}
-EOF
-
 cat <<EOF >$NVIM_CONFIG/lua/user/init.lua
 return {
   options = {
     g = {
       icons_enabled = false,
+    },
+    opt = {
+      number = true,
+      relativenumber = false,
     },
   },
 }
