@@ -85,6 +85,11 @@ return {
     opts = {},
     event = "User AstroLspSetup",
   },
+  {
+    "ray-x/lsp_signature.nvim",
+    opts = {},
+    event = "VeryLazy",
+  },
   "clangd_extensions.nvim",
 }
 EOF
