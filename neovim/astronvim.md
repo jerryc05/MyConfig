@@ -24,6 +24,7 @@ return {
   { import = "astrocommunity.bars-and-lines.vim-illuminate" },
   { import = "astrocommunity.completion.copilot-lua-cmp" },
 
+  { import = "astrocommunity.pack.lua" },
   { import = "astrocommunity.pack.python-ruff" },
   { import = "astrocommunity.pack.cpp" },
   --{ import = "astrocommunity.pack.cmake" },
