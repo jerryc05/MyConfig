@@ -35,6 +35,9 @@ return {
 }
 EOF
 
+
+mkdir -p $NVIM_CONFIG/lua/user/plugins/
+
 cat <<EOF >$NVIM_CONFIG/lua/user/init.lua
 return {
   options = {
@@ -50,8 +53,6 @@ return {
 EOF
 
 
-mkdir -p $NVIM_CONFIG/lua/user/plugins/
-
 cat <<EOF >$NVIM_CONFIG/lua/user/plugins/init.lua
 return {
   {
@@ -62,7 +63,7 @@ return {
   },
   {
     -- Bracket Colorizer
-    "hiphish/rainbow-delimiters.nvim",,
+    "hiphish/rainbow-delimiters.nvim",
     config = function() 
       local rainbow_delimiters = require 'rainbow-delimiters'
       vim.g.rainbow_delimiters = {
