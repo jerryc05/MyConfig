@@ -10,6 +10,11 @@ export NVIM_CONFIG=~/.config/nvim/
 git clone --depth 1 https://github.com/AstroNvim/AstroNvim $NVIM_CONFIG
 ```
 
+## Patch Astronvim to support nightly nvim
+```sh
+sed -i 's/vim.lsp.inlay_hint(/vim.lsp.inlay_hint.enable(/g' $NVIM_CONFIG/lua/astronvim/utils/lsp.lua
+```
+
 ## Install Astronvim Community Packages
 ```sh
 cat <<EOF >$NVIM_CONFIG/lua/plugins/community.lua
@@ -39,10 +44,12 @@ EOF
 mkdir -p $NVIM_CONFIG/lua/user/plugins/
 
 cat <<EOF >$NVIM_CONFIG/lua/user/init.lua
+-- Ref: astronvim/options.lua
 return {
   options = {
     g = {
       icons_enabled = false,
+      inlay_hints_enabled = true,
     },
     opt = {
       number = true,
@@ -86,12 +93,6 @@ return {
         },
       }
     end,
-    event = "User AstroFile",
-  },
-  {
-    -- Remember last open state
-    "ethanholz/nvim-lastplace",
-    opts = {},
     event = "User AstroFile",
   },
   {
