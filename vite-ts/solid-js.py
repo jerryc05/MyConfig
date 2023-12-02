@@ -36,6 +36,7 @@ with open("tsconfig.json", "r+", encoding="utf-8") as f:
 
     opt = content["compilerOptions"]
     opt["allowJs"] = False
+    del opt["checkJs"]
     opt["strict"] = True
     opt["target"] = "ESNext"
     opt["lib"] = ["ESNext", "DOM", "DOM.Iterable"]
