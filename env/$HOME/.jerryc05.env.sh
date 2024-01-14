@@ -138,3 +138,8 @@ export DEBUGINFOD_URLS="https://debuginfod.archlinux.org https://mirrors.cloud.t
 #         export all_proxy=socks5://$__HOSTIP:7890
 #         export ALL_PROXY=$all_proxy
 # fi
+
+
+
+alias mycwebp='cwebp -q 70 -m 6 -sharp_yuv -pass 3 -mt -v -metadata all -af'
+alias cwebp-text='mycwebp -preset text'

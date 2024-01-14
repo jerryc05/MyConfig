@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-git config --global user.name   'Ziyan "Jerry" Chen'
+git config --global user.name   'Jerry Chen'
 git config --global user.email  'jerryc443@gmail.com'
 
 # Must-haves
