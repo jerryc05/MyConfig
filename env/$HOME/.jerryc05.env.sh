@@ -141,5 +141,5 @@ export DEBUGINFOD_URLS="https://debuginfod.archlinux.org https://mirrors.cloud.t
 
 
 
-alias mycwebp='cwebp -q 70 -m 6 -sharp_yuv -pass 3 -mt -v -metadata all -af'
-alias cwebp-text='mycwebp -preset text'
+alias mycwebp='cwebp -q 70 -alpha_q 70 -m 6 -sharp_yuv -pass 3 -mt -v -metadata all -af'
+alias mycwebp-text='mycwebp -preset text'
