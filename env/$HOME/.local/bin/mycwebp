@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+cwebp -q 70 -alpha_q 70 -m 6 -sharp_yuv -pass 3 -mt -metadata all -af $*
