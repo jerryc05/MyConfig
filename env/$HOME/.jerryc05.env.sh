@@ -140,6 +140,6 @@ export DEBUGINFOD_URLS="https://debuginfod.archlinux.org https://mirrors.cloud.t
 # fi
 
 
-
+alias xargs='xargs '  # keep trailing space to enable alias expansion when using xargs!!!
 alias mycwebp='cwebp -q 70 -alpha_q 70 -m 6 -sharp_yuv -pass 3 -mt -v -metadata all -af'
 alias mycwebp-text='mycwebp -preset text'
