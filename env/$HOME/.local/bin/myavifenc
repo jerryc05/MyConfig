@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+avifenc --qcolor 60 --qalpha 60 --speed 3 --jobs all --sharpyuv $*
