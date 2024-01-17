@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+myavifenc --qcolor 30 --qalpha 30 --speed 2 "$@"
