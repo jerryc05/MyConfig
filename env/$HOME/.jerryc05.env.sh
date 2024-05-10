@@ -138,3 +138,6 @@ export DEBUGINFOD_URLS="https://debuginfod.archlinux.org https://mirrors.cloud.t
 #         export all_proxy=socks5://$__HOSTIP:7890
 #         export ALL_PROXY=$all_proxy
 # fi
+
+# Git Bash on Windows: Enable native symlink
+export MSYS=winsymlinks:nativestrict
