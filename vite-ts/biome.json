@@ -10,7 +10,8 @@
       },      
       "a11y": {
         "useAltText": "off",
-        "useKeyWithClickEvents": "off"
+        "useKeyWithClickEvents": "off",
+        "noSvgWithoutTitle": "off"
       }
     }
   }
