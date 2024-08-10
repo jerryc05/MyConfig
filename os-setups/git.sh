@@ -21,11 +21,11 @@ git config --global help.autoCorrect  prompt
 
 # Changes that might change behavior
 git config --global push.autoSetupRemote  true
-git config --global core.symlinks         true
-git config --global pull.ff               true
+git config --global core.symlinks         true 
 git config --global rebase.autoStash      true
 git config --global merge.ff              false
 git config --global merge.autoStash       true
+git config --global --add --bool rebase.updateRefs true
 
 
 git config --global rerere.enabled    true
