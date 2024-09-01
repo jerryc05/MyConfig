@@ -44,6 +44,7 @@ sensor:
   - platform: dht
     # update_interval: 60s
     pin: D2
+    model: AUTO_DETECT
     temperature:
       id: t
       name: "${friendly_name} Temp Sensor"
