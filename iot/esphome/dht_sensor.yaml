@@ -51,7 +51,7 @@ sensor:
       accuracy_decimals: 3
     humidity:
       id: h
-      name: "Humid"
+      name: "Rel Humid"
       accuracy_decimals: 2 
 
   - platform: template
