@@ -47,17 +47,17 @@ sensor:
     model: AUTO_DETECT
     temperature:
       id: t
-      name: "${friendly_name} Temp Sensor"
+      name: "Temp Sensor"
       accuracy_decimals: 3
     humidity:
       id: h
-      name: "${friendly_name} Humid Sensor"
+      name: "Humid Sensor"
       accuracy_decimals: 2 
 
   - platform: template
     # update_interval: 60s 
     id: hi
-    name: "${friendly_name} Heat Index"
+    name: "Heat Index"
     unit_of_measurement: "°C"
     icon: "mdi:thermometer"
     device_class: "temperature"
@@ -109,12 +109,12 @@ sensor:
 
   - platform: wifi_signal
     id: wifi_signal_db
-    name: "${friendly_name} WiFi Signal Sensor"
+    name: "WiFi Signal Sensor"
     # update_interval: 60s
 
   - platform: copy # Reports the WiFi signal strength in %
     source_id: wifi_signal_db
-    name: "${friendly_name} WiFi Signal Percent"
+    name: "WiFi Signal Percent"
     filters:
       - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
     unit_of_measurement: "Signal %"
@@ -130,4 +130,3 @@ text_sensor:
     id: hirl
     name: "Heat Index Risk Level"
     icon: "mdi:thermometer"
-
