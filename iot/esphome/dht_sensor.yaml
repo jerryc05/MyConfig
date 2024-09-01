@@ -30,7 +30,7 @@ wifi:
 sensor:
 
 
-    
+
   - platform: gpio
     pin:
     name: "PIR Sensor"
@@ -48,14 +48,14 @@ sensor:
     temperature:
       id: t
       name: "Temp"
-      accuracy_decimals: 3
+      accuracy_decimals: 1
     humidity:
       id: h
       name: "Rel Humid"
-      accuracy_decimals: 2 
+      accuracy_decimals: 1
 
   - platform: template
-    # update_interval: 60s 
+    # update_interval: 60s
     id: hi
     name: "Heat Index"
     unit_of_measurement: "°C"
@@ -67,7 +67,7 @@ sensor:
       auto temperature = (id(t).state * 9.0) / 5.0 + 32;
       auto percentHumidity = id(h).state;
 
-      // Taken directly from [DHT::computeHeatIndex()] library 
+      // Taken directly from [DHT::computeHeatIndex()] library
       auto hi = 0.5 * (temperature + 61.0 + ((temperature - 68.0) * 1.2) +
                   (percentHumidity * 0.094));
 
@@ -87,16 +87,20 @@ sensor:
 
         else if ((percentHumidity > 85.0) && (temperature >= 80.0) &&
                  (temperature <= 87.0))
-          hi += ((percentHumidity - 85.0) * 0.1) * ((87.0 - temperature) * 0.2);  
+          hi += ((percentHumidity - 85.0) * 0.1) * ((87.0 - temperature) * 0.2);
       }
 
       hi = (hi - 32.0) * 5.0 / 9.0;
 
+
       // Update text sensor
-      if      (hi < 32) id(hirl).publish_state("LOW");
-      else if (hi < 39) id(hirl).publish_state("MODERATE");
-      else if (hi < 46) id(hirl).publish_state("HIGH");
-      else              id(hirl).publish_state("EXTREME");
+      auto* hirlState = "EXTREME";
+
+      if      (hi < 32) hirlState = "LOW";
+      else if (hi < 39) hirlState = "MODERATE";
+      else if (hi < 46) hirlState = "HIGH";
+
+      id(hirl).publish_state(hirlState);
 
       return hi;
 
@@ -104,7 +108,9 @@ sensor:
 
 
 
- 
+
+
+
 
 
   - platform: wifi_signal
@@ -129,5 +135,4 @@ text_sensor:
     # update_interval: 60s
     id: hirl
     name: "Heat Index Risk Level"
-    icon: "mdi:thermometer"
-
+    icon: "mdi:thermometer-alert"
