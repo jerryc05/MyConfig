@@ -94,13 +94,14 @@ sensor:
 
 
       // Update text sensor
-      auto* hirlState = "EXTREME";
+      auto* hirlState = "X DANGER";
 
-      if      (hi < 32) hirlState = "LOW";
-      else if (hi < 39) hirlState = "MODERATE";
-      else if (hi < 46) hirlState = "HIGH";
+      if      (hi < 27) hirlState = "OK";
+      else if (hi < 32) hirlState = "CAUTION";
+      else if (hi < 41) hirlState = "X CAUTION";
+      else if (hi < 54) hirlState = "DANGER";
 
-      id(hirl).publish_state(hirlState);
+      id(hic).publish_state(hirlState);
 
       return hi;
 
