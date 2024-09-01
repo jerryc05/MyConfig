@@ -116,12 +116,12 @@ sensor:
 
   - platform: wifi_signal
     id: wifi_signal_db
-    name: "WiFi Signal dB"
+    name: "WiFi dB"
     # update_interval: 60s
 
   - platform: copy # Reports the WiFi signal strength in %
     source_id: wifi_signal_db
-    name: "WiFi Signal %"
+    name: "WiFi %"
     filters:
       - lambda: return min(max(2 * (x + 100.0), 0.0), 100.0);
     unit_of_measurement: "%"
