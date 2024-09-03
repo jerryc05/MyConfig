@@ -47,17 +47,17 @@ sensor:
     model: AUTO_DETECT
     temperature:
       id: t
-      name: "Temp"
+      name: "温度 Temp"
       accuracy_decimals: 1
     humidity:
       id: h
-      name: "Rel Humid"
+      name: "相对湿度 RH"
       accuracy_decimals: 1
 
   - platform: template
     # update_interval: 60s
     id: hi
-    name: "Heat Index"
+    name: "酷热指数 HI"
     unit_of_measurement: "°C"
     icon: "mdi:thermometer"
     device_class: "temperature"
@@ -94,12 +94,11 @@ sensor:
 
 
       // Update text sensor
-      auto* hirlState = "X DANGER";
-
-      if      (hi < 27) hirlState = "OK";
-      else if (hi < 32) hirlState = "CAUTION";
-      else if (hi < 41) hirlState = "X CAUTION";
-      else if (hi < 54) hirlState = "DANGER";
+      auto* hirlState = "极危 X DANGER";
+      if      (hi < 27) hirlState = "正常 OK";
+      else if (hi < 32) hirlState = "注意 CAUTION";
+      else if (hi < 41) hirlState = "警告 X CAUTION";
+      else if (hi < 54) hirlState = "危险 DANGER";
 
       id(hic).publish_state(hirlState);
 
@@ -135,6 +134,6 @@ sensor:
 text_sensor:
   - platform: template
     # update_interval: 60s
-    id: hirl
-    name: "Heat Index Risk Level"
+    id: hic
+    name: "酷热程度 HI Deg"
     icon: "mdi:thermometer-alert"
