@@ -13,7 +13,7 @@
 
 ## Linting
 
-- https://www.npmjs.com/package/eslint-plugin-react-hooks
+- https://www.npmjs.com/package/@welldone-software/why-did-you-render
 
 ## UI Framework
 
