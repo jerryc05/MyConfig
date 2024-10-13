@@ -3,6 +3,13 @@
 ## State Management
 
 - https://www.npmjs.com/package/valtio
+- https://www.npmjs.com/package/jotai
+- https://www.npmjs.com/package/zustand
+    - with `immer` middleware
+
+### Tools for State Management
+
+- https://www.npmjs.com/package/immer
 
 ## Linting
 
