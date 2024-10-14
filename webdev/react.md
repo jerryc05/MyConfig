@@ -16,14 +16,16 @@
 - https://www.npmjs.com/package/eslint-plugin-react-hooks
 - https://www.npmjs.com/package/eslint-plugin-react-refresh
 
-## UI Framework
+## UI
 
-- https://ui.shadcn.com/docs/installation
-- https://chakra-ui.com
-
-## Visual Effects
-
-- https://www.npmjs.com/package/framer-motion
+- UI Framework
+    - https://ui.shadcn.com/docs/installation
+    - https://chakra-ui.com
+- Visual Effect Framework
+    - https://www.npmjs.com/package/framer-motion
+- Collections
+    - https://www.npmjs.com/package/react-loading-indicators
+    - https://www.npmjs.com/package/react-icons
 
 ## Performance Optimization
 
