@@ -13,7 +13,8 @@
 
 ## Linting
 
-- https://www.npmjs.com/package/@welldone-software/why-did-you-render
+- https://www.npmjs.com/package/eslint-plugin-react-hooks
+- https://www.npmjs.com/package/eslint-plugin-react-refresh
 
 ## UI Framework
 
@@ -26,7 +27,7 @@
 
 ## Performance Optimization
 
-- https://www.npmjs.com/package/why-did-you-render
+- https://www.npmjs.com/package/@welldone-software/why-did-you-render
 
 ## Packaging
 
