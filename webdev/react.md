@@ -15,6 +15,7 @@
 
 - https://www.npmjs.com/package/eslint-plugin-react-hooks
 - https://www.npmjs.com/package/eslint-plugin-react-refresh
+- https://www.npmjs.com/package/typescript-eslint
 
 ## UI
 
