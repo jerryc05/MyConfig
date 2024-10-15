@@ -14,6 +14,17 @@
 ## Linting
 
 - https://www.npmjs.com/package/eslint-plugin-react
+    - Use `jsx-runtime`, see https://github.com/jsx-eslint/eslint-plugin-react?tab=readme-ov-file#configuration-legacy-eslintrc-
+        - Add this to eslint config file
+            ```json
+            {
+                "settings": {
+                    "react": {
+                    "version": "detect"
+                    }
+                }
+            }
+            ```
 - https://www.npmjs.com/package/eslint-plugin-react-hooks
 - https://www.npmjs.com/package/eslint-plugin-react-refresh
 - https://www.npmjs.com/package/typescript-eslint
