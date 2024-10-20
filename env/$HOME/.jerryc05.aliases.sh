@@ -27,7 +27,7 @@ alias show-256-colors='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::
 alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes'
 
 # install rpm here
-command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio $* | cpio -iduv; }
+command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$*" | cpio -iduv; }
 
 # Show hidden files in iFinder
 [[ "$OSTYPE" == "darwin"* ]] && defaults write com.apple.finder AppleShowAllFiles YES
@@ -49,13 +49,13 @@ fi
 # Handy rsync command
 xrsync() {
   if [ "$OSTYPE" = "linux-gnu" ] || [ "$OSTYPE" = "cygwin" ] ; then PREALLOCATE_ARG='--preallocate'; else PREALLOCATE_ARG=''; fi
-  rsync -ahPvvz --relative --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 $*; }
+  rsync -ahPvvz --relative --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 "$*"; }
   #      |||| └-> compress file data during the transfer
   #      |||└---> increase verbosity
   #      ||└----> keep partially transferred files + show progress during transfer
   #      |└-----> output numbers in a human-readable format
   #      └------> archive mode; equals -rlptgoD (no -H,-A,-X)
-drsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude="$(git -C "$1" ls-files --exclude-standard -oi --directory)" $*; else xrsync $*; fi;}
+gitrsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude="$(git -C "$1" ls-files --exclude-standard -oi --directory)" "$*"; else xrsync "$*"; fi;}
 
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
