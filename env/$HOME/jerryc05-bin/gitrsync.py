@@ -54,7 +54,7 @@ def gitrsync():
 
 
 if __name__ == "__main__":
-    if sp.check_output(["git", "check-ignore", sys.argv[1]]).strip().__len__():
+    if sp.call(["git", "check-ignore", sys.argv[1]]) == 0:
         print(f"Path is ignored by git! Quitting ...\n\t{sys.argv[1]}")
         exit()
     gitrsync()
