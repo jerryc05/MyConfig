@@ -55,7 +55,10 @@ xrsync() {
   #      ||└----> keep partially transferred files + show progress during transfer
   #      |└-----> output numbers in a human-readable format
   #      └------> archive mode; equals -rlptgoD (no -H,-A,-X)
-gitrsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude="$(git -C "$1" ls-files --exclude-standard -oi --directory)" "$*"; else xrsync "$*"; fi;}
-
+gitrsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude="$(git -C "$1" ls-files -oi --exclude-standard --directory)" "$*"; else xrsync "$*"; fi;}
+#                                                                                         |                ||   └-> Exclude files that Git is told to ignore
+#                                                                                         |                |└-> [i]gnored
+#                                                                                         |                └-> [o]ther (not tracked)
+#                                                                                         └-> Run in this directory
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
