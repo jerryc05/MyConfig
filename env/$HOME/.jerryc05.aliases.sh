@@ -46,19 +46,5 @@ if command -v tar >/dev/null; then
   }
 fi
 
-# Handy rsync command
-xrsync() {
-  if [ "$OSTYPE" = "linux-gnu" ] || [ "$OSTYPE" = "cygwin" ] ; then PREALLOCATE_ARG='--preallocate'; else PREALLOCATE_ARG=''; fi
-  rsync -ahPvvz --relative --safe-links --perms $PREALLOCATE_ARG --sparse --delete-during --no-whole-file --skip-compress='jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2' --info=progress2 "$*"; }
-  #      |||| └-> compress file data during the transfer
-  #      |||└---> increase verbosity
-  #      ||└----> keep partially transferred files + show progress during transfer
-  #      |└-----> output numbers in a human-readable format
-  #      └------> archive mode; equals -rlptgoD (no -H,-A,-X)
-gitrsync(){ if command -v git >/dev/null; then xrsync --exclude='.git/' --exclude="$(git -C "$1" ls-files -oi --exclude-standard --directory)" "$*"; else xrsync "$*"; fi;}
-#                                                                                         |                ||   └-> Exclude files that Git is told to ignore
-#                                                                                         |                |└-> [i]gnored
-#                                                                                         |                └-> [o]ther (not tracked)
-#                                                                                         └-> Run in this directory
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
