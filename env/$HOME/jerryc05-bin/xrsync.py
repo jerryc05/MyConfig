@@ -45,9 +45,12 @@ def xrsync():
     )
     pp(args)
     sp.call(args=[*args, "--dry-run"])
-    input("\n\nContinue? ")
-    input("\nContinue? (double confirm) ")
-    return os.execlp("rsync", *args)
+
+    confirm = input("\n\nContinue? ").strip()
+    if confirm.lower() == "y" or (
+        confirm.lower() == "" and input("\nContinue? (double confirm) ").__len__() >= 0
+    ):
+        return os.execlp("rsync", *args)
 
 
 if __name__ == "__main__":
