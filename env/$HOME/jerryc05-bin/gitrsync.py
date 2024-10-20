@@ -14,14 +14,29 @@ def gitrsync():
         git_excluded = (
             sp.check_output([
                 "git",
-                "-C",
+                (
+                    "-C"
+                    # [c]urrent directory in which git is called
+                ),
                 sys.argv[1],
                 "ls-files",
-                "-z",
-                "-o",
-                "-i",
-                "--exclude-standard",
-                "--directory",
+                (
+                    "-z"
+                    # Don't quote and escape utf8; use \0 to separate filenames and keep utf8
+                ),
+                (
+                    "-o"  # [o]ther (not tracked)
+                ),
+                (
+                    "-i"  # [i]gnored
+                ),
+                (
+                    "--exclude-standard"
+                    #  Exclude git-ignored files (respect .gitignore, ...)
+                ),
+                (
+                    "--directory"  # Use directory name if everything is ignored inside
+                ),
             ])
             .decode()
             .split("\0")
