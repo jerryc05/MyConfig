@@ -30,7 +30,6 @@ ARGS = [
         "--mkpath"
         # Added in 3.2.3
     ),
-    PREALLOCATE_ARG,
     "--safe-links",
     "--perms",
     "--sparse",
@@ -39,6 +38,7 @@ ARGS = [
     "--no-whole-file",
     "--skip-compress=jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2",
     "--info=progress2",
+    PREALLOCATE_ARG,
 ]
 
 
