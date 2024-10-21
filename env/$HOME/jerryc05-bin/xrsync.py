@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from pprint import pp
 import subprocess as sp
 import os
 import sys
@@ -40,26 +39,34 @@ ARGS = [
     "--no-whole-file",
     "--skip-compress=jpg/jpeg/png/mp[34]/avi/mkv/xz/zip/gz/7z/bz2",
     "--info=progress2",
-    *sys.argv[1:],
 ]
+
+
+def get_args():
+    return [
+        *ARGS,
+        *sys.argv[1:],
+    ]
 
 
 def xrsync():
     global ARGS
 
-    p = sp.Popen(args=[*ARGS, "--dry-run"], stdout=sp.PIPE, stderr=sp.PIPE)
+    print("\n" + " ".join([f"'{x}'" for x in get_args()]) + "\n")
+    p = sp.Popen(args=[*get_args(), "--dry-run"], stdout=sp.PIPE, stderr=sp.PIPE)
     if (
         p.wait() != 0
         and p.stderr
         and b"preallocation is not supported on this Client" in p.stderr.read()
     ):
         ARGS.remove(PREALLOCATE_ARG)
-        p = sp.Popen(args=[*ARGS, "--dry-run"], stdout=sp.PIPE, stderr=sp.PIPE)
+        print("\n" + " ".join([f"'{x}'" for x in get_args()]) + "\n")
+        p = sp.Popen(args=[*get_args(), "--dry-run"], stdout=sp.PIPE, stderr=sp.PIPE)
+
     p.wait()
     print("\n\n")
-    pp(ARGS)
-    print("-" * 20)
 
+    print("-" * 20)
     if p.stdout:
         print(p.stdout.read().decode())
     print("-" * 10)
@@ -71,7 +78,7 @@ def xrsync():
     if confirm.lower() == "y" or (
         confirm.lower() == "" and input("\nContinue? (double confirm) ").__len__() >= 0
     ):
-        return os.execlp("rsync", *ARGS)
+        return os.execlp("rsync", *get_args())
 
 
 if __name__ == "__main__":
