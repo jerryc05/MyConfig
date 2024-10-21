@@ -25,7 +25,6 @@ ARGS = [
         "-z"
         # [z]ip: compress file data during the transfer
     ),
-    "--relative",
     (
         "--mkpath"
         # Added in 3.2.3
