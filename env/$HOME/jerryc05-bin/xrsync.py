@@ -58,7 +58,7 @@ def xrsync():
     p.wait()
     print("\n\n")
     pp(ARGS)
-    print("-" * 10)
+    print("-" * 20)
 
     if p.stdout:
         print(p.stdout.read().decode())
