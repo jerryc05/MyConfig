@@ -48,3 +48,6 @@ fi
 
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
+
+# rm quarantine
+[[ "$OSTYPE" == "darwin"* ]] && alias rmquarantine=sudo xattr -d com.apple.quarantine
