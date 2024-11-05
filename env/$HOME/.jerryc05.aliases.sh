@@ -50,4 +50,4 @@ fi
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
 
 # rm quarantine
-[[ "$OSTYPE" == "darwin"* ]] && alias rmquarantine=sudo xattr -d com.apple.quarantine
+[[ "$OSTYPE" == "darwin"* ]] && alias rmquarantine='sudo xattr -d com.apple.quarantine'
