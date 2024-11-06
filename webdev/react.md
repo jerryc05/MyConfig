@@ -34,6 +34,9 @@
 - UI Framework
     - https://ui.shadcn.com/docs/installation
     - https://chakra-ui.com
+- CSS Framework
+    - https://tailwindcss.com/docs/installation
+        - https://www.npmjs.com/package/cn-func
 - Visual Effect Framework
     - https://www.npmjs.com/package/framer-motion
 - Collections
