@@ -46,8 +46,23 @@ if command -v tar >/dev/null; then
   }
 fi
 
+
 # VSCode, if only insiders is installed, alias to it
 command -v code >/dev/null || { command -v code-insiders >/dev/null && alias code=code-insiders; }
 
+
 # rm quarantine
 [[ "$OSTYPE" == "darwin"* ]] && alias rmquarantine='sudo xattr -d com.apple.quarantine'
+
+
+function sortjson() {
+  if command -v pnpm &> /dev/null; then
+    PNPX_OR_NPX="pnpx"
+  else
+    PNPX_OR_NPX="npx"
+  fi
+
+  set -x
+  "$PNPX_OR_NPX" prettier --write "$@" && "$PNPX_OR_NPX" sort-package-json "$@"
+  set +x
+}
