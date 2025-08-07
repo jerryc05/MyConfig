@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
+
 # Color! More color!
 [ "$OSTYPE" = "linux-gnu" ] && alias dir='dir --color=auto'
 [ "$OSTYPE" = "linux-gnu" ] && alias vdir='vdir --color=auto'
 alias  grep='grep --color=auto'
 alias fgrep='grep -F'
 alias egrep='grep -E'
+
 
 # More on [ls]
 if [[ $(ls --version 2>&1) == *"GNU coreutil"* ]]; then
@@ -15,19 +17,24 @@ if [[ $(ls --version 2>&1) == *"GNU coreutil"* ]]; then
   alias ll="ls $ls_color -alFHZ"
 fi
 
+
 alias cp='cp -i --sparse=always --reflink=auto'
 #             |   |             └-> Copy On Write
 #             |   └---------------> Sparse Files
 #             └-------------------> Prevent unintended file overwrite
 
+
 # Show 256 colors
 alias show-256-colors='for i in {0..255}; do print -Pn "%K{$i}  %k%F{$i}${(l:3::0:)i}%f " ${${(M)$((i%6)):#3}:+$'\n'}; done'
+
 
 # valgrind
 alias vg='valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes'
 
+
 # install rpm here
 command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$*" | cpio -iduv; }
+
 
 # Show hidden files in iFinder
 [[ "$OSTYPE" == "darwin"* ]] && defaults write com.apple.finder AppleShowAllFiles YES
@@ -53,16 +60,3 @@ command -v code >/dev/null || { command -v code-insiders >/dev/null && alias cod
 
 # rm quarantine
 [[ "$OSTYPE" == "darwin"* ]] && alias rmquarantine='sudo xattr -d com.apple.quarantine'
-
-
-function sortjson() {
-  if command -v pnpm &> /dev/null; then
-    PNPX_OR_NPX="pnpx"
-  else
-    PNPX_OR_NPX="npx"
-  fi
-
-  set -x
-  "$PNPX_OR_NPX" prettier --write "$@" && "$PNPX_OR_NPX" sort-package-json "$@"
-  set +x
-}
