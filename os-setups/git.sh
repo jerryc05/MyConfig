@@ -12,8 +12,16 @@ git config --global core.safecrlf        warn
 git config --global core.fscache         true
 git config --global help.autoCorrect     prompt
 git config --global checkout.workers     0
-git config --global feature.manyFiles    true
 git config --global feature.experimental true
+git config --global protocol.version     2
+git config --global core.untrackedCache  true
+
+# For large repos
+git config --global feature.manyFiles      true
+git config --global core.splitIndex        true
+git config --global core.commitGraph       true
+git config --global fetch.writeCommitGraph true
+
 
 #git config --global core.sshcommand "C:/Windows/System32/OpenSSH/ssh.exe"
 #  [core.sshcommand] will be overridden by [GIT_SSH_COMMAND] env var
@@ -28,7 +36,8 @@ git config --global core.symlinks         true
 git config --global rebase.autoStash      true
 git config --global merge.ff              false
 git config --global merge.autoStash       true
-git config --global --add --bool rebase.updateRefs true
+# git config --global --add --bool rebase.updateRefs true
+git config --global rebase.updateRefs     true
 
 
 git config --global rerere.enabled    true
