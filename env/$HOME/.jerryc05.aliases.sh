@@ -87,15 +87,8 @@ command -v code >/dev/null || { command -v code-insiders >/dev/null && alias cod
 
 export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
 
-# 让 exec("node") 直接找到真实可执行文件，不依赖 shell function
-export PATH="$NVM_DIR/versions/node/v26.1.0/bin:$PATH"
-
 # 只懒加载 nvm 命令本身
 [ -s "$NVM_DIR/nvm.sh" ] && {
-  nvm() {
-    unset -f nvm 2>/dev/null || true
-    . "$NVM_DIR/nvm.sh"
-    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-    nvm "$@"
-  }
+  source "$NVM_DIR/nvm.sh" --no-use
+  [ -f .nvmrc ] && nvm use || nvm use node
 }
