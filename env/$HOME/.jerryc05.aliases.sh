@@ -37,7 +37,7 @@ command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$*" | cpio -iduv; }
 
 
 # Show hidden files in iFinder
-[[ "$OSTYPE" == "darwin"* ]] && defaults write com.apple.finder AppleShowAllFiles YES
+[[ "$OSTYPE" == "darwin"* ]] && ( defaults write com.apple.finder AppleShowAllFiles YES >/dev/null 2&>1 ) &!
 
 # More helpful tar/untar
 if command -v tar >/dev/null; then
