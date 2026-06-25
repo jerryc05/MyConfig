@@ -1,6 +1,26 @@
 #!/usr/bin/env bash
 
 
+__run_detached() {
+  if [ -n "${ZSH_VERSION-}" ]; then
+    emulate -L zsh
+    setopt localoptions nobgnice
+    eval "$1 >/dev/null 2>&1 &!"
+  else
+    case $- in
+      *m*) __monitor_was_on=1 ;;
+      *) __monitor_was_on= ;;
+    esac
+    set +m 2>/dev/null || true
+    eval "$1 >/dev/null 2>&1 &"
+    disown "$!" 2>/dev/null || true
+    [ -n "$__monitor_was_on" ] && set -m 2>/dev/null || true
+  fi
+}
+
+
+
+
 # Color! More color!
 [ "$OSTYPE" = "linux-gnu" ] && alias dir='dir --color=auto'
 [ "$OSTYPE" = "linux-gnu" ] && alias vdir='vdir --color=auto'
@@ -37,7 +57,7 @@ command -v rpm2cpio >/dev/null && rpmhere() { rpm2cpio "$*" | cpio -iduv; }
 
 
 # Show hidden files in iFinder
-[[ "$OSTYPE" == "darwin"* ]] && ( defaults write com.apple.finder AppleShowAllFiles YES >/dev/null 2&>1 ) &!
+[[ "$OSTYPE" == "darwin"* ]] && __run_detached 'defaults write com.apple.finder AppleShowAllFiles YES'
 
 # More helpful tar/untar
 if command -v tar >/dev/null; then
@@ -60,3 +80,22 @@ command -v code >/dev/null || { command -v code-insiders >/dev/null && alias cod
 
 # rm quarantine
 [[ "$OSTYPE" == "darwin"* ]] && alias rmquarantine='sudo xattr -d com.apple.quarantine'
+
+
+
+
+
+export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+[ -s "$NVM_DIR/nvm.sh" ] && {
+  __lazy_load_nvm() {
+    unset -f node npm npx nvm __lazy_load_nvm __lazy_load_nvm_use 2>/dev/null || true
+    . "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+    nvm use >/dev/null 2>&1 || nvm use node >/dev/null 2>&1 || true
+  }
+
+  nvm() { __lazy_load_nvm; nvm "$@"; }
+  node() { __lazy_load_nvm; node "$@"; }
+  npm() { __lazy_load_nvm; npm "$@"; }
+  npx() { __lazy_load_nvm; npx "$@"; }
+}
