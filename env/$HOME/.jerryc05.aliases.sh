@@ -86,16 +86,16 @@ command -v code >/dev/null || { command -v code-insiders >/dev/null && alias cod
 
 
 export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+
+# 让 exec("node") 直接找到真实可执行文件，不依赖 shell function
+export PATH="$NVM_DIR/versions/node/v26.1.0/bin:$PATH"
+
+# 只懒加载 nvm 命令本身
 [ -s "$NVM_DIR/nvm.sh" ] && {
-  __lazy_load_nvm() {
-    unset -f node npm npx nvm __lazy_load_nvm __lazy_load_nvm_use 2>/dev/null || true
+  nvm() {
+    unset -f nvm 2>/dev/null || true
     . "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-    nvm use >/dev/null 2>&1 || nvm use node >/dev/null 2>&1 || true
+    nvm "$@"
   }
-
-  nvm() { __lazy_load_nvm; nvm "$@"; }
-  node() { __lazy_load_nvm; node "$@"; }
-  npm() { __lazy_load_nvm; npm "$@"; }
-  npx() { __lazy_load_nvm; npx "$@"; }
 }
