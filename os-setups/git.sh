@@ -1,20 +1,22 @@
 #!/usr/bin/env sh
 
 git config --global user.name   'Jerry Chen'
-git config --global user.email  'jerryc443@gmail.com'
+git config --global user.email  # todo
 
 # Must-haves
-git config --global core.autocrlf        input
-git config --global core.eol             lf
-git config --global core.fileMode        true
-git config --global core.longpaths       true
-git config --global core.safecrlf        warn
-git config --global core.fscache         true
-git config --global help.autoCorrect     prompt
-git config --global checkout.workers     0
-git config --global feature.experimental true
-git config --global protocol.version     2
-git config --global core.untrackedCache  true
+git config --global core.autocrlf         input
+git config --global core.eol              lf
+git config --global core.fileMode         true
+git config --global core.longpaths        true
+git config --global core.safecrlf         warn
+git config --global core.fscache          true
+git config --global init.defaultRefFormat reftable
+git config --global help.autoCorrect      prompt
+git config --global checkout.workers      0
+git config --global feature.experimental  true
+git config --global protocol.version      2
+git config --global core.untrackedCache   true
+git config --global fetch.negotiationAlgorithm skipping
 
 # For large repos
 git config --global feature.manyFiles      true
