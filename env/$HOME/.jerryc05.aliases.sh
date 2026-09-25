@@ -40,14 +40,15 @@ fi
 
 # Enable CoW + ask when file will overwrite, by default
 cp() {
+    [[ $- == *i* ]] && set -- -i "$@"
     if command cp --help 2>&1 | grep -q -- '--reflink'; then
         # GNU cp：原生支持 --reflink=auto 自动降级
-        command cp -i --reflink=auto "$@"
+        command cp --reflink=auto "$@"
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # macOS 原生 cp：优先 CoW，失败（如跨分区）时自动降级为普通复制
-        command cp -i -c "$@" 2>/dev/null || command cp -i "$@"
+        command cp -c "$@" 2>/dev/null || command cp "$@"
     else
-        command cp -i "$@"
+        command cp "$@"
     fi
 }
 
