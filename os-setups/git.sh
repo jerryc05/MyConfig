@@ -14,8 +14,9 @@ git config --global init.defaultRefFormat reftable
 git config --global help.autoCorrect      prompt
 git config --global checkout.workers      0
 git config --global feature.experimental  true
-git config --global protocol.version      2
+git config --global protocol.version      2  # Default since Git 2.26
 git config --global core.untrackedCache   true
+git config --global fetch.prune           true  
 git config --global fetch.negotiationAlgorithm skipping
 
 # For large repos
@@ -23,6 +24,7 @@ git config --global feature.manyFiles      true
 git config --global core.splitIndex        true
 git config --global core.commitGraph       true
 git config --global fetch.writeCommitGraph true
+git config --global status.aheadBehind     false
 
 
 #git config --global core.sshcommand "C:/Windows/System32/OpenSSH/ssh.exe"
@@ -50,7 +52,6 @@ git config --global commit.gpgsign         true
 git config --global tag.gpgsign            true
 git config --global tag.forceSignAnnotated true
 git config --global pull.rebase            true
-git config --global fetch.prune            true
 
 # Maybe unwanted
 git config --global core.quotePath  false
